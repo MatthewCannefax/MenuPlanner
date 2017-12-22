@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/ingredientName"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:text="Ingredient Name"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/amountText"
+        android:layout_alignTop="@+id/ingredientName"
+        android:layout_toEndOf="@+id/ingredientName"
+        android:layout_toRightOf="@+id/ingredientName"
+        android:scrollbarSize="16sp" />
+
+    <EditText
+        android:id="@+id/amountText"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ingredientName"
+        android:layout_alignStart="@+id/ingredientName"
+        android:layout_below="@+id/ingredientName"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:text="12.0"
+        android:textSize="16sp"
+        android:gravity="right"/>
+
+    <Spinner
+        android:id="@+id/amountSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/amountText"
+        android:layout_below="@+id/ingredientName"
+        android:layout_toEndOf="@id/amountText"
+        android:layout_toRightOf="@id/amountText"
+        android:scrollbarSize="16sp" />
+
+</RelativeLayout>

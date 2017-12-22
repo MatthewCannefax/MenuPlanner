@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/recipesMenuItem"
+        android:title="Recipes"
+        />
+    <item
+        android:id="@+id/menuListMenuItem"
+        android:title="Menu"/>
+    <item
+        android:id="@+id/groceriesMenuItem"
+        android:visible="false"
+        android:enabled="false"
+        android:title="Grocery List" />
+
+</menu>

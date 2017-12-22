@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.matthewcannefax.menuplanner">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Grocery Planner"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MenuListActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"
+                />
+
+        </activity>
+        <activity android:name=".activity.RecipeListActivity"
+            android:parentActivityName=".activity.MenuListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MenuListActivity"
+                />
+
+        </activity>
+        <activity android:name=".activity.AddRecipeActivity"
+            android:parentActivityName=".activity.MenuListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"
+                />
+
+        </activity>
+        <activity android:name=".activity.GroceryListActivity"
+            android:parentActivityName=".activity.MenuListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MenuListActivity"
+                />
+
+        </activity>
+        <activity android:name=".activity.EditRecipeActivity"
+            android:parentActivityName=".activity.MenuListActivity"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MenuListActivity"
+                />
+
+        </activity>
+
+    </application>
+
+</manifest>
