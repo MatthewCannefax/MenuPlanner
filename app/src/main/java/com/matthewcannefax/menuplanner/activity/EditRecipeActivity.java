@@ -39,6 +39,12 @@ public class EditRecipeActivity extends AppCompatActivity {
     //an object for the unedited recipe
     private Recipe oldRecipe;
 
+    //an object for the menu item
+    private MenuItem editSubmitBTN;
+
+    //a boolean var to tell us if the recipe is to be edited
+    private boolean isEditable = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -96,6 +102,23 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
             }
         }
+
+        setControlsEnabled(isEditable);
+    }
+
+    private void setControlsEnabled(boolean edit){
+
+        if (!edit) {
+            recipeName.setEnabled(false);
+            recipeCat.setEnabled(false);
+            recipeIngreds.setEnabled(false);
+            directionsMultiLine.setEnabled(false);
+        } else {
+            recipeName.setEnabled(true);
+            recipeCat.setEnabled(true);
+            recipeIngreds.setEnabled(true);
+            directionsMultiLine.setEnabled(true);
+        }
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -107,6 +130,10 @@ public class EditRecipeActivity extends AppCompatActivity {
         //using the menu layout created specifically for this activity
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
 
+        editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
+
+        editSubmitBTN.setTitle("Edit");
+
         return true;
     }
 
@@ -115,7 +142,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
 
         //if the submit button is clicked
-        if(item.getItemId() == R.id.menuSubmitBTN){
+        if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
 
             //new recipe object created by the user
             Recipe newRecipe = new Recipe();
@@ -132,6 +159,16 @@ public class EditRecipeActivity extends AppCompatActivity {
                 //get the new image from the imageview and store it in the assets package
             }
 
+            isEditable = true;
+            setControlsEnabled(isEditable);
+            editSubmitBTN.setTitle("Submit");
+
+            return true;
+        }else if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
+
+            editSubmitBTN.setTitle("Edit");
+            isEditable = false;
+            setControlsEnabled(isEditable);
             return true;
         }else{
             return false;
