@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MenuListActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"
@@ -25,7 +27,8 @@
 
         </activity>
         <activity android:name=".activity.RecipeListActivity"
-            android:parentActivityName=".activity.MenuListActivity">
+            android:parentActivityName=".activity.MenuListActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"
@@ -33,7 +36,8 @@
 
         </activity>
         <activity android:name=".activity.AddRecipeActivity"
-            android:parentActivityName=".activity.MenuListActivity">
+            android:parentActivityName=".activity.MenuListActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"
@@ -41,7 +45,8 @@
 
         </activity>
         <activity android:name=".activity.GroceryListActivity"
-            android:parentActivityName=".activity.MenuListActivity">
+            android:parentActivityName=".activity.MenuListActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"
@@ -50,7 +55,8 @@
         </activity>
         <activity android:name=".activity.EditRecipeActivity"
             android:parentActivityName=".activity.MenuListActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"

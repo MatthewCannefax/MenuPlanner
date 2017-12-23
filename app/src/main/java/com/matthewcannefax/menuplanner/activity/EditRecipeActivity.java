@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,7 +104,8 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         }
 
-        setControlsEnabled(isEditable);
+        //setControlsEnabled is called inside the OnCreateOptionsMenu method because it always threw a NullPointer
+        //inside this method
     }
 
     private void setControlsEnabled(boolean edit){
@@ -113,11 +115,17 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeCat.setEnabled(false);
             recipeIngreds.setEnabled(false);
             directionsMultiLine.setEnabled(false);
+            for (int i = 0; i < recipeIngreds.getCount(); i++){
+                recipeIngreds.getChildAt(i).setEnabled(false);
+            }
         } else {
             recipeName.setEnabled(true);
             recipeCat.setEnabled(true);
             recipeIngreds.setEnabled(true);
             directionsMultiLine.setEnabled(true);
+            for (int i = 0; i < recipeIngreds.getCount(); i++){
+                recipeIngreds.getChildAt(i).setEnabled(true);
+            }
         }
     }
 
@@ -133,6 +141,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
 
         editSubmitBTN.setTitle("Edit");
+
+        //Had to call this method here because it wouldn't work inside the Oncreate method
+        setControlsEnabled(isEditable);
 
         return true;
     }
