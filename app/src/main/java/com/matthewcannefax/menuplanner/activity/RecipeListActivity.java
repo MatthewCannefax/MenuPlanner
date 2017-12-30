@@ -44,7 +44,11 @@ public class RecipeListActivity extends AppCompatActivity {
         recipeList = SampleRecipes.recipeList;
 
         Bundle extras = getIntent().getExtras();
-        title = extras.getString("TITLE");
+        try {
+            title = extras.getString("TITLE");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         //set the title in the actionbar
         this.setTitle(title);
@@ -53,11 +57,17 @@ public class RecipeListActivity extends AppCompatActivity {
         adapter = new RecipeListItemAdapter(this, recipeList);
 
         //Instantiate the listview
-        lv = (ListView)findViewById(R.id.recipeMenuListView);
+        lv = findViewById(R.id.recipeMenuListView);
 
         //set the RecipeMenuItemAdapter as the adapter for the listview
         lv.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     //this overridden method creates the menu item in the actionbar
@@ -84,7 +94,7 @@ public class RecipeListActivity extends AppCompatActivity {
     //this overridden method is to handle the actionbar item clicks
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        boolean b = false;
+        boolean b;
         final Context context = this;
 
 

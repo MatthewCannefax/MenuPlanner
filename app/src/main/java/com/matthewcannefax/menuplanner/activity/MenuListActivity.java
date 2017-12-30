@@ -33,6 +33,8 @@ public class MenuListActivity extends AppCompatActivity {
     //this list is created in app, and then stored within the database
     private List<Recipe> menuList;
 
+    private RecipeMenuItemAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +46,24 @@ public class MenuListActivity extends AppCompatActivity {
         menuList = SampleMenu.sampleMenuList;
 
         //initialize the listview in the activity
-        lv = (ListView)findViewById(R.id.recipeMenuListView);
+        lv = findViewById(R.id.recipeMenuListView);
 
         //set the title in the actionbar
         this.setTitle("Menu");
 
         //initialize the RecipeMenuItemAdapter passing the list of menu items
-        RecipeMenuItemAdapter adapter = new RecipeMenuItemAdapter(this, menuList);
+        adapter = new RecipeMenuItemAdapter(this, menuList);
 
         //set the adapter of the listview to the recipeItemAdapter
         //Might try to use a Recycler view instead, since it is typically smoother when scrolling
         lv.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     //This is the overridden method to create the options menu in the actionbar
@@ -156,11 +164,13 @@ public class MenuListActivity extends AppCompatActivity {
         for(Recipe r : menuList){
             //check to make sure the ingredient list has items in it
             if(r.getIngredientList().size() != 0){
+
+                groceries.addAll(r.getIngredientList());
                 //foreach ingredient in the ingredientslist of the recipe
-                for(Ingredient i : r.getIngredientList()){
-                    //add the ingredient to the new grocery list
-                    groceries.add(i);
-                }
+//                for(Ingredient i : r.getIngredientList()){
+//                    //add the ingredient to the new grocery list
+//                    groceries.add(i);
+//                }
             }
         }
 

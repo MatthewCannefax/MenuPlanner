@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
@@ -40,6 +41,9 @@ public class EditRecipeActivity extends AppCompatActivity {
     //an object for the unedited recipe
     private Recipe oldRecipe;
 
+    //an object for any changes made to the oldRecipe
+    private Recipe newRecipe;
+
     //an object for the menu item
     private MenuItem editSubmitBTN;
 
@@ -53,7 +57,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.add_edit_recipe);
 
         //get the recipe item passed from the menulist
-        oldRecipe = getIntent().getExtras().getParcelable(RecipeMenuItemAdapter.RECIPE_ID);
+        try {
+            oldRecipe = getIntent().getExtras().getParcelable(RecipeMenuItemAdapter.RECIPE_ID);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         //make sure the recipe received is not a null object
         if(oldRecipe == null){
@@ -61,11 +69,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         }
 
         //instantiate all the controls in the activity
-        recipeName = (EditText)findViewById(R.id.recipeName);
-        recipeIMG = (ImageView)findViewById(R.id.recipeIMG);
-        recipeCat = (Spinner)findViewById(R.id.categorySpinner);
-        recipeIngreds = (ListView)findViewById(R.id.ingredientsListView);
-        directionsMultiLine = (EditText)findViewById(R.id.directionsMultiLine);
+        recipeName = findViewById(R.id.recipeName);
+        recipeIMG = findViewById(R.id.recipeIMG);
+        recipeCat = findViewById(R.id.categorySpinner);
+        recipeIngreds = findViewById(R.id.ingredientsListView);
+        directionsMultiLine = findViewById(R.id.directionsMultiLine);
 
         //set the imgSet var to false as default
         imgSet = false;
@@ -74,7 +82,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         directionsMultiLine.setText(oldRecipe.getDirections());
 
         //setup the spinner
-        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<RecipeCategory>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
+        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
         recipeCat.setAdapter(spinnerAdapter);
         recipeCat.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
 
@@ -83,7 +91,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeIngreds.setAdapter(ingredientItemAdapter);
 
         //setup the image if it is present
-        if(oldRecipe.getImagePath() != null && oldRecipe.getImagePath() != ""){
+        if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
             InputStream inputStream = null;
 
             try {
@@ -152,34 +160,45 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
+
         //if the submit button is clicked
-        if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
+        if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
 
             //new recipe object created by the user
-            Recipe newRecipe = new Recipe();
+            newRecipe = new Recipe();
+            newRecipe = oldRecipe;
             newRecipe.setName(recipeName.getText().toString());
             newRecipe.setDirections(directionsMultiLine.getText().toString());
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
             //get the ingredients of the new recipe
-
+            newRecipe.setIngredientList(oldRecipe.getIngredientList());//This will need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             //get the image of the new recipe if the image has been set
             //using the imgSet var to signal whether the image has been set or not
-            if(imgSet){
-                //get the new image from the imageview and store it in the assets package
+
+                newRecipe.setImagePath(oldRecipe.getImagePath());
+
+
+            //make the change in the database
+            //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            for(int i = 0; i < SampleRecipes.recipeList.size(); i++){
+                if(SampleRecipes.recipeList.get(i).getRecipeID() == oldRecipe.getRecipeID()){
+                    SampleRecipes.recipeList.set(i, newRecipe);
+                    break;
+                }
             }
 
-            isEditable = true;
-            setControlsEnabled(isEditable);
-            editSubmitBTN.setTitle("Submit");
+            isEditable = false;
+            setControlsEnabled(false);
+            editSubmitBTN.setTitle("Edit");
 
             return true;
-        }else if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
+        }else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
 
-            editSubmitBTN.setTitle("Edit");
-            isEditable = false;
-            setControlsEnabled(isEditable);
+            editSubmitBTN.setTitle("Submit");
+            isEditable = true;
+            setControlsEnabled(true);
             return true;
         }else{
             return false;
