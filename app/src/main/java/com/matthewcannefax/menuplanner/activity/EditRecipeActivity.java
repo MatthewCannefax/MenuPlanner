@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -89,6 +90,10 @@ public class EditRecipeActivity extends AppCompatActivity {
         //setup the ingredient listview
         IngredientItemAdapter ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
         recipeIngreds.setAdapter(ingredientItemAdapter);
+
+        //set a solid color for the directionsMultiLine
+        directionsMultiLine.setBackgroundColor(Color.WHITE);
+
 
         //setup the image if it is present
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){

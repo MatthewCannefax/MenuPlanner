@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,9 +14,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
+import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
+import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity{
 
@@ -44,6 +53,10 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeCat = (Spinner)findViewById(R.id.categorySpinner);
         recipeIngreds = (ListView)findViewById(R.id.ingredientsListView);
         directionsMultiLine = (EditText)findViewById(R.id.directionsMultiLine);
+
+        //setup the Category Spinner
+        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
+        recipeCat.setAdapter(spinnerAdapter);
 
         //set the imgSet var to false as default
         imgSet = false;
@@ -75,13 +88,21 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
             //get the ingredients of the new recipe
+            Ingredient ingredient = new Ingredient("Poop", GroceryCategory.OTHER, new Measurement(1.0, MeasurementType.BAG));//This will all need to go away!!!!!!!!!!!!!!!!
+            List<Ingredient> ingredientList = new ArrayList<>();
+            ingredientList.add(ingredient);
+            newRecipe.setIngredientList(ingredientList);
 
+            //sample image for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            newRecipe.setImagePath("chickenNoodle.jpg");
 
             //get the image of the new recipe if the image has been set
             //using the imgSet var to signal whether the image has been set or not
             if(imgSet){
                 //get the new image from the imageview and store it in the assets package
             }
+
+            SampleRecipes.recipeList.add(newRecipe);
 
             return true;
         }else{
