@@ -67,49 +67,49 @@ public class IngredientItemAdapter extends ArrayAdapter {
 
         //Long click to edit the ingredient
         //Long clicking the editable view will delete the ingredient
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-
-//                Toast.makeText(view.getContext(), "Edit Ingredient", Toast.LENGTH_SHORT).show();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Edit Ingredient");
-                View editIngredientView = LayoutInflater.from(getContext()).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
-                final EditText etAmount = (EditText)editIngredientView.findViewById(R.id.amountText);
-                final Spinner spMeasure = (Spinner)editIngredientView.findViewById(R.id.amountSpinner);
-                final EditText etName = (EditText)editIngredientView.findViewById(R.id.ingredientName);
-                final Spinner spCat = (Spinner)editIngredientView.findViewById(R.id.categorySpinner);
-
-                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<MeasurementType>(getContext(), android.R.layout.simple_spinner_item, MeasurementType.values());
-                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<GroceryCategory>(getContext(), android.R.layout.simple_spinner_item, GroceryCategory.values());
-
-                spMeasure.setAdapter(measureAdapter);
-                spCat.setAdapter(ingredCatAdapter);
-
-                spMeasure.setSelection(measureAdapter.getPosition(item.getMeasurement().getType()));
-                spCat.setSelection(ingredCatAdapter.getPosition(item.getCategory()));
-
-                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
-                etName.setText(item.getName());
-
-
-                builder.setView(editIngredientView);
-
-                builder.setNegativeButton("Cancel", null);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getContext(), "Changed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                builder.show();
-
-
-                return false;
-            }
-        });
+//        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//
+////                Toast.makeText(view.getContext(), "Edit Ingredient", Toast.LENGTH_SHORT).show();
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                builder.setTitle("Edit Ingredient");
+//                View editIngredientView = LayoutInflater.from(getContext()).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
+//                final EditText etAmount = (EditText)editIngredientView.findViewById(R.id.amountText);
+//                final Spinner spMeasure = (Spinner)editIngredientView.findViewById(R.id.amountSpinner);
+//                final EditText etName = (EditText)editIngredientView.findViewById(R.id.ingredientName);
+//                final Spinner spCat = (Spinner)editIngredientView.findViewById(R.id.categorySpinner);
+//
+//                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<MeasurementType>(getContext(), android.R.layout.simple_spinner_item, MeasurementType.values());
+//                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<GroceryCategory>(getContext(), android.R.layout.simple_spinner_item, GroceryCategory.values());
+//
+//                spMeasure.setAdapter(measureAdapter);
+//                spCat.setAdapter(ingredCatAdapter);
+//
+//                spMeasure.setSelection(measureAdapter.getPosition(item.getMeasurement().getType()));
+//                spCat.setSelection(ingredCatAdapter.getPosition(item.getCategory()));
+//
+//                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
+//                etName.setText(item.getName());
+//
+//
+//                builder.setView(editIngredientView);
+//
+//                builder.setNegativeButton("Cancel", null);
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(getContext(), "Changed", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//                builder.show();
+//
+//
+//                return false;
+//            }
+//        });
 
         //return the view
         return convertView;

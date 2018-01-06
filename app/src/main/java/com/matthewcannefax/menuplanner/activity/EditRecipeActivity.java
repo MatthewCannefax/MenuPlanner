@@ -1,24 +1,34 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
+import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
+import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.io.IOException;
@@ -76,6 +86,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeIngreds = findViewById(R.id.ingredientsListView);
         directionsMultiLine = findViewById(R.id.directionsMultiLine);
 
+
         //set the imgSet var to false as default
         imgSet = false;
 
@@ -117,6 +128,52 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         }
 
+        final Context mContext = this;
+
+        recipeIngreds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                final Ingredient item = oldRecipe.getIngredientList().get(i);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Edit Ingredient");
+                View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
+                final EditText etAmount = (EditText)editIngredientView.findViewById(R.id.amountText);
+                final Spinner spMeasure = (Spinner)editIngredientView.findViewById(R.id.amountSpinner);
+                final EditText etName = (EditText)editIngredientView.findViewById(R.id.ingredientName);
+                final Spinner spCat = (Spinner)editIngredientView.findViewById(R.id.categorySpinner);
+
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<MeasurementType>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<GroceryCategory>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
+
+                spMeasure.setAdapter(measureAdapter);
+                spCat.setAdapter(ingredCatAdapter);
+
+                spMeasure.setSelection(measureAdapter.getPosition(item.getMeasurement().getType()));
+                spCat.setSelection(ingredCatAdapter.getPosition(item.getCategory()));
+
+                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
+                etName.setText(item.getName());
+
+
+                builder.setView(editIngredientView);
+
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
+
+
+                return false;
+            }
+        });
+
         //setControlsEnabled is called inside the OnCreateOptionsMenu method because it always threw a NullPointer
         //inside this method
     }
@@ -128,7 +185,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeCat.setEnabled(false);
             recipeIngreds.setEnabled(false);
             directionsMultiLine.setEnabled(false);
-            for (int i = 0; i < recipeIngreds.getCount(); i++){
+            for (int i = 0; i < recipeIngreds.getCount() - 1; i++){
                 recipeIngreds.getChildAt(i).setEnabled(false);
             }
         } else {
@@ -136,7 +193,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeCat.setEnabled(true);
             recipeIngreds.setEnabled(true);
             directionsMultiLine.setEnabled(true);
-            for (int i = 0; i < recipeIngreds.getCount(); i++){
+            for (int i = 0; i < recipeIngreds.getCount() - 1; i++){
                 recipeIngreds.getChildAt(i).setEnabled(true);
             }
         }
