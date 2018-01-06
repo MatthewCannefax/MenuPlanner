@@ -1,11 +1,13 @@
 package com.matthewcannefax.menuplanner.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -60,6 +62,14 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         //set the imgSet var to false as default
         imgSet = false;
+
+        recipeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recipeName.setText("");
+                recipeName.setOnClickListener(null);
+            }
+        });
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -107,6 +117,10 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setRecipeID(newId);
 
             SampleRecipes.recipeList.add(newRecipe);
+
+            Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);
+            returnToRecipes.putExtra("TITLE", "My Recipes");
+            AddRecipeActivity.this.startActivity(returnToRecipes);
 
             return true;
         }else{
