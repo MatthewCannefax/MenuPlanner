@@ -102,6 +102,10 @@ public class AddRecipeActivity extends AppCompatActivity{
                 //get the new image from the imageview and store it in the assets package
             }
 
+            //this might need to be removed once the DB has been implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            int newId = SampleRecipes.recipeList.get(SampleRecipes.recipeList.size() - 1).getRecipeID() + 1;
+            newRecipe.setRecipeID(newId);
+
             SampleRecipes.recipeList.add(newRecipe);
 
             return true;
