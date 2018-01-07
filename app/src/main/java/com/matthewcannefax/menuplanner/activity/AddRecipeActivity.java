@@ -50,11 +50,13 @@ public class AddRecipeActivity extends AppCompatActivity{
 
 
         //instantiate all the controls in the activity
-        recipeName = (EditText)findViewById(R.id.recipeName);
-        recipeIMG = (ImageView)findViewById(R.id.recipeIMG);
-        recipeCat = (Spinner)findViewById(R.id.categorySpinner);
-        recipeIngreds = (ListView)findViewById(R.id.ingredientsListView);
-        directionsMultiLine = (EditText)findViewById(R.id.directionsMultiLine);
+        recipeName = findViewById(R.id.recipeName);
+        recipeIMG = findViewById(R.id.recipeIMG);
+        recipeCat = findViewById(R.id.categorySpinner);
+        recipeIngreds = findViewById(R.id.ingredientsListView);
+        directionsMultiLine = findViewById(R.id.directionsMultiLine);
+
+        recipeName.setText(R.string.new_recipe_name_box);
 
         //setup the Category Spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
@@ -70,6 +72,10 @@ public class AddRecipeActivity extends AppCompatActivity{
                 recipeName.setOnClickListener(null);
             }
         });
+
+        TextView tvIngredientHeader = new TextView(this);
+        tvIngredientHeader.setText(R.string.ingredient_header);
+        recipeIngreds.addHeaderView(tvIngredientHeader);
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)

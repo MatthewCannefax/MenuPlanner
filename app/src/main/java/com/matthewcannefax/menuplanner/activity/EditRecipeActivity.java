@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
@@ -86,6 +87,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeIngreds = findViewById(R.id.ingredientsListView);
         directionsMultiLine = findViewById(R.id.directionsMultiLine);
 
+        recipeName.setText(R.string.new_recipe_name_box);
+
 
         //set the imgSet var to false as default
         imgSet = false;
@@ -97,6 +100,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
         recipeCat.setAdapter(spinnerAdapter);
         recipeCat.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
+
+        //set a header in the listview
+        //this could be a place for improvement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        TextView tvHeader = new TextView(this);
+        tvHeader.setText(R.string.ingredient_header);
+        recipeIngreds.addHeaderView(tvHeader);
 
         //setup the ingredient listview
         IngredientItemAdapter ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
@@ -139,13 +148,13 @@ public class EditRecipeActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setTitle("Edit Ingredient");
                 View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
-                final EditText etAmount = (EditText)editIngredientView.findViewById(R.id.amountText);
-                final Spinner spMeasure = (Spinner)editIngredientView.findViewById(R.id.amountSpinner);
-                final EditText etName = (EditText)editIngredientView.findViewById(R.id.ingredientName);
-                final Spinner spCat = (Spinner)editIngredientView.findViewById(R.id.categorySpinner);
+                final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+                final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+                final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+                final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
 
-                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<MeasurementType>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
-                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<GroceryCategory>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
 
                 spMeasure.setAdapter(measureAdapter);
                 spCat.setAdapter(ingredCatAdapter);
