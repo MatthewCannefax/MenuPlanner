@@ -16,7 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#FFF"
-        android:text="Add Ingredient"
+        android:text="@string/add_ingredient_btn"
         android:textColor="#a9a9a9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

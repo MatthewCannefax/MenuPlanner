@@ -5,4 +5,5 @@
     <string name="add_recipe_list_name">Add Recipe</string>
     <string name="ingredient_header">INGREDIENT</string>
     <string name="new_recipe_name_box">Recipe Name</string>
+    <string name="add_ingredient_btn">Add Ingredient</string>
 </resources>
