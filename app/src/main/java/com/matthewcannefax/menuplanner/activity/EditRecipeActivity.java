@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -111,6 +112,8 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //set a solid color for the directionsMultiLine
         directionsMultiLine.setBackgroundColor(Color.WHITE);
+
+        addIngredientBTN();
 
 
         //setup the image if it is present
@@ -217,25 +220,24 @@ public class EditRecipeActivity extends AppCompatActivity {
         //inside this method
     }
 
-    private void setControlsEnabled(boolean edit){
+    private void addIngredientBTN() {
+        //add a button at the end of the listview to allow the user to add more ingredients to the recipe
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.add_ingredient_btn, null);
+        recipeIngreds.addFooterView(view);
+    }
+
+    private void setControlsEnabled(boolean edit){//need to add a way to disable the onlongclicklistener for the listview and the onclicklistener for the addingredient btn
 
         if (!edit) {
             recipeName.setEnabled(false);
             recipeCat.setEnabled(false);
-            recipeIngreds.setEnabled(false);
             directionsMultiLine.setEnabled(false);
             int n = recipeIngreds.getCount();
-            for (int i = 0; i < recipeIngreds.getCount() - 1; i++){
-                recipeIngreds.getChildAt(i).setEnabled(false);
-            }
         } else {
             recipeName.setEnabled(true);
             recipeCat.setEnabled(true);
-            recipeIngreds.setEnabled(true);
             directionsMultiLine.setEnabled(true);
-            for (int i = 0; i < recipeIngreds.getCount() - 1; i++){
-                recipeIngreds.getChildAt(i).setEnabled(true);
-            }
         }
     }
 
