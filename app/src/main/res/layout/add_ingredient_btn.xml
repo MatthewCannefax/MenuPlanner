@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addIngredientBTN"
         android:layout_width="fill_parent"
 
         android:layout_height="fill_parent"

@@ -220,11 +220,72 @@ public class EditRecipeActivity extends AppCompatActivity {
         //inside this method
     }
 
+
+
     private void addIngredientBTN() {
+        final Context mContext = this;
         //add a button at the end of the listview to allow the user to add more ingredients to the recipe
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_ingredient_btn, null);
+        Button addBTN = view.findViewById(R.id.addIngredientBTN);
         recipeIngreds.addFooterView(view);
+
+        addBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //the alertdialog will display the ingredient information
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Edit Ingredient");
+
+                //create a new view to display the ingredient information
+                View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
+
+                //controls inside the view
+                final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+                final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+                final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+                final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+                //setup the default array adapters for the category and measurementtype spinners
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
+
+                //set the spinner adpaters
+                spMeasure.setAdapter(measureAdapter);
+                spCat.setAdapter(ingredCatAdapter);
+
+                //set the new view as the view for the alertdialog
+                builder.setView(editIngredientView);
+
+                //setup the buttons for the alertdialog
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //add the new Ingredient to the ingredientList
+                        newRecipe.getIngredientList().add(new Ingredient(
+                                etName.getText().toString(),
+                                (GroceryCategory)spCat.getSelectedItem(),
+                                new Measurement(
+                                        Double.parseDouble(etAmount.getText().toString()),
+                                        (MeasurementType)spMeasure.getSelectedItem()
+                                )
+
+                        ));
+
+                        //notify the arrayadapter that the dataset has changed
+                        ingredientItemAdapter.notifyDataSetChanged();
+
+                        //notify the user that the changes have been made to the ingredient
+                        Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
+
+
+            }
+        });
     }
 
     private void setControlsEnabled(boolean edit){//need to add a way to disable the onlongclicklistener for the listview and the onclicklistener for the addingredient btn
