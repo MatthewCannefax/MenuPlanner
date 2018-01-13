@@ -1,19 +1,26 @@
 package com.matthewcannefax.menuplanner.activity;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
@@ -37,6 +44,10 @@ public class AddRecipeActivity extends AppCompatActivity{
     private ListView recipeIngreds;
     private EditText directionsMultiLine;
 
+    private IngredientItemAdapter ingredientItemAdapter;
+
+    private Recipe newRecipe;
+
     //boolean object to check if an image has been chosen
     //be careful to only change this var to true at the end of the dialog
     private boolean imgSet;
@@ -47,7 +58,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_recipe);
 
-
+        newRecipe = new Recipe();
 
         //instantiate all the controls in the activity
         recipeName = findViewById(R.id.recipeName);
@@ -73,9 +84,79 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
         });
 
-        TextView tvIngredientHeader = new TextView(this);
-        tvIngredientHeader.setText(R.string.ingredient_header);
-        recipeIngreds.addHeaderView(tvIngredientHeader);
+        List<Ingredient> dummyList = new ArrayList<>();
+        dummyList.add(new Ingredient("NO INGREDIENTS", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
+        ingredientItemAdapter = new IngredientItemAdapter(this, dummyList);
+        recipeIngreds.setAdapter(ingredientItemAdapter);
+
+        addIngredientBTN();
+
+    }
+
+    private void addIngredientBTN() {
+        final Context mContext = this;
+        //add a button at the end of the listview to allow the user to add more ingredients to the recipe
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.add_ingredient_btn, null);
+        Button addBTN = view.findViewById(R.id.addIngredientBTN);
+        recipeIngreds.addFooterView(view);
+
+        addBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //the alertdialog will display the ingredient information
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Edit Ingredient");
+
+                //create a new view to display the ingredient information
+                View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
+
+                //controls inside the view
+                final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+                final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+                final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+                final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+                //setup the default array adapters for the category and measurementtype spinners
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
+
+                //set the spinner adpaters
+                spMeasure.setAdapter(measureAdapter);
+                spCat.setAdapter(ingredCatAdapter);
+
+                //set the new view as the view for the alertdialog
+                builder.setView(editIngredientView);
+
+                //setup the buttons for the alertdialog
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //add the new Ingredient to the ingredientList
+                        newRecipe.getIngredientList().add(new Ingredient(
+                                etName.getText().toString(),
+                                (GroceryCategory)spCat.getSelectedItem(),
+                                new Measurement(
+                                        Double.parseDouble(etAmount.getText().toString()),
+                                        (MeasurementType)spMeasure.getSelectedItem()
+                                )
+
+                        ));
+
+                        //notify the arrayadapter that the dataset has changed
+//                        ingredientItemAdapter.notifyDataSetChanged();
+
+                        //notify the user that the changes have been made to the ingredient
+                        Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
+
+
+            }
+        });
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -97,8 +178,6 @@ public class AddRecipeActivity extends AppCompatActivity{
         //if the submit button is clicked
         if(item.getItemId() == R.id.menuSubmitBTN){
 
-            //new recipe object created by the user
-            Recipe newRecipe = new Recipe();
             newRecipe.setName(recipeName.getText().toString());
             newRecipe.setDirections(directionsMultiLine.getText().toString());
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
@@ -110,7 +189,7 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setIngredientList(ingredientList);
 
             //sample image for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            newRecipe.setImagePath("chickenNoodle.jpg");
+            newRecipe.setImagePath("defaultRecipe.jpg");
 
             //get the image of the new recipe if the image has been set
             //using the imgSet var to signal whether the image has been set or not
