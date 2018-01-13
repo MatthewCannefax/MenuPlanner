@@ -27,10 +27,10 @@ import java.util.List;
 public class IngredientItemAdapter extends ArrayAdapter {
 
     //initialize a list of ingredients
-    List<Ingredient> mRecipeIngredients;
+    private List<Ingredient> mRecipeIngredients;
 
     //initialize a layoutinflator
-    LayoutInflater mInflator;
+    private LayoutInflater mInflator;
 
     public IngredientItemAdapter(@NonNull Context context, @NonNull List objects) {
         super(context, R.layout.ingredient_list_item, objects);
@@ -55,8 +55,8 @@ public class IngredientItemAdapter extends ArrayAdapter {
         }
 
         //initialize the textviews in the layout
-        TextView tvAmount = (TextView)convertView.findViewById(R.id.tvMeasurement);
-        TextView tvName = (TextView)convertView.findViewById(R.id.tvName);
+        TextView tvAmount = convertView.findViewById(R.id.tvMeasurement);
+        TextView tvName = convertView.findViewById(R.id.tvName);
 
         //get the specific item in the list
         final Ingredient item = mRecipeIngredients.get(position);
@@ -114,4 +114,6 @@ public class IngredientItemAdapter extends ArrayAdapter {
         //return the view
         return convertView;
     }
+
+
 }

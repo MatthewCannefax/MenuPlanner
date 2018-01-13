@@ -35,6 +35,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 //this class is for editing already existing recipes
 
@@ -46,6 +47,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Spinner recipeCat;
     private ListView recipeIngreds;
     private EditText directionsMultiLine;
+    private IngredientItemAdapter ingredientItemAdapter;
 
     //boolean object to check if an image has been chosen
     //be careful to only change this var to true at the end of the dialog
@@ -103,14 +105,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeCat.setAdapter(spinnerAdapter);
         recipeCat.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
 
-        //set a header in the listview
-        //this could be a place for improvement!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        TextView tvHeader = new TextView(this);
-        tvHeader.setText(R.string.ingredient_header);
-        recipeIngreds.addHeaderView(tvHeader);
-
         //setup the ingredient listview
-        IngredientItemAdapter ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
+        ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
         recipeIngreds.setAdapter(ingredientItemAdapter);
 
         //set a solid color for the directionsMultiLine
@@ -151,7 +147,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 final int ingredientPostion = i;
 
                 //the item that is clicked
-                final Ingredient item = oldRecipe.getIngredientList().get(i);
+                final Ingredient item = oldRecipe.getIngredientList().get(ingredientPostion);
 
                 //the alertdialog will display the ingredient information
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -179,7 +175,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                 spCat.setSelection(ingredCatAdapter.getPosition(item.getCategory()));
 
                 //fill the editTexts with the appropriate info
-                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
+//                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
+                etAmount.setText(String.format(Locale.ENGLISH,"%1.1f", item.getMeasurement().getAmount()));
                 etName.setText(item.getName());
 
                 //set the new view as the view for the alertdialog
@@ -201,6 +198,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                         newRecipe.getIngredientList().get(ingredientPostion).setName(etName.getText().toString());
                         newRecipe.getIngredientList().get(ingredientPostion).setCategory((GroceryCategory)spCat.getSelectedItem());
 
+                        //notify the arrayadapter that the dataset has changed
+                        ingredientItemAdapter.notifyDataSetChanged();
 
                         //notify the user that the changes have been made to the ingredient
                         Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
@@ -225,6 +224,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeCat.setEnabled(false);
             recipeIngreds.setEnabled(false);
             directionsMultiLine.setEnabled(false);
+            int n = recipeIngreds.getCount();
             for (int i = 0; i < recipeIngreds.getCount() - 1; i++){
                 recipeIngreds.getChildAt(i).setEnabled(false);
             }

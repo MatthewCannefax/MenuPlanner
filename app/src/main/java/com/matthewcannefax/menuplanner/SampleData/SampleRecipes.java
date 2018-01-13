@@ -29,7 +29,7 @@ public class SampleRecipes {
                     add(new Ingredient("Picante Sauce", GroceryCategory.CANNED_GOODS, new Measurement(1, MeasurementType.CAN)));
                     add(new Ingredient("Chicken", GroceryCategory.MEAT, new Measurement(1, MeasurementType.POUND)));
                     add(new Ingredient("Sweet Orange Marmalade", GroceryCategory.BREAD, new Measurement(1, MeasurementType.CAN)));
-                    add(new Ingredient("Rice", GroceryCategory.PASTA_RICE, new Measurement(1, MeasurementType.CUP)));
+                    add(new Ingredient("Rice", GroceryCategory.PASTA_RICE, new Measurement(2, MeasurementType.CUP)));
                     add(new Ingredient("Water", GroceryCategory.OTHER, new Measurement(1, MeasurementType.CUP)));
                 }}));
         recipeList.add(new Recipe(2, "Beef Beans and Rice", RecipeCategory.MAIN_DISHES, "Cook Ground Beef in large skillet, add beans and rice","beefBeansRice.jpg",
