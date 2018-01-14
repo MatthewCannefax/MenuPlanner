@@ -47,6 +47,7 @@ public class AddRecipeActivity extends AppCompatActivity{
     private EditText directionsMultiLine;
 
     private IngredientItemAdapter ingredientItemAdapter;
+    private ButtonArrayAdapter buttonArrayAdapter;
 
     private Recipe newRecipe;
 
@@ -86,12 +87,15 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
         });
 
+        //this list and adapter acts as a placeholder so the footerView will display at the launch of this activity
         List<Object> objs = new ArrayList<>();
         objs.add(new Object());
-        ButtonArrayAdapter buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
+        buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
         recipeIngreds.setAdapter(buttonArrayAdapter);
 
         addIngredientBTN();
+
+
 
     }
 
@@ -121,7 +125,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
                 //setup the default array adapters for the category and measurementtype spinners
                 ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
-                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
+                final ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.values());
 
                 //set the spinner adpaters
                 spMeasure.setAdapter(measureAdapter);
@@ -135,22 +139,36 @@ public class AddRecipeActivity extends AppCompatActivity{
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //add the new Ingredient to the ingredientList
-                        newRecipe.getIngredientList().add(new Ingredient(
-                                etName.getText().toString(),
-                                (GroceryCategory)spCat.getSelectedItem(),
-                                new Measurement(
-                                        Double.parseDouble(etAmount.getText().toString()),
-                                        (MeasurementType)spMeasure.getSelectedItem()
-                                )
+                        if(newRecipe.getIngredientList() != null){
+                            //add the new Ingredient to the ingredientList
+                            newRecipe.getIngredientList().add(new Ingredient(
+                                    etName.getText().toString(),
+                                    (GroceryCategory)spCat.getSelectedItem(),
+                                    new Measurement(
+                                            Double.parseDouble(etAmount.getText().toString()),
+                                            (MeasurementType)spMeasure.getSelectedItem()
+                                    )
 
-                        ));
-
-                        //notify the arrayadapter that the dataset has changed
-//                        ingredientItemAdapter.notifyDataSetChanged();
+                            ));
+                            ingredientItemAdapter.notifyDataSetChanged();
+                        }else{
+                            Ingredient ingredient = new Ingredient(
+                                    etName.getText().toString(),
+                                    (GroceryCategory)spCat.getSelectedItem(),
+                                    new Measurement(
+                                            Double.parseDouble(etAmount.getText().toString()),
+                                            (MeasurementType)spMeasure.getSelectedItem()
+                                    ));
+                            List<Ingredient> newIngredredients = new ArrayList<>();
+                            newIngredredients.add(ingredient);
+                            newRecipe.setIngredientList(newIngredredients);
+                            ingredientItemAdapter = new IngredientItemAdapter(mContext, newRecipe.getIngredientList());
+                            //recipeIngreds.removeAllViews();
+                            recipeIngreds.setAdapter(ingredientItemAdapter);
+                        }
 
                         //notify the user that the changes have been made to the ingredient
-                        Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Added", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -184,11 +202,6 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setDirections(directionsMultiLine.getText().toString());
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
-            //get the ingredients of the new recipe
-            Ingredient ingredient = new Ingredient("Poop", GroceryCategory.OTHER, new Measurement(1.0, MeasurementType.BAG));//This will all need to go away!!!!!!!!!!!!!!!!
-            List<Ingredient> ingredientList = new ArrayList<>();
-            ingredientList.add(ingredient);
-            newRecipe.setIngredientList(ingredientList);
 
             //sample image for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             newRecipe.setImagePath("defaultRecipe.jpg");

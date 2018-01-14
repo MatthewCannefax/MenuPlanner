@@ -46,7 +46,7 @@
                 app:layout_constraintStart_toEndOf="@+id/recipeName"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="ContentDescription,VectorDrawableCompat" />
 
             <Spinner
                 android:id="@+id/categorySpinner"
@@ -89,7 +89,7 @@
 
             <ListView
                 android:id="@+id/ingredientsListView"
-                android:layout_width="351dp"
+                android:layout_width="match_parent"
                 android:layout_height="251dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
