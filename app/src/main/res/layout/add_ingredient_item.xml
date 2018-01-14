@@ -13,7 +13,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:ems="10"
-        android:text="Ingredient Name"
         android:textSize="16sp" />
 
     <Spinner
@@ -35,7 +34,6 @@
         android:layout_below="@+id/ingredientName"
         android:layout_marginBottom="15dp"
         android:ems="10"
-        android:text="12.0"
         android:textSize="16sp"
         android:gravity="right"/>
 
