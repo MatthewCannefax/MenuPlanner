@@ -34,6 +34,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AddRecipeActivity extends AppCompatActivity{
 
@@ -84,10 +85,10 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
         });
 
-        List<Ingredient> dummyList = new ArrayList<>();
-        dummyList.add(new Ingredient("NO INGREDIENTS", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
-        ingredientItemAdapter = new IngredientItemAdapter(this, dummyList);
-        recipeIngreds.setAdapter(ingredientItemAdapter);
+        List<Ingredient> firstList = new ArrayList<>();
+        firstList.add(new Ingredient("dummy", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
+        IngredientItemAdapter firstAdapter = new IngredientItemAdapter(this, firstList);
+        recipeIngreds.setAdapter(firstAdapter);
 
         addIngredientBTN();
 
