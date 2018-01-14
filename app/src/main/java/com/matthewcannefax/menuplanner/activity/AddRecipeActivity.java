@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
+import com.matthewcannefax.menuplanner.arrayAdapters.ButtonArrayAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
@@ -85,10 +86,10 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
         });
 
-        List<Ingredient> firstList = new ArrayList<>();
-        firstList.add(new Ingredient("", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
-        IngredientItemAdapter firstAdapter = new IngredientItemAdapter(this, firstList);
-        recipeIngreds.setAdapter(firstAdapter);
+        List<Object> objs = new ArrayList<>();
+        objs.add(new Object());
+        ButtonArrayAdapter buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
+        recipeIngreds.setAdapter(buttonArrayAdapter);
 
         addIngredientBTN();
 
