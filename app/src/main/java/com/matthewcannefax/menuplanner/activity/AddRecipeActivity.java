@@ -86,7 +86,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         });
 
         List<Ingredient> firstList = new ArrayList<>();
-        firstList.add(new Ingredient("dummy", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
+        firstList.add(new Ingredient("", GroceryCategory.OTHER, new Measurement(0, MeasurementType.PIECE)));
         IngredientItemAdapter firstAdapter = new IngredientItemAdapter(this, firstList);
         recipeIngreds.setAdapter(firstAdapter);
 
