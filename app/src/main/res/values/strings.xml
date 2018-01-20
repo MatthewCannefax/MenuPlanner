@@ -7,4 +7,5 @@
     <string name="new_recipe_name_box">Recipe Name</string>
     <string name="add_ingredient_btn">Add Ingredient</string>
     <string name="directions_header">DIRECTIONS:</string>
+    <string name="recipe_list_to_json">recipeListToJSON</string>
 </resources>
