@@ -32,6 +32,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,6 +218,12 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setRecipeID(newId);
 
             SampleRecipes.recipeList.add(newRecipe);
+
+            JSONHelper.toastExportJSON(
+                    this,
+                    SampleRecipes.recipeList,
+                    getString(R.string.recipe_list_to_json)
+            );
 
             Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);
             returnToRecipes.putExtra("TITLE", "My Recipes");

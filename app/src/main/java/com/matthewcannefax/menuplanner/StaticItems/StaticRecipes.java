@@ -20,6 +20,7 @@ public class StaticRecipes {
 
     private static List<Recipe> recipeList;
 
+
     public static void loadRecipes(Context context, String filename){
         recipeList = JSONHelper.importFromJSON(context, filename);
     }

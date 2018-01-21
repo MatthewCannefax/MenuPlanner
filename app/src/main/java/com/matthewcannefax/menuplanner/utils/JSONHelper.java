@@ -3,6 +3,7 @@ package com.matthewcannefax.menuplanner.utils;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.matthewcannefax.menuplanner.model.Recipe;
@@ -78,6 +79,17 @@ public class JSONHelper {
         }
 
         return null;
+    }
+
+    //using this method for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public static void toastExportJSON(Context context, List<Recipe> recipeList, String fileName){
+        boolean result = exportToJSON(context, recipeList, fileName);
+
+        if(result){
+            Toast.makeText(context, "SUCCESSFUL JSON EXPORT!!", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "JSON EXPORT FAILED", Toast.LENGTH_SHORT).show();
+        }
     }
 
     static class Recipes{
