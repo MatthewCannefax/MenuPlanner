@@ -22,6 +22,6 @@ public class StaticRecipes {
 
 
     public static void loadRecipes(Context context, String filename){
-        recipeList = JSONHelper.importFromJSON(context, filename);
+        recipeList = JSONHelper.importRecipesFromJSON(context, filename);
     }
 }

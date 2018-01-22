@@ -6,10 +6,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -23,7 +23,7 @@ public class JSONHelper {
     private static String mFileName;
 
 
-    public static boolean exportToJSON(Context context, List<Recipe> recipeList, String fileName){
+    public static boolean exportRecipesToJSON(Context context, List<Recipe> recipeList, String fileName){
         mFileName = fileName;
 
         Recipes recipeData = new Recipes();
@@ -31,10 +31,9 @@ public class JSONHelper {
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(recipeData);
-        Log.i(TAG, "exportToJSON: " + jsonString);
+        Log.i(TAG, "exportRecipesToJSON: " + jsonString);
 
         FileOutputStream fileOutputStream = null;
-        File file = new File(mFileName);
 
         try {
             fileOutputStream = context.openFileOutput(mFileName, MODE_PRIVATE);
@@ -54,7 +53,7 @@ public class JSONHelper {
         return false;
     }
 
-    public static List<Recipe> importFromJSON(Context context, String fileName){
+    public static List<Recipe> importRecipesFromJSON(Context context, String fileName){
         mFileName = fileName;
 
         FileReader reader = null;
@@ -81,14 +80,73 @@ public class JSONHelper {
         return null;
     }
 
-    //using this method for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public static void toastExportJSON(Context context, List<Recipe> recipeList, String fileName){
-        boolean result = exportToJSON(context, recipeList, fileName);
+    public static boolean exportIngredientsToJSON(Context context, List<Ingredient> ingredientList, String fileName){
+        mFileName = fileName;
 
-        if(result){
-            Toast.makeText(context, "SUCCESSFUL JSON EXPORT!!", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context, "JSON EXPORT FAILED", Toast.LENGTH_SHORT).show();
+        Ingredients ingredientData = new Ingredients();
+        ingredientData.setIngredientList(ingredientList);
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(ingredientData);
+        Log.i(TAG, "exportRecipesToJSON: " + jsonString);
+
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = context.openFileOutput(mFileName, MODE_PRIVATE);
+            fileOutputStream.write(jsonString.getBytes());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fileOutputStream != null){
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public static List<Ingredient> importIngredientsFromJSON(Context context, String fileName){
+        mFileName = fileName;
+
+        FileReader reader = null;
+
+
+        try {
+            File file = new File(context.getFilesDir(), mFileName);
+            reader = new FileReader(file);
+            Gson gson = new Gson();
+            Ingredients ingredientData = gson.fromJson(reader, Ingredients.class);
+            return ingredientData.getIngredientList();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null){
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static class Ingredients{
+
+        List<Ingredient> ingredientList;
+
+        private List<Ingredient> getIngredientList() {
+            return ingredientList;
+        }
+
+        private void setIngredientList(List<Ingredient> ingredientList) {
+            this.ingredientList = ingredientList;
         }
     }
 

@@ -51,19 +51,29 @@ public class MenuListActivity extends AppCompatActivity {
         //set the title in the actionbar
         this.setTitle("Menu");
 
-        //initialize the RecipeMenuItemAdapter passing the list of menu items
-        adapter = new RecipeMenuItemAdapter(this, menuList);
+        setMenuListViewAdapter();
+    }
 
-        //set the adapter of the listview to the recipeItemAdapter
-        //Might try to use a Recycler view instead, since it is typically smoother when scrolling
-        lv.setAdapter(adapter);
+    private void setMenuListViewAdapter(){
+        if(menuList != null){
+            //initialize the RecipeMenuItemAdapter passing the list of menu items
+            adapter = new RecipeMenuItemAdapter(this, menuList);
 
+            //set the adapter of the listview to the recipeItemAdapter
+            //Might try to use a Recycler view instead, since it is typically smoother when scrolling
+            lv.setAdapter(adapter);
+        }else{
+            Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        adapter.notifyDataSetChanged();
+
+        if (menuList != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     //This is the overridden method to create the options menu in the actionbar
@@ -95,7 +105,7 @@ public class MenuListActivity extends AppCompatActivity {
        }
        //if the Generate Grocery List option is clicked
        else if(item.getItemId() == R.id.generateGroceryListItem){
-           if (StaticGroceryList.items.size() != 0) {
+           if (StaticGroceryList.items != null) {
 
                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                builder.setTitle("Generate New Grocery List?");
@@ -104,6 +114,7 @@ public class MenuListActivity extends AppCompatActivity {
                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialogInterface, int i) {
+
                        goToGroceryList();
                    }
                });
@@ -136,6 +147,8 @@ public class MenuListActivity extends AppCompatActivity {
     }
 
     private void goToGroceryList(){
+
+
         //new intent to move to the GroceryListActivity
         Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
 

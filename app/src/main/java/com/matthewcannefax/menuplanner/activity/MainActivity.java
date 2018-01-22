@@ -3,21 +3,17 @@ package com.matthewcannefax.menuplanner.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.SampleData.SampleMenu;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
-import com.matthewcannefax.menuplanner.model.MenuList;
+import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.setTitle("Menu Planner");
+
+        SampleRecipes.recipeList = JSONHelper.importRecipesFromJSON(this, getString(R.string.recipe_list_to_json));
+
+        SampleMenu.sampleMenuList = JSONHelper.importRecipesFromJSON(this, getString(R.string.json_menu_list));
+
+        StaticGroceryList.items = JSONHelper.importIngredientsFromJSON(this, getString(R.string.json_grocery_list));
+
 
     }
 
@@ -88,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
     //method goes to the menu activity
     private void goToMenuActivity(){
+
         Intent intent = new Intent(MainActivity.this, MenuListActivity.class);
+        intent.putExtra("RESULT", false);
         MainActivity.this.startActivity(intent);
     }
 

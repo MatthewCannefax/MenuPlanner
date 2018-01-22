@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
@@ -33,6 +32,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,8 +74,12 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //get the recipe item passed from the menulist
         try {
-            oldRecipe = getIntent().getExtras().getParcelable(RecipeMenuItemAdapter.RECIPE_ID);
-            newRecipe = oldRecipe;
+            try {
+                oldRecipe = getIntent().getExtras().getParcelable(RecipeMenuItemAdapter.RECIPE_ID);
+                newRecipe = oldRecipe;
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -357,6 +361,11 @@ public class EditRecipeActivity extends AppCompatActivity {
             isEditable = false;
             setControlsEnabled(false);
             editSubmitBTN.setTitle("Edit");
+
+            boolean result = JSONHelper.exportRecipesToJSON(this, SampleRecipes.recipeList, getString(R.string.recipe_list_to_json));
+            if(result){
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            }
 
             return true;
         }else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){

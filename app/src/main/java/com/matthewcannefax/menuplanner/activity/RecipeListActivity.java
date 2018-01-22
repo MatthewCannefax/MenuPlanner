@@ -20,6 +20,7 @@ import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.MenuList;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.List;
 
@@ -45,7 +46,11 @@ public class RecipeListActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try {
-            title = extras.getString("TITLE");
+            try {
+                title = extras.getString("TITLE");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -166,7 +171,10 @@ public class RecipeListActivity extends AppCompatActivity {
                         }
                     }
 
+                    boolean result = JSONHelper.exportRecipesToJSON(this, SampleMenu.sampleMenuList, getString(R.string.json_menu_list));
+
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
+                    returnToMenu.putExtra("RESULT", result);
                     RecipeListActivity.this.startActivity(returnToMenu);
                 } else {
                     Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();

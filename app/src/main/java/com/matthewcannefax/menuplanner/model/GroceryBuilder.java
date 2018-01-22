@@ -46,29 +46,32 @@ public class GroceryBuilder {
         }
 
 
-        for (int i = 0; i<newIngredients.size(); i++){
-            Ingredient ingred1 = newIngredients.get(i);
-            Ingredient ingred2 = newIngredients.get(i + 1);
+        for (int i = 0; i<newIngredients.size()-1; i++){
 
-            while (ingred1.getName() == ingred2.getName()){
 
-                if (ingred1.getCategory() == ingred2.getCategory()) {
-                    ingred1.getMeasurement().setAmount(ingred1.getMeasurement().getAmount() + ingred2.getMeasurement().getAmount());
-                    newIngredients.remove(i + 1);
-                    if((i + 1) != newIngredients.size()) {
-                        ingred2 = newIngredients.get(i + 1);
-                    }else{
-                        ingred2 = new Ingredient();
+                Ingredient ingred1 = newIngredients.get(i);
+                Ingredient ingred2 = newIngredients.get(i + 1);
+
+                while (ingred1.getName().equals(ingred2.getName())){
+
+                    if (ingred1.getCategory() == ingred2.getCategory()) {
+                        ingred1.getMeasurement().setAmount(ingred1.getMeasurement().getAmount() + ingred2.getMeasurement().getAmount());
+                        newIngredients.remove(i + 1);
+                        if((i + 1) != newIngredients.size()) {
+                            ingred2 = newIngredients.get(i + 1);
+                        }else{
+                            ingred2 = new Ingredient();
+                        }
                     }
                 }
-            }
+
         }
 
         return sortByCategory(newIngredients);
     }
 
     private List<Ingredient> sortByCategory(List<Ingredient> ingredientList){
-        List<Ingredient> ingredients = ingredientList;
+        ingredients = ingredientList;
 
         Collections.sort(ingredients, new Comparator<Ingredient>() {
             @Override
@@ -98,7 +101,7 @@ public class GroceryBuilder {
         List<Ingredient> ingredients = new ArrayList<>();
 
         for(Recipe recipe: this.recipes){
-            if (recipe.getIngredientList().size() != 0){
+            if (recipe.getIngredientList() != null){
                 for(Ingredient i : recipe.getIngredientList()){
                     ingredients.add(i);
                 }

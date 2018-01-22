@@ -219,7 +219,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
             SampleRecipes.recipeList.add(newRecipe);
 
-            JSONHelper.toastExportJSON(
+            JSONHelper.exportRecipesToJSON(
                     this,
                     SampleRecipes.recipeList,
                     getString(R.string.recipe_list_to_json)

@@ -12,16 +12,16 @@ public class SampleMenu {
     static{
         sampleMenuList = new ArrayList<>();
 
-        sampleMenuList.add(SampleRecipes.recipeList.get(0));
-        sampleMenuList.add(SampleRecipes.recipeList.get(2));
-        sampleMenuList.add(SampleRecipes.recipeList.get(2));
-        sampleMenuList.add(SampleRecipes.recipeList.get(0));
-        sampleMenuList.add(SampleRecipes.recipeList.get(1));
-        sampleMenuList.add(SampleRecipes.recipeList.get(0));
-        sampleMenuList.add(SampleRecipes.recipeList.get(2));
-        sampleMenuList.add(SampleRecipes.recipeList.get(2));
-        sampleMenuList.add(SampleRecipes.recipeList.get(0));
-        sampleMenuList.add(SampleRecipes.recipeList.get(1));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(0));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(2));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(2));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(0));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(1));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(0));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(2));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(2));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(0));
+//        sampleMenuList.add(SampleRecipes.recipeList.get(1));
     }
 
 }
