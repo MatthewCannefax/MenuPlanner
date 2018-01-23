@@ -23,7 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
@@ -351,9 +351,9 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             //make the change in the database
             //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            for(int i = 0; i < SampleRecipes.recipeList.size(); i++){
-                if(SampleRecipes.recipeList.get(i).getRecipeID() == oldRecipe.getRecipeID()){
-                    SampleRecipes.recipeList.set(i, newRecipe);
+            for(int i = 0; i < StaticRecipes.recipeList.size(); i++){
+                if(StaticRecipes.recipeList.get(i).getRecipeID() == oldRecipe.getRecipeID()){
+                    StaticRecipes.recipeList.set(i, newRecipe);
                     break;
                 }
             }
@@ -362,7 +362,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             setControlsEnabled(false);
             editSubmitBTN.setTitle("Edit");
 
-            boolean result = JSONHelper.exportRecipesToJSON(this, SampleRecipes.recipeList, getString(R.string.recipe_list_to_json));
+            boolean result = JSONHelper.exportRecipesToJSON(this, StaticRecipes.recipeList, getString(R.string.recipe_list_to_json));
             if(result){
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
             }

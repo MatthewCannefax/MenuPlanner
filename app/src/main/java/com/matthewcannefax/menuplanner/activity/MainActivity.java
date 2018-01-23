@@ -8,13 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleMenu;
-import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
+import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
-import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         this.setTitle("Menu Planner");
 
-        SampleRecipes.recipeList = JSONHelper.importRecipesFromJSON(this, getString(R.string.recipe_list_to_json));
+        StaticRecipes.recipeList = JSONHelper.importRecipesFromJSON(this, getString(R.string.recipe_list_to_json));
 
-        SampleMenu.sampleMenuList = JSONHelper.importRecipesFromJSON(this, getString(R.string.json_menu_list));
+        StaticMenu.loadMenu(this);
 
-        StaticGroceryList.items = JSONHelper.importIngredientsFromJSON(this, getString(R.string.json_grocery_list));
+        StaticGroceryList.loadGroceries(this);
 
 
     }

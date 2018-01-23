@@ -6,8 +6,12 @@ package com.matthewcannefax.menuplanner.StaticItems;
 //with a DB adapter
 
 
+import android.content.Context;
+
+import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.model.GroceryItem;
 import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,5 +21,14 @@ public class StaticGroceryList {
 
     static {
         items = new ArrayList<>();
+    }
+
+    public static void loadGroceries(Context context){
+        try {
+            String fileName = context.getString(R.string.json_grocery_list);
+            items = JSONHelper.importIngredientsFromJSON(context, fileName);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }

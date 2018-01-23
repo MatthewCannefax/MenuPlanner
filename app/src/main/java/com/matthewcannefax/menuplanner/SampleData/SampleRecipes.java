@@ -19,9 +19,9 @@ public class SampleRecipes {
 
         recipeList.add(new Recipe(0 , "Chicken Noodle Soup", RecipeCategory.SOUP, "Boil chicken broth, add noodles and chicken ", "chickenNoodle.jpg",
                 new ArrayList<Ingredient>(){{ //anonymous class or double brace initialization
-                        add(new Ingredient("Noodles", GroceryCategory.PASTA_RICE, new Measurement(1, MeasurementType.BAG)));
-                        add(new Ingredient("Chicken", GroceryCategory.MEAT, new Measurement(1, MeasurementType.POUND)));
-                        add(new Ingredient("Chicken Bullion cubes", GroceryCategory.OTHER, new Measurement(8, MeasurementType.CUP)));
+                    add(new Ingredient("Noodles", GroceryCategory.PASTA_RICE, new Measurement(1, MeasurementType.BAG)));
+                    add(new Ingredient("Chicken", GroceryCategory.MEAT, new Measurement(1, MeasurementType.POUND)));
+                    add(new Ingredient("Chicken Bullion cubes", GroceryCategory.OTHER, new Measurement(8, MeasurementType.CUP)));
                 }}));
         recipeList.add(new Recipe(1, "Orange Picante Chicken", RecipeCategory.MAIN_DISHES, "Cook chicken in large skillet remove, combine picante sauce and marmalade boil until thick",
                 "OrangeChicken.jpg",
@@ -32,7 +32,7 @@ public class SampleRecipes {
                     add(new Ingredient("Rice", GroceryCategory.PASTA_RICE, new Measurement(2, MeasurementType.CUP)));
                     add(new Ingredient("Water", GroceryCategory.OTHER, new Measurement(1, MeasurementType.CUP)));
                 }}));
-        recipeList.add(new Recipe(2, "Beef Beans and Rice", RecipeCategory.MAIN_DISHES, "Cook Ground Beef in large skillet, add beans and rice","beefBeansRice.jpg",
+        recipeList.add(new Recipe(2, "Beef Beans and Rice", RecipeCategory.MAIN_DISHES, "Cook Ground Beef in large skillet, add beans and rice", "beefBeansRice.jpg",
                 new ArrayList<Ingredient>(){{ //anonymous class or double brace initialization
                     add(new Ingredient("Ground Beef", GroceryCategory.MEAT, new Measurement(1, MeasurementType.POUND)));
                     add(new Ingredient("Black Beans", GroceryCategory.CANNED_GOODS, new Measurement(1, MeasurementType.CAN)));

@@ -19,11 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.ButtonArrayAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
@@ -36,7 +35,6 @@ import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AddRecipeActivity extends AppCompatActivity{
 
@@ -214,14 +212,14 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
 
             //this might need to be removed once the DB has been implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            int newId = SampleRecipes.recipeList.get(SampleRecipes.recipeList.size() - 1).getRecipeID() + 1;
+            int newId = StaticRecipes.recipeList.get(StaticRecipes.recipeList.size() - 1).getRecipeID() + 1;
             newRecipe.setRecipeID(newId);
 
-            SampleRecipes.recipeList.add(newRecipe);
+            StaticRecipes.recipeList.add(newRecipe);
 
             JSONHelper.exportRecipesToJSON(
                     this,
-                    SampleRecipes.recipeList,
+                    StaticRecipes.recipeList,
                     getString(R.string.recipe_list_to_json)
             );
 

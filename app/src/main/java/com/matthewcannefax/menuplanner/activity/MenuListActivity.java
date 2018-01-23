@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleMenu;
+import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
@@ -43,7 +43,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
-        menuList = SampleMenu.sampleMenuList;
+        menuList = StaticMenu.sampleMenuList;
 
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);

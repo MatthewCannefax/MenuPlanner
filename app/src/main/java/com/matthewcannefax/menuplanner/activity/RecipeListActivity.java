@@ -14,11 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleMenu;
-import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
+import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
-import com.matthewcannefax.menuplanner.model.MenuList;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
@@ -42,7 +40,7 @@ public class RecipeListActivity extends AppCompatActivity {
         setContentView(R.layout.recipe_menu_list);
 
         //setup the list of Recipes currently using a sample class for testing
-        recipeList = SampleRecipes.recipeList;
+        recipeList = StaticRecipes.recipeList;
 
         Bundle extras = getIntent().getExtras();
         try {
@@ -165,13 +163,13 @@ public class RecipeListActivity extends AppCompatActivity {
                     for(int position = 0; position < recipeList.size(); position++){
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
-                            SampleMenu.sampleMenuList.add(recipeList.get(position)); //Using Sample Data here, will need to switch to the db adapter
+                            StaticMenu.sampleMenuList.add(recipeList.get(position)); //Using Sample Data here, will need to switch to the db adapter
 
 
                         }
                     }
 
-                    boolean result = JSONHelper.exportRecipesToJSON(this, SampleMenu.sampleMenuList, getString(R.string.json_menu_list));
+                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.sampleMenuList, getString(R.string.json_menu_list));
 
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
                     returnToMenu.putExtra("RESULT", result);
