@@ -1,12 +1,16 @@
 package com.matthewcannefax.menuplanner.StaticItems;
 
 
+import android.content.Context;
+
+import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,15 @@ public class StaticRecipes {
                     add(new Ingredient("Red Kidney Beans", GroceryCategory.CANNED_GOODS, new Measurement(1, MeasurementType.CAN)));
                     add(new Ingredient("Rice", GroceryCategory.PASTA_RICE, new Measurement(2, MeasurementType.CUP)));
                 }}));
+    }
+
+    public static void saveRecipes(Context context){
+        try {
+            String fileName = context.getString(R.string.recipe_list_to_json);
+            boolean result = JSONHelper.exportRecipesToJSON(context, recipeList, fileName);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 }
 

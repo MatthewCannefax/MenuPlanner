@@ -138,6 +138,8 @@ public class RecipeListActivity extends AppCompatActivity {
                             adapter = new RecipeListItemAdapter(thisContext, recipeList);
                             lv.setAdapter(adapter);
 
+                            StaticRecipes.saveRecipes(thisContext);
+
                             Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
                         }
                     });
