@@ -31,4 +31,15 @@ public class StaticGroceryList {
             e.printStackTrace();
         }
     }
+
+    public static void saveGroceries(Context context){
+        if(items != null){
+            try {
+                String fileName = context.getString(R.string.json_grocery_list);
+                boolean result = JSONHelper.exportIngredientsToJSON(context,items, fileName);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

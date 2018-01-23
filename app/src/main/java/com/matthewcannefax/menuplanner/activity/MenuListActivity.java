@@ -19,6 +19,7 @@ import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,8 +164,9 @@ public class MenuListActivity extends AppCompatActivity {
     }
 
     //this method sets up the Static Grocery list
-    private void setStaticGroceryList(List<Ingredient> g){
-        StaticGroceryList.items = g;
+    private void setStaticGroceryList(List<Ingredient> groceryItems){
+        StaticGroceryList.items = groceryItems;
+        StaticGroceryList.saveGroceries(this);
     }
 
     //this method creates the grocery list from the ingredient lists in the recipes on the recipe list

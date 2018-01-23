@@ -79,9 +79,11 @@ public class GroceryListActivity extends AppCompatActivity {
             for (int i = 0; i < adapter.getCount(); i++) {
                 Ingredient ingred = (Ingredient) adapter.getItem(i);
 
-                if (ingred.getItemChecked())
+                if (ingred.getItemChecked() && ingred == StaticGroceryList.items.get(i))
                 {
+
                     adapter.remove(ingred);
+//                    StaticGroceryList.items.remove(i);
                     i = i - 1;
 
                 }
@@ -95,7 +97,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
             adapter = new GroceryItemAdapter(this, ingredients);
             lv.setAdapter(adapter);
-
+            StaticGroceryList.saveGroceries(this);
             return true;
         }
         //default to make sure the back button functions properly
