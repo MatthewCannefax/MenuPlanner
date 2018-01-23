@@ -17,26 +17,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StaticGroceryList {
-    public static List<Ingredient> items;
 
-    static {
-        items = new ArrayList<>();
+    private static List<Ingredient> mIngredientList;
+
+
+    public static List<Ingredient> getIngredientList() {
+        return mIngredientList;
+    }
+
+    public static void setIngredientList(List<Ingredient> ingredientList) {
+        mIngredientList = ingredientList;
     }
 
     public static void loadGroceries(Context context){
         try {
             String fileName = context.getString(R.string.json_grocery_list);
-            items = JSONHelper.importIngredientsFromJSON(context, fileName);
+            mIngredientList = JSONHelper.importIngredientsFromJSON(context, fileName);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
     public static void saveGroceries(Context context){
-        if(items != null){
+        if(mIngredientList != null){
             try {
                 String fileName = context.getString(R.string.json_grocery_list);
-                boolean result = JSONHelper.exportIngredientsToJSON(context,items, fileName);
+                boolean result = JSONHelper.exportIngredientsToJSON(context, mIngredientList, fileName);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

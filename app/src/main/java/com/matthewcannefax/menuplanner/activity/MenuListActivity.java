@@ -106,7 +106,7 @@ public class MenuListActivity extends AppCompatActivity {
        }
        //if the Generate Grocery List option is clicked
        else if(item.getItemId() == R.id.generateGroceryListItem){
-           if (StaticGroceryList.items != null) {
+           if (StaticGroceryList.getIngredientList() != null) {
 
                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                builder.setTitle("Generate New Grocery List?");
@@ -128,7 +128,7 @@ public class MenuListActivity extends AppCompatActivity {
                return true;
            }
        }else if (item.getItemId() == R.id.viewCurrentGroceryList){
-           if (StaticGroceryList.items.size() != 0){
+           if (StaticGroceryList.getIngredientList().size() != 0){
 
                Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
                MenuListActivity.this.startActivity(intent);
@@ -165,7 +165,7 @@ public class MenuListActivity extends AppCompatActivity {
 
     //this method sets up the Static Grocery list
     private void setStaticGroceryList(List<Ingredient> groceryItems){
-        StaticGroceryList.items = groceryItems;
+        StaticGroceryList.setIngredientList(groceryItems);
         StaticGroceryList.saveGroceries(this);
     }
 

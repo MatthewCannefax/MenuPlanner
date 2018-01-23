@@ -39,7 +39,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //using a static class to pass the grocery list from the MenuListActivity to this activity
         //Need to find a better way to pass that information
         //Maybe make use of Parcelable or use the database once it is available
-        ingredients = StaticGroceryList.items;
+        ingredients = StaticGroceryList.getIngredientList();
 
         //initialize the listview
         //might change to recyclerview since it tends to be a little smoother while scrolling
@@ -79,7 +79,7 @@ public class GroceryListActivity extends AppCompatActivity {
             for (int i = 0; i < adapter.getCount(); i++) {
                 Ingredient ingred = (Ingredient) adapter.getItem(i);
 
-                if (ingred.getItemChecked() && ingred == StaticGroceryList.items.get(i))
+                if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i))
                 {
 
                     adapter.remove(ingred);
