@@ -163,13 +163,13 @@ public class RecipeListActivity extends AppCompatActivity {
                     for(int position = 0; position < recipeList.size(); position++){
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
-                            StaticMenu.sampleMenuList.add(recipeList.get(position)); //Using Sample Data here, will need to switch to the db adapter
+                            StaticMenu.getmMenuList().add(recipeList.get(position)); //Using Sample Data here, will need to switch to the db adapter
 
 
                         }
                     }
 
-                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.sampleMenuList, getString(R.string.json_menu_list));
+                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getmMenuList(), getString(R.string.json_menu_list));
 
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
                     returnToMenu.putExtra("RESULT", result);

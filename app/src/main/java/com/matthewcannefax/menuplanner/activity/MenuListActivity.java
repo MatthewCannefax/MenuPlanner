@@ -44,7 +44,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
-        menuList = StaticMenu.sampleMenuList;
+        menuList = StaticMenu.getmMenuList();
 
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);
