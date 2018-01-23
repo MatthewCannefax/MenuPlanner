@@ -31,4 +31,13 @@ public class StaticMenu {
         }
     }
 
+    public static void saveMenu(Context context){
+        try {
+            String fileName = context.getString(R.string.json_menu_list);
+            boolean result = JSONHelper.exportRecipesToJSON(context, mMenuList, fileName);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

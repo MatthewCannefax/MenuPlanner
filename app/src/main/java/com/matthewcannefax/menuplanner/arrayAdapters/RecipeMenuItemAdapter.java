@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
@@ -63,8 +64,8 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
         }
 
         //the layout contains the name and an image of the recipe
-        TextView tvName = (TextView) convertView.findViewById(R.id.itemNameText);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+        TextView tvName = convertView.findViewById(R.id.itemNameText);
+        ImageView imageView = convertView.findViewById(R.id.imageView);
 
 
         //get the recipe item in this object based of the position passed in the arguments
@@ -128,7 +129,7 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
                         Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
                         remove(recipe);
 
-                        //add removing from the database
+                        StaticMenu.saveMenu(mContext);
                     }
                 });
                 builder.show();
