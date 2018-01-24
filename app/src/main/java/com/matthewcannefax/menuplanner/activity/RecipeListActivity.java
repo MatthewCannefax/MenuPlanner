@@ -40,7 +40,7 @@ public class RecipeListActivity extends AppCompatActivity {
         setContentView(R.layout.recipe_menu_list);
 
         //setup the list of Recipes currently using a sample class for testing
-        recipeList = StaticRecipes.recipeList;
+        recipeList = StaticRecipes.getRecipeList();
 
         Bundle extras = getIntent().getExtras();
         try {

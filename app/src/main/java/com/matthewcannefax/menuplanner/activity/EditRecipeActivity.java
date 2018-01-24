@@ -351,9 +351,9 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             //make the change in the database
             //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            for(int i = 0; i < StaticRecipes.recipeList.size(); i++){
-                if(StaticRecipes.recipeList.get(i).getRecipeID() == oldRecipe.getRecipeID()){
-                    StaticRecipes.recipeList.set(i, newRecipe);
+            for(int i = 0; i < StaticRecipes.getRecipeList().size(); i++){
+                if(StaticRecipes.getRecipeList().get(i).getRecipeID() == oldRecipe.getRecipeID()){
+                    StaticRecipes.getRecipeList().set(i, newRecipe);
                     break;
                 }
             }
@@ -362,7 +362,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             setControlsEnabled(false);
             editSubmitBTN.setTitle("Edit");
 
-            boolean result = JSONHelper.exportRecipesToJSON(this, StaticRecipes.recipeList, getString(R.string.recipe_list_to_json));
+            boolean result = JSONHelper.exportRecipesToJSON(this, StaticRecipes.getRecipeList(), getString(R.string.recipe_list_to_json));
             if(result){
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
             }

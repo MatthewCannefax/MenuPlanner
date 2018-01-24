@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setTitle("Menu Planner");
 
-        StaticRecipes.recipeList = JSONHelper.importRecipesFromJSON(this, getString(R.string.recipe_list_to_json));
+        StaticRecipes.loadRecipes(this);
 
         StaticMenu.loadMenu(this);
 

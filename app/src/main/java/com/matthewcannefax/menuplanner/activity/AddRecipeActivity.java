@@ -212,14 +212,14 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
 
             //this might need to be removed once the DB has been implemented!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            int newId = StaticRecipes.recipeList.get(StaticRecipes.recipeList.size() - 1).getRecipeID() + 1;
+            int newId = StaticRecipes.getRecipeList().get(StaticRecipes.getRecipeList().size() - 1).getRecipeID() + 1;
             newRecipe.setRecipeID(newId);
 
-            StaticRecipes.recipeList.add(newRecipe);
+            StaticRecipes.getRecipeList().add(newRecipe);
 
             JSONHelper.exportRecipesToJSON(
                     this,
-                    StaticRecipes.recipeList,
+                    StaticRecipes.getRecipeList(),
                     getString(R.string.recipe_list_to_json)
             );
 

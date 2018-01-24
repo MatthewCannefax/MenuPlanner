@@ -12,7 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleRecipes {
-    public static List<Recipe> recipeList;
+    private static List<Recipe> recipeList;
+
+    public static List<Recipe> getRecipeList() {
+        return recipeList;
+    }
 
     static{
         recipeList = new ArrayList<>();
