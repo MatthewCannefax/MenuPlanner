@@ -43,14 +43,22 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //initialize the listview
         //might change to recyclerview since it tends to be a little smoother while scrolling
-        lv = (ListView)findViewById(R.id.recipeMenuListView);
+        lv = findViewById(R.id.recipeMenuListView);
 
-        //initialize the GroceryItemAdapter passing the ingredients list
-        adapter = new GroceryItemAdapter(this, ingredients);
 
-        //set the GroceryItemAdapter as the adapter for the listview
-        lv.setAdapter(adapter);
 
+    }
+
+    private void setGroceryListAdapter(){
+        if(ingredients != null){
+            //initialize the GroceryItemAdapter passing the ingredients list
+            adapter = new GroceryItemAdapter(this, ingredients);
+
+            //set the GroceryItemAdapter as the adapter for the listview
+            lv.setAdapter(adapter);
+        }else {
+            Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //create the menu in the actionbar
@@ -69,10 +77,12 @@ public class GroceryListActivity extends AppCompatActivity {
     //handle clicks on the actionbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        int count = adapter.getCount();
+
 
         //if the remove selected items option is clicked
         if(item.getItemId() == R.id.removeSelectItems){
+            int count = adapter.getCount();
+
             //code will need to be added here to remove these items from the db as well
             //and also to be removed from the list view
 

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.main_activity_menu, menu);
 
         if(StaticGroceryList.getIngredientList() == null){
-            menu.getItem(R.id.groceriesMenuItem).setVisible(false);
+//            menu.getItem(R.id.groceriesMenuItem).setVisible(false);
         }
 
         return true;

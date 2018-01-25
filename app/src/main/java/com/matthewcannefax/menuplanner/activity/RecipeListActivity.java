@@ -56,21 +56,31 @@ public class RecipeListActivity extends AppCompatActivity {
         //set the title in the actionbar
         this.setTitle(title);
 
-        //instantiate the RecipeMenuItemAdapter passing the total list of recipes
-        adapter = new RecipeListItemAdapter(this, recipeList);
-
         //Instantiate the listview
         lv = findViewById(R.id.recipeMenuListView);
 
-        //set the RecipeMenuItemAdapter as the adapter for the listview
-        lv.setAdapter(adapter);
+       setRecipeListAdapter();
 
+    }
+
+    private void setRecipeListAdapter(){
+        if (recipeList != null){
+            //instantiate the RecipeMenuItemAdapter passing the total list of recipes
+            adapter = new RecipeListItemAdapter(this, recipeList);
+
+            //set the RecipeMenuItemAdapter as the adapter for the listview
+            lv.setAdapter(adapter);
+        }else {
+            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        adapter.notifyDataSetChanged();
+        if(recipeList != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     //this overridden method creates the menu item in the actionbar

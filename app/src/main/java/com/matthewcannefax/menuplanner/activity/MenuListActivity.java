@@ -123,12 +123,15 @@ public class MenuListActivity extends AppCompatActivity {
                builder.show();
 
                return true;
-           } else {
+           } else if (StaticMenu.getmMenuList() != null){
                goToGroceryList();
+               return true;
+           }else {
+               Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
                return true;
            }
        }else if (item.getItemId() == R.id.viewCurrentGroceryList){
-           if (StaticGroceryList.getIngredientList().size() != 0){
+           if (StaticGroceryList.getIngredientList() != null){
 
                Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
                MenuListActivity.this.startActivity(intent);
