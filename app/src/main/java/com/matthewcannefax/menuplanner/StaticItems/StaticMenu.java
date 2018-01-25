@@ -14,11 +14,16 @@ public class StaticMenu {
 
     private static List<Recipe> mMenuList;
 
-    public static List<Recipe> getmMenuList() {
-        return mMenuList;
+    public static List<Recipe> getMenuList() {
+        if(mMenuList != null) {
+            return mMenuList;
+        }else{
+            mMenuList = new ArrayList<>();
+            return mMenuList;
+        }
     }
 
-    public static void setmMenuList(List<Recipe> mMenuList) {
+    public static void setMenuList(List<Recipe> mMenuList) {
         StaticMenu.mMenuList = mMenuList;
     }
 

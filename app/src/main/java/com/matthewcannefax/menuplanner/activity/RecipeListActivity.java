@@ -20,6 +20,7 @@ import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //This activity is to display the total list of recipes from the db
@@ -175,13 +176,17 @@ public class RecipeListActivity extends AppCompatActivity {
                     for(int position = 0; position < recipeList.size(); position++){
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
-                            StaticMenu.getmMenuList().add(recipeList.get(position)); //Using Sample Data here, will need to switch to the db adapter
-
+                            if(StaticMenu.getMenuList() != null) {
+                                StaticMenu.getMenuList().add(recipeList.get(position));
+                            }else{
+                                StaticMenu.setMenuList(new ArrayList<Recipe>());
+                                StaticMenu.getMenuList().add(recipeList.get(position));
+                            }
 
                         }
                     }
 
-                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getmMenuList(), getString(R.string.json_menu_list));
+                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getMenuList(), getString(R.string.json_menu_list));
 
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
                     returnToMenu.putExtra("RESULT", result);

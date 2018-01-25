@@ -22,7 +22,13 @@ public class StaticGroceryList {
 
 
     public static List<Ingredient> getIngredientList() {
-        return mIngredientList;
+
+        if (mIngredientList != null) {
+            return mIngredientList;
+        } else {
+            mIngredientList = new ArrayList<>();
+            return mIngredientList;
+        }
     }
 
     public static void setIngredientList(List<Ingredient> ingredientList) {

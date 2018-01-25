@@ -19,7 +19,6 @@ import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
-import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
-        menuList = StaticMenu.getmMenuList();
+        menuList = StaticMenu.getMenuList();
 
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);
@@ -123,7 +122,7 @@ public class MenuListActivity extends AppCompatActivity {
                builder.show();
 
                return true;
-           } else if (StaticMenu.getmMenuList() != null){
+           } else if (StaticMenu.getMenuList() != null){
                goToGroceryList();
                return true;
            }else {

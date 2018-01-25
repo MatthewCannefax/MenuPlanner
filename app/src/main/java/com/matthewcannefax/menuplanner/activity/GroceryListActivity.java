@@ -45,7 +45,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //might change to recyclerview since it tends to be a little smoother while scrolling
         lv = findViewById(R.id.recipeMenuListView);
 
-
+        setGroceryListAdapter();
 
     }
 

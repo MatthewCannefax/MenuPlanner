@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
@@ -28,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("Menu Planner");
 
         StaticRecipes.loadRecipes(this);
+
+        //this is for TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(StaticRecipes.getRecipeList() == null){
+            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
+            StaticRecipes.saveRecipes(this);
+            StaticRecipes.loadRecipes(this);
+        }
 
         StaticMenu.loadMenu(this);
 
