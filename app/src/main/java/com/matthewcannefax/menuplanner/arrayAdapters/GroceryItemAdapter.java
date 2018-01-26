@@ -23,9 +23,9 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
     //A list to hold the items of the grocery list
     //I need to try and switch this to Grocery type instead of Ingredient type
-    List<Ingredient> mGroceryItems;
+    private List<Ingredient> mGroceryItems;
     //A new LayoutInflater object
-    LayoutInflater mInflator;
+    private LayoutInflater mInflator;
 
 
 
@@ -63,9 +63,9 @@ public class GroceryItemAdapter extends ArrayAdapter {
         final boolean[] itemChecked = {false};
 
         //TextView to display the name of the grocery item
-        final TextView tvName = (TextView) convertView.findViewById(R.id.itemNameText);
-        TextView tvMeasurement = (TextView) convertView.findViewById(R.id.tvMeasurement);
-        TextView tvCategory = (TextView) convertView.findViewById(R.id.tvCategory);
+        final TextView tvName = convertView.findViewById(R.id.itemNameText);
+        TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
+        TextView tvCategory = convertView.findViewById(R.id.tvCategory);
 
         //the the grocery item by the postion given in the arguments
         final Ingredient item = mGroceryItems.get(position);
@@ -90,23 +90,6 @@ public class GroceryItemAdapter extends ArrayAdapter {
             }
         });
 
-
-//        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                if (itemChecked){
-//                    itemChecked = false;
-//                    tvName.setPaintFlags(0);
-//                }else{
-//                    itemChecked = true;
-//                    tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//                }
-//
-//                return false;
-//            }
-//        });
-
-        //return the now setup view
         return convertView;
     }
 

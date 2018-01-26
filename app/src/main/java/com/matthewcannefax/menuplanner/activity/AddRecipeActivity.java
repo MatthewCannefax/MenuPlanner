@@ -92,8 +92,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
         recipeIngreds.setAdapter(buttonArrayAdapter);
 
-        addIngredientBTN();
-
+      addIngredientBTN();
 
 
     }
@@ -111,7 +110,7 @@ public class AddRecipeActivity extends AppCompatActivity{
             public void onClick(View view) {
                 //the alertdialog will display the ingredient information
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Edit Ingredient");
+                builder.setTitle("Add Ingredient");
 
                 //create a new view to display the ingredient information
                 View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
@@ -138,36 +137,36 @@ public class AddRecipeActivity extends AppCompatActivity{
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(newRecipe.getIngredientList() != null){
-                            //add the new Ingredient to the ingredientList
-                            newRecipe.getIngredientList().add(new Ingredient(
-                                    etName.getText().toString(),
-                                    (GroceryCategory)spCat.getSelectedItem(),
-                                    new Measurement(
-                                            Double.parseDouble(etAmount.getText().toString()),
-                                            (MeasurementType)spMeasure.getSelectedItem()
-                                    )
+                        if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("")) {
+                            if(newRecipe.getIngredientList() != null){
+                                //add the new Ingredient to the ingredientList
+                                newRecipe.getIngredientList().add(new Ingredient(
+                                        etName.getText().toString(),
+                                        (GroceryCategory)spCat.getSelectedItem(),
+                                        new Measurement(
+                                                Double.parseDouble(etAmount.getText().toString()),
+                                                (MeasurementType)spMeasure.getSelectedItem()
+                                        )
 
-                            ));
-                            ingredientItemAdapter.notifyDataSetChanged();
+                                ));
+                                ingredientItemAdapter.notifyDataSetChanged();
+                            }else{
+                                Ingredient ingredient = new Ingredient(
+                                        etName.getText().toString(),
+                                        (GroceryCategory)spCat.getSelectedItem(),
+                                        new Measurement(
+                                                Double.parseDouble(etAmount.getText().toString()),
+                                                (MeasurementType)spMeasure.getSelectedItem()
+                                        ));
+                                List<Ingredient> newIngredredients = new ArrayList<>();
+                                newIngredredients.add(ingredient);
+                                newRecipe.setIngredientList(newIngredredients);
+                                ingredientItemAdapter = new IngredientItemAdapter(mContext, newRecipe.getIngredientList());
+                                recipeIngreds.setAdapter(ingredientItemAdapter);
+                            }
                         }else{
-                            Ingredient ingredient = new Ingredient(
-                                    etName.getText().toString(),
-                                    (GroceryCategory)spCat.getSelectedItem(),
-                                    new Measurement(
-                                            Double.parseDouble(etAmount.getText().toString()),
-                                            (MeasurementType)spMeasure.getSelectedItem()
-                                    ));
-                            List<Ingredient> newIngredredients = new ArrayList<>();
-                            newIngredredients.add(ingredient);
-                            newRecipe.setIngredientList(newIngredredients);
-                            ingredientItemAdapter = new IngredientItemAdapter(mContext, newRecipe.getIngredientList());
-                            //recipeIngreds.removeAllViews();
-                            recipeIngreds.setAdapter(ingredientItemAdapter);
+                            Toast.makeText(mContext, "Please enter a name and amount", Toast.LENGTH_SHORT).show();
                         }
-
-                        //notify the user that the changes have been made to the ingredient
-                        Toast.makeText(mContext, "Added", Toast.LENGTH_SHORT).show();
                     }
                 });
 

@@ -239,7 +239,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //the alertdialog will display the ingredient information
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Edit Ingredient");
+                builder.setTitle("Add Ingredient");
 
                 //create a new view to display the ingredient information
                 View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
@@ -266,22 +266,24 @@ public class EditRecipeActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //add the new Ingredient to the ingredientList
-                        newRecipe.getIngredientList().add(new Ingredient(
-                                etName.getText().toString(),
-                                (GroceryCategory)spCat.getSelectedItem(),
-                                new Measurement(
-                                        Double.parseDouble(etAmount.getText().toString()),
-                                        (MeasurementType)spMeasure.getSelectedItem()
-                                )
+                        if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("")) {
+                            //add the new Ingredient to the ingredientList
+                            newRecipe.getIngredientList().add(new Ingredient(
+                                    etName.getText().toString(),
+                                    (GroceryCategory)spCat.getSelectedItem(),
+                                    new Measurement(
+                                            Double.parseDouble(etAmount.getText().toString()),
+                                            (MeasurementType)spMeasure.getSelectedItem()
+                                    )
 
-                        ));
+                            ));
 
-                        //notify the arrayadapter that the dataset has changed
-                        ingredientItemAdapter.notifyDataSetChanged();
+                            //notify the arrayadapter that the dataset has changed
+                            ingredientItemAdapter.notifyDataSetChanged();
 
-                        //notify the user that the changes have been made to the ingredient
-                        Toast.makeText(mContext, "Changed", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
