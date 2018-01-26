@@ -10,4 +10,6 @@
     <string name="recipe_list_to_json">recipeListToJSON</string>
     <string name="json_menu_list">menuListToJSON</string>
     <string name="json_grocery_list">groceryListToJSON</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
 </resources>

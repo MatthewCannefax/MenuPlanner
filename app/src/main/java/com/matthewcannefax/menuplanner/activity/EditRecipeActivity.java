@@ -224,7 +224,15 @@ public class EditRecipeActivity extends AppCompatActivity {
         //inside this method
     }
 
-
+    private void clearEditText(final EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                editText.setText("");
+                editText.setOnFocusChangeListener(null);
+            }
+        });
+    }
 
     private void addIngredientBTN() {
         final Context mContext = this;
@@ -249,6 +257,9 @@ public class EditRecipeActivity extends AppCompatActivity {
                 final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
                 final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
                 final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+                clearEditText(etName);
+                clearEditText(etAmount);
 
                 //setup the default array adapters for the category and measurementtype spinners
                 ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());

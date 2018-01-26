@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <EditText
         android:id="@+id/ingredientName"
@@ -12,9 +14,12 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:ems="10"
+        android:gravity="center"
         android:textSize="16sp"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:text="@string/name"/>
 
     <Spinner
         android:id="@+id/categorySpinner"
@@ -36,8 +41,9 @@
         android:layout_marginBottom="15dp"
         android:ems="10"
         android:textSize="16sp"
-        android:gravity="right"
-        android:inputType="numberDecimal"/>
+        android:gravity="center"
+        android:inputType="numberDecimal"
+        android:text="@string/amount"/>
 
     <Spinner
         android:id="@+id/amountSpinner"

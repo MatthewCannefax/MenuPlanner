@@ -102,6 +102,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         //add a button at the end of the listview to allow the user to add more ingredients to the recipe
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_ingredient_btn, null);
+        view.requestFocus();
         Button addBTN = view.findViewById(R.id.addIngredientBTN);
         recipeIngreds.addFooterView(view);
 
@@ -120,6 +121,9 @@ public class AddRecipeActivity extends AppCompatActivity{
                 final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
                 final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
                 final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+                clearEditText(etName);
+                clearEditText(etAmount);
 
                 //setup the default array adapters for the category and measurementtype spinners
                 ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
@@ -173,6 +177,16 @@ public class AddRecipeActivity extends AppCompatActivity{
                 builder.show();
 
 
+            }
+        });
+    }
+
+    private void clearEditText(final EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                editText.setText("");
+                editText.setOnFocusChangeListener(null);
             }
         });
     }
