@@ -28,7 +28,7 @@ public class GroceryBuilder {
 
     public List<Ingredient> consolidateGroceries(){
         //this is the current list
-        List<Ingredient> ingredients = sortByCategory();
+        List<Ingredient> ingredients = getIngredients();
 
         //this is the new list of ingredients
         List<Ingredient> newIngredients = new ArrayList<>();
@@ -36,15 +36,11 @@ public class GroceryBuilder {
         Collections.sort(ingredients, new Comparator<Ingredient>() {
             @Override
             public int compare(Ingredient o1, Ingredient o2) {
-                return o1.getName().compareTo(o2.getName());
+                return o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase());
             }
         });
 
-        for(Ingredient i : ingredients){
-            Ingredient newIngredient = new Ingredient(i.getName(), i.getCategory(), new Measurement(i.getMeasurement().getAmount(), i.getMeasurement().getType()));
-            newIngredients.add(newIngredient);
-        }
-
+        newIngredients.addAll(ingredients);
 
         for (int i = 0; i<newIngredients.size()-1; i++){
 
@@ -52,7 +48,7 @@ public class GroceryBuilder {
                 Ingredient ingred1 = newIngredients.get(i);
                 Ingredient ingred2 = newIngredients.get(i + 1);
 
-                while (ingred1.getName().equals(ingred2.getName())){
+                while (ingred1.getName().toUpperCase().equals(ingred2.getName().toUpperCase())){
 
                     if (ingred1.getCategory() == ingred2.getCategory()) {
                         ingred1.getMeasurement().setAmount(ingred1.getMeasurement().getAmount() + ingred2.getMeasurement().getAmount());
