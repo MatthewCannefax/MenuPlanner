@@ -74,8 +74,8 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
         //TextView to display the name of the grocery item
         final TextView tvName = convertView.findViewById(R.id.itemNameText);
-        TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
-        TextView tvCategory = convertView.findViewById(R.id.tvCategory);
+        final TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
+        final TextView tvCategory = convertView.findViewById(R.id.tvCategory);
 
         //the the grocery item by the postion given in the arguments
         final Ingredient item = mGroceryItems.get(position);
@@ -92,10 +92,14 @@ public class GroceryItemAdapter extends ArrayAdapter {
                     itemChecked[0] = false;
                     item.setItemChecked(false);
                     tvName.setPaintFlags(0);
+                    tvCategory.setPaintFlags(0);
+                    tvMeasurement.setPaintFlags(0);
                 }else{
                     itemChecked[0] = true;
                     item.setItemChecked(true);
                     tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    tvMeasurement.setPaintFlags(tvMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
             }
         });
