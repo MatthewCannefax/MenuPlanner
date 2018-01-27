@@ -36,7 +36,7 @@ public class RecipeListItemAdapter extends ArrayAdapter {
 
     private Context mContext;
 
-    public static final String RECIPE_ID = "item_id";
+    private static final String RECIPE_ID = "item_id";
 
     //constructor
     public RecipeListItemAdapter(@NonNull Context context, @NonNull List objects) {
@@ -49,6 +49,15 @@ public class RecipeListItemAdapter extends ArrayAdapter {
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
 
     //this overridden method is to setup and return a view for displaying recipes with an image
     @NonNull
@@ -63,8 +72,8 @@ public class RecipeListItemAdapter extends ArrayAdapter {
         }
 
         //the layout contains the name and an image of the recipe
-        TextView tvName = (TextView) convertView.findViewById(R.id.itemNameText);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+        TextView tvName = convertView.findViewById(R.id.itemNameText);
+        ImageView imageView = convertView.findViewById(R.id.imageView);
 
 
         //get the recipe item in this object based of the position passed in the arguments

@@ -1,15 +1,12 @@
 package com.matthewcannefax.menuplanner.model.Enums;
 
-/**
- * Created by mcann on 12/5/2017.
- */
 
 public enum MeasurementType {
     POUND, OUNCE, TABLESPOON, TEASPOON, CUP, GALLON, PIECE, CAN, BAG;
 
     @Override
     public String toString() {
-        String s = "";
+        String s;
         switch (this){
             case POUND:
                 s = "lbs.";
@@ -18,10 +15,10 @@ public enum MeasurementType {
                 s = "oz.";
                 break;
             case TABLESPOON:
-                s = "TBSP";
+                s = "tbsp";
                 break;
             case TEASPOON:
-                s = "TSP";
+                s = "tsp";
                 break;
             case CUP:
                 s = "cup";

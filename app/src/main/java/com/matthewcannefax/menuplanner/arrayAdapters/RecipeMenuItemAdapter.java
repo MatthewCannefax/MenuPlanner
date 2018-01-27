@@ -50,6 +50,19 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
 
     }
 
+    @Override
+    public int getViewTypeCount() {
+        if (getCount() >= 1) {
+            return getCount();
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     //this overridden method is to setup and return a view for displaying recipes with an image
     @NonNull

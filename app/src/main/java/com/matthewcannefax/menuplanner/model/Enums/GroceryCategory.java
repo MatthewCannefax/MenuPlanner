@@ -5,12 +5,12 @@ package com.matthewcannefax.menuplanner.model.Enums;
 
 public enum GroceryCategory {
     //these are the different grocery item categories
-    FROZEN_FOODS, MEAT, PRODUCE, BEVERAGES, BREAD, CANNED_GOODS, DAIRY, PASTA_RICE, OTHER, ALL;
+    FROZEN_FOODS, MEAT, PRODUCE, BEVERAGES, BREAD, CANNED_GOODS, DAIRY, PASTA_RICE, OTHER, ALL, SPICES;
 
     //this overridden toString method will display the categories with the first character capitalized
     @Override
     public String toString() {
-        String s = "";
+        String s;
 
         switch (this){
             case FROZEN_FOODS:
@@ -36,6 +36,9 @@ public enum GroceryCategory {
                 break;
             case PASTA_RICE:
                 s = "Pasta/Rice";
+                break;
+            case SPICES:
+                s = "Spices";
                 break;
             case OTHER:
                 s = "Other";
