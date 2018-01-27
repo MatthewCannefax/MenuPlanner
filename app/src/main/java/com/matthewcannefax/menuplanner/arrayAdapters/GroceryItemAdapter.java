@@ -50,6 +50,16 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     //this overridden method sets up the grocery item view
     @NonNull
     @Override
