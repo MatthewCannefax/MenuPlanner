@@ -52,7 +52,11 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return getCount();
+        if (getCount() >= 1) {
+            return getCount();
+        } else {
+            return 1;
+        }
     }
 
     @Override
