@@ -33,6 +33,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
+import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -277,7 +278,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("")) {
+                        if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
                             //add the new Ingredient to the ingredientList
                             newRecipe.getIngredientList().add(new Ingredient(
                                     etName.getText().toString(),
