@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
@@ -391,15 +392,14 @@ public class EditRecipeActivity extends AppCompatActivity {
                     break;
                 }
             }
+            StaticMenu.editMenuRecipe(newRecipe);
 
             isEditable = false;
             setControlsEnabled(false);
             editSubmitBTN.setTitle("Edit");
 
-            boolean result = JSONHelper.exportRecipesToJSON(this, StaticRecipes.getRecipeList(), getString(R.string.recipe_list_to_json));
-            if(result){
-                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-            }
+            StaticMenu.saveMenu(this);
+            StaticRecipes.saveRecipes(this);
 
             return true;
         }else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){

@@ -45,4 +45,14 @@ public class StaticMenu {
         }
     }
 
+    public static void editMenuRecipe(Recipe recipe){
+        if(getMenuList() != null && getMenuList().size() > 0){
+            for (int i = 0; i < getMenuList().size() - 1; i++) {
+                if(getMenuList().get(i).getRecipeID() == recipe.getRecipeID()){
+                    getMenuList().set(i, recipe);
+                }
+            }
+        }
+    }
+
 }
