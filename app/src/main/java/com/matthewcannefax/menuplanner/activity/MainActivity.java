@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
@@ -108,8 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
     //method that goes to the grocery list activity
     private void goToGroceryActivity(){
-        Intent intent = new Intent(MainActivity.this, GroceryListActivity.class);
-        MainActivity.this.startActivity(intent);
+
+        if (StaticGroceryList.getIngredientList().size() > 0) {
+            Intent intent = new Intent(MainActivity.this, GroceryListActivity.class);
+            MainActivity.this.startActivity(intent);
+        } else {
+            Toast.makeText(this, "No Grocery List", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void goToAddRecipeActivity(){
