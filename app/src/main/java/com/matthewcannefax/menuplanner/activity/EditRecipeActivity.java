@@ -52,6 +52,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private EditText directionsMultiLine;
     private IngredientItemAdapter ingredientItemAdapter;
     private Button addBTN;
+    private Context mContext;
 
     //boolean var to check if the add ingredient button has been added to the list view
     private boolean btnVisible;
@@ -77,6 +78,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_recipe);
+
+        mContext = this;
 
         //get the recipe item passed from the menulist
         try {
@@ -370,38 +373,49 @@ public class EditRecipeActivity extends AppCompatActivity {
         //if the submit button is clicked
         if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
 
-            //new recipe object created by the user
-            newRecipe = new Recipe();
-            newRecipe = oldRecipe;
-            newRecipe.setName(recipeName.getText().toString());
-            newRecipe.setDirections(directionsMultiLine.getText().toString());
-            newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Save Recipe?");
+            builder.setMessage("Are you sure you want to make changes to " + oldRecipe.getName() + "?");
+            builder.setNegativeButton("Cancel", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //new recipe object created by the user
+                    newRecipe = new Recipe();
+                    newRecipe = oldRecipe;
+                    newRecipe.setName(recipeName.getText().toString());
+                    newRecipe.setDirections(directionsMultiLine.getText().toString());
+                    newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
-            //get the ingredients of the new recipe
-            newRecipe.setIngredientList(oldRecipe.getIngredientList());//This will need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //get the ingredients of the new recipe
+                    newRecipe.setIngredientList(oldRecipe.getIngredientList());//This will need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            //get the image of the new recipe if the image has been set
-            //using the imgSet var to signal whether the image has been set or not
+                    //get the image of the new recipe if the image has been set
+                    //using the imgSet var to signal whether the image has been set or not
 
-                newRecipe.setImagePath(oldRecipe.getImagePath());
+                    newRecipe.setImagePath(oldRecipe.getImagePath());
 
 
-            //make the change in the database
-            //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            for(int i = 0; i < StaticRecipes.getRecipeList().size(); i++){
-                if(StaticRecipes.getRecipeList().get(i).getRecipeID() == oldRecipe.getRecipeID()){
-                    StaticRecipes.getRecipeList().set(i, newRecipe);
-                    break;
+                    //make the change in the database
+                    //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    for(int n = 0; n < StaticRecipes.getRecipeList().size(); n++){
+                        if(StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()){
+                            StaticRecipes.getRecipeList().set(n, newRecipe);
+                            break;
+                        }
+                    }
+                    StaticMenu.editMenuRecipe(newRecipe);
+
+                    isEditable = false;
+                    setControlsEnabled(false);
+                    editSubmitBTN.setTitle("Edit");
+
+                    StaticMenu.saveMenu(mContext);
+                    StaticRecipes.saveRecipes(mContext);
                 }
-            }
-            StaticMenu.editMenuRecipe(newRecipe);
+            });
 
-            isEditable = false;
-            setControlsEnabled(false);
-            editSubmitBTN.setTitle("Edit");
-
-            StaticMenu.saveMenu(this);
-            StaticRecipes.saveRecipes(this);
+            builder.show();
 
             return true;
         }else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
