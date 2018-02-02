@@ -45,18 +45,23 @@ public class GroceryListActivity extends AppCompatActivity {
         //might change to recyclerview since it tends to be a little smoother while scrolling
         lv = findViewById(R.id.recipeMenuListView);
 
+        //this method to setup the grocery list adapter
         setGroceryListAdapter();
 
     }
 
+    //this method is to setup the grocery list adapter, and will only fire if the grocery list exists
     private void setGroceryListAdapter(){
+        //if the ingredients list exists
         if(ingredients != null){
             //initialize the GroceryItemAdapter passing the ingredients list
             adapter = new GroceryItemAdapter(this, ingredients);
 
             //set the GroceryItemAdapter as the adapter for the listview
             lv.setAdapter(adapter);
-        }else {
+        }
+        //if the grocery list does not exist send the user a toast to say that the grocery list was not found
+        else {
             Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
         }
     }
@@ -83,19 +88,22 @@ public class GroceryListActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.removeSelectItems){
             int count = adapter.getCount();
 
-            //code will need to be added here to remove these items from the db as well
-            //and also to be removed from the list view
-
+            //loop through the adapter
             for (int i = 0; i < adapter.getCount(); i++) {
+
+                //get the ingredient item from the adapter item
                 Ingredient ingred = (Ingredient) adapter.getItem(i);
 
+                //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
+                //the item will be removed
                 if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i))
                 {
-
+                    //remove the item from the adapter
                     adapter.remove(ingred);
-//                    StaticGroceryList.items.remove(i);
-                    i = i - 1;
 
+                    //since the item has been removed, the position needs to be stepped back by one
+                    //otherwise it will skip an item
+                    i = i - 1;
                 }
             }
 
@@ -105,8 +113,12 @@ public class GroceryListActivity extends AppCompatActivity {
                 Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
             }
 
+            //reset the adapter
             adapter = new GroceryItemAdapter(this, ingredients);
             lv.setAdapter(adapter);
+
+            //when the item was removed from the adpater it was also removed from the static grocery list
+            //save the static grocery list to JSON
             StaticGroceryList.saveGroceries(this);
             return true;
         }

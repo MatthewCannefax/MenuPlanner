@@ -81,10 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 goToGroceryActivity();
                 b=true;
                 break;
-//            case R.id.addRecipeMenuItem:
-//                goToAddRecipeActivity();
-//                b=true;
-//                break;
                 default:
                     b= false;
         }

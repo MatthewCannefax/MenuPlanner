@@ -27,13 +27,17 @@ import java.util.List;
 //it has contains buttons to add a recipe to the menu and generate a grocery list
 public class MenuListActivity extends AppCompatActivity {
 
+    //region Class VARS
     //the listview object to display the menu
     private ListView lv;
+
     //the list of recipes that will be displayed as the menu
-    //this list is created in app, and then stored within the database
+    //this list is created in app, and then stored within the JSON
     private List<Recipe> menuList;
 
+    //the adapter will be used across the app
     private RecipeMenuItemAdapter adapter;
+    //endregion
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,10 +55,13 @@ public class MenuListActivity extends AppCompatActivity {
         //set the title in the actionbar
         this.setTitle("Menu");
 
+        //this method to set the menu list adapter
         setMenuListViewAdapter();
     }
 
+    //this method sets up the menu list adapter
     private void setMenuListViewAdapter(){
+        //set up the menu list adapter only if the menu list exists
         if(menuList != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
             adapter = new RecipeMenuItemAdapter(this, menuList);
@@ -62,7 +69,9 @@ public class MenuListActivity extends AppCompatActivity {
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
             lv.setAdapter(adapter);
-        }else{
+        }
+        //if the list does not exist, send the user a toast saying that there are no menu items
+        else{
             Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
         }
     }
@@ -71,6 +80,7 @@ public class MenuListActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
+        //if the menu list is not null notify the adapter of changes, in case there are any
         if (menuList != null) {
             adapter.notifyDataSetChanged();
         }
@@ -100,13 +110,14 @@ public class MenuListActivity extends AppCompatActivity {
            Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
            intent.putExtra("TITLE", "Add Recipes");
            MenuListActivity.this.startActivity(intent);
-//           Toast.makeText(this, "Add Recipe Selected", Toast.LENGTH_SHORT).show();
            return true;
        }
        //if the Generate Grocery List option is clicked
        else if(item.getItemId() == R.id.generateGroceryListItem){
+           //if the grocery list is not null and actually has items in it
            if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
 
+               //ask the user if they truly wish to create a new grocery list
                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                builder.setTitle("Generate New Grocery List?");
                builder.setMessage("Are you sure you want to replace your existing grocery list?");
@@ -114,7 +125,7 @@ public class MenuListActivity extends AppCompatActivity {
                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialogInterface, int i) {
-
+                        //if the user clicks ok button, create the new grocery list with this method
                        goToGroceryList();
                    }
                });
@@ -122,14 +133,20 @@ public class MenuListActivity extends AppCompatActivity {
                builder.show();
 
                return true;
-           } else if (StaticMenu.getMenuList() != null){
+           }
+           //if there is no grocery list and the menu list is not null create a new grocery list
+           else if (StaticMenu.getMenuList() != null){
                goToGroceryList();
                return true;
-           }else {
+           }
+           //if it gets here there is no grocery list and there is no menu list
+           //so prompt the user to add menu items
+           else {
                Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
                return true;
            }
        }else if (item.getItemId() == R.id.viewCurrentGroceryList){
+           //if the grocery list exists and actually has items in it, go to the grocery list activity
            if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
 
                Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
@@ -137,6 +154,7 @@ public class MenuListActivity extends AppCompatActivity {
 
                return true;
            }
+           //if there is no grocery list, send a toast telling the user just that
            else{
                Toast.makeText(this, "No List", Toast.LENGTH_SHORT).show();
                return false;
@@ -146,23 +164,29 @@ public class MenuListActivity extends AppCompatActivity {
        else {
            return false;
        }
-
     }
 
+    //this method creates the intent for the grocery list activity, and calls the grocery builder methods
     private void goToGroceryList(){
 
+        //check that there are actually items in the menu list
+        if (menuList != null && menuList.size() > 0) {
+            //new intent to move to the GroceryListActivity
+            Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
 
-        //new intent to move to the GroceryListActivity
-        Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
+            //adding to the staticList. this needs to change to a different way of moving data around
+            //as it stands now, If I generate a list then move back and generate the list again
+            //it will double the list
+            GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
+            setStaticGroceryList(groceryBuilder.consolidateGroceries());
 
-        //adding to the staticList. this needs to change to a different way of moving data around
-        //as it stands now, If I generate a list then move back and generate the list again
-        //it will double the list
-        GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
-        setStaticGroceryList(groceryBuilder.consolidateGroceries());
-
-        //start the GroceryListActivity
-        MenuListActivity.this.startActivity(intent);
+            //start the GroceryListActivity
+            MenuListActivity.this.startActivity(intent);
+        }
+        //if there are items in the menu list, Toast the user saying just that
+        else {
+            Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //this method sets up the Static Grocery list
@@ -181,13 +205,8 @@ public class MenuListActivity extends AppCompatActivity {
         for(Recipe r : menuList){
             //check to make sure the ingredient list has items in it
             if(r.getIngredientList().size() != 0){
-
+                //add all the ingredients from each recipe to the grocery list
                 groceries.addAll(r.getIngredientList());
-                //foreach ingredient in the ingredientslist of the recipe
-//                for(Ingredient i : r.getIngredientList()){
-//                    //add the ingredient to the new grocery list
-//                    groceries.add(i);
-//                }
             }
         }
 
