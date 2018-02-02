@@ -109,6 +109,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         //set the imgSet var to false as default
         imgSet = false;
 
+        //set text in the textviews
         recipeName.setText(oldRecipe.getName());
         directionsMultiLine.setText(oldRecipe.getDirections());
 
@@ -148,6 +149,13 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //setControlsEnabled is called inside the OnCreateOptionsMenu method because it always threw a NullPointer
         //inside this method
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setControlsEnabled(isEditable);
     }
 
     private void listViewClickListener(boolean enabled){
@@ -356,9 +364,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
 
         editSubmitBTN.setTitle("Edit");
-
-        //Had to call this method here because it wouldn't work inside the Oncreate method
-        setControlsEnabled(isEditable);
 
         return true;
     }
