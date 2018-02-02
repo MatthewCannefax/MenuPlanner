@@ -326,16 +326,18 @@ public class EditRecipeActivity extends AppCompatActivity {
     private void setControlsEnabled(boolean edit){//need to add a way to disable the onlongclicklistener for the listview and the onclicklistener for the addingredient btn
 
         if (!edit) {
-            recipeName.setEnabled(false);
+            recipeName.setFocusable(false);
+            directionsMultiLine.setFocusable(false);
             recipeCat.setEnabled(false);
-            directionsMultiLine.setEnabled(false);
             listViewClickListener(false);
             addIngredientBTN(false);
-            int n = recipeIngreds.getCount();
         } else {
-            recipeName.setEnabled(true);
+            recipeName.setFocusable(true);
+            directionsMultiLine.setFocusable(true);
+            recipeName.setFocusableInTouchMode(true);
+            directionsMultiLine.setFocusableInTouchMode(true);
             recipeCat.setEnabled(true);
-            directionsMultiLine.setEnabled(true);
+
             listViewClickListener(true);
             addIngredientBTN(true);
         }
