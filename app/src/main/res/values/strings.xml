@@ -12,4 +12,5 @@
     <string name="json_grocery_list">groceryListToJSON</string>
     <string name="name">Name</string>
     <string name="amount">Amount</string>
+    <string name="recipe_list_activity_title">My Recipes</string>
 </resources>

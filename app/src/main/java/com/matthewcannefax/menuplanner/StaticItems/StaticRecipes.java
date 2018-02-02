@@ -48,5 +48,36 @@ public class StaticRecipes {
             e.printStackTrace();
         }
     }
+
+    public static void addNewRecipe(Recipe newRecipe, Context context){
+        newRecipe.setRecipeID(assignRecipeID());
+
+        //if the static recipe list exists, add the new recipe to the list
+        if(recipeList != null) {
+            recipeList.add(newRecipe);
+        }
+        //if the static list doesn't exist, create a new list and then add the new recipe
+        else{
+            setRecipeList(new ArrayList<Recipe>());
+            recipeList.add(newRecipe);
+        }
+
+        saveRecipes(context);
+    }
+
+    //assign the an id to a new recipe
+    private static int assignRecipeID(){
+        int id;
+
+        //check if the new recipe will be the first recipe in the list
+        if(recipeList != null && recipeList.size() > 0 ){
+            id = recipeList.get(recipeList.size() -1).getRecipeID() + 1;
+        }else{
+            id = 0;
+        }
+
+        //return the new id
+        return id;
+    }
 }
 
