@@ -41,6 +41,7 @@ import java.util.Locale;
 //this class is for editing already existing recipes
 
 public class EditRecipeActivity extends AppCompatActivity {
+    //region VARS
 
     //initialize the objects of the activity
     private EditText recipeName;
@@ -71,12 +72,14 @@ public class EditRecipeActivity extends AppCompatActivity {
     //a boolean var to tell us if the recipe is to be edited
     private boolean isEditable = false;
 
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_edit_recipe);
 
+        //set the global context var
         mContext = this;
 
         //get the recipe item passed from the menulist
@@ -103,8 +106,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeIngreds = findViewById(R.id.ingredientsListView);
         directionsMultiLine = findViewById(R.id.directionsMultiLine);
         addBTN = setupAddIngredientBTN();
-
-        recipeName.setText(R.string.new_recipe_name_box);
 
         //set the imgSet var to false as default
         imgSet = false;
@@ -144,22 +145,21 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
             }
         }
-
-        final Context mContext = this;
-
-        //setControlsEnabled is called inside the OnCreateOptionsMenu method because it always threw a NullPointer
-        //inside this method
     }
 
+    //the onResume method fires at initial create as well as on resume
     @Override
     protected void onResume() {
         super.onResume();
-
         setControlsEnabled(isEditable);
     }
 
+    //this is the longclicklistener for the recipeIngreds listview
     private void listViewClickListener(boolean enabled){
+        //a constant instance of the context to be used within the inner methods
         final Context mContext = this;
+
+        //check if editing is enabled
         if(enabled){
         recipeIngreds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -198,7 +198,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                 spCat.setSelection(ingredCatAdapter.getPosition(item.getCategory()));
 
                 //fill the editTexts with the appropriate info
-//                etAmount.setText(Double.toString(item.getMeasurement().getAmount()));
                 etAmount.setText(String.format(Locale.ENGLISH,"%1.1f", item.getMeasurement().getAmount()));
                 etName.setText(item.getName());
 
@@ -214,6 +213,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                         //the change will be made to the database with the submit button
                         newRecipe.getIngredientList().get(ingredientPostion).setMeasurement(
                                 new Measurement(
+                                        //parse the text to Double
                                         Double.parseDouble(etAmount.getText().toString()),
                                         (MeasurementType) spMeasure.getSelectedItem()
                                 )
@@ -236,36 +236,40 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         });
         }else{
+            //nulling the clicklistener to disable it
             recipeIngreds.setOnItemLongClickListener(null);
         }
     }
 
+    //this method clears any editText boxes and then nulls the clicklistener so it can't be clear again
     private void clearEditText(final EditText editText){
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
+                //clear the text in the box
                 editText.setText("");
+
+                //null the click listener
                 editText.setOnFocusChangeListener(null);
             }
         });
     }
 
+    //this method simply sets up the inflater for the add ingredient button
     private Button setupAddIngredientBTN(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_ingredient_btn, null);
         return view.findViewById(R.id.addIngredientBTN);
     }
 
+    //this method sets up/nulls the add ingredient button that already exists inside the recipeIngreds listview
     private void addIngredientBTN(boolean enabled) {
+        //Constant var for the context to be used inside inner methods
         final Context mContext = this;
-        //add a button at the end of the listview to allow the user to add more ingredients to the recipe
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        View view = inflater.inflate(R.layout.add_ingredient_btn, null);
-//        addBTN = view.findViewById(R.id.addIngredientBTN);
-//        recipeIngreds.addFooterView(view);
 
-
+        //check if editing is enabled
         if (enabled) {
+            //new clicklistener for the existing add ingredient button
             addBTN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -282,6 +286,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                     final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
                     final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
 
+                    //set up the clicklisteners for the editTexts inside the alertdialog
+                    //these clicklisteners will clear the text inside and then null the listener itself
                     clearEditText(etName);
                     clearEditText(etAmount);
 
@@ -301,6 +307,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            //check that there are values for the name and the amount
+                            //also using a custom tryParse method to check that the value for the amount is indeed a double
                             if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
                                 //add the new Ingredient to the ingredientList
                                 newRecipe.getIngredientList().add(new Ingredient(
@@ -310,44 +318,58 @@ public class EditRecipeActivity extends AppCompatActivity {
                                                 Double.parseDouble(etAmount.getText().toString()),
                                                 (MeasurementType)spMeasure.getSelectedItem()
                                         )
-
                                 ));
 
                                 //notify the arrayadapter that the dataset has changed
                                 ingredientItemAdapter.notifyDataSetChanged();
 
                             } else {
+                                //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
                                 Toast.makeText(mContext, "Please enter a name and amount", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
                     builder.show();
-
-
                 }
             });
         } else {
+            //null the clicklistener if editing is disabled
             addBTN.setOnClickListener(null);
         }
     }
 
+    //this is the method that disable/enables controls when editing is disabled/enabled
     private void setControlsEnabled(boolean edit){//need to add a way to disable the onlongclicklistener for the listview and the onclicklistener for the addingredient btn
 
         if (!edit) {
+            //setting the focusable allows the edittexts to be active with receiving focus
+            //allowing them to be scrollable if needed
             recipeName.setFocusable(false);
             directionsMultiLine.setFocusable(false);
+
+            //disable the category spinner
             recipeCat.setEnabled(false);
+
+            //disable the recipeIngreds listview clicklistener
             listViewClickListener(false);
+
+            //disable the add ingredient button
             addIngredientBTN(false);
         } else {
+            //Need to call setFocusable and setFocusableInTouchMode to enable the editTexts to take focus
             recipeName.setFocusable(true);
             directionsMultiLine.setFocusable(true);
             recipeName.setFocusableInTouchMode(true);
             directionsMultiLine.setFocusableInTouchMode(true);
+
+            //enable the spinner
             recipeCat.setEnabled(true);
 
+            //enable the recipeIngreds listview clicklistener
             listViewClickListener(true);
+
+            //enable the add ingredient button
             addIngredientBTN(true);
         }
     }
@@ -361,8 +383,10 @@ public class EditRecipeActivity extends AppCompatActivity {
         //using the menu layout created specifically for this activity
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
 
+        //currently getting the only item in the menu for this menu item object
         editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
 
+        //setting the text to "Edit" by default, it will be change on each click
         editSubmitBTN.setTitle("Edit");
 
         return true;
@@ -371,11 +395,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     //handle the clicks of the menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
-
-        //if the submit button is clicked
+        //if the submit button is clicked and the recipe is editable
         if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
 
+            //Alert dialog to ask the user if they are sure they want to save the recipe
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Save Recipe?");
             builder.setMessage("Are you sure you want to make changes to " + oldRecipe.getName() + "?");
@@ -390,29 +413,35 @@ public class EditRecipeActivity extends AppCompatActivity {
                     newRecipe.setDirections(directionsMultiLine.getText().toString());
                     newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
-                    //get the ingredients of the new recipe
-                    newRecipe.setIngredientList(oldRecipe.getIngredientList());//This will need to change!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //get the ingredients of the new recipe from the old recipe object
+                    newRecipe.setIngredientList(oldRecipe.getIngredientList());
 
                     //get the image of the new recipe if the image has been set
-                    //using the imgSet var to signal whether the image has been set or not
+                    //using the imgSet var to signal whether the image has been set or not!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                     newRecipe.setImagePath(oldRecipe.getImagePath());
 
-
-                    //make the change in the database
-                    //This is currently changing the sample data, not the database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //Making the change to the Static list of recipes
                     for(int n = 0; n < StaticRecipes.getRecipeList().size(); n++){
                         if(StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()){
                             StaticRecipes.getRecipeList().set(n, newRecipe);
                             break;
                         }
                     }
+
+                    //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
                     StaticMenu.editMenuRecipe(newRecipe);
 
+                    //set isEditable to false
                     isEditable = false;
+
+                    //disable the controls
                     setControlsEnabled(false);
+
+                    //change the menu button text back to edit
                     editSubmitBTN.setTitle("Edit");
 
+                    //Save the Static lists to JSON files
                     StaticMenu.saveMenu(mContext);
                     StaticRecipes.saveRecipes(mContext);
                 }
@@ -421,10 +450,17 @@ public class EditRecipeActivity extends AppCompatActivity {
             builder.show();
 
             return true;
-        }else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
+        }
+        //if the "Edit" button is clicked and the recipe in not Editable
+        else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
 
+            //change the menu button text to submit
             editSubmitBTN.setTitle("Submit");
+
+            //set isEditable to true
             isEditable = true;
+
+            //enable all the contols
             setControlsEnabled(true);
             return true;
         }else{
