@@ -142,6 +142,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
                             for(int position = 0; position < recipeList.size(); position++){
                                 if(recipeList.get(position).isItemChecked()){
+                                    StaticMenu.removeRecipeFromMenu(recipeList.get(position), thisContext);
                                     recipeList.remove(position);
                                     position = position - 1;
                                 }

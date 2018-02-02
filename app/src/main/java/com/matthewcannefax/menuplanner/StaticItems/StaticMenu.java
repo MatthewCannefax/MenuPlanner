@@ -55,4 +55,15 @@ public class StaticMenu {
         }
     }
 
+    public static void removeRecipeFromMenu(Recipe recipe, Context context){
+        for(int i = 0; i < mMenuList.size(); i++){
+            Recipe mRecipe = mMenuList.get(i);
+            if(recipe.getRecipeID() == mRecipe.getRecipeID()){
+                mMenuList.remove(i);
+                i--;
+            }
+        }
+        saveMenu(context);
+    }
+
 }
