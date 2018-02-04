@@ -3,63 +3,66 @@ package com.matthewcannefax.menuplanner.model.Enums;
 //this enum is for the different categories of grocery items
 //this is hard coded so we can limit the number of categories to just a few
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum GroceryCategory {
     //these are the different grocery item categories
-    FROZEN_FOODS, MEAT, PRODUCE, BEVERAGES, BREAD, CANNED_GOODS, DAIRY, PASTA_RICE, OTHER, ALL, SPICES, BAKING, CONDIMENTS, CHIPS;
+    FROZEN_FOODS("Frozen Foods", true),
+    MEAT("Meat", true),
+    PRODUCE("Produce", true),
+    BEVERAGES("Beverages", true),
+    BREAD("Bread", true),
+    CANNED_GOODS("Canned Goods", true),
+    DAIRY("Dairy", true),
+    PASTA_RICE("Pasta/Rice", true),
+    OTHER("Other", true),
+    ALL("All", false),
+    SPICES("Spices", true),
+    BAKING("Baking", true),
+    CONDIMENTS("Condiments", true),
+    CHIPS("Chips", true),
+    PAPER_PRODUCTS("Paper Goods", false),
+    CLEANERS("Cleaners", false),
+    ELECTRONICS("Electronics", false),
+    CLOTHES("Clothes", false),
+    PETS("Pet supplies", false),
+    LAWN("Lawn and Garden", false),
+    PHARMACY("Pharmacy", false),
+    SPORTING("Sporting Goods", false),
+    TOOLS("Tools/Hardware", false),
+    AUTO("Automotive", false),
+    TOYS("Toys", false),
+    HOME("Home Goods",false),
+    BABY("Baby", false),
+    SHOES("Shoes", false);
+
+    String mName;
+    boolean mIsIngredient;
+
+    GroceryCategory(String name, boolean isIngredient) {
+        mName = name;
+        mIsIngredient = isIngredient;
+    }
+
+    public boolean isIngredient() {
+        return mIsIngredient;
+    }
+
+    public static List<GroceryCategory> getEnumIngredients(){
+        List<GroceryCategory> groceryCategories = new ArrayList<>();
+        for(GroceryCategory gCat: GroceryCategory.values()){
+            if(gCat.isIngredient()){
+                groceryCategories.add(gCat);
+            }
+        }
+
+        return groceryCategories;
+    }
 
     //this overridden toString method will display the categories with the first character capitalized
     @Override
     public String toString() {
-        String s;
-
-        switch (this){
-            case FROZEN_FOODS:
-                s = "Frozen Foods";
-                break;
-            case MEAT:
-                s = "Meat";
-                break;
-            case PRODUCE:
-                s = "Produce";
-                break;
-            case BEVERAGES:
-                s = "Beverages";
-                break;
-            case BREAD:
-                s = "Bread";
-                break;
-            case CANNED_GOODS:
-                s = "Canned Goods";
-                break;
-            case DAIRY:
-                s = "Dairy";
-                break;
-            case PASTA_RICE:
-                s = "Pasta/Rice";
-                break;
-            case SPICES:
-                s = "Spices";
-                break;
-            case OTHER:
-                s = "Other";
-                break;
-            case ALL:
-                s = "All";
-                break;
-            case CHIPS:
-                s = "Chips";
-                break;
-            case BAKING:
-                s= "Baking";
-                break;
-            case CONDIMENTS:
-                s= "Condiments";
-                break;
-                default:
-                    s = "Other";
-                    break;
-        }
-
-        return s;
+        return mName;
     }
 }
