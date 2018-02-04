@@ -13,4 +13,6 @@
     <string name="name">Name</string>
     <string name="amount">Amount</string>
     <string name="recipe_list_activity_title">My Recipes</string>
+    <string name="remove_selected_items">Remove Selected Items</string>
+    <string name="add_item">Add Item</string>
 </resources>

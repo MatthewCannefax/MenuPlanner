@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/removeSelectItems"
-        android:title="Remove Selected Items"
+        android:title="@string/remove_selected_items"
         />
+    <item
+        android:id="@+id/addNewGroceryItem"
+        android:title="@string/add_item"/>
 </menu>

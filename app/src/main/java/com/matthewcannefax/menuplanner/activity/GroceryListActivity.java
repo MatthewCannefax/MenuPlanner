@@ -1,18 +1,31 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.arrayAdapters.GroceryItemAdapter;
+import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.model.Measurement;
+import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.util.List;
 
@@ -25,10 +38,13 @@ public class GroceryListActivity extends AppCompatActivity {
     private GroceryItemAdapter adapter;
     private List<Ingredient> ingredients;
     private ListView lv;
+    private Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mContext = this;
 
         //using the same list as the RecipeList and MenuList activities
         setContentView(R.layout.recipe_menu_list);
@@ -123,8 +139,84 @@ public class GroceryListActivity extends AppCompatActivity {
             return true;
         }
         //default to make sure the back button functions properly
+        else if(item.getItemId() == R.id.addNewGroceryItem){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Add Item");
+
+            View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
+
+            //controls inside the view
+            final EditText etAmount = newItemView.findViewById(R.id.amountText);
+            final Spinner spMeasure = newItemView.findViewById(R.id.amountSpinner);
+            final EditText etName = newItemView.findViewById(R.id.ingredientName);
+            final Spinner spCat = newItemView.findViewById(R.id.categorySpinner);
+
+            //set up the clicklisteners for the editTexts inside the alertdialog
+            //these clicklisteners will clear the text inside and then null the listener itself
+            clearEditText(etName);
+            clearEditText(etAmount);
+
+            //setup the default array adapters for the category and measurementtype spinners
+            ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.values());
+            ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.values());
+
+            //set the spinner adpaters
+            spMeasure.setAdapter(measureAdapter);
+            spCat.setAdapter(ingredCatAdapter);
+
+            builder.setView(newItemView);
+
+            builder.setNegativeButton("Cancel", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //check that there are values for the name and the amount
+                    //also using a custom tryParse method to check that the value for the amount is indeed a double
+                    if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                        //add the new Ingredient to the ingredientList
+                        StaticGroceryList.getIngredientList().add(new Ingredient(
+                                etName.getText().toString(),
+                                (GroceryCategory)spCat.getSelectedItem(),
+                                new Measurement(
+                                        Double.parseDouble(etAmount.getText().toString()),
+                                        (MeasurementType)spMeasure.getSelectedItem()
+                                )
+                        ));
+
+                        StaticGroceryList.saveGroceries(mContext);
+
+                        //notify the arrayadapter that the dataset has changed
+                        adapter = new GroceryItemAdapter(mContext, StaticGroceryList.getIngredientList());
+                        lv.setAdapter(adapter);
+
+                    } else {
+                        //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
+                        Toast.makeText(getApplicationContext(), "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            builder.show();
+
+            return true;
+
+        }
         else {
             return false;
         }
+    }
+
+    //this method clears any editText boxes and then nulls the clicklistener so it can't be clear again
+    private void clearEditText(final EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                //clear the text in the box
+                editText.setText("");
+
+                //null the click listener
+                editText.setOnFocusChangeListener(null);
+            }
+        });
     }
 }
