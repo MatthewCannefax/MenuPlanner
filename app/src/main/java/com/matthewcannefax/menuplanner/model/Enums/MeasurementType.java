@@ -2,43 +2,27 @@ package com.matthewcannefax.menuplanner.model.Enums;
 
 
 public enum MeasurementType {
-    POUND, OUNCE, TABLESPOON, TEASPOON, CUP, GALLON, PIECE, CAN, BAG;
+    POUND("lbs"),
+    OUNCE("oz"),
+    TABLESPOON("tbsp"),
+    TEASPOON("tsp"),
+    CUP("cup"),
+    GALLON("gallon"),
+    PIECE("piece"),
+    CAN("can"),
+    BAG("bag"),
+    PACKAGE("package"),
+    BOTTLE("bottle"),
+    BOX("box");
+
+    private String mName;
+
+    MeasurementType(String name){
+        mName = name;
+    }
 
     @Override
     public String toString() {
-        String s;
-        switch (this){
-            case POUND:
-                s = "lbs.";
-                break;
-            case OUNCE:
-                s = "oz.";
-                break;
-            case TABLESPOON:
-                s = "tbsp";
-                break;
-            case TEASPOON:
-                s = "tsp";
-                break;
-            case CUP:
-                s = "cup";
-                break;
-            case GALLON:
-                s = "gal";
-                break;
-            case PIECE:
-                s = "piece";
-                break;
-            case CAN:
-                s = "can";
-                break;
-            case BAG:
-                s = "bag";
-                break;
-                default:
-                    s = "";
-        }
-
-        return s;
+        return mName;
     }
 }
