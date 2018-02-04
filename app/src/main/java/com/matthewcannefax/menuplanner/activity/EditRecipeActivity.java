@@ -206,6 +206,13 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                 //setup the buttons for the alertdialog
                 builder.setNegativeButton("Cancel", null);
+                builder.setNeutralButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        newRecipe.getIngredientList().remove(ingredientPostion);
+                        ingredientItemAdapter.notifyDataSetChanged();
+                    }
+                });
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
