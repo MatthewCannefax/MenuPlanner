@@ -26,6 +26,7 @@ import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
+import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class GroceryListActivity extends AppCompatActivity {
         filterBTN = findViewById(R.id.filterBTN);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticGroceryList.getCategoriesUsed());
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getGroceryCategoriesUsed(StaticGroceryList.getIngredientList()));
         catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar

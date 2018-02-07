@@ -67,18 +67,5 @@ public class StaticMenu {
         saveMenu(context);
     }
 
-    public static List<RecipeCategory> getCategoriesUsed(){
-        List<RecipeCategory> recipeCategories = new ArrayList<>();
-
-        recipeCategories.add(RecipeCategory.ALL);
-
-        for(Recipe r : mMenuList){
-            if(!recipeCategories.contains(r.getCategory())){
-                recipeCategories.add(r.getCategory());
-            }
-        }
-
-        return recipeCategories;
-    }
 
 }

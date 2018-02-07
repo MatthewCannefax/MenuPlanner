@@ -56,17 +56,4 @@ public class StaticGroceryList {
         }
     }
 
-    public static List<GroceryCategory> getCategoriesUsed(){
-        List<GroceryCategory> groceryCategories = new ArrayList<>();
-
-        groceryCategories.add(GroceryCategory.ALL);
-
-        for(Ingredient i : mIngredientList){
-            if(!groceryCategories.contains(i.getCategory())){
-                groceryCategories.add(i.getCategory());
-            }
-        }
-
-        return  groceryCategories;
-    }
 }

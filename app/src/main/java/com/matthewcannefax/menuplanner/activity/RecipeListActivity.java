@@ -22,6 +22,7 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class RecipeListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticRecipes.getCategoriesUsed());
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
         catSpinner.setAdapter(catSpinnerAdapter);
 
        setRecipeListAdapter();

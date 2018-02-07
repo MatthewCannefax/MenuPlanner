@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.FilterHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,7 @@ public class MenuListActivity extends AppCompatActivity {
         filterBTN = findViewById(R.id.filterBTN);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticMenu.getCategoriesUsed());
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
         catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
