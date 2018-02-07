@@ -32,6 +32,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.io.IOException;
@@ -126,24 +127,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //setup the image if it is present
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
-            InputStream inputStream = null;
-
-            try {
-                String imageFile = oldRecipe.getImagePath();
-                inputStream = this.getAssets().open(imageFile);
-                Drawable d = Drawable.createFromStream(inputStream, null);
-                recipeIMG.setImageDrawable(d);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally {
-                try {
-                    if(inputStream != null){
-                        inputStream.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
     }
 

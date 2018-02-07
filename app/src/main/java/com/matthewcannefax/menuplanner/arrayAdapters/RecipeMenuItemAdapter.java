@@ -20,6 +20,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,33 +88,8 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
         //set the text of the textview with the name of the recipe
         tvName.setText(recipe.getName());
 
-        //open an input stream here.  It is opened here so that it can be closed in the finally clause
-        InputStream inputStream = null;
-
-        //in this try/catch I am setting up the image in the view
-        try {
-            //get the name of the image
-            String imageFile = recipe.getImagePath();
-            //setup the input stream with the image in the assets folder
-            inputStream = getContext().getAssets().open(imageFile);
-            //make the image from the assets folder a drawable object
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            //set the drawable object as the image in the imageview
-            imageView.setImageDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                if (inputStream != null){
-                    //close the input stream
-                    inputStream.close();
-                }
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-
-
+        //use ImageHelper Class to set the drawable object in the imageview
+        ImageHelper.setImageViewDrawable(recipe.getImagePath(), mContext, imageView);
 
         //Normal click to open and view the recipe
         convertView.setOnClickListener(new View.OnClickListener() {

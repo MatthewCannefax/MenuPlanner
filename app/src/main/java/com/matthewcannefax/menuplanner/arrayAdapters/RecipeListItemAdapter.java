@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,28 +86,8 @@ public class RecipeListItemAdapter extends ArrayAdapter {
         //open an input stream here.  It is opened here so that it can be closed in the finally clause
         InputStream inputStream = null;
 
-        //in this try/catch I am setting up the image in the view
-        try {
-            //get the name of the image
-            String imageFile = recipe.getImagePath();
-            //setup the input stream with the image in the assets folder
-            inputStream = getContext().getAssets().open(imageFile);
-            //make the image from the assets folder a drawable object
-            Drawable d = Drawable.createFromStream(inputStream, null);
-            //set the drawable object as the image in the imageview
-            imageView.setImageDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                if (inputStream != null){
-                    //close the input stream
-                    inputStream.close();
-                }
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
+        //use the ImageHelper class to set the imageview drawable object
+        ImageHelper.setImageViewDrawable(recipe.getImagePath(), mContext, imageView);
 
         //created this constant var to carry the color changes to the background
         final View newView = convertView;
