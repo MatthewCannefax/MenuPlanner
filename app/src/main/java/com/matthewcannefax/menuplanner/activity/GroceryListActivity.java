@@ -21,14 +21,19 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.GroceryItemAdapter;
+import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
+import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
+import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
@@ -76,6 +81,26 @@ public class GroceryListActivity extends AppCompatActivity {
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
 
+        filterBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GroceryCategory selectedCat = (GroceryCategory) catSpinner.getSelectedItem();
+                if (selectedCat != GroceryCategory.ALL) {
+                    List<Ingredient> filteredGroceries = new ArrayList<>();
+
+                    for(Ingredient i : StaticGroceryList.getIngredientList()){
+                        if(i.getCategory() == selectedCat){
+                            filteredGroceries.add(i);
+                        }
+                    }
+
+                    GroceryItemAdapter filteredAdapter = new GroceryItemAdapter(mContext, filteredGroceries);
+                    lv.setAdapter(filteredAdapter);
+                } else {
+                    lv.setAdapter(adapter);
+                }
+            }
+        });
     }
 
     //this method is to setup the grocery list adapter, and will only fire if the grocery list exists

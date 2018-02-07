@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
+import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
@@ -41,10 +43,13 @@ public class RecipeListActivity extends AppCompatActivity {
     private Spinner catSpinner;
     private Button filterBTN;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final Context mContext = this;
         setContentView(R.layout.recipe_menu_list);
 
         catSpinner = this.findViewById(R.id.catSpinner);
@@ -71,6 +76,26 @@ public class RecipeListActivity extends AppCompatActivity {
 
        setRecipeListAdapter();
 
+       filterBTN.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+               if (selectedCat != RecipeCategory.ALL) {
+                   List<Recipe> filteredRecipes = new ArrayList<>();
+
+                   for(Recipe r : StaticRecipes.getRecipeList()){
+                       if(r.getCategory() == selectedCat){
+                           filteredRecipes.add(r);
+                       }
+                   }
+
+                   RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, filteredRecipes);
+                   lv.setAdapter(filteredAdapter);
+               } else {
+                   lv.setAdapter(adapter);
+               }
+           }
+       });
     }
 
     private void setRecipeListAdapter(){

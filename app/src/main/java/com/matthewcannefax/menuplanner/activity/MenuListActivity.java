@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,7 +21,9 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
+import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
+import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
@@ -53,6 +57,8 @@ public class MenuListActivity extends AppCompatActivity {
         //using the same layout as the recipelist activity
         setContentView(R.layout.recipe_menu_list);
 
+        final Context mContext = this;
+
         //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
         menuList = StaticMenu.getMenuList();
@@ -71,6 +77,27 @@ public class MenuListActivity extends AppCompatActivity {
 
         //this method to set the menu list adapter
         setMenuListViewAdapter();
+
+        filterBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+                if (selectedCat != RecipeCategory.ALL) {
+                    List<Recipe> filteredRecipes = new ArrayList<>();
+
+                    for(Recipe r : StaticMenu.getMenuList()){
+                        if(r.getCategory() == selectedCat){
+                            filteredRecipes.add(r);
+                        }
+                    }
+
+                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes);
+                    lv.setAdapter(filteredAdapter);
+                } else {
+                    lv.setAdapter(adapter);
+                }
+            }
+        });
     }
 
     //this method sets up the menu list adapter
