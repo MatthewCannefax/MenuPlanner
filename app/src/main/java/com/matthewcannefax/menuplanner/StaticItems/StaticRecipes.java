@@ -65,6 +65,20 @@ public class StaticRecipes {
         saveRecipes(context);
     }
 
+    public static List<RecipeCategory> getCategoriesUsed(){
+        List<RecipeCategory> recipeCategories = new ArrayList<>();
+
+        recipeCategories.add(RecipeCategory.ALL);
+
+        for(Recipe r : recipeList){
+            if (!recipeCategories.contains(r.getCategory())) {
+                recipeCategories.add(r.getCategory());
+            }
+        }
+
+        return  recipeCategories;
+    }
+
     //assign the an id to a new recipe
     private static int assignRecipeID(){
         int id;

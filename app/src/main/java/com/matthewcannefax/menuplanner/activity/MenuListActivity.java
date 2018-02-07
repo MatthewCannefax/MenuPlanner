@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
@@ -31,6 +34,9 @@ public class MenuListActivity extends AppCompatActivity {
     //the listview object to display the menu
     private ListView lv;
 
+    private Button filterBTN;
+    private Spinner catSpinner;
+
     //the list of recipes that will be displayed as the menu
     //this list is created in app, and then stored within the JSON
     private List<Recipe> menuList;
@@ -51,6 +57,12 @@ public class MenuListActivity extends AppCompatActivity {
 
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);
+        catSpinner = findViewById(R.id.catSpinner);
+        filterBTN = findViewById(R.id.filterBTN);
+
+        //setup the arrayAdapter for catSpinner
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticMenu.getCategoriesUsed());
+        catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
         this.setTitle("Menu");

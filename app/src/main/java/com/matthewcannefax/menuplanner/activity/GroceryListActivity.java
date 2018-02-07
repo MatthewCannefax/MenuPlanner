@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -39,6 +40,8 @@ public class GroceryListActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private ListView lv;
     private Context mContext;
+    private Spinner catSpinner;
+    private Button filterBTN;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +51,14 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //using the same list as the RecipeList and MenuList activities
         setContentView(R.layout.recipe_menu_list);
+
+        //set up the filter items
+        catSpinner = findViewById(R.id.catSpinner);
+        filterBTN = findViewById(R.id.filterBTN);
+
+        //setup the arrayAdapter for catSpinner
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticGroceryList.getCategoriesUsed());
+        catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
         this.setTitle("Grocery List");

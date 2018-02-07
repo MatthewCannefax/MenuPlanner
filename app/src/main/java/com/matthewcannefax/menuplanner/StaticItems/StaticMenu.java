@@ -4,6 +4,7 @@ package com.matthewcannefax.menuplanner.StaticItems;
 import android.content.Context;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
@@ -64,6 +65,20 @@ public class StaticMenu {
             }
         }
         saveMenu(context);
+    }
+
+    public static List<RecipeCategory> getCategoriesUsed(){
+        List<RecipeCategory> recipeCategories = new ArrayList<>();
+
+        recipeCategories.add(RecipeCategory.ALL);
+
+        for(Recipe r : mMenuList){
+            if(!recipeCategories.contains(r.getCategory())){
+                recipeCategories.add(r.getCategory());
+            }
+        }
+
+        return recipeCategories;
     }
 
 }

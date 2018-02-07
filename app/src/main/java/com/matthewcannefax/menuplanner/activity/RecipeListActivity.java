@@ -10,10 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
@@ -33,23 +37,23 @@ public class RecipeListActivity extends AppCompatActivity {
     private RecipeListItemAdapter adapter;
     private String title;
 
+    private Spinner catSpinner;
+    private Button filterBTN;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.recipe_menu_list);
 
+        catSpinner = this.findViewById(R.id.catSpinner);
+        filterBTN = this.findViewById(R.id.filterBTN);
         //setup the list of Recipes currently using a sample class for testing
         recipeList = StaticRecipes.getRecipeList();
 
         Bundle extras = getIntent().getExtras();
         try {
-            try {
-                title = extras.getString("TITLE");
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
+            title = extras.getString("TITLE");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -59,6 +63,10 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //Instantiate the listview
         lv = findViewById(R.id.recipeMenuListView);
+
+        //setup the arrayAdapter for catSpinner
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, StaticRecipes.getCategoriesUsed());
+        catSpinner.setAdapter(catSpinnerAdapter);
 
        setRecipeListAdapter();
 

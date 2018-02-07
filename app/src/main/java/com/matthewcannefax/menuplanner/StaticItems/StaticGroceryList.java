@@ -9,6 +9,7 @@ package com.matthewcannefax.menuplanner.StaticItems;
 import android.content.Context;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.GroceryItem;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
@@ -53,5 +54,19 @@ public class StaticGroceryList {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static List<GroceryCategory> getCategoriesUsed(){
+        List<GroceryCategory> groceryCategories = new ArrayList<>();
+
+        groceryCategories.add(GroceryCategory.ALL);
+
+        for(Ingredient i : mIngredientList){
+            if(!groceryCategories.contains(i.getCategory())){
+                groceryCategories.add(i.getCategory());
+            }
+        }
+
+        return  groceryCategories;
     }
 }
