@@ -15,4 +15,5 @@
     <string name="recipe_list_activity_title">My Recipes</string>
     <string name="remove_selected_items">Remove Selected Items</string>
     <string name="add_item">Add Item</string>
+    <string name="filter_button">Filter</string>
 </resources>

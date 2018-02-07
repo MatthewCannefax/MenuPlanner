@@ -71,7 +71,8 @@ public class RecipeListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
+        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         catSpinner.setAdapter(catSpinnerAdapter);
 
        setRecipeListAdapter();

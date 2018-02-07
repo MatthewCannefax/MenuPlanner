@@ -69,7 +69,8 @@ public class MenuListActivity extends AppCompatActivity {
         filterBTN = findViewById(R.id.filterBTN);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar

@@ -63,7 +63,8 @@ public class GroceryListActivity extends AppCompatActivity {
         filterBTN = findViewById(R.id.filterBTN);
 
         //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, FilterHelper.getGroceryCategoriesUsed(StaticGroceryList.getIngredientList()));
+        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getGroceryCategoriesUsed(StaticGroceryList.getIngredientList()));
+        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
