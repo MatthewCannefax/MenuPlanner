@@ -110,5 +110,4 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
         return convertView;
     }
-
 }

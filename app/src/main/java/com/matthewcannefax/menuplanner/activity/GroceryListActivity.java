@@ -153,7 +153,8 @@ public class GroceryListActivity extends AppCompatActivity {
                 if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i))
                 {
                     //remove the item from the adapter
-                    adapter.remove(ingred);
+//                    adapter.remove(ingred);
+                    StaticGroceryList.getIngredientList().remove(i);
 
                     //since the item has been removed, the position needs to be stepped back by one
                     //otherwise it will skip an item
