@@ -31,6 +31,8 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class AddRecipeActivity extends AppCompatActivity{
     private ButtonArrayAdapter buttonArrayAdapter;
 
     private Recipe newRecipe;
+
+    private Context mContext;
 
     //boolean object to check if an image has been chosen
     //be careful to only change this var to true at the end of the dialog
@@ -86,6 +90,14 @@ public class AddRecipeActivity extends AppCompatActivity{
         //set the imgSet var to false as default
         imgSet = false;
 
+        try {
+            //set the default image in the recipeIMG imageView
+            String imgPath = getString(R.string.no_img_selected);
+            ImageHelper.setImageViewDrawable(imgPath, this, recipeIMG);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         //use the clearEditText method to setup a on focus listener to clear the text on focus
         //and then null the listener so it doesn't happen again
         clearEditText(recipeName);
@@ -98,6 +110,17 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         //calling this method to add the ingredient button to the recipeIngreds listview and setup the on click listener
         addIngredientBTN();
+
+        setRecipeIMGClickListener();
+    }
+
+    private void setRecipeIMGClickListener(){
+        recipeIMG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "IMG clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addIngredientBTN() {

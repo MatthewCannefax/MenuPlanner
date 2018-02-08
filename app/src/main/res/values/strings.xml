@@ -16,4 +16,5 @@
     <string name="remove_selected_items">Remove Selected Items</string>
     <string name="add_item">Add Item</string>
     <string name="filter_button">Filter</string>
+    <string name="no_img_selected">defaultRecipe.jpg</string>
 </resources>
