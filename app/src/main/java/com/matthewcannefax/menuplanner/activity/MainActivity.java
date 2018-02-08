@@ -1,6 +1,7 @@
 package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +14,10 @@ import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -32,18 +36,18 @@ public class MainActivity extends AppCompatActivity {
         StaticRecipes.loadRecipes(this);
 
         //this is for TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if(StaticRecipes.getRecipeList() == null){
-            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
-            StaticRecipes.saveRecipes(this);
-            StaticRecipes.loadRecipes(this);
-        }
+
+//            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
+//            StaticRecipes.saveRecipes(this);
+//            StaticRecipes.loadRecipes(this);
+
 
         StaticMenu.loadMenu(this);
 
         StaticGroceryList.loadGroceries(this);
-
-
     }
+
+
 
     //setup the menu
     @Override

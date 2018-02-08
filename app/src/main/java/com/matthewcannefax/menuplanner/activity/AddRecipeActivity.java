@@ -70,8 +70,17 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeIngreds = findViewById(R.id.ingredientsListView);
         directionsMultiLine = findViewById(R.id.directionsMultiLine);
 
+        //make sure RecipeCategory.ALL is not an option in the spinner
+        List<RecipeCategory> recipeCats = new ArrayList<>();
+        for (RecipeCategory rc : RecipeCategory.values()){
+            if(rc != RecipeCategory.ALL){
+                recipeCats.add(rc);
+            }
+        }
+
+
         //setup the Category Spinner
-        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
+        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
         recipeCat.setAdapter(spinnerAdapter);
 
         //set the imgSet var to false as default

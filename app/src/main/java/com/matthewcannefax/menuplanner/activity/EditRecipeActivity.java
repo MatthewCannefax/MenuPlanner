@@ -37,6 +37,8 @@ import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 //this class is for editing already existing recipes
@@ -115,8 +117,16 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName.setText(oldRecipe.getName());
         directionsMultiLine.setText(oldRecipe.getDirections());
 
+        //make sure RecipeCategory.ALL is not an option in the categories
+        List<RecipeCategory> recipeCats = new ArrayList<>();
+        for(RecipeCategory rc : RecipeCategory.values()){
+            if(rc != RecipeCategory.ALL){
+                recipeCats.add(rc);
+            }
+        }
+
         //setup the spinner
-        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, RecipeCategory.values());
+        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
         recipeCat.setAdapter(spinnerAdapter);
         recipeCat.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
 
