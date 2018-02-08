@@ -139,6 +139,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
+
+        ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
     }
 
     //the onResume method fires at initial create as well as on resume

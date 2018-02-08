@@ -84,7 +84,6 @@ public class AddRecipeActivity extends AppCompatActivity{
             }
         }
 
-
         //setup the Category Spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
         recipeCat.setAdapter(spinnerAdapter);
@@ -113,33 +112,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         //calling this method to add the ingredient button to the recipeIngreds listview and setup the on click listener
         addIngredientBTN();
 
-        setRecipeIMGClickListener();
-    }
-
-    private void setRecipeIMGClickListener(){
-        recipeIMG.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("New Photo");
-                builder.setMessage("Take a new photo or add an existing photo from the gallery?");
-                builder.setNeutralButton("Cancel", null);
-                builder.setPositiveButton("New Photo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getApplicationContext(), "New Photo", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("Existing", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getApplicationContext(), "Existing", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                builder.show();
-            }
-        });
+        ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
     }
 
     private void addIngredientBTN() {
