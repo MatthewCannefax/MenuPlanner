@@ -63,6 +63,8 @@ public class AddRecipeActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        mContext = this;
         setContentView(R.layout.add_edit_recipe);
 
         newRecipe = new Recipe();
@@ -118,7 +120,24 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeIMG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "IMG clicked", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("New Photo");
+                builder.setMessage("Take a new photo or add an existing photo from the gallery?");
+                builder.setNeutralButton("Cancel", null);
+                builder.setPositiveButton("New Photo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), "New Photo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Existing", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), "Existing", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.show();
             }
         });
     }
