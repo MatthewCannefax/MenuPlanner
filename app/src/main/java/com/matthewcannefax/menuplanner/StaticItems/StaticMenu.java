@@ -62,6 +62,7 @@ public class StaticMenu {
             if(recipe.getRecipeID() == mRecipe.getRecipeID()){
                 mMenuList.remove(i);
                 i--;
+                break;
             }
         }
         saveMenu(context);

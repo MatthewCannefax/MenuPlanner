@@ -116,9 +116,10 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
-                        remove(recipe);
+//                        remove(recipe);
                         StaticMenu.removeRecipeFromMenu(recipe, mContext);
                         StaticMenu.saveMenu(mContext);
+                        notifyDataSetChanged();
                     }
                 });
                 builder.show();
