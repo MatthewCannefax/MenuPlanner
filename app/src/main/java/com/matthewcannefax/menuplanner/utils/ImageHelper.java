@@ -24,9 +24,11 @@ import com.matthewcannefax.menuplanner.R;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 import static android.content.ContentValues.TAG;
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
+import static android.support.v4.content.ContextCompat.getDrawable;
 
 public class ImageHelper {
 
@@ -35,24 +37,7 @@ public class ImageHelper {
     private static Uri imageUri;
 
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){
-
-        InputStream  inputStream = null;
-
-        try {
-            inputStream = context.getAssets().open(imagePath);
-            Drawable drawable = Drawable.createFromStream(inputStream, null);
-            imageView.setImageDrawable(drawable);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath), 100, 100));
     }
 
     public static void setImageViewClickListener(final Context context, ImageView imageView, final Activity activity){
@@ -98,6 +83,30 @@ public class ImageHelper {
 
     }
 
+    private static Bitmap loadSampledResource(Context context, int imageID, int targetHeight, int targetWidth){
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeResource(context.getResources(), imageID, options);
+
+        final int originalHeight = options.outHeight;
+        final int originalWidth = options.outWidth;
+        int inSampleSize = 1;
+
+        while((originalHeight / (inSampleSize * 2)) > targetHeight && (originalWidth / (inSampleSize * 2)) > targetWidth){
+            inSampleSize *= 2;
+        }
+
+        options.inSampleSize = inSampleSize;
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeResource(context.getResources(), imageID, options);
+    }
 
 
+    private static int getResId(Context context, String imgPath){
+        return context.getResources().getIdentifier(imgPath, "drawable", context.getPackageName());
+
+    }
 }

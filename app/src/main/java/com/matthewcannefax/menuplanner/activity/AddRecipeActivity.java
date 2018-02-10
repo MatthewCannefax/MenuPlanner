@@ -93,7 +93,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         try {
             //set the default image in the recipeIMG imageView
-            String imgPath = getString(R.string.no_img_selected);
+            String imgPath = "default_recipe";
             ImageHelper.setImageViewDrawable(imgPath, this, recipeIMG);
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -262,7 +262,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
 
             //sample image for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            newRecipe.setImagePath("defaultRecipe.jpg");
+            newRecipe.setImagePath("default_recipe");
 
             //get the image of the new recipe if the image has been set
             //using the imgSet var to signal whether the image has been set or not
