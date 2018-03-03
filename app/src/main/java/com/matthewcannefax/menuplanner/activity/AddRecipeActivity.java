@@ -287,4 +287,10 @@ public class AddRecipeActivity extends AppCompatActivity{
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ImageHelper.getPhotoTaken(requestCode, resultCode, data, recipeIMG);
+    }
 }
