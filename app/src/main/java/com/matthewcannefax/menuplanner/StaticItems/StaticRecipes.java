@@ -63,6 +63,7 @@ public class StaticRecipes {
         }
 
         saveRecipes(context);
+        String s = "";
     }
 
     //assign the an id to a new recipe

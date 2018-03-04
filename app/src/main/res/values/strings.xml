@@ -16,7 +16,7 @@
     <string name="remove_selected_items">Remove Selected Items</string>
     <string name="add_item">Add Item</string>
     <string name="filter_button">Filter</string>
-    <string name="no_img_selected">defaultRecipe.jpg</string>
+    <string name="no_img_selected">default_recipe</string>
     <string name="existing">Existing</string>
     <string name="new_photo_title">New Photo</string>
     <string name="new_photo_message">Take a new photo or add an existing photo from the gallery?</string>

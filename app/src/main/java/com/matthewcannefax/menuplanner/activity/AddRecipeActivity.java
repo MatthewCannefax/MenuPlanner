@@ -93,7 +93,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         try {
             //set the default image in the recipeIMG imageView
-            String imgPath = "default_recipe";
+            String imgPath = getString(R.string.no_img_selected);
             ImageHelper.setImageViewDrawable(imgPath, this, recipeIMG);
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -261,8 +261,9 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
 
-            //sample image for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            newRecipe.setImagePath("default_recipe");
+            if(newRecipe.getImagePath() == null || newRecipe.getImagePath() == ""){
+                newRecipe.setImagePath(getString(R.string.no_img_selected));
+            }
 
             //get the image of the new recipe if the image has been set
             //using the imgSet var to signal whether the image has been set or not
@@ -291,6 +292,7 @@ public class AddRecipeActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageHelper.getPhotoTaken(requestCode, resultCode, data, recipeIMG);
+        newRecipe.setImagePath(ImageHelper.getPhotoTaken(requestCode, resultCode, data, recipeIMG));
+        String s = "";
     }
 }

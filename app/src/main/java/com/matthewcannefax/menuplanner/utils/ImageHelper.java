@@ -51,7 +51,11 @@ public class ImageHelper {
     private static Uri imageUri;
 
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){
-        imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath), 100, 100));
+        if(imagePath == context.getString(R.string.no_img_selected)) {
+            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath), 100, 100));
+        }else{
+            imageView.setImageBitmap(loadSampledIMGFile(imagePath, 100, 100));
+        }
     }
 
     public static void setImageViewClickListener(final Context context, ImageView imageView, final Activity activity){
@@ -107,7 +111,8 @@ public class ImageHelper {
         }
     }
 
-    public static void getPhotoTaken(int requestCode, int resultCode, Intent data, ImageView imageView){
+    public static String getPhotoTaken(int requestCode, int resultCode, Intent data, ImageView imageView){
+        String photoPath = null;
         if(requestCode == ImageHelper.getRequestImageCapture() && resultCode == RESULT_OK){
             int targetW = 100;
             int targetH = 100;
@@ -126,7 +131,10 @@ public class ImageHelper {
 
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
             imageView.setImageBitmap(bitmap);
+
+            photoPath = photoFile.getAbsolutePath();
         }
+        return photoPath;
     }
 
     private static Bitmap loadSampledResource(Context context, int imageID, int targetHeight, int targetWidth){
@@ -147,7 +155,29 @@ public class ImageHelper {
         options.inSampleSize = inSampleSize;
         options.inJustDecodeBounds = false;
 
-        return BitmapFactory.decodeResource(context.getResources(), imageID, options);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageID, options);
+        return bitmap;
+    }
+
+    private static Bitmap loadSampledIMGFile(String imagePath, int targetHeight, int targetWidth){
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(imagePath, options);
+
+        final int originalHeight = options.outHeight;
+        final int originalWidth = options.outWidth;
+        int inSampleSize = 1;
+
+        while((originalHeight / (inSampleSize * 2)) > targetHeight && (originalWidth / (inSampleSize * 2)) > targetWidth){
+            inSampleSize *= 2;
+        }
+
+        options.inSampleSize = inSampleSize;
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(imagePath, options);
     }
 
     private static int getResId(Context context, String imgPath){
