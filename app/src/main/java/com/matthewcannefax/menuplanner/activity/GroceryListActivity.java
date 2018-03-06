@@ -46,8 +46,6 @@ public class GroceryListActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private ListView lv;
     private Context mContext;
-    private Spinner catSpinner;
-    private Button filterBTN;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,16 +54,7 @@ public class GroceryListActivity extends AppCompatActivity {
         mContext = this;
 
         //using the same list as the RecipeList and MenuList activities
-        setContentView(R.layout.recipe_menu_list);
-
-        //set up the filter items
-        catSpinner = findViewById(R.id.catSpinner);
-        filterBTN = findViewById(R.id.filterBTN);
-
-        //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getGroceryCategoriesUsed(StaticGroceryList.getIngredientList()));
-        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-        catSpinner.setAdapter(catSpinnerAdapter);
+        setContentView(R.layout.grocery_list_layout);
 
         //set the title in the actionbar
         this.setTitle("Grocery List");
@@ -81,27 +70,6 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
-
-        filterBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GroceryCategory selectedCat = (GroceryCategory) catSpinner.getSelectedItem();
-                if (selectedCat != GroceryCategory.ALL) {
-                    List<Ingredient> filteredGroceries = new ArrayList<>();
-
-                    for(Ingredient i : StaticGroceryList.getIngredientList()){
-                        if(i.getCategory() == selectedCat){
-                            filteredGroceries.add(i);
-                        }
-                    }
-
-                    GroceryItemAdapter filteredAdapter = new GroceryItemAdapter(mContext, filteredGroceries);
-                    lv.setAdapter(filteredAdapter);
-                } else {
-                    lv.setAdapter(adapter);
-                }
-            }
-        });
     }
 
     //this method is to setup the grocery list adapter, and will only fire if the grocery list exists
