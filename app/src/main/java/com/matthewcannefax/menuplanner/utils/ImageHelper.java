@@ -23,8 +23,10 @@ import android.widget.Toast;
 import com.matthewcannefax.menuplanner.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,9 +44,11 @@ public class ImageHelper {
     public static int getRequestImageCapture() {
         return REQUEST_IMAGE_CAPTURE;
     }
+    public static int getRequestImageGallery() {return REQUEST_IMAGE_GALLERY; }
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_IMAGE_GALLERY = 2;
     private static File photoFile;
     private static String mCurrentPhotoPath;
 
@@ -81,7 +85,7 @@ public class ImageHelper {
                 builder.setNegativeButton(existing, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context, "Exisition", Toast.LENGTH_SHORT).show();
+                        activity.startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_GALLERY);
                     }
                 });
 
@@ -111,7 +115,7 @@ public class ImageHelper {
         }
     }
 
-    public static String getPhotoTaken(int requestCode, int resultCode, Intent data, ImageView imageView){
+    public static String getPhotoTaken(Context context, int requestCode, int resultCode, Intent data, ImageView imageView){
         String photoPath = null;
         if(requestCode == ImageHelper.getRequestImageCapture() && resultCode == RESULT_OK){
             int targetW = 100;
@@ -133,6 +137,23 @@ public class ImageHelper {
             imageView.setImageBitmap(bitmap);
 
             photoPath = photoFile.getAbsolutePath();
+        }else if(requestCode == ImageHelper.getRequestImageGallery() && resultCode == RESULT_OK){
+            Uri selectedIMG = data.getData();
+            Bitmap bitmap = null;
+            try{
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), selectedIMG);
+                imageView.setImageBitmap(bitmap);
+
+                File galleryFile = createImageFile(context);
+                OutputStream outputStream = new FileOutputStream(galleryFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.flush();
+                outputStream.close();
+                photoPath = galleryFile.getAbsolutePath();
+
+            }catch (IOException e){
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
         return photoPath;
     }

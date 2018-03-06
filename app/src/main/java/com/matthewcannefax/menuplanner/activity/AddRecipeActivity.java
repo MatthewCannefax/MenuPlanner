@@ -292,7 +292,7 @@ public class AddRecipeActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        newRecipe.setImagePath(ImageHelper.getPhotoTaken(requestCode, resultCode, data, recipeIMG));
+        newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
         String s = "";
     }
 }
