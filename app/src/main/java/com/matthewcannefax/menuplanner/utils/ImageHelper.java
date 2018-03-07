@@ -7,10 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -134,6 +137,9 @@ public class ImageHelper {
             bmOptions.inPurgeable = true;
 
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+
+            bitmap = getBitmapExif(photoFile, bitmap);
+
             imageView.setImageBitmap(bitmap);
 
             photoPath = photoFile.getAbsolutePath();
@@ -142,6 +148,9 @@ public class ImageHelper {
             Bitmap bitmap = null;
             try{
                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), selectedIMG);
+
+                bitmap = getBitmapOrientationCursor(selectedIMG, context, bitmap);
+
                 imageView.setImageBitmap(bitmap);
 
                 File galleryFile = createImageFile(context);
@@ -156,6 +165,42 @@ public class ImageHelper {
             }
         }
         return photoPath;
+    }
+
+    private static Bitmap getBitmapOrientationCursor(Uri uri, Context context, Bitmap bitmap){
+        int orientation;
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
+
+        if(cursor != null){
+            if(cursor.getCount() != 1){
+                cursor.close();
+                orientation = -1;
+            }
+
+            cursor.moveToFirst();
+            orientation = cursor.getInt(0);
+            cursor.close();
+            cursor = null;
+        }else{
+            orientation = -1;
+        }
+
+        Matrix m = new Matrix();
+        m.postRotate(orientation);
+
+        int bitmapWidth = bitmap.getWidth();
+        int bitmapHeight = bitmap.getHeight();
+
+        float scale = Math.min(100/ (float)bitmapWidth, 100/(float)bitmapHeight);
+
+        int scaledWidth = (int)(bitmapWidth * scale);
+        int scaledHeight = (int)(bitmapHeight * scale);
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+
+        return Bitmap.createBitmap(scaledBitmap, 0,0, scaledWidth, scaledHeight, m, true);
+
+
     }
 
     private static Bitmap loadSampledResource(Context context, int imageID, int targetHeight, int targetWidth){
@@ -218,4 +263,33 @@ public class ImageHelper {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
+    private static Bitmap getBitmapExif(File file, Bitmap bitmap){
+
+        ExifInterface exif = null;
+        int orientation = -1;
+        try{
+            exif = new ExifInterface(file.getAbsolutePath());
+            orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        Matrix m = new Matrix();
+
+        if(orientation == ExifInterface.ORIENTATION_ROTATE_180){
+            m.postRotate(180);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true );
+        }else if (orientation <= ExifInterface.ORIENTATION_ROTATE_90){
+            m.postRotate(90);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true );
+        }else if (orientation == ExifInterface.ORIENTATION_ROTATE_270){
+            m.postRotate(270);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true );
+        }
+
+        return bitmap;
+    }
+
+
 }
