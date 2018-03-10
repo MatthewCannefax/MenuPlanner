@@ -1,11 +1,13 @@
 package com.matthewcannefax.menuplanner.utils;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,6 +19,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +47,7 @@ import static android.support.v4.content.ContextCompat.getExternalFilesDirs;
 public class ImageHelper {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 0;
+
 
     public static int getRequestImageCapture() {
         return REQUEST_IMAGE_CAPTURE;
@@ -98,23 +103,29 @@ public class ImageHelper {
     }
 
     private static void takePhoto(Activity activity, Context context){
-        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        if(photoIntent.resolveActivity(activity.getPackageManager()) != null){
-            photoFile = null;
-            try {
-                photoFile = createImageFile(context);
-            } catch (IOException e) {
-                Toast.makeText(activity.getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
-            }
-            if (photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", photoFile);
-                photoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                activity.startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+            Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            photoIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            if(photoIntent.resolveActivity(activity.getPackageManager()) != null){
+                photoFile = null;
+                try {
+                    photoFile = createImageFile(context);
+                } catch (IOException e) {
+                    Toast.makeText(activity.getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                }
+                if (photoFile != null){
+                    Uri photoUri = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", photoFile);
+                    photoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    activity.startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
+
+                }
 
             }
-
+        } else {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, PermissionsHelper.getMyPermissionsRequestCamera());
+            takePhoto(activity, context);
         }
     }
 

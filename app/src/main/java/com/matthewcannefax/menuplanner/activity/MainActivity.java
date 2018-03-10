@@ -17,6 +17,7 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         StaticGroceryList.loadGroceries(this);
         NavDrawer.setupNavDrawer(MainActivity.this, this);
+
+        PermissionsHelper.checkPermissions(MainActivity.this, this);
     }
 
 
