@@ -16,6 +16,7 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
+import com.matthewcannefax.menuplanner.utils.NavDrawer;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         StaticMenu.loadMenu(this);
 
         StaticGroceryList.loadGroceries(this);
+        NavDrawer.setupNavDrawer(MainActivity.this, this);
     }
 
 
