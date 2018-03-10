@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyCharacterMap;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.util.ArrayList;
@@ -70,6 +72,8 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
+
+        NavDrawer.setupNavDrawer(GroceryListActivity.this, this);
     }
 
     //this method is to setup the grocery list adapter, and will only fire if the grocery list exists

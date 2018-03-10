@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyCharacterMap;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.utils.NavDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +101,8 @@ public class MenuListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        NavDrawer.setupNavDrawer(MenuListActivity.this, this);
     }
 
     //this method sets up the menu list adapter

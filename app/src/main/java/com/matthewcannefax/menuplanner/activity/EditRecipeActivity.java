@@ -34,6 +34,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
+import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.io.IOException;
@@ -142,6 +143,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         }
 
         ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
+        NavDrawer.setupNavDrawer(EditRecipeActivity.this, this);
     }
 
     //the onResume method fires at initial create as well as on resume

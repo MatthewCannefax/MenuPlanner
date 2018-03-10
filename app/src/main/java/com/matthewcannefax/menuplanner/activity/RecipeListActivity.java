@@ -26,6 +26,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
+import com.matthewcannefax.menuplanner.utils.NavDrawer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +98,8 @@ public class RecipeListActivity extends AppCompatActivity {
                }
            }
        });
+
+        NavDrawer.setupNavDrawer(RecipeListActivity.this, this);
     }
 
     private void setRecipeListAdapter(){
