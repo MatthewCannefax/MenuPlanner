@@ -142,7 +142,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
 
-        ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
+
         NavDrawer.setupNavDrawer(EditRecipeActivity.this, this);
     }
 
@@ -362,6 +362,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             //disable the add ingredient button
             addIngredientBTN(false);
+            recipeIMG.setOnClickListener(null);
         } else {
             //Need to call setFocusable and setFocusableInTouchMode to enable the editTexts to take focus
             recipeName.setFocusable(true);
@@ -377,6 +378,9 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             //enable the add ingredient button
             addIngredientBTN(true);
+
+            //setup the recipeIMG click listener
+            ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
         }
     }
 
