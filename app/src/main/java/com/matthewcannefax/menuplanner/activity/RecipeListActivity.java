@@ -151,13 +151,13 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         switch(item.getItemId()){
-            case R.id.addNewRecipe:
-                //a new intent to move to the AddRecipe Activity
-                Intent intent = new Intent(RecipeListActivity.this, AddRecipeActivity.class);
-                intent.putExtra("title", "Add Recipe");
-                RecipeListActivity.this.startActivity(intent);
-                b = true;
-                break;
+//            case R.id.addNewRecipe:
+//                //a new intent to move to the AddRecipe Activity
+//                Intent intent = new Intent(RecipeListActivity.this, AddRecipeActivity.class);
+//                intent.putExtra("title", "Add Recipe");
+//                RecipeListActivity.this.startActivity(intent);
+//                b = true;
+//                break;
             case R.id.removeRecipes:
                 boolean anySelected = false;
                 for (int n = 0; n < recipeList.size(); n++){

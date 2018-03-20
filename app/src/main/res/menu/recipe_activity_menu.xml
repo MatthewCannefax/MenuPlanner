@@ -10,8 +10,8 @@
         android:id="@+id/removeRecipes"
         android:title="Remove Recipes"
         />
-    <item
-        android:id="@+id/addNewRecipe"
-        android:title="Add New Recipe"
-        />
+    <!--<item-->
+        <!--android:id="@+id/addNewRecipe"-->
+        <!--android:title="Add New Recipe"-->
+        <!--/>-->
 </menu>
