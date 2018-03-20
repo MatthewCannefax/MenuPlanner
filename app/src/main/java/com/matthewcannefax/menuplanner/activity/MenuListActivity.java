@@ -191,21 +191,22 @@ public class MenuListActivity extends AppCompatActivity {
                Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
                return true;
            }
-       }else if (item.getItemId() == R.id.viewCurrentGroceryList){
-           //if the grocery list exists and actually has items in it, go to the grocery list activity
-           if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
-
-               Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
-               MenuListActivity.this.startActivity(intent);
-
-               return true;
-           }
-           //if there is no grocery list, send a toast telling the user just that
-           else{
-               Toast.makeText(this, "No List", Toast.LENGTH_SHORT).show();
-               return false;
-           }
-        }
+       }
+//       else if (item.getItemId() == R.id.viewCurrentGroceryList){
+//           //if the grocery list exists and actually has items in it, go to the grocery list activity
+//           if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
+//
+//               Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
+//               MenuListActivity.this.startActivity(intent);
+//
+//               return true;
+//           }
+//           //if there is no grocery list, send a toast telling the user just that
+//           else{
+//               Toast.makeText(this, "No List", Toast.LENGTH_SHORT).show();
+//               return false;
+//           }
+//        }
        //default; this will allow the back button to work correctly
        else {
            return false;

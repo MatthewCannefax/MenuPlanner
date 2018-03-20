@@ -62,9 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         menuInflater.inflate(R.menu.main_activity_menu, menu);
 
-        if(StaticGroceryList.getIngredientList() == null){
-//            menu.getItem(R.id.groceriesMenuItem).setVisible(false);
-        }
+
 
         return true;
     }
@@ -78,18 +76,18 @@ public class MainActivity extends AppCompatActivity {
         //switch statement to find which menu item was clicked
         switch (item.getItemId()){
 
-            case R.id.recipesMenuItem:
-                goToRecipeActivity();
-                b = true;
-                break;
-            case R.id.menuListMenuItem:
-                goToMenuActivity();
-                b=true;
-                break;
-            case R.id.groceriesMenuItem:
-                goToGroceryActivity();
-                b=true;
-                break;
+//            case R.id.recipesMenuItem:
+//                goToRecipeActivity();
+//                b = true;
+//                break;
+//            case R.id.menuListMenuItem:
+//                goToMenuActivity();
+//                b=true;
+//                break;
+//            case R.id.groceriesMenuItem:
+//                goToGroceryActivity();
+//                b=true;
+//                break;
                 default:
                     b= false;
         }
