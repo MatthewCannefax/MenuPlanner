@@ -43,12 +43,22 @@ public class IngredientItemAdapter extends ArrayAdapter {
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
     //This overridden method sets up the ingredient item view
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull final ViewGroup parent){
 
-
+        int n = position;
         //if convertView is null, set it up with the inflator passing the layout view ingredient item
         if(convertView == null){
             convertView = mInflator.inflate(R.layout.ingredient_list_item, parent, false);

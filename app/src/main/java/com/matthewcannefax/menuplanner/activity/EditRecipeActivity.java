@@ -48,6 +48,9 @@ import java.util.Locale;
 public class EditRecipeActivity extends AppCompatActivity {
     //region VARS
 
+    //Constants
+    final int INGREDIENT_VIEW_HEIGHT = 175;
+
     //initialize the objects of the activity
     private EditText recipeName;
     private ImageView recipeIMG;
@@ -134,6 +137,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //setup the ingredient listview
         ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
+        updateListViewHeight(oldRecipe.getIngredientList());
         recipeIngreds.setAdapter(ingredientItemAdapter);
         recipeIngreds.addFooterView(addBTN);
 
@@ -144,6 +148,19 @@ public class EditRecipeActivity extends AppCompatActivity {
 
 
         NavDrawer.setupNavDrawer(EditRecipeActivity.this, this);
+    }
+
+    private void updateListViewHeight(List<Ingredient> ingredients){
+
+        int numIngredients = ingredients.size() + 1;
+
+        ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
+        int n = params.height;
+        params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
+        n = params.height;
+        recipeIngreds.setLayoutParams(params);
+        recipeIngreds.requestLayout();
+
     }
 
     //the onResume method fires at initial create as well as on resume
