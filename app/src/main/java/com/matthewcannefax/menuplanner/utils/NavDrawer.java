@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.MainActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
@@ -38,8 +39,12 @@ public class NavDrawer {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent selectedActivity = new Intent(context, ActivityNavEnum.getActivityEnum(i).getActivity());
                 if (ActivityNavEnum.getActivityEnum(i) == ActivityNavEnum.RECIPE_LIST_ACTIVITY){
-                    selectedActivity.putExtra("TITLE", "My Recipes");
-                    startActivity(context, selectedActivity, currentActivity);
+                    if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
+                        selectedActivity.putExtra("TITLE", "My Recipes");
+                        startActivity(context, selectedActivity, currentActivity);
+                    } else {
+                        Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+                    }
                 }else if(ActivityNavEnum.getActivityEnum(i) == ActivityNavEnum.GROCERY_LIST_ACTIVITY){
                     if(StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
                         startActivity(context, selectedActivity, currentActivity);

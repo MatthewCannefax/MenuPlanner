@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         //this is for TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
-            StaticRecipes.saveRecipes(this);
-            StaticRecipes.loadRecipes(this);
+//            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
+//            StaticRecipes.saveRecipes(this);
+//            StaticRecipes.loadRecipes(this);
 
 
         StaticMenu.loadMenu(this);
