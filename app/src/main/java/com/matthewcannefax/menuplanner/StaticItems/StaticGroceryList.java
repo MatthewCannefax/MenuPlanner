@@ -21,7 +21,7 @@ public class StaticGroceryList {
 
     private static List<Ingredient> mIngredientList;
 
-
+    //method to provide the grocery list
     public static List<Ingredient> getIngredientList() {
 
         if (mIngredientList != null) {
@@ -32,10 +32,12 @@ public class StaticGroceryList {
         }
     }
 
+    //method to set the grocery list
     public static void setIngredientList(List<Ingredient> ingredientList) {
         mIngredientList = ingredientList;
     }
 
+    //load the groceries from JSON file
     public static void loadGroceries(Context context){
         try {
             String fileName = context.getString(R.string.json_grocery_list);
@@ -45,6 +47,7 @@ public class StaticGroceryList {
         }
     }
 
+    //save the grocery list to a JSON file
     public static void saveGroceries(Context context){
         if(mIngredientList != null){
             try {

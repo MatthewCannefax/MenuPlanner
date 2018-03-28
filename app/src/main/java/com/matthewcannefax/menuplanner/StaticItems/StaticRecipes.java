@@ -19,6 +19,7 @@ public class StaticRecipes {
 
     private static List<Recipe> recipeList;
 
+    //supply the recipe list with this method
     public static List<Recipe> getRecipeList() {
         if (recipeList != null) {
             return recipeList;
@@ -28,10 +29,12 @@ public class StaticRecipes {
         }
     }
 
-    public static void setRecipeList(List<Recipe> recipeList) {
+    //set the recipe list
+    private static void setRecipeList(List<Recipe> recipeList) {
         StaticRecipes.recipeList = recipeList;
     }
 
+    //load the recipe list from JSON file
     public static void loadRecipes(Context context) {
         try {
             String fileName = context.getString(R.string.recipe_list_to_json);
@@ -40,6 +43,8 @@ public class StaticRecipes {
             e.printStackTrace();
         }
     }
+
+    //save the recipe list to a JSON file
     public static void saveRecipes(Context context){
         try {
             String fileName = context.getString(R.string.recipe_list_to_json);
@@ -49,7 +54,9 @@ public class StaticRecipes {
         }
     }
 
+    //add a new recipe to the recipe list and save the recipes list using saveRecipes
     public static void addNewRecipe(Recipe newRecipe, Context context){
+        //set the new recipe id using the assignRecipeID method
         newRecipe.setRecipeID(assignRecipeID());
 
         //if the static recipe list exists, add the new recipe to the list
@@ -62,8 +69,8 @@ public class StaticRecipes {
             recipeList.add(newRecipe);
         }
 
+        //save the recipe list
         saveRecipes(context);
-        String s = "";
     }
 
     //assign the an id to a new recipe
