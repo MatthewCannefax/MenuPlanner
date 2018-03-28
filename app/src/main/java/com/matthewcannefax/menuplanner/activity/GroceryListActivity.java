@@ -73,6 +73,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
 
+        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this);
     }
 
@@ -149,11 +150,13 @@ public class GroceryListActivity extends AppCompatActivity {
             StaticGroceryList.saveGroceries(this);
             return true;
         }
-        //default to make sure the back button functions properly
+        //adding a separate grocery item that is not a part of a recipe
         else if(item.getItemId() == R.id.addNewGroceryItem){
+            //create an alertdialog to input this information
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Add Item");
 
+            //inflate the add_ingredient_item layout
             View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
 
             //controls inside the view
@@ -175,6 +178,7 @@ public class GroceryListActivity extends AppCompatActivity {
             spMeasure.setAdapter(measureAdapter);
             spCat.setAdapter(ingredCatAdapter);
 
+            //set the newItemView as the view for the alertdialog
             builder.setView(newItemView);
 
             builder.setNegativeButton("Cancel", null);
@@ -194,6 +198,7 @@ public class GroceryListActivity extends AppCompatActivity {
                                 )
                         ));
 
+                        //save the grocery list now that the new item has been added
                         StaticGroceryList.saveGroceries(mContext);
 
                         //notify the arrayadapter that the dataset has changed

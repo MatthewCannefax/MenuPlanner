@@ -106,14 +106,21 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         //this list and adapter acts as a placeholder so the footerView will display at the launch of this activity
         List<Object> objs = new ArrayList<>();
+
+        //only part of the placeholder list
         objs.add(new Object());
+
+        //this special array adapter is only used when there are no ingredients in the list view
         buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
         recipeIngreds.setAdapter(buttonArrayAdapter);
 
         //calling this method to add the ingredient button to the recipeIngreds listview and setup the on click listener
         addIngredientBTN();
 
+        //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
+
+        //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
         NavDrawer.setupNavDrawer(AddRecipeActivity.this, this);
     }
 
@@ -263,14 +270,8 @@ public class AddRecipeActivity extends AppCompatActivity{
             newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
 
-            if(newRecipe.getImagePath() == null || newRecipe.getImagePath() == ""){
+            if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
                 newRecipe.setImagePath(getString(R.string.no_img_selected));
-            }
-
-            //get the image of the new recipe if the image has been set
-            //using the imgSet var to signal whether the image has been set or not
-            if(imgSet){
-                //get the new image from the imageview and store it in the assets package
             }
 
             //add the new recipe to the static recipe list
@@ -291,10 +292,13 @@ public class AddRecipeActivity extends AppCompatActivity{
 
     }
 
+    //Override the OnActivityResult to catch the picture chosen or taken to set as the recipe image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //get the path for the new image and set it to the new recipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
-        String s = "";
+
     }
 }

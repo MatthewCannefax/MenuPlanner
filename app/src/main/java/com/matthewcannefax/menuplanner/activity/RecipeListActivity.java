@@ -76,9 +76,10 @@ public class RecipeListActivity extends AppCompatActivity {
         catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         catSpinner.setAdapter(catSpinnerAdapter);
 
-       setRecipeListAdapter();
+        //this method sets the adapter for the Recipe list view
+        setRecipeListAdapter();
 
-       filterBTN.setOnClickListener(new View.OnClickListener() {
+        filterBTN.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
@@ -97,8 +98,9 @@ public class RecipeListActivity extends AppCompatActivity {
                    lv.setAdapter(adapter);
                }
            }
-       });
+        });
 
+       //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this);
     }
 
@@ -149,24 +151,13 @@ public class RecipeListActivity extends AppCompatActivity {
         boolean b;
         final Context context = this;
 
-
         switch(item.getItemId()){
-//            case R.id.addNewRecipe:
-//                //a new intent to move to the AddRecipe Activity
-//                Intent intent = new Intent(RecipeListActivity.this, AddRecipeActivity.class);
-//                intent.putExtra("title", "Add Recipe");
-//                RecipeListActivity.this.startActivity(intent);
-//                b = true;
-//                break;
+            //remove the select items from the recipelist
             case R.id.removeRecipes:
-                boolean anySelected = false;
-                for (int n = 0; n < recipeList.size(); n++){
-                    if (recipeList.get(n).isItemChecked()){
-                        anySelected = true;
-                        break;
-                    }
-                }
+                //this var and the loop checks if there are any recipes selected
+                boolean anySelected = anySelected();
 
+                //use the alert dialog to check if the user truly wants to delete the selected recipes
                 AlertDialog.Builder builder;
                 if (anySelected) {
                     final Context thisContext = this;
@@ -178,18 +169,24 @@ public class RecipeListActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
+                            //loop through the recipes to delete only the recipes that are selected
                             for(int position = 0; position < recipeList.size(); position++){
                                 if(recipeList.get(position).isItemChecked()){
+                                    //make sure that the recipe is also deleted from the menu if it exists there
                                     StaticMenu.removeRecipeFromMenu(recipeList.get(position), thisContext);
                                     recipeList.remove(position);
                                     position = position - 1;
                                 }
                             }
+
+                            //reset the adapter
                             adapter = new RecipeListItemAdapter(thisContext, recipeList);
                             lv.setAdapter(adapter);
 
+                            //save the newly edited recipe list
                             StaticRecipes.saveRecipes(thisContext);
 
+                            //notify the user that the recipes have been removed
                             Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -201,23 +198,21 @@ public class RecipeListActivity extends AppCompatActivity {
 
                 b = true;
                 break;
+                //add the selected recipes to the weekly menu
             case R.id.addRecipesMenuItem:
-                anySelected = false;
 
-                for (int n = 0; n < recipeList.size(); n++){
-                    if (recipeList.get(n).isItemChecked()){
-                        anySelected = true;
-                        break;
-                    }
-                }
+                //check if any of the recipe items have been selected
+                anySelected = anySelected();
 
                 if (anySelected) {
+                    //loop through the recipe list and add the selected recipes to the menu
                     for(int position = 0; position < recipeList.size(); position++){
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
                             if(StaticMenu.getMenuList() != null) {
                                 StaticMenu.getMenuList().add(recipeList.get(position));
                             }else{
+                                //if the menu list is null set with a new list and then add
                                 StaticMenu.setMenuList(new ArrayList<Recipe>());
                                 StaticMenu.getMenuList().add(recipeList.get(position));
                             }
@@ -225,10 +220,13 @@ public class RecipeListActivity extends AppCompatActivity {
                         }
                     }
 
+                    //save the menu list
+                    StaticMenu.saveMenu(this);
                     boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getMenuList(), getString(R.string.json_menu_list));
 
+                    //return to the menu activity
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
-                    returnToMenu.putExtra("RESULT", result);
+//                    returnToMenu.putExtra("RESULT", result);
                     RecipeListActivity.this.startActivity(returnToMenu);
                 } else {
                     Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
@@ -241,5 +239,17 @@ public class RecipeListActivity extends AppCompatActivity {
 
         return b;
 
+    }
+
+    //this method loops through the recipe list to check if any of the recipes have been selected
+    private boolean anySelected(){
+        boolean anySelected = false;
+        for (int n = 0; n < recipeList.size(); n++){
+            if (recipeList.get(n).isItemChecked()){
+                anySelected = true;
+                break;
+            }
+        }
+        return anySelected;
     }
 }

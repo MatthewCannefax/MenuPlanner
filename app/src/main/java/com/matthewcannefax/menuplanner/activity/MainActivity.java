@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setTitle("Menu Planner");
 
+        //load the recipes from JSON file to the Static Class
         StaticRecipes.loadRecipes(this);
 
         //this is for TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -44,11 +45,16 @@ public class MainActivity extends AppCompatActivity {
 //            StaticRecipes.loadRecipes(this);
 
 
+        //Load the menu items from JSON to the Static class
         StaticMenu.loadMenu(this);
 
+        //Load the Grocery items from JSON to the static class
         StaticGroceryList.loadGroceries(this);
+
+        //setup the nav drawer
         NavDrawer.setupNavDrawer(MainActivity.this, this);
 
+        //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MainActivity.this, this);
     }
 
@@ -61,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
 
         menuInflater.inflate(R.menu.main_activity_menu, menu);
-
-
 
         return true;
     }

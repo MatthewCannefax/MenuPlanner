@@ -146,18 +146,20 @@ public class EditRecipeActivity extends AppCompatActivity {
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
 
-
+        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(EditRecipeActivity.this, this);
     }
 
+    //sometimes there are too many ingredients to display inside the listview.
+    //using this method to resize the listview based on the number of ingredients in the recipe
     private void updateListViewHeight(List<Ingredient> ingredients){
 
+        //adding one to include the add ingredient button
         int numIngredients = ingredients.size() + 1;
 
         ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
         int n = params.height;
         params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
-        n = params.height;
         recipeIngreds.setLayoutParams(params);
         recipeIngreds.requestLayout();
 
@@ -167,6 +169,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //this method is disabling all the controls in the activity until the edit button is clicked
         setControlsEnabled(isEditable);
     }
 
@@ -496,9 +500,12 @@ public class EditRecipeActivity extends AppCompatActivity {
 
     }
 
+    //Override the onActivityResult to catch the image chosen or taken to set as the image for the edited recipe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //get the path of the new image and set to the newRecipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
     }
 }

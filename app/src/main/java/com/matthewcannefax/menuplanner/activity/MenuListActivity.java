@@ -159,7 +159,7 @@ public class MenuListActivity extends AppCompatActivity {
            return true;
        }
        //if the Generate Grocery List option is clicked
-       else if(item.getItemId() == R.id.generateGroceryListItem){
+       else if(item.getItemId() == R.id.generateGroceryListItem) {
            //if the grocery list is not null and actually has items in it
            if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
 
@@ -171,7 +171,7 @@ public class MenuListActivity extends AppCompatActivity {
                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //if the user clicks ok button, create the new grocery list with this method
+                       //if the user clicks ok button, create the new grocery list with this method
                        goToGroceryList();
                    }
                });
@@ -181,7 +181,7 @@ public class MenuListActivity extends AppCompatActivity {
                return true;
            }
            //if there is no grocery list and the menu list is not null create a new grocery list
-           else if (StaticMenu.getMenuList() != null){
+           else if (StaticMenu.getMenuList() != null) {
                goToGroceryList();
                return true;
            }
@@ -192,21 +192,6 @@ public class MenuListActivity extends AppCompatActivity {
                return true;
            }
        }
-//       else if (item.getItemId() == R.id.viewCurrentGroceryList){
-//           //if the grocery list exists and actually has items in it, go to the grocery list activity
-//           if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
-//
-//               Intent intent = new Intent(MenuListActivity.this, GroceryListActivity.class);
-//               MenuListActivity.this.startActivity(intent);
-//
-//               return true;
-//           }
-//           //if there is no grocery list, send a toast telling the user just that
-//           else{
-//               Toast.makeText(this, "No List", Toast.LENGTH_SHORT).show();
-//               return false;
-//           }
-//        }
        //default; this will allow the back button to work correctly
        else {
            return false;
