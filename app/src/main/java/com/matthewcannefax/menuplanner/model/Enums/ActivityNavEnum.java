@@ -15,31 +15,34 @@ public enum ActivityNavEnum {
     ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 3),
     GROCERY_LIST_ACTIVITY("Grocery List", GroceryListActivity.class, 4);
 
-
-
-
+    //get the name of the activity
     public String getName() {
         return mName;
     }
 
+    //get the Activity
     public Class<? extends Activity> getActivity() {
         return mActivity;
     }
 
+    //get the position in the order of Activities
     public int getPosition() {
         return mPosition;
     }
 
+    //Fields
     private String mName;
     private Class<? extends Activity> mActivity;
     private int mPosition;
 
+    //constructor
     ActivityNavEnum(String name, Class<? extends Activity> activity, int position){
         mName = name;
         mActivity = activity;
         mPosition = position;
     }
 
+    //static method to get the enum
     public static ActivityNavEnum getActivityEnum(int position){
         ActivityNavEnum navEnum = MAIN_ACTIVITY;
 
@@ -54,6 +57,7 @@ public enum ActivityNavEnum {
         return navEnum;
     }
 
+    //return the name in toString
     @Override
     public String toString() {
         return getName();

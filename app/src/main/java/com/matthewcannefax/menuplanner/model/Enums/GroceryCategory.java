@@ -8,6 +8,7 @@ import java.util.List;
 
 public enum GroceryCategory {
     //these are the different grocery item categories
+    //some of these categories are food items, some are not signified with a boolean
     FROZEN_FOODS("Frozen Foods", true),
     MEAT("Meat", true),
     PRODUCE("Produce", true),
@@ -37,18 +38,22 @@ public enum GroceryCategory {
     BABY("Baby", false),
     SHOES("Shoes", false);
 
+    //fields
     String mName;
     boolean mIsIngredient;
 
+    //constructor
     GroceryCategory(String name, boolean isIngredient) {
         mName = name;
         mIsIngredient = isIngredient;
     }
 
+    //check if the enum is an ingredient
     public boolean isIngredient() {
         return mIsIngredient;
     }
 
+    //get all the ingredients only
     public static List<GroceryCategory> getEnumIngredients(){
         List<GroceryCategory> groceryCategories = new ArrayList<>();
         for(GroceryCategory gCat: GroceryCategory.values()){
