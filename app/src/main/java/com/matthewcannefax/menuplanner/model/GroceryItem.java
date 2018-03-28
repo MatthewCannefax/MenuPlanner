@@ -50,6 +50,8 @@ public class GroceryItem implements Parcelable {
         return String.format("%s", name);
     }
 
+
+    //region Parcelable Methods
     @Override
     public int describeContents() {
         return 0;
@@ -61,7 +63,7 @@ public class GroceryItem implements Parcelable {
         dest.writeInt(this.category == null ? -1 : this.category.ordinal());
     }
 
-    protected GroceryItem(Parcel in) {
+    private GroceryItem(Parcel in) {
         this.name = in.readString();
         int tmpCategory = in.readInt();
         this.category = tmpCategory == -1 ? null : GroceryCategory.values()[tmpCategory];
@@ -78,4 +80,5 @@ public class GroceryItem implements Parcelable {
             return new GroceryItem[size];
         }
     };
+    //endregion
 }

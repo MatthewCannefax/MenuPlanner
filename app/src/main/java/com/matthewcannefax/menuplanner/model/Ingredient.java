@@ -68,6 +68,7 @@ public class Ingredient implements Parcelable {
         return getName();
     }
 
+    //region Parcelable Methods
     @Override
     public int describeContents() {
         return 0;
@@ -89,7 +90,7 @@ public class Ingredient implements Parcelable {
         this.itemChecked = in.readByte() != 0;
     }
 
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+    static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         @Override
         public Ingredient createFromParcel(Parcel source) {
             return new Ingredient(source);
@@ -100,4 +101,5 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
+    //endregion
 }

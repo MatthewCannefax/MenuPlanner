@@ -46,6 +46,7 @@ public class Recipe implements Parcelable {
         this.ingredientList = ingredientList;
     }
 
+    //region Getters and Setters
     public boolean isItemChecked() {
         return itemChecked;
     }
@@ -101,8 +102,7 @@ public class Recipe implements Parcelable {
     public void setIngredientList(List<Ingredient> ingredientList) {
         this.ingredientList = ingredientList;
     }
-
-
+    //endregion
 
     //this currently does the same thing as getName()
     @Override
@@ -110,6 +110,7 @@ public class Recipe implements Parcelable {
         return name;
     }
 
+    //region Parcelable Methods
     @Override
     public int describeContents() {
         return 0;
@@ -148,4 +149,5 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
+    //endregion
 }
