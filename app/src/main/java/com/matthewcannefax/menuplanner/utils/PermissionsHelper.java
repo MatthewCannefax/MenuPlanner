@@ -12,32 +12,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionsHelper {
+
+    //constant int field to identify the permission type
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+
+    //string list of permissions
     private static List<String> permissions;
 
-    public static int getMyPermissionsRequestCamera() {
+    //get the permission id for the camera
+    static int getMyPermissionsRequestCamera() {
         return MY_PERMISSIONS_REQUEST_CAMERA;
     }
 
+    //check the permissions
     public static void checkPermissions(Activity activity, Context context){
+        //instantiate the permissions list
         permissions = new ArrayList<>();
+
+        //use the checkPermissions methods to check the requested permissions
         checkStoragePermmisions(activity, context);
         checkCameraPermissions(activity, context);
+
+        //if the list has items request the permission(s) in the list
         if(permissions != null && permissions.size() != 0){
 
+            //create a new array from the size of the permissions list
             String[] permissionsArray = new String[permissions.size()];
+
+            //fill the array with the items of the permissions list
             permissions.toArray(permissionsArray);
+
+            //request permissions
             ActivityCompat.requestPermissions(activity, permissionsArray, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 
+    //check for permissions to use External storage
     private static void checkStoragePermmisions(Activity activity, Context context){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
 
+    //check for permissions to use the camera
     private static void checkCameraPermissions(Activity activity, Context context){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             permissions.add(Manifest.permission.CAMERA);
