@@ -104,14 +104,8 @@ public class AddRecipeActivity extends AppCompatActivity{
         //and then null the listener so it doesn't happen again
         clearEditText(recipeName);
 
-        //this list and adapter acts as a placeholder so the footerView will display at the launch of this activity
-        List<Object> objs = new ArrayList<>();
-
-        //only part of the placeholder list
-        objs.add(new Object());
-
         //this special array adapter is only used when there are no ingredients in the list view
-        buttonArrayAdapter = new ButtonArrayAdapter(this, objs);
+        buttonArrayAdapter = new ButtonArrayAdapter(this);
         recipeIngreds.setAdapter(buttonArrayAdapter);
 
         //calling this method to add the ingredient button to the recipeIngreds listview and setup the on click listener

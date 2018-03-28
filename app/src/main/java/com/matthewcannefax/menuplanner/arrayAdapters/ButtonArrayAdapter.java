@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 
 import com.matthewcannefax.menuplanner.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //this custom array adapter is to act as a placeholder so a button can be added as a footer view in an empty listview
@@ -18,9 +19,10 @@ public class ButtonArrayAdapter extends ArrayAdapter {
 
     private LayoutInflater mInflater;
 
-    public ButtonArrayAdapter(@NonNull Context context, @NonNull List objects) {
-        super(context, R.layout.fake_btn_layout, objects);
-        mObjects = objects;
+    public ButtonArrayAdapter(@NonNull Context context) {
+        super(context, R.layout.fake_btn_layout);
+        mObjects = new ArrayList<>();
+        mObjects.add(new Object());
         mInflater = LayoutInflater.from(context);
     }
 
