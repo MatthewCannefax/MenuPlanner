@@ -44,52 +44,67 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 import static android.support.v4.content.ContextCompat.getDrawable;
 import static android.support.v4.content.ContextCompat.getExternalFilesDirs;
 
+//this class helps with loading/requesting/taking photos for use with the app
 public class ImageHelper {
 
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 0;
-
-
-    public static int getRequestImageCapture() {
+    //Getters for gallery and capture request ids
+    private static int getRequestImageCapture() {
         return REQUEST_IMAGE_CAPTURE;
     }
-    public static int getRequestImageGallery() {return REQUEST_IMAGE_GALLERY; }
+    private static int getRequestImageGallery() {return REQUEST_IMAGE_GALLERY; }
 
+    //constant fields
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_GALLERY = 2;
+
+    //File field for new file creation
     private static File photoFile;
+
+    //field for the current photopath
     private static String mCurrentPhotoPath;
 
+    //field for the photoUri
     private static Uri imageUri;
 
+    //this is used to set the imageview with photos that are part of the app in the drawable directory
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){
-        if(imagePath == context.getString(R.string.no_img_selected)) {
+        if(imagePath.equals(context.getString(R.string.no_img_selected))) {
             imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath), 100, 100));
         }else{
             imageView.setImageBitmap(loadSampledIMGFile(imagePath, 100, 100));
         }
     }
 
+    //this method sets the clicklistener for the imageviews that are part of the add and edit recipe activities
     public static void setImageViewClickListener(final Context context, ImageView imageView, final Activity activity){
+        //constant vars using string values from resources
         final String title = context.getString(R.string.new_photo_title);
         final String message = context.getString(R.string.new_photo_message);
         final String takePhoto = context.getString(R.string.take_new_photo);
         final String existing = context.getString(R.string.existing);
         final String cancel = context.getString(R.string.cancel);
 
+        //this onclicklistener asks the user if they would like to select a photo from gallery or take a new photo
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(title);
                 builder.setMessage(message);
+
+                //neutral button is a simple null cancel
                 builder.setNeutralButton(cancel, null);
+
+                //take a new photo with the positive button
                 builder.setPositiveButton(takePhoto, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         takePhoto(activity, context);
                     }
                 });
+
+                //choose a photo from gallery with the negative button
                 builder.setNegativeButton(existing, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -102,42 +117,74 @@ public class ImageHelper {
         });
     }
 
+    //this mehtod handle the photo taking of the app
     private static void takePhoto(Activity activity, Context context){
+
+        //check if the app has permission to use the camera
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
 
+            //create a photo intent
             Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            //grant URI permission to the photo intent
             photoIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
             if(photoIntent.resolveActivity(activity.getPackageManager()) != null){
                 photoFile = null;
                 try {
+                    //create an image file
                     photoFile = createImageFile(context);
                 } catch (IOException e) {
                     Toast.makeText(activity.getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
                 }
+                //check if the photofile is null or not
                 if (photoFile != null){
-                    Uri photoUri = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", photoFile);
-                    photoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    activity.startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
 
+                    //use the fileprovider class to create a photoURI
+                    Uri photoUri = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", photoFile);
+
+                    //grant uri permission to the photo intent
+                    photoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    //add the photo URI to the photo intent extras
+                    photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+
+                    //start the photo activity
+                    activity.startActivityForResult(photoIntent, REQUEST_TAKE_PHOTO);
                 }
 
             }
-        } else {
+        }
+        //if the app does not have permission, ask for it and recur the method
+        else {
+
+            //request camera permission
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA}, PermissionsHelper.getMyPermissionsRequestCamera());
+
+            //recur this method
             takePhoto(activity, context);
         }
     }
 
+    //this method is used in the onActivityResult method in the Add and Edit Recipe
     public static String getPhotoTaken(Context context, int requestCode, int resultCode, Intent data, ImageView imageView){
+
+        //null the photoPath
         String photoPath = null;
+
+        //if the photo came from a photo taken
         if(requestCode == ImageHelper.getRequestImageCapture() && resultCode == RESULT_OK){
+
+            //the target width and height to use for resizing the image
             int targetW = 100;
             int targetH = 100;
 
+            //bitmap factory options to create the new photo file
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
+
+            //get the current width and height of the photo
             int photoW = bmOptions.outWidth;
             int photoH = bmOptions.outHeight;
 
@@ -147,37 +194,61 @@ public class ImageHelper {
             bmOptions.inSampleSize = scaleFactor;
             bmOptions.inPurgeable = true;
 
+            //set the bitmap with the absolute path of the new file
             Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), bmOptions);
 
+            //make sure that the image in oriented correctly
             bitmap = getBitmapExif(photoFile, bitmap);
 
+            //set the image of the imageview with the newly resized bitmap image
             imageView.setImageBitmap(bitmap);
 
+            //set the photoPath with the absolute path of the photo file
             photoPath = photoFile.getAbsolutePath();
-        }else if(requestCode == ImageHelper.getRequestImageGallery() && resultCode == RESULT_OK){
+        }
+        //if the photo came from gallery
+        else if(requestCode == ImageHelper.getRequestImageGallery() && resultCode == RESULT_OK){
+            //create a uri with the data from the activity result
             Uri selectedIMG = data.getData();
-            Bitmap bitmap = null;
+
+            //create a new bitmap object
+            Bitmap bitmap;
             try{
+                //use the select image object to create a new bitmap
                 bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), selectedIMG);
 
+                //make sure that the orientation of the image is correct
                 bitmap = getBitmapOrientationCursor(selectedIMG, context, bitmap);
 
+                //set the image of the imageview with the newly selected bitmap
                 imageView.setImageBitmap(bitmap);
 
+                //create a new File with the createImageFile method
                 File galleryFile = createImageFile(context);
+
+                //output stream to save the image to local storage of the app
                 OutputStream outputStream = new FileOutputStream(galleryFile);
+
+                //compress the image
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+                //close the stream
                 outputStream.flush();
                 outputStream.close();
+
+                //set the photopath to the absoloute path of the gallery file
                 photoPath = galleryFile.getAbsolutePath();
 
             }catch (IOException e){
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+
+        //return the absolute path of the gallery or new photo file
         return photoPath;
     }
 
+    //this method uses orientation cursor to make sure that the image displays in the correct orientation
     private static Bitmap getBitmapOrientationCursor(Uri uri, Context context, Bitmap bitmap){
         int orientation;
         Cursor cursor = context.getContentResolver().query(uri, new String[]{MediaStore.Images.ImageColumns.ORIENTATION}, null, null, null);
@@ -214,6 +285,7 @@ public class ImageHelper {
 
     }
 
+    //this method reduces the size of a bitmap image
     private static Bitmap loadSampledResource(Context context, int imageID, int targetHeight, int targetWidth){
         final BitmapFactory.Options options = new BitmapFactory.Options();
 
@@ -232,10 +304,10 @@ public class ImageHelper {
         options.inSampleSize = inSampleSize;
         options.inJustDecodeBounds = false;
 
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), imageID, options);
-        return bitmap;
+        return BitmapFactory.decodeResource(context.getResources(), imageID, options);
     }
 
+    //this method reduce the size of an image file
     private static Bitmap loadSampledIMGFile(String imagePath, int targetHeight, int targetWidth){
         final BitmapFactory.Options options = new BitmapFactory.Options();
 
@@ -257,11 +329,13 @@ public class ImageHelper {
         return BitmapFactory.decodeFile(imagePath, options);
     }
 
+    //this method is used to the the resource id of a drawable image
     private static int getResId(Context context, String imgPath){
         return context.getResources().getIdentifier(imgPath, "drawable", context.getPackageName());
 
     }
 
+    //this method creates an image file
     private static File createImageFile(Context context) throws IOException{
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imgFileName = "RECIPE_PHOTO_" + timeStamp + "_";
@@ -275,9 +349,10 @@ public class ImageHelper {
         return image;
     }
 
+    //this method uses the Exif Interface to make sure the image is displayed in the correct orientation
     private static Bitmap getBitmapExif(File file, Bitmap bitmap){
 
-        ExifInterface exif = null;
+        ExifInterface exif;
         int orientation = -1;
         try{
             exif = new ExifInterface(file.getAbsolutePath());
