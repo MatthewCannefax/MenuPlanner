@@ -32,6 +32,7 @@ import java.util.List;
 public class RecipeListItemAdapter extends ArrayAdapter {
     //A list to hold all the recipe objects
     private List<Recipe> mRecipeItems;
+
     //initialize a new inflater object
     private LayoutInflater mInflator;
 
@@ -50,11 +51,12 @@ public class RecipeListItemAdapter extends ArrayAdapter {
 
     }
 
+    //overridden methods to make sure the views are not recycled
+    //when the views are recycled, the click event selects all the views that are reused
     @Override
     public int getItemViewType(int position) {
         return position;
     }
-
     @Override
     public int getViewTypeCount() {
         return getCount();

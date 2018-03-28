@@ -51,6 +51,8 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
 
     }
 
+    //overridden methods to make sure the views are not recycled
+    //when the views are recycled, the click event selects all the views that are reused
     @Override
     public int getViewTypeCount() {
         if (getCount() >= 1) {
@@ -59,7 +61,6 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
             return 1;
         }
     }
-
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -69,8 +70,6 @@ public class RecipeMenuItemAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-
 
         //if the convertview is null set it up with the inflater
         if (convertView == null){

@@ -43,6 +43,8 @@ public class IngredientItemAdapter extends ArrayAdapter {
 
     }
 
+    //these two methods are overridden to make sure that the views are not recycled
+    //when the views are recycled the click event selects all views that are reused
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -58,7 +60,6 @@ public class IngredientItemAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull final ViewGroup parent){
 
-        int n = position;
         //if convertView is null, set it up with the inflator passing the layout view ingredient item
         if(convertView == null){
             convertView = mInflator.inflate(R.layout.ingredient_list_item, parent, false);

@@ -89,6 +89,8 @@ public class GroceryItemAdapter extends ArrayAdapter {
         tvMeasurement.setText(item.getMeasurement().toString());
         tvCategory.setText(item.getCategory().toString());
 
+        //this click listener strikes through the items of the grocery item view when clicked
+        //this signifies that the item has been checked
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
