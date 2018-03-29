@@ -18,23 +18,31 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
+//for creating and loading JSON files
 public class JSONHelper {
     private static final String TAG = "JSONHelper";
     private static String mFileName;
 
-
+    //create a JSON file with a list of Recipe objects
     public static boolean exportRecipesToJSON(Context context, List<Recipe> recipeList, String fileName){
+        //the name of the file that is being created
         mFileName = fileName;
 
+        //recipe list
         Recipes recipeData = new Recipes();
+
+        //set the recipe Data list to the given recipe list
         recipeData.setRecipeList(recipeList);
 
+        //create a GSON object. Google's JSON Helper library
         Gson gson = new Gson();
+
+        //convert the recipeData list to a JSON string
         String jsonString = gson.toJson(recipeData);
         Log.i(TAG, "exportRecipesToJSON: " + jsonString);
 
+        //output stream to write the JSON string to a file
         FileOutputStream fileOutputStream = null;
-
         try {
             fileOutputStream = context.openFileOutput(mFileName, MODE_PRIVATE);
             fileOutputStream.write(jsonString.getBytes());
@@ -53,12 +61,13 @@ public class JSONHelper {
         return false;
     }
 
+    //import a list of recipes from a JSON file
     public static List<Recipe> importRecipesFromJSON(Context context, String fileName){
+        //the file name we're looking for
         mFileName = fileName;
 
+        //file reader to read the JSON file
         FileReader reader = null;
-
-
         try {
             File file = new File(context.getFilesDir(), mFileName);
             reader = new FileReader(file);
@@ -80,18 +89,22 @@ public class JSONHelper {
         return null;
     }
 
+    //use a list of ingredients to create a JSON file
     public static boolean exportIngredientsToJSON(Context context, List<Ingredient> ingredientList, String fileName){
         mFileName = fileName;
 
         Ingredients ingredientData = new Ingredients();
         ingredientData.setIngredientList(ingredientList);
 
+        //Google's JSON Helper library
         Gson gson = new Gson();
+
+        //convert the ingredientData list to a JSON string
         String jsonString = gson.toJson(ingredientData);
         Log.i(TAG, "exportRecipesToJSON: " + jsonString);
 
+        //file output stream to write the JSON string to a file
         FileOutputStream fileOutputStream = null;
-
         try {
             fileOutputStream = context.openFileOutput(mFileName, MODE_PRIVATE);
             fileOutputStream.write(jsonString.getBytes());
@@ -110,12 +123,12 @@ public class JSONHelper {
         return false;
     }
 
+    //import list of ingredient from a JSON file
     public static List<Ingredient> importIngredientsFromJSON(Context context, String fileName){
         mFileName = fileName;
 
+        //file reader to read the JSON file into an ingredient list
         FileReader reader = null;
-
-
         try {
             File file = new File(context.getFilesDir(), mFileName);
             reader = new FileReader(file);
@@ -137,6 +150,7 @@ public class JSONHelper {
         return null;
     }
 
+    //this static class is needed to work with the GSON library
     static class Ingredients{
 
         List<Ingredient> ingredientList;
@@ -150,6 +164,7 @@ public class JSONHelper {
         }
     }
 
+    //this static class is needed to work with the GSON library
     static class Recipes{
 
         List<Recipe> recipeList;
