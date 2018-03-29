@@ -15,7 +15,7 @@ public class Ingredient implements Parcelable {
     //I might want to change the type to a custom measurement class
     //to help with consolidation when generating the grocery list
     private Measurement measurement;
-    private String name;
+    private String name = "";
     private GroceryCategory category;
     private boolean itemChecked = false;
 
