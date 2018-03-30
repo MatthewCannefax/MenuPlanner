@@ -47,29 +47,32 @@ public class GroceryBuilder {
         //loop through all the ingredients and combine each one with the same name and measurement type
         for (int i = 0; i<newIngredients.size()-1; i++){
 
-                //get the current ingredient and the next ingredient to be compared to one another
-                Ingredient ingred1 = newIngredients.get(i);
-                Ingredient ingred2 = newIngredients.get(i + 1);
+            //the current item to compare to
+            Ingredient ingred1 = newIngredients.get(i);
 
-                //while the ingredients have the same name, combine the two into one item
-                while (ingred1.getName().toUpperCase().equals(ingred2.getName().toUpperCase())){
+            //loop through all the ingredients that come after ingred1 in the list
+            for(int n = i + 1; n < newIngredients.size() - 1; n++){
 
-                    //make sure the categories and measurement types are the same before combining
-                    if (ingred1.getCategory() == ingred2.getCategory() && ingred1.getMeasurement().getType() == ingred2.getMeasurement().getType()) {
-                        ingred1.getMeasurement().setAmount(ingred1.getMeasurement().getAmount() + ingred2.getMeasurement().getAmount());
+                //now comparing n and i
+                Ingredient ingred2 = newIngredients.get(n);
 
-                        //remove ingred2 from the new ingredients list since it has been combined with ingred1
-                        newIngredients.remove(i + 1);
+                //if the two ingredients match in name, category and measurement type, they will be combined
+                if(ingred1.getName().equals(ingred2.getName()) &&
+                        ingred1.getCategory().equals(ingred2.getCategory()) &&
+                        ingred1.getMeasurement().getType().equals(ingred2.getMeasurement().getType())){
 
-                        //if there are more ingredients to be checked make iterate ingred2 to that next ingredient
-                        //if not set ingred2 to a new ingredient so we don't get a nullpointer
-                        if((i + 1) != newIngredients.size()) {
-                            ingred2 = newIngredients.get(i + 1);
-                        }else{
-                            ingred2 = new Ingredient();
-                        }
-                    }
+                                //set the amount of the first ingred to the two ingredients combined
+                                ingred1.getMeasurement().setAmount(
+                                        ingred1.getMeasurement().getAmount() + ingred2.getMeasurement().getAmount()
+                                );
+
+                                //remove the second ingredient from the list
+                                newIngredients.remove(n);
+
+                                //all the ingredients have moved up one position, decrement here so the next item won't be skipped
+                                n--;
                 }
+            }
 
         }
 

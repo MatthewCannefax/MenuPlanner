@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
@@ -80,6 +81,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
         final TextView tvName = convertView.findViewById(R.id.itemNameText);
         final TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
         final TextView tvCategory = convertView.findViewById(R.id.tvCategory);
+        final CheckBox cbChecked = convertView.findViewById(R.id.groceryCheckBox);
 
         //the the grocery item by the postion given in the arguments
         final Ingredient item = mGroceryItems.get(position);
@@ -88,6 +90,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
         tvName.setText(item.getName());
         tvMeasurement.setText(item.getMeasurement().toString());
         tvCategory.setText(item.getCategory().toString());
+        cbChecked.setChecked(false);
 
         //this click listener strikes through the items of the grocery item view when clicked
         //this signifies that the item has been checked
@@ -100,12 +103,16 @@ public class GroceryItemAdapter extends ArrayAdapter {
                     tvName.setPaintFlags(0);
                     tvCategory.setPaintFlags(0);
                     tvMeasurement.setPaintFlags(0);
+
+                    cbChecked.setChecked(false);
                 }else{
                     itemChecked[0] = true;
                     item.setItemChecked(true);
                     tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvMeasurement.setPaintFlags(tvMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    cbChecked.setChecked(true);
                 }
             }
         });
