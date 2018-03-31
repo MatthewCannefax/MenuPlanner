@@ -86,9 +86,14 @@ public class GroceryItemAdapter extends ArrayAdapter {
         //the the grocery item by the postion given in the arguments
         final Ingredient item = mGroceryItems.get(position);
 
+        //combine measurement text with name text
+        String measurePlusName = String.format("%s\t\t%s", item.getMeasurement().toString(), item.getName());
+
         //set the text of the textviews
-        tvName.setText(item.getName());
-        tvMeasurement.setText(item.getMeasurement().toString());
+//        tvName.setText(item.getName());
+//        tvMeasurement.setText(item.getMeasurement().toString());
+        tvName.setText("");
+        tvMeasurement.setText(measurePlusName);
         tvCategory.setText(item.getCategory().toString());
         cbChecked.setChecked(false);
 
