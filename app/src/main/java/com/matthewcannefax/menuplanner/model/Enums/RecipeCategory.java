@@ -11,14 +11,13 @@ public enum RecipeCategory {
     //this overridden toString method will display the categories with the first character capitalized
     @Override
     public String toString() {
-        if (this == MAIN_DISHES)
-        {
-            return "Main Dishes";
-        }else if (this == BBQ) {
-            return "BBQ";
-        }else
-        {
-            return this.name().substring(0, 1) + this.name().substring(1).toLowerCase();
+        switch (this) {
+            case MAIN_DISHES:
+                return "Main Dishes";
+            case BBQ:
+                return "BBQ";
+            default:
+                return this.name().substring(0, 1) + this.name().substring(1).toLowerCase();
         }
 
     }

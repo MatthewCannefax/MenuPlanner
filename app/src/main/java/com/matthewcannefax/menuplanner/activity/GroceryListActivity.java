@@ -102,113 +102,112 @@ public class GroceryListActivity extends AppCompatActivity {
 
 
         //if the remove selected items option is clicked
-        if(item.getItemId() == R.id.removeSelectItems){
-            int count = adapter.getCount();
+        switch (item.getItemId()) {
+            case R.id.removeSelectItems:
+                int count = adapter.getCount();
 
-            //loop through the adapter
-            for (int i = 0; i < adapter.getCount(); i++) {
+                //loop through the adapter
+                for (int i = 0; i < adapter.getCount(); i++) {
 
-                //get the ingredient item from the adapter item
-                Ingredient ingred = (Ingredient) adapter.getItem(i);
+                    //get the ingredient item from the adapter item
+                    Ingredient ingred = (Ingredient) adapter.getItem(i);
 
-                //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
-                //the item will be removed
-                if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i))
-                {
-                    //remove the item from the adapter
+                    //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
+                    //the item will be removed
+                    if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i)) {
+                        //remove the item from the adapter
 //                    adapter.remove(ingred);
-                    StaticGroceryList.getIngredientList().remove(i);
+                        StaticGroceryList.getIngredientList().remove(i);
 
-                    //since the item has been removed, the position needs to be stepped back by one
-                    //otherwise it will skip an item
-                    i = i - 1;
-                }
-            }
-
-            //display a Toast confirming to the user that the items have been removed
-            //may want to switch to a dialog so the user can confirm deletion
-            if (count != adapter.getCount()) {
-                Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
-            }
-
-            //reset the adapter
-            adapter = new GroceryItemAdapter(this, ingredients);
-            lv.setAdapter(adapter);
-
-            //when the item was removed from the adpater it was also removed from the static grocery list
-            //save the static grocery list to JSON
-            StaticGroceryList.saveGroceries(this);
-            return true;
-        }
-        //adding a separate grocery item that is not a part of a recipe
-        else if(item.getItemId() == R.id.addNewGroceryItem){
-            //create an alertdialog to input this information
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Add Item");
-
-            //inflate the add_ingredient_item layout
-            View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
-
-            //controls inside the view
-            final EditText etAmount = newItemView.findViewById(R.id.amountText);
-            final Spinner spMeasure = newItemView.findViewById(R.id.amountSpinner);
-            final EditText etName = newItemView.findViewById(R.id.ingredientName);
-            final Spinner spCat = newItemView.findViewById(R.id.categorySpinner);
-
-            //set up the clicklisteners for the editTexts inside the alertdialog
-            //these clicklisteners will clear the text inside and then null the listener itself
-            clearEditText(etName);
-            clearEditText(etAmount);
-
-            //setup the default array adapters for the category and measurementtype spinners
-            ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.values());
-            ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.values());
-
-            //set the spinner adpaters
-            spMeasure.setAdapter(measureAdapter);
-            spCat.setAdapter(ingredCatAdapter);
-
-            //set the newItemView as the view for the alertdialog
-            builder.setView(newItemView);
-
-            builder.setNegativeButton("Cancel", null);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    //check that there are values for the name and the amount
-                    //also using a custom tryParse method to check that the value for the amount is indeed a double
-                    if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
-                        //add the new Ingredient to the ingredientList
-                        StaticGroceryList.getIngredientList().add(new Ingredient(
-                                etName.getText().toString(),
-                                (GroceryCategory)spCat.getSelectedItem(),
-                                new Measurement(
-                                        Double.parseDouble(etAmount.getText().toString()),
-                                        (MeasurementType)spMeasure.getSelectedItem()
-                                )
-                        ));
-
-                        //save the grocery list now that the new item has been added
-                        StaticGroceryList.saveGroceries(mContext);
-
-                        //notify the arrayadapter that the dataset has changed
-                        adapter = new GroceryItemAdapter(mContext, StaticGroceryList.getIngredientList());
-                        lv.setAdapter(adapter);
-
-                    } else {
-                        //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
-                        Toast.makeText(getApplicationContext(), "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                        //since the item has been removed, the position needs to be stepped back by one
+                        //otherwise it will skip an item
+                        i = i - 1;
                     }
                 }
-            });
 
-            builder.show();
+                //display a Toast confirming to the user that the items have been removed
+                //may want to switch to a dialog so the user can confirm deletion
+                if (count != adapter.getCount()) {
+                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
+                }
 
-            return true;
+                //reset the adapter
+                adapter = new GroceryItemAdapter(this, ingredients);
+                lv.setAdapter(adapter);
 
-        }
-        else {
-            return false;
+                //when the item was removed from the adpater it was also removed from the static grocery list
+                //save the static grocery list to JSON
+                StaticGroceryList.saveGroceries(this);
+                return true;
+
+            //adding a separate grocery item that is not a part of a recipe
+            case R.id.addNewGroceryItem:
+                //create an alertdialog to input this information
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Add Item");
+
+                //inflate the add_ingredient_item layout
+                View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
+
+                //controls inside the view
+                final EditText etAmount = newItemView.findViewById(R.id.amountText);
+                final Spinner spMeasure = newItemView.findViewById(R.id.amountSpinner);
+                final EditText etName = newItemView.findViewById(R.id.ingredientName);
+                final Spinner spCat = newItemView.findViewById(R.id.categorySpinner);
+
+                //set up the clicklisteners for the editTexts inside the alertdialog
+                //these clicklisteners will clear the text inside and then null the listener itself
+                clearEditText(etName);
+                clearEditText(etAmount);
+
+                //setup the default array adapters for the category and measurementtype spinners
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.values());
+
+                //set the spinner adpaters
+                spMeasure.setAdapter(measureAdapter);
+                spCat.setAdapter(ingredCatAdapter);
+
+                //set the newItemView as the view for the alertdialog
+                builder.setView(newItemView);
+
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //check that there are values for the name and the amount
+                        //also using a custom tryParse method to check that the value for the amount is indeed a double
+                        if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                            //add the new Ingredient to the ingredientList
+                            StaticGroceryList.getIngredientList().add(new Ingredient(
+                                    etName.getText().toString(),
+                                    (GroceryCategory) spCat.getSelectedItem(),
+                                    new Measurement(
+                                            Double.parseDouble(etAmount.getText().toString()),
+                                            (MeasurementType) spMeasure.getSelectedItem()
+                                    )
+                            ));
+
+                            //save the grocery list now that the new item has been added
+                            StaticGroceryList.saveGroceries(mContext);
+
+                            //notify the arrayadapter that the dataset has changed
+                            adapter = new GroceryItemAdapter(mContext, StaticGroceryList.getIngredientList());
+                            lv.setAdapter(adapter);
+
+                        } else {
+                            //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
+                            Toast.makeText(getApplicationContext(), "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                builder.show();
+
+                return true;
+
+            default:
+                return false;
         }
     }
 

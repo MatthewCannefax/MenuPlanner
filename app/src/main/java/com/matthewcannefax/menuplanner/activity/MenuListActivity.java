@@ -147,51 +147,52 @@ public class MenuListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
 
         //if the Add Recipe option is clicked
-       if(item.getItemId() == R.id.addRecipeToMenuItem){
-           //new intent to move to the RecipeListActivity
-           Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-           intent.putExtra("TITLE", "Add Recipes");
-           MenuListActivity.this.startActivity(intent);
-           return true;
-       }
-       //if the Generate Grocery List option is clicked
-       else if(item.getItemId() == R.id.generateGroceryListItem) {
-           //if the grocery list is not null and actually has items in it
-           if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
+        switch (item.getItemId()) {
+            case R.id.addRecipeToMenuItem:
+                //new intent to move to the RecipeListActivity
+                Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+                intent.putExtra("TITLE", "Add Recipes");
+                MenuListActivity.this.startActivity(intent);
+                return true;
 
-               //ask the user if they truly wish to create a new grocery list
-               AlertDialog.Builder builder = new AlertDialog.Builder(this);
-               builder.setTitle("Generate New Grocery List?");
-               builder.setMessage("Are you sure you want to replace your existing grocery list?");
-               builder.setNegativeButton("Cancel", null);
-               builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialogInterface, int i) {
-                       //if the user clicks ok button, create the new grocery list with this method
-                       goToGroceryList();
-                   }
-               });
+            //if the Generate Grocery List option is clicked
+            case R.id.generateGroceryListItem:
+                //if the grocery list is not null and actually has items in it
+                if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
 
-               builder.show();
+                    //ask the user if they truly wish to create a new grocery list
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Generate New Grocery List?");
+                    builder.setMessage("Are you sure you want to replace your existing grocery list?");
+                    builder.setNegativeButton("Cancel", null);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //if the user clicks ok button, create the new grocery list with this method
+                            goToGroceryList();
+                        }
+                    });
 
-               return true;
-           }
-           //if there is no grocery list and the menu list is not null create a new grocery list
-           else if (StaticMenu.getMenuList() != null) {
-               goToGroceryList();
-               return true;
-           }
-           //if it gets here there is no grocery list and there is no menu list
-           //so prompt the user to add menu items
-           else {
-               Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
-               return true;
-           }
-       }
-       //default; this will allow the back button to work correctly
-       else {
-           return false;
-       }
+                    builder.show();
+
+                    return true;
+                }
+                //if there is no grocery list and the menu list is not null create a new grocery list
+                else if (StaticMenu.getMenuList() != null) {
+                    goToGroceryList();
+                    return true;
+                }
+                //if it gets here there is no grocery list and there is no menu list
+                //so prompt the user to add menu items
+                else {
+                    Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+                //default; this will allow the back button to work correctly
+            default:
+                return false;
+        }
     }
 
     //this method creates the intent for the grocery list activity, and calls the grocery builder methods
