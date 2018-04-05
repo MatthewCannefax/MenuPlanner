@@ -32,7 +32,7 @@ public class IngredientItemAdapter extends ArrayAdapter {
     //initialize a layoutinflator
     private LayoutInflater mInflator;
 
-    public IngredientItemAdapter(@NonNull Context context, @NonNull List objects) {
+    public IngredientItemAdapter(@NonNull Context context, @NonNull List<Ingredient> objects) {
         super(context, R.layout.ingredient_list_item, objects);
 
         //instantiate the list with the list that is passed through the constructor

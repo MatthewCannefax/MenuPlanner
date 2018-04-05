@@ -31,7 +31,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
 
     //constructor
-    public GroceryItemAdapter(@NonNull Context context, @NonNull List objects) {
+    public GroceryItemAdapter(@NonNull Context context, @NonNull List<Ingredient> objects) {
         super(context, R.layout.grocery_item, objects);
 
         //set the objects to the groceryitems list

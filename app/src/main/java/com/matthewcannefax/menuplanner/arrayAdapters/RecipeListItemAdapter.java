@@ -41,7 +41,7 @@ public class RecipeListItemAdapter extends ArrayAdapter {
     private static final String RECIPE_ID = "item_id";
 
     //constructor
-    public RecipeListItemAdapter(@NonNull Context context, @NonNull List objects) {
+    public RecipeListItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects) {
         super(context, R.layout.menu_recipe_list_item, objects);
 
         //instantiate the list of recipes and the inflater object
