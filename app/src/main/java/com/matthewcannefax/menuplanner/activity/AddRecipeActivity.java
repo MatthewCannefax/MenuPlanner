@@ -1,6 +1,7 @@
 package com.matthewcannefax.menuplanner.activity;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -126,7 +127,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         //region Setup The Button View
         //add a button at the end of the listview to allow the user to add more ingredients to the recipe
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.add_ingredient_btn, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.add_ingredient_btn, null);
         view.requestFocus();
         Button addBTN = view.findViewById(R.id.addIngredientBTN);
         recipeIngreds.addFooterView(view);
