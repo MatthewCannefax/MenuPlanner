@@ -7,6 +7,7 @@
     <string name="new_recipe_name_box">Recipe Name</string>
     <string name="add_ingredient_btn">Add Ingredient</string>
     <string name="directions_header">DIRECTIONS:</string>
+    <string name="directions_hint">Directions</string>
     <string name="recipe_list_to_json">recipeListToJSON</string>
     <string name="json_menu_list">menuListToJSON</string>
     <string name="json_grocery_list">groceryListToJSON</string>
