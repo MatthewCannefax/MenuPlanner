@@ -3,11 +3,8 @@ package com.matthewcannefax.menuplanner.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
-import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //This object class is for creating Recipe objects

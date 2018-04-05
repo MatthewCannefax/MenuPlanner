@@ -16,9 +16,6 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.MainActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //this class sets up the navigation drawer for all activities
 public class NavDrawer {
     //fields

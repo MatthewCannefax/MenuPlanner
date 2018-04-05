@@ -12,10 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.GroceryItem;
 import com.matthewcannefax.menuplanner.model.Ingredient;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

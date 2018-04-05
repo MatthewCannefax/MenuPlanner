@@ -13,12 +13,8 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
-import com.matthewcannefax.menuplanner.model.Recipe;
-import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

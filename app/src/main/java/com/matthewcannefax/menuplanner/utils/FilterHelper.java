@@ -1,17 +1,7 @@
 package com.matthewcannefax.menuplanner.utils;
 
 
-import android.content.Context;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Spinner;
-
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.util.ArrayList;

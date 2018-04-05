@@ -4,11 +4,6 @@ package com.matthewcannefax.menuplanner.StaticItems;
 import android.content.Context;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
-import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 

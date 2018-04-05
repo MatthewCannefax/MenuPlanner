@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyCharacterMap;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,20 +18,14 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
-import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.GroceryItemAdapter;
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
-import com.matthewcannefax.menuplanner.model.Recipe;
-import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
