@@ -39,8 +39,8 @@ public enum GroceryCategory {
     SHOES("Shoes", false);
 
     //fields
-    String mName;
-    boolean mIsIngredient;
+    final String mName;
+    final boolean mIsIngredient;
 
     //constructor
     GroceryCategory(String name, boolean isIngredient) {
@@ -49,7 +49,7 @@ public enum GroceryCategory {
     }
 
     //check if the enum is an ingredient
-    public boolean isIngredient() {
+    private boolean isIngredient() {
         return mIsIngredient;
     }
 

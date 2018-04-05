@@ -16,7 +16,7 @@ import java.util.List;
 //this custom array adapter is to act as a placeholder so a button can be added as a footer view in an empty listview
 public class ButtonArrayAdapter extends ArrayAdapter {
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     public ButtonArrayAdapter(@NonNull Context context) {
         super(context, R.layout.fake_btn_layout);

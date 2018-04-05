@@ -20,7 +20,7 @@
         android:textSize="16sp"
         android:inputType="text"
         android:text="@string/name"
-        android:hint="Name"/>
+        android:hint="@string/name"/>
 
     <Spinner
         android:id="@+id/categorySpinner"
@@ -45,7 +45,7 @@
         android:gravity="center"
         android:inputType="numberDecimal"
         android:text="@string/amount"
-        android:hint="Amount"/>
+        android:hint="@string/amount"/>
 
     <Spinner
         android:id="@+id/amountSpinner"

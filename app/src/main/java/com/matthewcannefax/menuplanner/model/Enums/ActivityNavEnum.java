@@ -16,7 +16,7 @@ public enum ActivityNavEnum {
     GROCERY_LIST_ACTIVITY("Grocery List", GroceryListActivity.class, 4);
 
     //get the name of the activity
-    public String getName() {
+    private String getName() {
         return mName;
     }
 
@@ -26,14 +26,14 @@ public enum ActivityNavEnum {
     }
 
     //get the position in the order of Activities
-    public int getPosition() {
+    private int getPosition() {
         return mPosition;
     }
 
     //Fields
-    private String mName;
-    private Class<? extends Activity> mActivity;
-    private int mPosition;
+    private final String mName;
+    private final Class<? extends Activity> mActivity;
+    private final int mPosition;
 
     //constructor
     ActivityNavEnum(String name, Class<? extends Activity> activity, int position){

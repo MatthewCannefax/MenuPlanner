@@ -16,7 +16,7 @@ public enum MeasurementType {
     BOX("box");
 
     //name field
-    private String mName;
+    private final String mName;
 
     //constructor
     MeasurementType(String name){

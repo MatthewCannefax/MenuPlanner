@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/addRecipesMenuItem"
-        android:title="Add Recipes"
+        android:title="@string/add_recipes"
         />
     <item
         android:id="@+id/removeRecipes"
-        android:title="Remove Recipes"
+        android:title="@string/remove_recipes"
         />
     <!--<item-->
         <!--android:id="@+id/addNewRecipe"-->

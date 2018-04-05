@@ -27,10 +27,10 @@ import java.util.List;
 public class IngredientItemAdapter extends ArrayAdapter {
 
     //initialize a list of ingredients
-    private List<Ingredient> mRecipeIngredients;
+    private final List<Ingredient> mRecipeIngredients;
 
     //initialize a layoutinflator
-    private LayoutInflater mInflator;
+    private final LayoutInflater mInflator;
 
     public IngredientItemAdapter(@NonNull Context context, @NonNull List<Ingredient> objects) {
         super(context, R.layout.ingredient_list_item, objects);

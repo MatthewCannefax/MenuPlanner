@@ -82,7 +82,7 @@ public class Ingredient implements Parcelable {
         dest.writeByte(this.itemChecked ? (byte) 1 : (byte) 0);
     }
 
-    protected Ingredient(Parcel in) {
+    private Ingredient(Parcel in) {
         this.measurement = in.readParcelable(Measurement.class.getClassLoader());
         this.name = in.readString();
         int tmpCategory = in.readInt();

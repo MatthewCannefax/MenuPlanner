@@ -48,9 +48,6 @@ import java.util.Locale;
 public class EditRecipeActivity extends AppCompatActivity {
     //region VARS
 
-    //Constants
-    final int INGREDIENT_VIEW_HEIGHT = 175;
-
     //initialize the objects of the activity
     private EditText recipeName;
     private ImageView recipeIMG;
@@ -155,6 +152,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
         int n = params.height;
+        int INGREDIENT_VIEW_HEIGHT = 175;
         params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
         recipeIngreds.setLayoutParams(params);
         recipeIngreds.requestLayout();

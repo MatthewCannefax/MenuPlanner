@@ -11,8 +11,8 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SampleRecipes {
-    private static List<Recipe> recipeList;
+class SampleRecipes {
+    private static final List<Recipe> recipeList;
 
     public static List<Recipe> getRecipeList() {
         return recipeList;

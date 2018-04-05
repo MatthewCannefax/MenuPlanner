@@ -31,12 +31,12 @@ import java.util.List;
 
 public class RecipeListItemAdapter extends ArrayAdapter {
     //A list to hold all the recipe objects
-    private List<Recipe> mRecipeItems;
+    private final List<Recipe> mRecipeItems;
 
     //initialize a new inflater object
-    private LayoutInflater mInflator;
+    private final LayoutInflater mInflator;
 
-    private Context mContext;
+    private final Context mContext;
 
     private static final String RECIPE_ID = "item_id";
 

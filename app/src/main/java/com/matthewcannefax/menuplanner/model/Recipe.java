@@ -127,7 +127,7 @@ public class Recipe implements Parcelable {
         dest.writeByte(this.itemChecked ? (byte) 1 : (byte) 0);
     }
 
-    protected Recipe(Parcel in) {
+    private Recipe(Parcel in) {
         this.name = in.readString();
         int tmpCategory = in.readInt();
         this.category = tmpCategory == -1 ? null : RecipeCategory.values()[tmpCategory];

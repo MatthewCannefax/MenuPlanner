@@ -26,4 +26,5 @@
     <string name="new_grocery_list">New Grocery List</string>
     <string name="add_recipes">Add Recipes</string>
     <string name="submit">Submit</string>
+    <string name="remove_recipes">Remove Recipes</string>
 </resources>
