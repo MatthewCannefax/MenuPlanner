@@ -62,9 +62,6 @@ public class ImageHelper {
     //File field for new file creation
     private static File photoFile;
 
-    //field for the current photopath
-    private static String mCurrentPhotoPath;
-
     //field for the photoUri
     private static Uri imageUri;
 
@@ -346,7 +343,7 @@ public class ImageHelper {
                 ".jpg",
                 storageDir
         );
-        mCurrentPhotoPath = image.getAbsolutePath();
+        String mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 

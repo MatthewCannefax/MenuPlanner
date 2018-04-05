@@ -15,13 +15,12 @@ import java.util.List;
 
 //this custom array adapter is to act as a placeholder so a button can be added as a footer view in an empty listview
 public class ButtonArrayAdapter extends ArrayAdapter {
-    private List<Object> mObjects;
 
     private LayoutInflater mInflater;
 
     public ButtonArrayAdapter(@NonNull Context context) {
         super(context, R.layout.fake_btn_layout);
-        mObjects = new ArrayList<>();
+        List<Object> mObjects = new ArrayList<>();
         mObjects.add(new Object());
         mInflater = LayoutInflater.from(context);
     }

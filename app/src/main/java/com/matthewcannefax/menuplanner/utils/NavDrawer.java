@@ -23,7 +23,6 @@ import java.util.List;
 public class NavDrawer {
     //fields
     private static ListView mDrawerListView;
-    private static ArrayAdapter mAdapter;
 
     //setup the nav drawer using the context and activity as arguments
     public static void setupNavDrawer(Activity activity, Context context){
@@ -37,7 +36,7 @@ public class NavDrawer {
     //this method adds the activity enum items to the nav drawer and sets up the intents
     private static void addDrawerItems(final Activity currentActivity, final Context context){
         //listview adapter set to the activity enum
-        mAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
+        ArrayAdapter mAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
         mDrawerListView.setAdapter(mAdapter);
 
         //this onClickListener sets starts the activity chosen from the nav drawer list view

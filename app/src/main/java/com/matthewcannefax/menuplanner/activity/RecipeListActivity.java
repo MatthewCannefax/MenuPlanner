@@ -42,8 +42,6 @@ public class RecipeListActivity extends AppCompatActivity {
     private String title;
 
     private Spinner catSpinner;
-    private Button filterBTN;
-
 
 
     @Override
@@ -54,7 +52,7 @@ public class RecipeListActivity extends AppCompatActivity {
         setContentView(R.layout.recipe_menu_list);
 
         catSpinner = this.findViewById(R.id.catSpinner);
-        filterBTN = this.findViewById(R.id.filterBTN);
+        Button filterBTN = this.findViewById(R.id.filterBTN);
         //setup the list of Recipes currently using a sample class for testing
         recipeList = StaticRecipes.getRecipeList();
 

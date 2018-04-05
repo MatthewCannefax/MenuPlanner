@@ -42,7 +42,6 @@ public class MenuListActivity extends AppCompatActivity {
     //the listview object to display the menu
     private ListView lv;
 
-    private Button filterBTN;
     private Spinner catSpinner;
 
     //the list of recipes that will be displayed as the menu
@@ -68,7 +67,7 @@ public class MenuListActivity extends AppCompatActivity {
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);
         catSpinner = findViewById(R.id.catSpinner);
-        filterBTN = findViewById(R.id.filterBTN);
+        Button filterBTN = findViewById(R.id.filterBTN);
 
         //setup the arrayAdapter for catSpinner
         ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));

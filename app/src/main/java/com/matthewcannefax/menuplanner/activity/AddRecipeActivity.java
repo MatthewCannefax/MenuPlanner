@@ -51,22 +51,16 @@ public class AddRecipeActivity extends AppCompatActivity{
     private EditText directionsMultiLine;
 
     private IngredientItemAdapter ingredientItemAdapter;
-    private ButtonArrayAdapter buttonArrayAdapter;
 
     private Recipe newRecipe;
 
-    private Context mContext;
-
-    //boolean object to check if an image has been chosen
-    //be careful to only change this var to true at the end of the dialog
-    private boolean imgSet;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        mContext = this;
+        Context mContext = this;
         setContentView(R.layout.add_edit_recipe);
 
         newRecipe = new Recipe();
@@ -91,7 +85,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeCat.setAdapter(spinnerAdapter);
 
         //set the imgSet var to false as default
-        imgSet = false;
+        boolean imgSet = false;
 
         try {
             //set the default image in the recipeIMG imageView
@@ -106,7 +100,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         clearEditText(recipeName);
 
         //this special array adapter is only used when there are no ingredients in the list view
-        buttonArrayAdapter = new ButtonArrayAdapter(this);
+        ButtonArrayAdapter buttonArrayAdapter = new ButtonArrayAdapter(this);
         recipeIngreds.setAdapter(buttonArrayAdapter);
 
         //calling this method to add the ingredient button to the recipeIngreds listview and setup the on click listener

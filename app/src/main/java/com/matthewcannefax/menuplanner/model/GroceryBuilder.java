@@ -11,7 +11,6 @@ public class GroceryBuilder {
     public GroceryBuilder(){}
 
     private List<Recipe> recipes;
-    private List<Ingredient> ingredients;
     private List<Ingredient> groceryList;
 
     public GroceryBuilder(List<Recipe> recipes){
@@ -82,7 +81,7 @@ public class GroceryBuilder {
 
     //this method takes a list of ingredients and sorts them by category
     private List<Ingredient> sortByCategory(List<Ingredient> ingredientList){
-        ingredients = ingredientList;
+        List<Ingredient> ingredients = ingredientList;
 
         //sort the ingredients list by category
         Collections.sort(ingredients, new Comparator<Ingredient>() {

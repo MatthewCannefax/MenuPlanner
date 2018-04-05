@@ -64,10 +64,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     //boolean var to check if the add ingredient button has been added to the list view
     private boolean btnVisible;
 
-    //boolean object to check if an image has been chosen
-    //be careful to only change this var to true at the end of the dialog
-    private boolean imgSet;
-
     //an object for the unedited recipe
     private Recipe oldRecipe;
 
@@ -116,7 +112,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         addBTN = setupAddIngredientBTN();
 
         //set the imgSet var to false as default
-        imgSet = false;
+        boolean imgSet = false;
 
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
