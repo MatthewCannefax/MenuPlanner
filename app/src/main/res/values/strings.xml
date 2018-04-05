@@ -22,4 +22,7 @@
     <string name="new_photo_message">Take a new photo or add an existing photo from the gallery?</string>
     <string name="cancel">Cancel</string>
     <string name="take_new_photo">Take Photo</string>
+    <string name="new_grocery_list">New Grocery List</string>
+    <string name="add_recipes">Add Recipes</string>
+    <string name="submit">Submit</string>
 </resources>

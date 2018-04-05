@@ -6,10 +6,10 @@
         <!--android:title="View Grocery List"/>-->
     <item
         android:id="@+id/generateGroceryListItem"
-        android:title="New Grocery List"
+        android:title="@string/new_grocery_list"
         />
     <item
         android:id="@+id/addRecipeToMenuItem"
-        android:title="Add Recipes"
+        android:title="@string/add_recipes"
         />
 </menu>

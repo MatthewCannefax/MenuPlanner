@@ -24,7 +24,6 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/groceryCheckBox"
         android:layout_toRightOf="@+id/groceryCheckBox"
-        android:text="100 lbs"
         android:textSize="18sp" />
 
     <TextView

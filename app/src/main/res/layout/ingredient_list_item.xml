@@ -9,7 +9,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:text="TextView"
         android:textSize="18sp"
         android:layout_marginBottom="13dp"
         android:layout_marginTop="13dp"/>
@@ -22,7 +21,6 @@
         android:layout_alignBottom="@+id/tvMeasurement"
         android:layout_toEndOf="@+id/tvMeasurement"
         android:layout_toRightOf="@+id/tvMeasurement"
-        android:text="TextView"
         android:textSize="18sp"
         android:layout_centerVertical="true"
         android:layout_marginBottom="13dp"
