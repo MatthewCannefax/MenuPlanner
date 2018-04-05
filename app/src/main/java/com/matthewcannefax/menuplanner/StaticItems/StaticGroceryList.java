@@ -52,7 +52,7 @@ public class StaticGroceryList {
         if(mIngredientList != null){
             try {
                 String fileName = context.getString(R.string.json_grocery_list);
-                boolean result = JSONHelper.exportIngredientsToJSON(context, mIngredientList, fileName);
+                @SuppressWarnings("unused") boolean result = JSONHelper.exportIngredientsToJSON(context, mIngredientList, fileName);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

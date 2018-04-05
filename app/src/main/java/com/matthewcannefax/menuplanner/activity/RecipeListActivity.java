@@ -220,7 +220,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
                     //save the menu list
                     StaticMenu.saveMenu(this);
-                    boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getMenuList(), getString(R.string.json_menu_list));
+                    @SuppressWarnings("unused") boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getMenuList(), getString(R.string.json_menu_list));
 
                     //return to the menu activity
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);

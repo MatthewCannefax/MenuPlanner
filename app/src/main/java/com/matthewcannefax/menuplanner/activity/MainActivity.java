@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
@@ -37,13 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         //load the recipes from JSON file to the Static Class
         StaticRecipes.loadRecipes(this);
-
-        //this is for TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//            StaticRecipes.setRecipeList(SampleRecipes.getRecipeList());
-//            StaticRecipes.saveRecipes(this);
-//            StaticRecipes.loadRecipes(this);
-
 
         //Load the menu items from JSON to the Static class
         StaticMenu.loadMenu(this);
@@ -99,36 +91,44 @@ public class MainActivity extends AppCompatActivity {
         return b;
     }
 
-    //method that goes to the recipe activity
-    private void goToRecipeActivity(){
-        Intent intent = new Intent(MainActivity.this, RecipeListActivity.class);
-        intent.putExtra("TITLE", "My Recipes");
-        MainActivity.this.startActivity(intent);
-    }
+// --Commented out by Inspection START (4/5/2018 1:48 PM):
+//    //method that goes to the recipe activity
+//    private void goToRecipeActivity(){
+//        Intent intent = new Intent(MainActivity.this, RecipeListActivity.class);
+//        intent.putExtra("TITLE", "My Recipes");
+//        MainActivity.this.startActivity(intent);
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
 
-    //method goes to the menu activity
-    private void goToMenuActivity(){
+// --Commented out by Inspection START (4/5/2018 1:48 PM):
+//    //method goes to the menu activity
+//    private void goToMenuActivity(){
+//
+//        Intent intent = new Intent(MainActivity.this, MenuListActivity.class);
+//        intent.putExtra("RESULT", false);
+//        MainActivity.this.startActivity(intent);
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
 
-        Intent intent = new Intent(MainActivity.this, MenuListActivity.class);
-        intent.putExtra("RESULT", false);
-        MainActivity.this.startActivity(intent);
-    }
+// --Commented out by Inspection START (4/5/2018 1:48 PM):
+//    //method that goes to the grocery list activity
+//    private void goToGroceryActivity(){
+//
+//        if (StaticGroceryList.getIngredientList().size() > 0) {
+//            Intent intent = new Intent(MainActivity.this, GroceryListActivity.class);
+//            MainActivity.this.startActivity(intent);
+//        } else {
+//            Toast.makeText(this, "No Grocery List", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
 
-    //method that goes to the grocery list activity
-    private void goToGroceryActivity(){
-
-        if (StaticGroceryList.getIngredientList().size() > 0) {
-            Intent intent = new Intent(MainActivity.this, GroceryListActivity.class);
-            MainActivity.this.startActivity(intent);
-        } else {
-            Toast.makeText(this, "No Grocery List", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void goToAddRecipeActivity(){
-        Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
-        MainActivity.this.startActivity(intent);
-    }
+// --Commented out by Inspection START (4/5/2018 1:48 PM):
+//    private void goToAddRecipeActivity(){
+//        Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+//        MainActivity.this.startActivity(intent);
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
 
 
 }

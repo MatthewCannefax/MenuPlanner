@@ -58,8 +58,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Button addBTN;
     private Context mContext;
 
-    //boolean var to check if the add ingredient button has been added to the list view
-    private boolean btnVisible;
+// --Commented out by Inspection START (4/5/2018 1:45 PM):
+//    //boolean var to check if the add ingredient button has been added to the list view
+//    private boolean btnVisible;
+// --Commented out by Inspection STOP (4/5/2018 1:45 PM)
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -109,7 +111,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         addBTN = setupAddIngredientBTN();
 
         //set the imgSet var to false as default
-        boolean imgSet = false;
+//        boolean imgSet = false;
 
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
@@ -151,7 +153,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         int numIngredients = ingredients.size() + 1;
 
         ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
-        int n = params.height;
         int INGREDIENT_VIEW_HEIGHT = 175;
         params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
         recipeIngreds.setLayoutParams(params);

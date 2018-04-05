@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GroceryBuilder {
 
-    public GroceryBuilder(){}
+    // --Commented out by Inspection (4/5/2018 1:43 PM):public GroceryBuilder(){}
 
     private List<Recipe> recipes;
     private List<Ingredient> groceryList;
@@ -17,13 +17,17 @@ public class GroceryBuilder {
         this.recipes = recipes;
     }
 
-    public List<Ingredient> getGroceryList() {
-        return groceryList;
-    }
+// --Commented out by Inspection START (4/5/2018 1:43 PM):
+//    public List<Ingredient> getGroceryList() {
+//        return groceryList;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:43 PM)
 
-    public void setGroceryList(List<Ingredient> groceryList) {
-        this.groceryList = groceryList;
-    }
+// --Commented out by Inspection START (4/5/2018 1:43 PM):
+//    public void setGroceryList(List<Ingredient> groceryList) {
+//        this.groceryList = groceryList;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:43 PM)
 
     public List<Ingredient> consolidateGroceries(){
         //this is the current list

@@ -226,22 +226,24 @@ public class MenuListActivity extends AppCompatActivity {
         StaticGroceryList.saveGroceries(this);
     }
 
-    //this method creates the grocery list from the ingredient lists in the recipes on the recipe list
-    private List<Ingredient> getGroceryList()
-    {
-        //create a list to hold all the separate ingredients
-        List<Ingredient> groceries = new ArrayList<>();
-
-        //foreach recipe in the menulist
-        for(Recipe r : menuList){
-            //check to make sure the ingredient list has items in it
-            if(r.getIngredientList().size() != 0){
-                //add all the ingredients from each recipe to the grocery list
-                groceries.addAll(r.getIngredientList());
-            }
-        }
-
-        //return the new grocery list
-        return groceries;
-    }
+// --Commented out by Inspection START (4/5/2018 1:47 PM):
+//    //this method creates the grocery list from the ingredient lists in the recipes on the recipe list
+//    private List<Ingredient> getGroceryList()
+//    {
+//        //create a list to hold all the separate ingredients
+//        List<Ingredient> groceries = new ArrayList<>();
+//
+//        //foreach recipe in the menulist
+//        for(Recipe r : menuList){
+//            //check to make sure the ingredient list has items in it
+//            if(r.getIngredientList().size() != 0){
+//                //add all the ingredients from each recipe to the grocery list
+//                groceries.addAll(r.getIngredientList());
+//            }
+//        }
+//
+//        //return the new grocery list
+//        return groceries;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:47 PM)
 }

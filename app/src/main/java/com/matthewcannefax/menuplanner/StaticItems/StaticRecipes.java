@@ -48,7 +48,7 @@ public class StaticRecipes {
     public static void saveRecipes(Context context){
         try {
             String fileName = context.getString(R.string.recipe_list_to_json);
-            boolean result = JSONHelper.exportRecipesToJSON(context, recipeList, fileName);
+            @SuppressWarnings("unused") boolean result = JSONHelper.exportRecipesToJSON(context, recipeList, fileName);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

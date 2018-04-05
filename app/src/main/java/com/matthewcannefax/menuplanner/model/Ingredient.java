@@ -27,11 +27,13 @@ public class Ingredient implements Parcelable {
         this.category = category;
     }
 
-    public Ingredient(){}
+    // --Commented out by Inspection (4/5/2018 1:42 PM):public Ingredient(){}
 
-    public boolean isItemChecked() {
-        return itemChecked;
-    }
+// --Commented out by Inspection START (4/5/2018 1:43 PM):
+//    public boolean isItemChecked() {
+//        return itemChecked;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:43 PM)
 
     public void setItemChecked(boolean itemChecked) {
         this.itemChecked = itemChecked;

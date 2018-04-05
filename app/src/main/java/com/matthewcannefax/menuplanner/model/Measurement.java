@@ -31,9 +31,11 @@ public class Measurement implements Parcelable {
         return type;
     }
 
-    public void setType(MeasurementType type) {
-        this.type = type;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    public void setType(MeasurementType type) {
+//        this.type = type;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
     //returning the string format of the Measurement (i.e. "1.0 lbs.")
     @Override

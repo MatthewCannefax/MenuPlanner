@@ -60,7 +60,7 @@ public class AddRecipeActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        Context mContext = this;
+//        Context mContext = this;
         setContentView(R.layout.add_edit_recipe);
 
         newRecipe = new Recipe();
@@ -85,7 +85,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeCat.setAdapter(spinnerAdapter);
 
         //set the imgSet var to false as default
-        boolean imgSet = false;
+//        boolean imgSet = false;
 
         try {
             //set the default image in the recipeIMG imageView

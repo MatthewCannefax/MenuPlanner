@@ -85,9 +85,6 @@ public class RecipeListItemAdapter extends ArrayAdapter {
         //set the text of the textview with the name of the recipe
         tvName.setText(recipe.getName());
 
-        //open an input stream here.  It is opened here so that it can be closed in the finally clause
-        InputStream inputStream = null;
-
         //use the ImageHelper class to set the imageview drawable object
         ImageHelper.setImageViewDrawable(recipe.getImagePath(), mContext, imageView);
 

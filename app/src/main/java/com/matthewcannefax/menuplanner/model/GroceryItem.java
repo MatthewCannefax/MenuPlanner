@@ -16,31 +16,43 @@ public class GroceryItem implements Parcelable {
     //the category of the grocery item using the GroceryCategory enum
     private GroceryCategory category;//category will be as it relates to a grocery store (dairy, meat, etc)
 
-    //default constructor
-    public GroceryItem() {
-    }
+// --Commented out by Inspection START (4/5/2018 1:43 PM):
+//    //default constructor
+//    public GroceryItem() {
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:43 PM)
 
-    //constructor that takes both props
-    public GroceryItem(String name, GroceryCategory category) {
-        this.name = name;
-        this.category = category;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    //constructor that takes both props
+//    public GroceryItem(String name, GroceryCategory category) {
+//        this.name = name;
+//        this.category = category;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
-    public String getName() {
-        return name;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    public String getName() {
+//        return name;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
-    public void setName(String name) {
-        this.name = name;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
-    public GroceryCategory getCategory() {
-        return category;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    public GroceryCategory getCategory() {
+//        return category;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
-    public void setCategory(GroceryCategory category) {
-        this.category = category;
-    }
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    public void setCategory(GroceryCategory category) {
+//        this.category = category;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
 
 

@@ -31,8 +31,8 @@ public class PermissionsHelper {
         permissions = new ArrayList<>();
 
         //use the checkPermissions methods to check the requested permissions
-        checkStoragePermmisions(activity, context);
-        checkCameraPermissions(activity, context);
+        checkStoragePermmisions(context);
+        checkCameraPermissions(context);
 
         //if the list has items request the permission(s) in the list
         if(permissions != null && permissions.size() != 0){
@@ -49,14 +49,14 @@ public class PermissionsHelper {
     }
 
     //check for permissions to use External storage
-    private static void checkStoragePermmisions(Activity activity, Context context){
+    private static void checkStoragePermmisions(Context context){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
 
     //check for permissions to use the camera
-    private static void checkCameraPermissions(Activity activity, Context context){
+    private static void checkCameraPermissions(Context context){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             permissions.add(Manifest.permission.CAMERA);
         }

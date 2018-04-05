@@ -62,8 +62,10 @@ public class ImageHelper {
     //File field for new file creation
     private static File photoFile;
 
-    //field for the photoUri
-    private static Uri imageUri;
+// --Commented out by Inspection START (4/5/2018 1:44 PM):
+//    //field for the photoUri
+//    private static Uri imageUri;
+// --Commented out by Inspection STOP (4/5/2018 1:44 PM)
 
     //this is used to set the imageview with photos that are part of the app in the drawable directory
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){

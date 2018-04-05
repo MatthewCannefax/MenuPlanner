@@ -37,14 +37,16 @@ public class Recipe implements Parcelable {
         this.ingredientList = ingredientList;
     }
 
-    //Constructor without image
-    public Recipe(int recipeID, String name, RecipeCategory category, String directions, List<Ingredient> ingredientList) {
-        this.recipeID = recipeID;
-        this.name = name;
-        this.category = category;
-        this.directions = directions;
-        this.ingredientList = ingredientList;
-    }
+// --Commented out by Inspection START (4/5/2018 1:43 PM):
+//    //Constructor without image
+//    public Recipe(int recipeID, String name, RecipeCategory category, String directions, List<Ingredient> ingredientList) {
+//        this.recipeID = recipeID;
+//        this.name = name;
+//        this.category = category;
+//        this.directions = directions;
+//        this.ingredientList = ingredientList;
+//    }
+// --Commented out by Inspection STOP (4/5/2018 1:43 PM)
 
     //region Getters and Setters
     public boolean isItemChecked() {
