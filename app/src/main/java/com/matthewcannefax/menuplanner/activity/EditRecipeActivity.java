@@ -146,14 +146,16 @@ public class EditRecipeActivity extends AppCompatActivity {
     //using this method to resize the listview based on the number of ingredients in the recipe
     private void updateListViewHeight(List<Ingredient> ingredients){
 
-        //adding one to include the add ingredient button
-        int numIngredients = ingredients.size() + 1;
+        if (ingredients != null && ingredients.size() != 0) {
+            //adding one to include the add ingredient button
+            int numIngredients = ingredients.size() + 1;
 
-        ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
-        int INGREDIENT_VIEW_HEIGHT = 175;
-        params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
-        recipeIngreds.setLayoutParams(params);
-        recipeIngreds.requestLayout();
+            ViewGroup.LayoutParams params = recipeIngreds.getLayoutParams();
+            int INGREDIENT_VIEW_HEIGHT = 175;
+            params.height = numIngredients * INGREDIENT_VIEW_HEIGHT;
+            recipeIngreds.setLayoutParams(params);
+            recipeIngreds.requestLayout();
+        }
 
     }
 
@@ -421,58 +423,65 @@ public class EditRecipeActivity extends AppCompatActivity {
         //if the submit button is clicked and the recipe is editable
         if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
 
-            //Alert dialog to ask the user if they are sure they want to save the recipe
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Save Recipe?");
-            builder.setMessage("Are you sure you want to make changes to " + oldRecipe.getName() + "?");
-            builder.setNegativeButton("Cancel", null);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    //new recipe object created by the user
-                    newRecipe = new Recipe();
-                    newRecipe = oldRecipe;
-                    newRecipe.setName(recipeName.getText().toString());
-                    newRecipe.setDirections(directionsMultiLine.getText().toString());
-                    newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
+            //check if there are ingredients in the ingredient list
+            if (oldRecipe.getIngredientList() != null && oldRecipe.getIngredientList().size() != 0) {
+                //Alert dialog to ask the user if they are sure they want to save the recipe
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Save Recipe?");
+                builder.setMessage("Are you sure you want to make changes to " + oldRecipe.getName() + "?");
+                builder.setNegativeButton("Cancel", null);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //new recipe object created by the user
+                        newRecipe = new Recipe();
+                        newRecipe = oldRecipe;
+                        newRecipe.setName(recipeName.getText().toString());
+                        newRecipe.setDirections(directionsMultiLine.getText().toString());
+                        newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
-                    //get the ingredients of the new recipe from the old recipe object
-                    newRecipe.setIngredientList(oldRecipe.getIngredientList());
+                        //get the ingredients of the new recipe from the old recipe object
+                        newRecipe.setIngredientList(oldRecipe.getIngredientList());
 
-                    //get the image of the new recipe if the image has been set
-                    //using the imgSet var to signal whether the image has been set or not!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        //get the image of the new recipe if the image has been set
+                        //using the imgSet var to signal whether the image has been set or not!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-                    newRecipe.setImagePath(oldRecipe.getImagePath());
+                        newRecipe.setImagePath(oldRecipe.getImagePath());
 
-                    //Making the change to the Static list of recipes
-                    for(int n = 0; n < StaticRecipes.getRecipeList().size(); n++){
-                        if(StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()){
-                            StaticRecipes.getRecipeList().set(n, newRecipe);
-                            break;
+                        //Making the change to the Static list of recipes
+                        for(int n = 0; n < StaticRecipes.getRecipeList().size(); n++){
+                            if(StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()){
+                                StaticRecipes.getRecipeList().set(n, newRecipe);
+                                break;
+                            }
                         }
+
+                        //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
+                        StaticMenu.editMenuRecipe(newRecipe);
+
+                        //set isEditable to false
+                        isEditable = false;
+
+                        //disable the controls
+                        setControlsEnabled(false);
+
+                        //change the menu button text back to edit
+                        editSubmitBTN.setTitle("Edit");
+
+                        //Save the Static lists to JSON files
+                        StaticMenu.saveMenu(mContext);
+                        StaticRecipes.saveRecipes(mContext);
                     }
+                });
 
-                    //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
-                    StaticMenu.editMenuRecipe(newRecipe);
+                builder.show();
 
-                    //set isEditable to false
-                    isEditable = false;
-
-                    //disable the controls
-                    setControlsEnabled(false);
-
-                    //change the menu button text back to edit
-                    editSubmitBTN.setTitle("Edit");
-
-                    //Save the Static lists to JSON files
-                    StaticMenu.saveMenu(mContext);
-                    StaticRecipes.saveRecipes(mContext);
-                }
-            });
-
-            builder.show();
-
-            return true;
+                return true;
+            }else{
+                String message = getString(R.string.at_least_one_ingredient);
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                return true;
+            }
         }
         //if the "Edit" button is clicked and the recipe in not Editable
         else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){

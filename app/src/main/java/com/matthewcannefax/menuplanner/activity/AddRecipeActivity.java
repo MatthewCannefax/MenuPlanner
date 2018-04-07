@@ -252,28 +252,34 @@ public class AddRecipeActivity extends AppCompatActivity{
         //this is where the new recipe is all put together and then added to Recipe list and JSON files
         if(item.getItemId() == R.id.menuSubmitBTN){
 
-            //get the name, directions and category from the controls
-            newRecipe.setName(recipeName.getText().toString());
-            newRecipe.setDirections(directionsMultiLine.getText().toString());
-            newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
+            if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
+                //get the name, directions and category from the controls
+                newRecipe.setName(recipeName.getText().toString());
+                newRecipe.setDirections(directionsMultiLine.getText().toString());
+                newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
 
-            if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
-                newRecipe.setImagePath(getString(R.string.no_img_selected));
+                if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
+                    newRecipe.setImagePath(getString(R.string.no_img_selected));
+                }
+
+                //add the new recipe to the static recipe list
+                //this call also assigns a recipeID and saves the static list to JSON
+                StaticRecipes.addNewRecipe(newRecipe, this);
+
+                //return to the Recipe list activity
+                Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);
+
+                //put extra the title of the recipe list activity
+                returnToRecipes.putExtra("TITLE", this.getString(R.string.recipe_list_activity_title));
+                AddRecipeActivity.this.startActivity(returnToRecipes);
+
+                return true;
+            } else {
+                String message = getString(R.string.at_least_one_ingredient);
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                return true;
             }
-
-            //add the new recipe to the static recipe list
-            //this call also assigns a recipeID and saves the static list to JSON
-            StaticRecipes.addNewRecipe(newRecipe, this);
-
-            //return to the Recipe list activity
-            Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);
-
-            //put extra the title of the recipe list activity
-            returnToRecipes.putExtra("TITLE", this.getString(R.string.recipe_list_activity_title));
-            AddRecipeActivity.this.startActivity(returnToRecipes);
-
-            return true;
         }else{
             return false;
         }

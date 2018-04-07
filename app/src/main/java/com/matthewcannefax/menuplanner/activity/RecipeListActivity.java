@@ -176,15 +176,31 @@ public class RecipeListActivity extends AppCompatActivity {
                                 }
                             }
 
-                            //reset the adapter
-                            adapter = new RecipeListItemAdapter(thisContext, recipeList);
-                            lv.setAdapter(adapter);
+                            if (recipeList != null && recipeList.size() != 0) {
+                                //reset the adapter
+                                adapter = new RecipeListItemAdapter(thisContext, recipeList);
+                                lv.setAdapter(adapter);
 
-                            //save the newly edited recipe list
-                            StaticRecipes.saveRecipes(thisContext);
+                                //save the newly edited recipe list
+                                StaticRecipes.saveRecipes(thisContext);
 
-                            //notify the user that the recipes have been removed
-                            Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+                                //notify the user that the recipes have been removed
+                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //save the recipe list
+                                StaticRecipes.saveRecipes(thisContext);
+
+                                //this list is empty now, go back to the main activity
+                                Intent intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
+
+                                //notify the user that the recipes have been removed
+                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+
+                                //close this activity
+                                finish();
+
+                            }
                         }
                     });
                     builder.show();

@@ -66,21 +66,23 @@ public class StaticMenu {
 
     //remove a recipe from the menu list
     public static void removeRecipeFromMenu(Recipe recipe, Context context){
-        //loop through the menu list
-        for(int i = 0; i < mMenuList.size(); i++){
-            //set mRecipe to the the current postion (i)
-            Recipe mRecipe = mMenuList.get(i);
-            //if the two recipes recipeIDs match
-            if(recipe.getRecipeID() == mRecipe.getRecipeID()){
-                //remove the recipe at the current position
-                mMenuList.remove(i);
-                //decrement the position so the next recipe in the list will not be skipped
-//                i--;
-                break;
+        if (mMenuList != null && mMenuList.size() != 0) {
+            //loop through the menu list
+            for(int i = 0; i < mMenuList.size(); i++){
+                //set mRecipe to the the current postion (i)
+                Recipe mRecipe = mMenuList.get(i);
+                //if the two recipes recipeIDs match
+                if(recipe.getRecipeID() == mRecipe.getRecipeID()){
+                    //remove the recipe at the current position
+                    mMenuList.remove(i);
+                    //decrement the position so the next recipe in the list will not be skipped
+    //                i--;
+                    break;
+                }
             }
+            //save the edited menu
+            saveMenu(context);
         }
-        //save the edited menu
-        saveMenu(context);
     }
 
 
