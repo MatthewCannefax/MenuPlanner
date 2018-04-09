@@ -75,7 +75,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
         final boolean[] itemChecked = {false};
 
         //TextView to display the name of the grocery item
-        final TextView tvName = convertView.findViewById(R.id.itemNameText);
+//        final TextView tvName = convertView.findViewById(R.id.itemNameText);
         final TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
         final TextView tvCategory = convertView.findViewById(R.id.tvCategory);
         final CheckBox cbChecked = convertView.findViewById(R.id.groceryCheckBox);
@@ -89,7 +89,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
         //set the text of the textviews
 //        tvName.setText(item.getName());
 //        tvMeasurement.setText(item.getMeasurement().toString());
-        tvName.setText("");
+//        tvName.setText("");
         tvMeasurement.setText(measurePlusName);
         tvCategory.setText(item.getCategory().toString());
         cbChecked.setChecked(false);
@@ -102,7 +102,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
                 if (item.getItemChecked()){
                     itemChecked[0] = false;
                     item.setItemChecked(false);
-                    tvName.setPaintFlags(0);
+//                    tvName.setPaintFlags(0);
                     tvCategory.setPaintFlags(0);
                     tvMeasurement.setPaintFlags(0);
 
@@ -110,7 +110,7 @@ public class GroceryItemAdapter extends ArrayAdapter {
                 }else{
                     itemChecked[0] = true;
                     item.setItemChecked(true);
-                    tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                    tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvMeasurement.setPaintFlags(tvMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 

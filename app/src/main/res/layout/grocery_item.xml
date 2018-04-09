@@ -19,25 +19,25 @@
 
     <TextView
         android:id="@+id/tvMeasurement"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/groceryCheckBox"
         android:layout_toRightOf="@+id/groceryCheckBox"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/itemNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_toEndOf="@+id/tvMeasurement"
-        android:layout_toRightOf="@+id/tvMeasurement"
-        android:text="NAME"
-        android:textSize="18sp"
-        tools:ignore="HardcodedText" />
+    <!--<TextView-->
+        <!--android:id="@+id/itemNameText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginLeft="11dp"-->
+        <!--android:layout_marginStart="11dp"-->
+        <!--android:layout_toEndOf="@+id/tvMeasurement"-->
+        <!--android:layout_toRightOf="@+id/tvMeasurement"-->
+        <!--android:text="NAME"-->
+        <!--android:textSize="18sp"-->
+        <!--tools:ignore="HardcodedText" />-->
 
     <TextView
         android:id="@+id/tvCategory"
