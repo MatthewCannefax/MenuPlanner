@@ -19,12 +19,13 @@
 
     <TextView
         android:id="@+id/tvMeasurement"
+        android:maxLines="1"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/groceryCheckBox"
         android:layout_toRightOf="@+id/groceryCheckBox"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <!--<TextView-->
         <!--android:id="@+id/itemNameText"-->

@@ -54,7 +54,7 @@ public class StaticMenu {
         //check if the menu list has any items
         if(getMenuList() != null && getMenuList().size() > 0){
             //loop through the item of the menu list to find the corresponding recipe
-            for (int i = 0; i < getMenuList().size() - 1; i++) {
+            for (int i = 0; i < getMenuList().size(); i++) {
                 //find the recipe by the recipeID
                 if(getMenuList().get(i).getRecipeID() == recipe.getRecipeID()){
                     //set the menu item with the edited recipe
