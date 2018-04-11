@@ -151,7 +151,7 @@ public class MenuListActivity extends AppCompatActivity {
             case R.id.addRecipeToMenuItem:
                 //new intent to move to the RecipeListActivity
                 Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-                intent.putExtra("TITLE", "Add Recipes");
+                intent.putExtra("TITLE", "Add To Menu");
                 MenuListActivity.this.startActivity(intent);
                 return true;
 
