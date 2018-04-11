@@ -19,13 +19,13 @@
 
     <TextView
         android:id="@+id/tvMeasurement"
-        android:maxLines="1"
-        android:layout_width="250dp"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/groceryCheckBox"
         android:layout_toRightOf="@+id/groceryCheckBox"
-        android:textSize="16sp" />
+        android:maxLines="1"
+        android:textSize="14sp" />
 
     <!--<TextView-->
         <!--android:id="@+id/itemNameText"-->
@@ -42,15 +42,17 @@
 
     <TextView
         android:id="@+id/tvCategory"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:text="category"
+        android:text="Canned Goods"
         android:textSize="14sp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText"
+        android:maxLines="1"
+        android:gravity="end"/>
 
 </RelativeLayout>

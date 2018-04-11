@@ -6,10 +6,14 @@
         <!--android:title="View Grocery List"/>-->
     <item
         android:id="@+id/generateGroceryListItem"
+        android:icon="@drawable/ic_playlist_add_black_24dp"
         android:title="@string/new_grocery_list"
+        app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/addRecipeToMenuItem"
+        android:icon="@drawable/ic_add_black_24dp"
         android:title="@string/add_recipes"
+        app:showAsAction="ifRoom"
         />
 </menu>
