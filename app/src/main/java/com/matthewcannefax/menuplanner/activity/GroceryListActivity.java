@@ -2,6 +2,7 @@ package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -205,6 +206,19 @@ public class GroceryListActivity extends AppCompatActivity {
                 builder.show();
 
                 return true;
+                
+            case R.id.shareGroceryList:
+                String groceryString;
+                StringBuilder sb = new StringBuilder();
+                for(Ingredient i: StaticGroceryList.getIngredientList()){
+                    sb.append(i.getName()).append("\n");
+                }
+                groceryString = sb.toString();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, groceryString);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
 
             default:
                 return false;

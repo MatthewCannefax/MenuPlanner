@@ -28,4 +28,5 @@
     <string name="submit">Submit</string>
     <string name="remove_recipes">Remove Recipes</string>
     <string name="at_least_one_ingredient">Please enter at least one ingredient</string>
+    <string name="share">Share</string>
 </resources>

@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/shareGroceryList"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/share"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/addNewGroceryItem"
         android:icon="@drawable/ic_add_black_24dp"
         android:title="@string/add_item"
