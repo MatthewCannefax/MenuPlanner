@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
@@ -149,13 +150,17 @@ public class MenuListActivity extends AppCompatActivity {
         //if the Add Recipe option is clicked
         switch (item.getItemId()) {
             case R.id.addRecipeToMenuItem:
-                //new intent to move to the RecipeListActivity
-                Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-                intent.putExtra("TITLE", "Add To Menu");
-                MenuListActivity.this.startActivity(intent);
-                return true;
+                if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
+                    //new intent to move to the RecipeListActivity
+                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+                    intent.putExtra("TITLE", "Add To Menu");
+                    MenuListActivity.this.startActivity(intent);
+                    return true;
+                } else {
+                    Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+                }
 
-            //if the Generate Grocery List option is clicked
+                //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:
                 //if the grocery list is not null and actually has items in it
                 if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
