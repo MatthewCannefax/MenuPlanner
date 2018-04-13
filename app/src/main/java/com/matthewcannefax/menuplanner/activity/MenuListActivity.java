@@ -73,7 +73,7 @@ public class MenuListActivity extends AppCompatActivity {
         catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
-        this.setTitle("Menu");
+        this.setTitle(this.getString(R.string.menu_activity_name));
 
         //this method to set the menu list adapter
         setMenuListViewAdapter();
