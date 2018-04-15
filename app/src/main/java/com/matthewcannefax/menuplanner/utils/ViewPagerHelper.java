@@ -121,6 +121,11 @@ public class ViewPagerHelper {
 
     }
 
+    public static void directionsOnTextChanged(final Context context, final View view, EditText editText, final Recipe newRecipe){
+
+
+    }
+
     //this method takes an editText, clears the text and then nulls the listener itself, so it won't clear again
     private static void clearEditText(final EditText editText){
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
