@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -183,10 +184,11 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+//        setControlsEnabled(isEditable);
         //this method is disabling all the controls in the activity until the edit button is clicked
-        setControlsEnabled(isEditable);
+
     }
+
 
 
     //this method clears any editText boxes and then nulls the clicklistener so it can't be clear again
@@ -299,8 +301,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             //disable the category spinner
             recipeCat.setEnabled(false);
 
-            viewPager.setEnabled(false);
-
+//            recipeViewPagerAdapter.setControlsEnabled(false);
             //disable the add ingredient button
             addIngredientBTN(false);
             recipeIMG.setOnClickListener(null);
@@ -312,10 +313,11 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeName.setFocusableInTouchMode(true);
 //            directionsMultiLine.setFocusableInTouchMode(true);
 
+//            recipeViewPagerAdapter.setControlsEnabled(true);
+
             //enable the spinner
             recipeCat.setEnabled(true);
 
-            viewPager.setEnabled(true);
 
             //enable the add ingredient button
             addIngredientBTN(true);
