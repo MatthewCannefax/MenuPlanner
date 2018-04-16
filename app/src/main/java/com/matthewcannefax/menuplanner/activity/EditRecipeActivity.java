@@ -62,11 +62,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 
     private String directionsString;
 
-// --Commented out by Inspection START (4/5/2018 1:45 PM):
-//    //boolean var to check if the add ingredient button has been added to the list view
-//    private boolean btnVisible;
-// --Commented out by Inspection STOP (4/5/2018 1:45 PM)
-
     //an object for the unedited recipe
     private Recipe oldRecipe;
 
@@ -75,9 +70,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 
     //an object for the menu item
     private MenuItem editSubmitBTN;
-
-    //a boolean var to tell us if the recipe is to be edited
-    private boolean isEditable = false;
 
     //endregion
 
@@ -112,9 +104,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeCat = findViewById(R.id.categorySpinner);
         addBTN = setupAddIngredientBTN();
 
-        //set the imgSet var to false as default
-//        boolean imgSet = false;
-
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
 
@@ -138,6 +127,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
+
+        ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
 
         directionsString = oldRecipe.getDirections();
 
@@ -180,151 +171,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         });
     }
 
-    //the onResume method fires at initial create as well as on resume
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        setControlsEnabled(isEditable);
-        //this method is disabling all the controls in the activity until the edit button is clicked
-
-    }
-
-
-
-    //this method clears any editText boxes and then nulls the clicklistener so it can't be clear again
-    private void clearEditText(final EditText editText){
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                //clear the text in the box
-                editText.setText("");
-
-                //null the click listener
-                editText.setOnFocusChangeListener(null);
-            }
-        });
-    }
-
     //this method simply sets up the inflater for the add ingredient button
     private Button setupAddIngredientBTN(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.add_ingredient_btn, null);
         return view.findViewById(R.id.addIngredientBTN);
-    }
-
-    //this method sets up/nulls the add ingredient button that already exists inside the recipeIngreds listview
-    private void addIngredientBTN(boolean enabled) {
-        //Constant var for the context to be used inside inner methods
-        final Context mContext = this;
-
-        //check if editing is enabled
-        if (enabled) {
-            //new clicklistener for the existing add ingredient button
-            addBTN.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //the alertdialog will display the ingredient information
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setTitle("Add Ingredient");
-
-                    //create a new view to display the ingredient information
-                    View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item, (ViewGroup)view.findViewById(android.R.id.content), false);
-
-                    //controls inside the view
-                    final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
-                    final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
-                    final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
-                    final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
-
-                    //set up the clicklisteners for the editTexts inside the alertdialog
-                    //these clicklisteners will clear the text inside and then null the listener itself
-                    clearEditText(etName);
-                    clearEditText(etAmount);
-
-                    //setup the default array adapters for the category and measurementtype spinners
-                    ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
-                    ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.getEnumIngredients());
-
-                    //set the spinner adpaters
-                    spMeasure.setAdapter(measureAdapter);
-                    spCat.setAdapter(ingredCatAdapter);
-
-                    //set the new view as the view for the alertdialog
-                    builder.setView(editIngredientView);
-
-                    //setup the buttons for the alertdialog
-                    builder.setNegativeButton("Cancel", null);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //check that there are values for the name and the amount
-                            //also using a custom tryParse method to check that the value for the amount is indeed a double
-                            if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
-                                //add the new Ingredient to the ingredientList
-                                newRecipe.getIngredientList().add(new Ingredient(
-                                        etName.getText().toString(),
-                                        (GroceryCategory)spCat.getSelectedItem(),
-                                        new Measurement(
-                                                Double.parseDouble(etAmount.getText().toString()),
-                                                (MeasurementType)spMeasure.getSelectedItem()
-                                        )
-                                ));
-
-                                //notify the arrayadapter that the dataset has changed
-                                ingredientItemAdapter.notifyDataSetChanged();
-
-                            } else {
-                                //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
-                                Toast.makeText(mContext, "Please enter a name and amount", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    builder.show();
-                }
-            });
-        } else {
-            //null the clicklistener if editing is disabled
-            addBTN.setOnClickListener(null);
-        }
-    }
-
-    //this is the method that disable/enables controls when editing is disabled/enabled
-    private void setControlsEnabled(boolean edit){//need to add a way to disable the onlongclicklistener for the listview and the onclicklistener for the addingredient btn
-
-        if (!edit) {
-            //setting the focusable allows the edittexts to be active with receiving focus
-            //allowing them to be scrollable if needed
-            recipeName.setFocusable(false);
-//            directionsMultiLine.setFocusable(false);
-
-            //disable the category spinner
-            recipeCat.setEnabled(false);
-
-//            recipeViewPagerAdapter.setControlsEnabled(false);
-            //disable the add ingredient button
-            addIngredientBTN(false);
-            recipeIMG.setOnClickListener(null);
-
-        } else {
-            //Need to call setFocusable and setFocusableInTouchMode to enable the editTexts to take focus
-            recipeName.setFocusable(true);
-//            directionsMultiLine.setFocusable(true);
-            recipeName.setFocusableInTouchMode(true);
-//            directionsMultiLine.setFocusableInTouchMode(true);
-
-//            recipeViewPagerAdapter.setControlsEnabled(true);
-
-            //enable the spinner
-            recipeCat.setEnabled(true);
-
-
-            //enable the add ingredient button
-            addIngredientBTN(true);
-
-            //setup the recipeIMG click listener
-            ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
-        }
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -340,7 +191,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
 
         //setting the text to "Edit" by default, it will be change on each click
-        editSubmitBTN.setTitle("Edit");
+        editSubmitBTN.setTitle(getString(R.string.submit));
 
         return true;
     }
@@ -349,7 +200,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //if the submit button is clicked and the recipe is editable
-        if(item.getItemId() == R.id.menuSubmitBTN && isEditable){
+        if(item.getItemId() == R.id.menuSubmitBTN) {
 
             //check if there are ingredients in the ingredient list
             if (oldRecipe.getIngredientList() != null && oldRecipe.getIngredientList().size() != 0) {
@@ -374,10 +225,9 @@ public class EditRecipeActivity extends AppCompatActivity {
                         newRecipe.setImagePath(oldRecipe.getImagePath());
 
 
-
                         //Making the change to the Static list of recipes
-                        for(int n = 0; n < StaticRecipes.getRecipeList().size(); n++){
-                            if(StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()){
+                        for (int n = 0; n < StaticRecipes.getRecipeList().size(); n++) {
+                            if (StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()) {
                                 StaticRecipes.getRecipeList().set(n, newRecipe);
                                 break;
                             }
@@ -385,15 +235,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                         //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
                         StaticMenu.editMenuRecipe(newRecipe);
-
-                        //set isEditable to false
-                        isEditable = false;
-
-                        //disable the controls
-                        setControlsEnabled(false);
-
-                        //change the menu button text back to edit
-                        editSubmitBTN.setTitle("Edit");
 
                         //Save the Static lists to JSON files
                         StaticMenu.saveMenu(mContext);
@@ -404,25 +245,13 @@ public class EditRecipeActivity extends AppCompatActivity {
                 builder.show();
 
                 return true;
-            }else{
+            } else {
                 String message = getString(R.string.at_least_one_ingredient);
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 return true;
             }
         }
-        //if the "Edit" button is clicked and the recipe in not Editable
-        else if(item.getItemId() == R.id.menuSubmitBTN && !isEditable){
-
-            //change the menu button text to submit
-            editSubmitBTN.setTitle("Submit");
-
-            //set isEditable to true
-            isEditable = true;
-
-            //enable all the contols
-            setControlsEnabled(true);
-            return true;
-        }else{
+        else{
             return false;
         }
 
