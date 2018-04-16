@@ -66,15 +66,16 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                 mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = mLayoutInflater.inflate(R.layout.ingredient_listview_layout, null);
                 listView = view.findViewById(R.id.ingredientListView);
-                ingredientItemAdapter = new IngredientItemAdapter(mContext, mRecipe.getIngredientList());
-                listView.setAdapter(ingredientItemAdapter);
+
+                if(mRecipe.getIngredientList() != null && mRecipe.getIngredientList().size() != 0) {
+                    ingredientItemAdapter = new IngredientItemAdapter(mContext, mRecipe.getIngredientList());
+                    listView.setAdapter(ingredientItemAdapter);
+                }
+
                 mAddIngredientButton = view.findViewById(R.id.ingredient_layout_button);
 
                 ViewPagerHelper.setAddIngredientButton(mContext, view, mAddIngredientButton, mRecipe, ingredientItemAdapter, listView);
                 listViewClickListener();
-
-//                mAddIngredientButton.setEnabled(enabled);
-
 
                 break;
 
@@ -119,11 +120,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
         return view;
     }
 
-//    public void setControlsEnabled(boolean bool){
-//        enabled = bool;
-//        mAddIngredientButton.setEnabled(enabled);
-////        etDirections.setFocusable(enabled);
-//    }
+
 
 
     @Override
@@ -184,7 +181,9 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int n) {
                             mRecipe.getIngredientList().remove(i);
-                            ingredientItemAdapter.notifyDataSetChanged();
+//                            IngredientItemAdapter ingredientItemAdapter = (IngredientItemAdapter) listView.getAdapter();
+                        ((IngredientItemAdapter)(listView.getAdapter())).notifyDataSetChanged();
+//                            ingredientItemAdapter.notifyDataSetChanged();
                     }
                 });
 

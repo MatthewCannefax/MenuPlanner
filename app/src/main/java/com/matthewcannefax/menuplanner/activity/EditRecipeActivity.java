@@ -53,14 +53,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     private EditText recipeName;
     private ImageView recipeIMG;
     private Spinner recipeCat;
-    private IngredientItemAdapter ingredientItemAdapter;
-    private Button addBTN;
     private Context mContext;
     private ViewPager viewPager;
     RecipeViewPagerAdapter recipeViewPagerAdapter;
     private TabLayout tabLayout;
-
-    private String directionsString;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -102,7 +98,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
-        addBTN = setupAddIngredientBTN();
 
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
@@ -120,17 +115,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeCat.setAdapter(spinnerAdapter);
         recipeCat.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
 
-        //setup the ingredient listview
-        ingredientItemAdapter = new IngredientItemAdapter(this, oldRecipe.getIngredientList());
-
         //setup the image if it is present
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
         }
 
         ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
-
-        directionsString = oldRecipe.getDirections();
 
         recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
         viewPager = findViewById(R.id.ingredient_direction_viewpager);
@@ -171,12 +161,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         });
     }
 
-    //this method simply sets up the inflater for the add ingredient button
-    private Button setupAddIngredientBTN(){
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.add_ingredient_btn, null);
-        return view.findViewById(R.id.addIngredientBTN);
-    }
 
     //create the menu button in the actionbar (currently only contains the submit option)
     @Override

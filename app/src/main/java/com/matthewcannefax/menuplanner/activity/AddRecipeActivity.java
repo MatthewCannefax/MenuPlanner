@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.ButtonArrayAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
+import com.matthewcannefax.menuplanner.arrayAdapters.RecipeViewPagerAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
@@ -50,6 +53,10 @@ public class AddRecipeActivity extends AppCompatActivity{
     private IngredientItemAdapter ingredientItemAdapter;
 
     private Recipe newRecipe;
+
+    private ViewPager viewPager;
+    private RecipeViewPagerAdapter recipeViewPagerAdapter;
+    private TabLayout tabLayout;
 
     //endregion
 
@@ -79,9 +86,6 @@ public class AddRecipeActivity extends AppCompatActivity{
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
         recipeCat.setAdapter(spinnerAdapter);
 
-        //set the imgSet var to false as default
-//        boolean imgSet = false;
-
         try {
             //set the default image in the recipeIMG imageView
             String imgPath = getString(R.string.no_img_selected);
@@ -94,13 +98,49 @@ public class AddRecipeActivity extends AppCompatActivity{
         //and then null the listener so it doesn't happen again
         clearEditText(recipeName);
 
-
-
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
 
+        recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
+        viewPager = findViewById(R.id.ingredient_direction_viewpager);
+        viewPager.setAdapter(recipeViewPagerAdapter);
+
+        setupTabs();
+
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
         NavDrawer.setupNavDrawer(AddRecipeActivity.this, this);
+    }
+
+    private void setupTabs(){
+
+        final Context context = this;
+        tabLayout = findViewById(R.id.recipe_tab_layout);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(context, newRecipe, 0);
+                        viewPager.setAdapter(recipeViewPagerAdapter);
+                        break;
+                    case 1:
+                        RecipeViewPagerAdapter recipeViewPagerAdapter2 = new RecipeViewPagerAdapter(context, newRecipe, 1);
+                        viewPager.setAdapter(recipeViewPagerAdapter2);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
 //    private void addIngredientBTN() {
