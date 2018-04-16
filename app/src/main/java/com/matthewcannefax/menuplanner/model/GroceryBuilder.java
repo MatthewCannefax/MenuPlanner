@@ -60,7 +60,7 @@ public class GroceryBuilder {
                 Ingredient ingred2 = newIngredients.get(n);
 
                 //if the two ingredients match in name, category and measurement type, they will be combined
-                if(ingred1.getName().equals(ingred2.getName()) &&
+                if(ingred1.getName().toUpperCase().equals(ingred2.getName().toUpperCase()) &&
                         ingred1.getCategory().equals(ingred2.getCategory()) &&
                         ingred1.getMeasurement().getType().equals(ingred2.getMeasurement().getType())){
 
