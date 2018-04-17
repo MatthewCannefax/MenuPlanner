@@ -3,7 +3,11 @@ package com.matthewcannefax.menuplanner.model.Enums;
 //this enum is for the different categories of grocery items
 //this is hard coded so we can limit the number of categories to just a few
 
+import com.matthewcannefax.menuplanner.model.Ingredient;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public enum GroceryCategory {
@@ -61,6 +65,13 @@ public enum GroceryCategory {
                 groceryCategories.add(gCat);
             }
         }
+
+        Collections.sort(groceryCategories, new Comparator<GroceryCategory>() {
+            @Override
+            public int compare(GroceryCategory o1, GroceryCategory o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
 
         return groceryCategories;
     }
