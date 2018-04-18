@@ -48,6 +48,8 @@ public class MenuListActivity extends AppCompatActivity {
 
     //the adapter will be used across the app
     private RecipeMenuItemAdapter adapter;
+
+    private ArrayAdapter catSpinnerAdapter;
     //endregion
 
     @Override
@@ -66,11 +68,6 @@ public class MenuListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
-
-        //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
-        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-        catSpinner.setAdapter(catSpinnerAdapter);
 
         //set the title in the actionbar
         this.setTitle(this.getString(R.string.menu_activity_name));
@@ -126,6 +123,11 @@ public class MenuListActivity extends AppCompatActivity {
         //if the menu list is not null notify the adapter of changes, in case there are any
         if (menuList != null) {
             adapter.notifyDataSetChanged();
+
+            //setup the arrayAdapter for catSpinner
+            catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+            catSpinner.setAdapter(catSpinnerAdapter);
         }
     }
 

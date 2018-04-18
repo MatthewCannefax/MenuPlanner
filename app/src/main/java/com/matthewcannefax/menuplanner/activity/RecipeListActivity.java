@@ -41,6 +41,7 @@ public class RecipeListActivity extends AppCompatActivity {
     private String title;
 
     private Spinner catSpinner;
+    private ArrayAdapter catSpinnerAdapter;
 
 
     @Override
@@ -67,11 +68,6 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //Instantiate the listview
         lv = findViewById(R.id.recipeMenuListView);
-
-        //setup the arrayAdapter for catSpinner
-        ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
-        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-        catSpinner.setAdapter(catSpinnerAdapter);
 
         //this method sets the adapter for the Recipe list view
         setRecipeListAdapter();
@@ -118,6 +114,9 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onResume();
         if(recipeList != null) {
             adapter.notifyDataSetChanged();
+            catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
+            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+            catSpinner.setAdapter(catSpinnerAdapter);
         }
     }
 
