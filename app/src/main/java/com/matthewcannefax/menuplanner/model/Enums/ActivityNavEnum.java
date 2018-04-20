@@ -10,7 +10,7 @@ import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
 
 public enum ActivityNavEnum {
     MAIN_ACTIVITY("Home", MainActivity.class, 0),
-    MENU_LIST_ACTIVITY("Weekly Menu", MenuListActivity.class, 1),
+    MENU_LIST_ACTIVITY("My Menu", MenuListActivity.class, 1),
     RECIPE_LIST_ACTIVITY("Cookbook", RecipeListActivity.class, 2),
     ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 3),
     GROCERY_LIST_ACTIVITY("Grocery List", GroceryListActivity.class, 4);

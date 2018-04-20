@@ -10,10 +10,10 @@
         android:title="@string/new_grocery_list"
         app:showAsAction="ifRoom"
         />
-    <item
-        android:id="@+id/addRecipeToMenuItem"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="@string/add_recipes"
-        app:showAsAction="ifRoom"
-        />
+    <!--<item-->
+        <!--android:id="@+id/addRecipeToMenuItem"-->
+        <!--android:icon="@drawable/ic_add_black_24dp"-->
+        <!--android:title="@string/add_recipes"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--/>-->
 </menu>

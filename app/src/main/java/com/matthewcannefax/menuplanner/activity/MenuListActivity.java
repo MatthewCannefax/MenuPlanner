@@ -50,13 +50,15 @@ public class MenuListActivity extends AppCompatActivity {
     private RecipeMenuItemAdapter adapter;
 
     private ArrayAdapter catSpinnerAdapter;
+
+    private Button addIngredientButton;
     //endregion
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //using the same layout as the recipelist activity
-        setContentView(R.layout.recipe_menu_list);
+        setContentView(R.layout.menu_list);
 
         final Context mContext = this;
 
@@ -68,6 +70,7 @@ public class MenuListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
+        addIngredientButton = findViewById(R.id.add_recipe_button);
 
         //set the title in the actionbar
         this.setTitle(this.getString(R.string.menu_activity_name));
@@ -96,7 +99,25 @@ public class MenuListActivity extends AppCompatActivity {
             }
         });
 
+        addIngredientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRecipeToMenu();
+            }
+        });
+
         NavDrawer.setupNavDrawer(MenuListActivity.this, this);
+    }
+
+    private void addRecipeToMenu(){
+        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
+            //new intent to move to the RecipeListActivity
+            Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+            intent.putExtra("TITLE", "Add To Menu");
+            MenuListActivity.this.startActivity(intent);
+        } else {
+            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //this method sets up the menu list adapter
@@ -151,16 +172,16 @@ public class MenuListActivity extends AppCompatActivity {
 
         //if the Add Recipe option is clicked
         switch (item.getItemId()) {
-            case R.id.addRecipeToMenuItem:
-                if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
-                    //new intent to move to the RecipeListActivity
-                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-                    intent.putExtra("TITLE", "Add To Menu");
-                    MenuListActivity.this.startActivity(intent);
-                    return true;
-                } else {
-                    Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
-                }
+//            case R.id.addRecipeToMenuItem:
+//                if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
+//                    //new intent to move to the RecipeListActivity
+//                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+//                    intent.putExtra("TITLE", "Add To Menu");
+//                    MenuListActivity.this.startActivity(intent);
+//                    return true;
+//                } else {
+//                    Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+//                }
 
                 //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:
