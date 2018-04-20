@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,19 +65,20 @@ public class RecipeListItemAdapter extends ArrayAdapter {
 
         //if the convertview is null set it up with the inflater
         if (convertView == null){
-            convertView = mInflator.inflate(R.layout.menu_recipe_list_item, parent, false);
+            convertView = mInflator.inflate(R.layout.recipe_checkbox_item, parent, false);
         }
 
         //the layout contains the name and an image of the recipe
-        TextView tvName = convertView.findViewById(R.id.itemNameText);
+//        TextView tvName = convertView.findViewById(R.id.itemNameText);
         ImageView imageView = convertView.findViewById(R.id.imageView);
+        final CheckBox cbName = convertView.findViewById(R.id.cbName);
 
 
         //get the recipe item in this object based of the position passed in the arguments
         final Recipe recipe = mRecipeItems.get(position);
 
         //set the text of the textview with the name of the recipe
-        tvName.setText(recipe.getName());
+        cbName.setText(recipe.getName());
 
         //use the ImageHelper class to set the imageview drawable object
         ImageHelper.setImageViewDrawable(recipe.getImagePath(), mContext, imageView);
@@ -90,10 +92,12 @@ public class RecipeListItemAdapter extends ArrayAdapter {
             public void onClick(View view) {
                 if(recipe.isItemChecked()){
                     recipe.setItemChecked(false);
-                    newView.setBackgroundColor(Color.TRANSPARENT);
+                    cbName.setChecked(false);
+//                    newView.setBackgroundColor(Color.TRANSPARENT);
                 }else{
                     recipe.setItemChecked(true);
-                    newView.setBackgroundColor(Color.LTGRAY);
+                    cbName.setChecked(true);
+//                    newView.setBackgroundColor(Color.LTGRAY);
                 }
             }
         });

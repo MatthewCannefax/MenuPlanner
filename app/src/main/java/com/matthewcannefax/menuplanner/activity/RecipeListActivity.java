@@ -53,7 +53,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
         catSpinner = this.findViewById(R.id.catSpinner);
         Button filterBTN = this.findViewById(R.id.filterBTN);
-        //setup the list of Recipes currently using a sample class for testing
+
+
+        StaticRecipes.resetItemsChecked();
         recipeList = StaticRecipes.getRecipeList();
 
         Bundle extras = getIntent().getExtras();

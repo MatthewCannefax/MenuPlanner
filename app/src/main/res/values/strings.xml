@@ -32,4 +32,5 @@
     <string name="menu_activity_name">My Menu</string>
     <string name="add_ingredient_dialog_title">Add Ingredient</string>
     <string name="category">CATEGORY: </string>
+    <string name="recipe_item_image_description">A recipe photo</string>
 </resources>

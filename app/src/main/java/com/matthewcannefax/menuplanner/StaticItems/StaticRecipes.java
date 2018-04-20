@@ -68,6 +68,12 @@ public class StaticRecipes {
         saveRecipes(context);
     }
 
+    public static void resetItemsChecked(){
+        for(Recipe r : recipeList){
+            r.setItemChecked(false);
+        }
+    }
+
     //assign the an id to a new recipe
     private static int assignRecipeID(){
         int id;
