@@ -71,9 +71,6 @@ public class GroceryItemAdapter extends ArrayAdapter {
             convertView = mInflator.inflate(R.layout.grocery_item, parent, false);//getting a null inflator
         }
 
-
-        final boolean[] itemChecked = {false};
-
         //TextView to display the name of the grocery item
 //        final TextView tvName = convertView.findViewById(R.id.itemNameText);
         final TextView tvMeasurement = convertView.findViewById(R.id.tvMeasurement);
@@ -82,6 +79,8 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
         //the the grocery item by the postion given in the arguments
         final Ingredient item = mGroceryItems.get(position);
+
+
 
         //combine measurement text with name text
         String measurePlusName = String.format("%s\t\t%s", item.getMeasurement().toString(), item.getName());
@@ -100,7 +99,6 @@ public class GroceryItemAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 if (item.getItemChecked()){
-                    itemChecked[0] = false;
                     item.setItemChecked(false);
 //                    tvName.setPaintFlags(0);
                     tvCategory.setPaintFlags(0);
@@ -108,7 +106,6 @@ public class GroceryItemAdapter extends ArrayAdapter {
 
                     cbChecked.setChecked(false);
                 }else{
-                    itemChecked[0] = true;
                     item.setItemChecked(true);
 //                    tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -118,6 +115,12 @@ public class GroceryItemAdapter extends ArrayAdapter {
                 }
             }
         });
+
+        if(item.getItemChecked()){
+            cbChecked.setChecked(true);
+        }else{
+            cbChecked.setChecked(false);
+        }
 
         return convertView;
     }

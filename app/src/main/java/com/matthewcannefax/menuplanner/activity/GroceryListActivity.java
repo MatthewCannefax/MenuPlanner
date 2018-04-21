@@ -27,6 +27,8 @@ import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
@@ -162,7 +164,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 clearEditText(etAmount);
 
                 //setup the default array adapters for the category and measurementtype spinners
-                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
                 ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.getEnum());
 
                 //set the spinner adpaters
@@ -188,6 +190,13 @@ public class GroceryListActivity extends AppCompatActivity {
                                             (MeasurementType) spMeasure.getSelectedItem()
                                     )
                             ));
+
+                            Collections.sort(StaticGroceryList.getIngredientList(), new Comparator<Ingredient>() {
+                                @Override
+                                public int compare(Ingredient ingredient, Ingredient t1) {
+                                    return ingredient.getCategory().toString().compareTo(t1.getCategory().toString());
+                                }
+                            });
 
                             //save the grocery list now that the new item has been added
                             StaticGroceryList.saveGroceries(mContext);
