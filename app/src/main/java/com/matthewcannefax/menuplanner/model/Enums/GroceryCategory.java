@@ -6,6 +6,7 @@ package com.matthewcannefax.menuplanner.model.Enums;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +23,7 @@ public enum GroceryCategory {
     DAIRY("Dairy", true),
     PASTA_RICE("Pasta/Rice", true),
     OTHER("Other", true),
-    ALL("All", false),
+//    ALL("All", false),
     SPICES("Spices", true),
     BAKING("Baking", true),
     CONDIMENTS("Condiments", true),
@@ -74,6 +75,19 @@ public enum GroceryCategory {
         });
 
         return groceryCategories;
+    }
+
+    public static List<GroceryCategory> getEnum(){
+        List<GroceryCategory> groceryCategories = new ArrayList<>(Arrays.asList(GroceryCategory.values()));
+
+        Collections.sort(groceryCategories, new Comparator<GroceryCategory>() {
+            @Override
+            public int compare(GroceryCategory groceryCategory, GroceryCategory t1) {
+                return groceryCategory.toString().compareTo(t1.toString());
+            }
+        });
+
+        return  groceryCategories;
     }
 
     //this overridden toString method will display the categories with the first character capitalized

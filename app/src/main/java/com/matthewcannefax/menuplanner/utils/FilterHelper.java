@@ -5,6 +5,8 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 //this class is used to filter through the recipes by category
@@ -25,6 +27,13 @@ public class FilterHelper {
                 recipeCategories.add(r.getCategory());
             }
         }
+
+        Collections.sort(recipeCategories, new Comparator<RecipeCategory>() {
+            @Override
+            public int compare(RecipeCategory recipeCategory, RecipeCategory t1) {
+                return recipeCategory.toString().compareTo(t1.toString());
+            }
+        });
 
         //return the used categories
         return  recipeCategories;

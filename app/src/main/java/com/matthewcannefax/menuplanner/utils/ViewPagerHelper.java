@@ -48,7 +48,7 @@ public class ViewPagerHelper {
                 clearEditText(etAmount);
 
                 //setup the default array adapters for the category and measurementtype spinners
-                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, MeasurementType.values());
+                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
                 final ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, GroceryCategory.getEnumIngredients());
 
                 //set the spinner adpaters

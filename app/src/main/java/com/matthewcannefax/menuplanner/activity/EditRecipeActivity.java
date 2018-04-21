@@ -41,6 +41,8 @@ import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -109,6 +111,13 @@ public class EditRecipeActivity extends AppCompatActivity {
                 recipeCats.add(rc);
             }
         }
+
+        Collections.sort(recipeCats, new Comparator<RecipeCategory>() {
+            @Override
+            public int compare(RecipeCategory recipeCategory, RecipeCategory t1) {
+                return recipeCategory.toString().compareTo(t1.toString());
+            }
+        });
 
         //setup the spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);

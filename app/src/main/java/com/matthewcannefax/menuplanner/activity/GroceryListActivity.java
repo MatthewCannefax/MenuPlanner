@@ -163,7 +163,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 //setup the default array adapters for the category and measurementtype spinners
                 ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.values());
-                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.values());
+                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.getEnum());
 
                 //set the spinner adpaters
                 spMeasure.setAdapter(measureAdapter);
