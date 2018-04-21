@@ -208,6 +208,7 @@ public class AddRecipeActivity extends AppCompatActivity{
                 //put extra the title of the recipe list activity
                 returnToRecipes.putExtra("TITLE", this.getString(R.string.recipe_list_activity_title));
                 AddRecipeActivity.this.startActivity(returnToRecipes);
+                finish();
 
                 return true;
             } else {
