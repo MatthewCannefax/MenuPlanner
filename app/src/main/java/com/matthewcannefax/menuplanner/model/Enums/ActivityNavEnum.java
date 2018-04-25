@@ -1,6 +1,8 @@
 package com.matthewcannefax.menuplanner.model.Enums;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
 import com.matthewcannefax.menuplanner.activity.AddRecipeActivity;
 import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
@@ -40,6 +42,11 @@ public enum ActivityNavEnum {
         mName = name;
         mActivity = activity;
         mPosition = position;
+    }
+
+    public static void startActivity(Context context, ActivityNavEnum targetActivity){
+        Intent intent = new Intent(context, targetActivity.getActivity());
+        context.startActivity(intent);
     }
 
     //static method to get the enum

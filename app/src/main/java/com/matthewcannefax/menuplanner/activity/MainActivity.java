@@ -2,17 +2,23 @@ package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
+import com.matthewcannefax.menuplanner.arrayAdapters.MainActivityViewPagerAdapter;
+import com.matthewcannefax.menuplanner.utils.FadeTransformer;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 
@@ -22,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
     //This is basically just a way to get to the different activities of the app
 
 
+    ViewPager viewPager;
+    MainActivityViewPagerAdapter adapter;
+    LinearLayout sliderDotsPanel;
+    private int dotsCount;
+    private ImageView[] dots;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,12 +50,59 @@ public class MainActivity extends AppCompatActivity {
         //Load the Grocery items from JSON to the static class
         StaticGroceryList.loadGroceries(this);
 
+        viewPager = findViewById(R.id.viewPager);
+        sliderDotsPanel = findViewById(R.id.SliderDots);
+        adapter = new MainActivityViewPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+        FadeTransformer transformer = new FadeTransformer();
+        viewPager.setPageTransformer(true, transformer);
+
+        dotsCount = adapter.getCount();
+        dots = new ImageView[dotsCount];
+
+        for(int i = 0; i < dotsCount; i++){
+
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dots));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(20,0,20, 0);
+
+            sliderDotsPanel.addView(dots[i], params);
+
+        }
+
+        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dots));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for(int i = 0; i<dotsCount; i++){
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dots));
+                }
+                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dots));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         //setup the nav drawer
         NavDrawer.setupNavDrawer(MainActivity.this, this);
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MainActivity.this, this);
     }
+
+
 
 
 
@@ -63,68 +121,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //the var to return a true or false
-        boolean b;
-
-        //switch statement to find which menu item was clicked
-        switch (item.getItemId()){
-
-//            case R.id.recipesMenuItem:
-//                goToRecipeActivity();
-//                b = true;
-//                break;
-//            case R.id.menuListMenuItem:
-//                goToMenuActivity();
-//                b=true;
-//                break;
-//            case R.id.groceriesMenuItem:
-//                goToGroceryActivity();
-//                b=true;
-//                break;
-                default:
-                    b= false;
-        }
+//        boolean b;
         //return the boolean value
-        return b;
+        return false;
     }
-
-// --Commented out by Inspection START (4/5/2018 1:48 PM):
-//    //method that goes to the recipe activity
-//    private void goToRecipeActivity(){
-//        Intent intent = new Intent(MainActivity.this, RecipeListActivity.class);
-//        intent.putExtra("TITLE", "My Recipes");
-//        MainActivity.this.startActivity(intent);
-//    }
-// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
-
-// --Commented out by Inspection START (4/5/2018 1:48 PM):
-//    //method goes to the menu activity
-//    private void goToMenuActivity(){
-//
-//        Intent intent = new Intent(MainActivity.this, MenuListActivity.class);
-//        intent.putExtra("RESULT", false);
-//        MainActivity.this.startActivity(intent);
-//    }
-// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
-
-// --Commented out by Inspection START (4/5/2018 1:48 PM):
-//    //method that goes to the grocery list activity
-//    private void goToGroceryActivity(){
-//
-//        if (StaticGroceryList.getIngredientList().size() > 0) {
-//            Intent intent = new Intent(MainActivity.this, GroceryListActivity.class);
-//            MainActivity.this.startActivity(intent);
-//        } else {
-//            Toast.makeText(this, "No Grocery List", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
-
-// --Commented out by Inspection START (4/5/2018 1:48 PM):
-//    private void goToAddRecipeActivity(){
-//        Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
-//        MainActivity.this.startActivity(intent);
-//    }
-// --Commented out by Inspection STOP (4/5/2018 1:48 PM)
 
 
 }
