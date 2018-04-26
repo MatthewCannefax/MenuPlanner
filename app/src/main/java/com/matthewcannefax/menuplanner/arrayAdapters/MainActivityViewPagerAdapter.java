@@ -46,6 +46,8 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
 
         imageViewMain.setImageBitmap(getSampledBitmap(images[position], true));
 
+        imageViewMain.setScaleType(ImageView.ScaleType.FIT_XY);
+
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);
         return view;
