@@ -27,6 +27,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -225,17 +226,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 return true;
                 
             case R.id.shareGroceryList:
-                String groceryString;
-                StringBuilder sb = new StringBuilder();
-                for(Ingredient i: StaticGroceryList.getIngredientList()){
-                    sb.append(i.getName()).append("\n");
-                }
-                groceryString = sb.toString();
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, groceryString);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
+                ShareHelper.sendGroceryList(this, StaticGroceryList.getIngredientList());
 
             default:
                 return false;
