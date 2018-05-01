@@ -4,6 +4,9 @@ package com.matthewcannefax.menuplanner.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -79,6 +82,21 @@ public class NavDrawer {
         //finish the current activity unless it is the main activity
         if (currentActivity.getClass() != MainActivity.class) {
             currentActivity.finish();
+        }
+    }
+
+    public static void setupNavDrawerMenuButton(ActionBar actionBar){
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+    }
+
+    public static boolean navDrawerOptionsItem(DrawerLayout mDrawerLayout){
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        }else{
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
     }
 }

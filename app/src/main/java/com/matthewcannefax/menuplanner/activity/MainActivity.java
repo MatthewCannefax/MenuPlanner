@@ -1,9 +1,12 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout sliderDotsPanel;
     private int dotsCount;
     private ImageView[] dots;
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         FadeTransformer transformer = new FadeTransformer();
         viewPager.setPageTransformer(true, transformer);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
         dotsCount = adapter.getCount();
         dots = new ImageView[dotsCount];
@@ -120,10 +127,13 @@ public class MainActivity extends AppCompatActivity {
     //handle the clicks in the menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        //the var to return a true or false
-//        boolean b;
-        //return the boolean value
-        return false;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
