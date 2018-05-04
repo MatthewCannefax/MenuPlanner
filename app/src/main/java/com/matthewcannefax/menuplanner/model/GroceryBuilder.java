@@ -53,11 +53,17 @@ public class GroceryBuilder {
             //the current item to compare to
             Ingredient ingred1 = newIngredients.get(i);
 
+            //make sure that every item is set to false checked
+            ingred1.setItemChecked(false);
+
             //loop through all the ingredients that come after ingred1 in the list
-            for(int n = i + 1; n < newIngredients.size() - 1; n++){
+            for(int n = i + 1; n < newIngredients.size(); n++){
 
                 //now comparing n and i
                 Ingredient ingred2 = newIngredients.get(n);
+
+                //make sure that the each item is set the false checked
+                ingred2.setItemChecked(false);
 
                 //if the two ingredients match in name, category and measurement type, they will be combined
                 if(ingred1.getName().toUpperCase().equals(ingred2.getName().toUpperCase()) &&

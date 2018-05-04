@@ -5,5 +5,5 @@
         path="."/>
     <files-path
         name="files"
-        path="."/>
+        path="/"/>
 </paths>
