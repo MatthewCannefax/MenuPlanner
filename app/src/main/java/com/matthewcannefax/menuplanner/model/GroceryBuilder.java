@@ -115,7 +115,16 @@ public class GroceryBuilder {
             if (recipe.getIngredientList() != null){
 
                 for (Ingredient i: recipe.getIngredientList()){
-                    ingredients.add(new Ingredient(i.getName(), i.getCategory(), new Measurement(i.getMeasurement().getAmount(), i.getMeasurement().getType())));
+                    ingredients.add(
+                            new Ingredient(
+                                    i.getName(),
+                                    i.getCategory(),
+                                    new Measurement(
+                                            i.getMeasurement().getAmount(),
+                                            i.getMeasurement().getType()
+                                    )
+                            )
+                    );
                 }
                 //add all the ingredients in the recipe to the ingredients list
 //                ingredients.addAll(recipe.getIngredientList());
