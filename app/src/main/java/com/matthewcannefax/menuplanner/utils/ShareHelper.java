@@ -3,9 +3,11 @@ package com.matthewcannefax.menuplanner.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.model.Ingredient;
@@ -37,6 +39,17 @@ public class ShareHelper {
     }
 
     public static void sendRecipes(Context context){
+        String filename = context.getString(R.string.recipe_list_to_json);
+        File fileLocation = new File(context.getFilesDir().getAbsolutePath(), filename );
+        String authority = BuildConfig.APPLICATION_ID + ".provider";
+        Uri path = FileProvider.getUriForFile(context, authority, fileLocation);
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setType("application/json");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
+        context.startActivity(Intent.createChooser(emailIntent, "Send email...3"));
 
     }
 
