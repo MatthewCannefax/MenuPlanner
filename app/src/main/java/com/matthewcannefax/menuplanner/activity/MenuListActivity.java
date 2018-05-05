@@ -28,6 +28,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.NavHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -185,37 +186,39 @@ public class MenuListActivity extends AppCompatActivity {
 
                 //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:
-                //if the grocery list is not null and actually has items in it
-                if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
 
-                    //ask the user if they truly wish to create a new grocery list
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Generate New Grocery List?");
-                    builder.setMessage("Are you sure you want to replace your existing grocery list?");
-                    builder.setNegativeButton("Cancel", null);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //if the user clicks ok button, create the new grocery list with this method
-                            goToGroceryList();
-                        }
-                    });
-
-                    builder.show();
-
-                    return true;
-                }
-                //if there is no grocery list and the menu list is not null create a new grocery list
-                else if (StaticMenu.getMenuList() != null) {
-                    goToGroceryList();
-                    return true;
-                }
-                //if it gets here there is no grocery list and there is no menu list
-                //so prompt the user to add menu items
-                else {
-                    Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
+                NavHelper.newGroceryList(this, this);
+//                //if the grocery list is not null and actually has items in it
+//                if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
+//
+//                    //ask the user if they truly wish to create a new grocery list
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                    builder.setTitle("Generate New Grocery List?");
+//                    builder.setMessage("Are you sure you want to replace your existing grocery list?");
+//                    builder.setNegativeButton("Cancel", null);
+//                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            //if the user clicks ok button, create the new grocery list with this method
+//                            goToGroceryList();
+//                        }
+//                    });
+//
+//                    builder.show();
+//
+//                    return true;
+//                }
+//                //if there is no grocery list and the menu list is not null create a new grocery list
+//                else if (StaticMenu.getMenuList() != null) {
+//                    goToGroceryList();
+//                    return true;
+//                }
+//                //if it gets here there is no grocery list and there is no menu list
+//                //so prompt the user to add menu items
+//                else {
+//                    Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
+//                    return true;
+//                }
 
                 //default; this will allow the back button to work correctly
             default:

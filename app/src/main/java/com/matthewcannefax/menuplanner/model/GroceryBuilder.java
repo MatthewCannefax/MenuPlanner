@@ -10,11 +10,11 @@ public class GroceryBuilder {
 
     // --Commented out by Inspection (4/5/2018 1:43 PM):public GroceryBuilder(){}
 
-    private List<Recipe> recipes;
+    private final List<Recipe> recipes;
     private List<Ingredient> groceryList;
 
     public GroceryBuilder(List<Recipe> recipes){
-        this.recipes = recipes;
+        this.recipes = new ArrayList<>(recipes);
     }
 
 // --Commented out by Inspection START (4/5/2018 1:43 PM):
@@ -113,8 +113,12 @@ public class GroceryBuilder {
         //loop through the provided recipes and pull out all the ingredients
         for(Recipe recipe: this.recipes){
             if (recipe.getIngredientList() != null){
+
+                for (Ingredient i: recipe.getIngredientList()){
+                    ingredients.add(new Ingredient(i.getName(), i.getCategory(), new Measurement(i.getMeasurement().getAmount(), i.getMeasurement().getType())));
+                }
                 //add all the ingredients in the recipe to the ingredients list
-                ingredients.addAll(recipe.getIngredientList());
+//                ingredients.addAll(recipe.getIngredientList());
             }
         }
 
