@@ -78,6 +78,9 @@
                 />
 
         </activity>
+        <activity android:name=".activity.OptionsActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:authorities="${applicationId}.provider"

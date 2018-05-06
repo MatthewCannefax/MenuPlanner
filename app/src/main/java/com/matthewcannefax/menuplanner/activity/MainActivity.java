@@ -24,6 +24,7 @@ import com.matthewcannefax.menuplanner.arrayAdapters.MainActivityViewPagerAdapte
 import com.matthewcannefax.menuplanner.utils.FadeTransformer;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -131,8 +132,12 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
 
                 NavDrawer.navDrawerOptionsItem(mDrawerLayout);
-
+                break;
+            case R.id.options:
+                Intent intent = new Intent(MainActivity.this, OptionsActivity.class);
+                startActivity(intent);
         }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -2,10 +2,10 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<item-->
-        <!--android:id="@+id/recipesMenuItem"-->
-        <!--android:title="Recipes"-->
-        <!--/>-->
+    <item
+        android:id="@+id/options"
+        android:title="@string/options"
+        />
     <!--<item-->
         <!--android:id="@+id/menuListMenuItem"-->
         <!--android:title="Menu"/>-->

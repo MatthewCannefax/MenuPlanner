@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +23,8 @@ import java.io.FileReader;
 import java.util.List;
 
 public class ShareHelper {
+
+    private final static int PICK_FILE_REQUEST_CODE = 4;
 
     public static void sendGroceryList(Context context, List<Ingredient> ingredients){
         String sendText;
@@ -46,14 +49,16 @@ public class ShareHelper {
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setType("application/json");
+        emailIntent.setType("text/*");
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
         context.startActivity(Intent.createChooser(emailIntent, "Send email...3"));
 
     }
 
-    public static void importCookbook(){
-
+    public static void importCookbook(Activity activity, Context context){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/json");
+        activity.startActivityForResult(intent, PICK_FILE_REQUEST_CODE);
     }
 }
