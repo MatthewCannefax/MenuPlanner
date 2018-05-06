@@ -1,6 +1,7 @@
 package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -45,5 +46,10 @@ public class OptionsActivity extends AppCompatActivity {
                 ShareHelper.sendRecipes(context);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -58,7 +58,8 @@ public class ShareHelper {
 
     public static void importCookbook(Activity activity, Context context){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("application/json");
-        activity.startActivityForResult(intent, PICK_FILE_REQUEST_CODE);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        activity.startActivityForResult(Intent.createChooser(intent, "Select a cookbook file..."), PICK_FILE_REQUEST_CODE);
     }
 }
