@@ -24,6 +24,10 @@ import java.util.List;
 
 public class ShareHelper {
 
+    public static int getPickFileRequestCode() {
+        return PICK_FILE_REQUEST_CODE;
+    }
+
     private final static int PICK_FILE_REQUEST_CODE = 4;
 
     public static void sendGroceryList(Context context, List<Ingredient> ingredients){

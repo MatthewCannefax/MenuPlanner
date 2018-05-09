@@ -57,13 +57,16 @@ public class NavDrawer {
                             Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case GROCERY_LIST_ACTIVITY:
+                    case VIEW_GROCERY_LIST:
                         //if there are no items in the grocery list, the user will be notified that there is no grocery list
                         if(StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
                             startActivity(context, selectedActivity, currentActivity);
                         }else{
                             Toast.makeText(context, "No Grocery List", Toast.LENGTH_SHORT).show();
                         }
+                        break;
+                    case NEW_GROCERY_LIST:
+                        NavHelper.newGroceryList(currentActivity, context);
                         break;
                     default:
                         //all other activities just start up
