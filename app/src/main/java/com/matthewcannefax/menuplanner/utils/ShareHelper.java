@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
+import com.matthewcannefax.menuplanner.activity.OptionsActivity;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShareHelper {
@@ -65,5 +67,28 @@ public class ShareHelper {
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         activity.startActivityForResult(Intent.createChooser(intent, "Select a cookbook file..."), PICK_FILE_REQUEST_CODE);
+    }
+
+    public static List<Recipe> jsonToRecipe(String jsonString){
+
+
+        Gson gson = new Gson();
+        Recipes recipedata = gson.fromJson(jsonString, Recipes.class);
+
+        return recipedata.getRecipeList();
+    }
+
+    //this static class is needed to work with the GSON library
+    static class Recipes{
+
+        List<Recipe> recipeList;
+
+        private List<Recipe> getRecipeList() {
+            return recipeList;
+        }
+
+        private void setRecipeList(List<Recipe> recipeList) {
+            this.recipeList = recipeList;
+        }
     }
 }
