@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -45,7 +46,6 @@ public class OptionsActivity extends AppCompatActivity {
         importBTN = findViewById(R.id.importBTN);
         exportBTN = findViewById(R.id.exportBTN);
 
-
         setupButtonListeners();
 
         NavDrawer.setupNavDrawer(OptionsActivity.this, this);
@@ -67,6 +67,7 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -94,11 +95,16 @@ public class OptionsActivity extends AppCompatActivity {
                             total.append(line);
                         }
 
-                        List<Recipe> importRecipes = null;
+                        List<Recipe> importRecipes;
                         try {
                             importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
                             StaticRecipes.addImportedRecipes(context, importRecipes);
                             StaticRecipes.saveRecipes(context);
+
+                            Intent intent = new Intent(OptionsActivity.this, RecipeListActivity.class);
+                            intent.putExtra("TITLE", "My Recipes");
+                            startActivity(intent);
+                            finish();
                         } catch (Exception e) {
                             e.printStackTrace();
 
