@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.setTitle("Menu Planner");
+        this.setTitle(getString(R.string.app_name));
 
         //load the recipes from JSON file to the Static Class
         StaticRecipes.loadRecipes(this);

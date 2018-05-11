@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> Simple Menu Shopper</string>
+    <string name="app_name">Simple Menu Helper</string>
     <string name="recipe_list_name">Recipe List</string>
     <string name="menu_list_name">Menu List</string>
     <string name="add_recipe_list_name">Add Recipe</string>
