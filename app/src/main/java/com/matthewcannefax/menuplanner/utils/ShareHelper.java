@@ -8,6 +8,7 @@ import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
@@ -69,11 +70,18 @@ public class ShareHelper {
         activity.startActivityForResult(Intent.createChooser(intent, "Select a cookbook file..."), PICK_FILE_REQUEST_CODE);
     }
 
-    public static List<Recipe> jsonToRecipe(String jsonString){
-
+    public static List<Recipe> jsonToRecipe(Context context, String jsonString){
+        
 
         Gson gson = new Gson();
-        Recipes recipedata = gson.fromJson(jsonString, Recipes.class);
+
+        Recipes recipedata = null;
+        try {
+            recipedata = gson.fromJson(jsonString, Recipes.class);
+        } catch (JsonSyntaxException e) {
+            Toast.makeText(context, "Invalid File", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
 
         return recipedata.getRecipeList();
     }

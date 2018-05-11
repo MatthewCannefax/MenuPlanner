@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.matthewcannefax.menuplanner.R;
@@ -92,12 +93,17 @@ public class OptionsActivity extends AppCompatActivity {
                         while ((line = r.readLine()) != null) {
                             total.append(line);
                         }
-                        List<Recipe> importRecipes = ShareHelper.jsonToRecipe(total.toString());
 
-                        StaticRecipes.addImportedRecipes(context, importRecipes);
-                        List<Recipe> rew = StaticRecipes.getRecipeList();
-                        StaticRecipes.saveRecipes(context);
-                        String s = "";
+                        List<Recipe> importRecipes = null;
+                        try {
+                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
+                            StaticRecipes.addImportedRecipes(context, importRecipes);
+                            StaticRecipes.saveRecipes(context);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+
 
 
                     } catch (FileNotFoundException e) {
