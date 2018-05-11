@@ -1,12 +1,14 @@
 package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -66,29 +68,52 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri contentUri = data.getData();
-        InputStream inputStream;
-        try {
-            inputStream = getContentResolver().openInputStream(contentUri);
-            BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder total = new StringBuilder();
-            String line;
-            while ((line = r.readLine()) != null) {
-                total.append(line);
-            }
-            List<Recipe> importRecipes = ShareHelper.jsonToRecipe(total.toString());
+        final Context context = this;
 
-            StaticRecipes.getRecipeList().addAll(importRecipes);//need to do more to protect this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!and save
-            String s = "";
+        if (requestCode == ShareHelper.getPickFileRequestCode() && resultCode == RESULT_OK) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Import a Cookbook?");
+            builder.setMessage("Are you sure you want to append your cookbook?");
+            builder.setNegativeButton("Cancel", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Uri contentUri = data.getData();
+                    InputStream inputStream;
+                    try {
+                        inputStream = getContentResolver().openInputStream(contentUri);
+                        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+                        StringBuilder total = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            total.append(line);
+                        }
+                        List<Recipe> importRecipes = ShareHelper.jsonToRecipe(total.toString());
+
+                        StaticRecipes.addImportedRecipes(context, importRecipes);
+                        List<Recipe> rew = StaticRecipes.getRecipeList();
+                        StaticRecipes.saveRecipes(context);
+                        String s = "";
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+            builder.show();
+
+
+
+
         }
 
     }

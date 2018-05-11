@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 
 import java.util.ArrayList;
@@ -87,6 +88,29 @@ public class StaticRecipes {
 
         //return the new id
         return id;
+    }
+
+    public static void addImportedRecipes(Context context, List<Recipe> importedRecipes){
+        int newId = 0;
+
+        if (getRecipeList() != null && getRecipeList().size() != 0) {
+            newId = (getRecipeList().get(getRecipeList().size() - 1).getRecipeID()) + 1;
+        }
+
+        for(Recipe r : importedRecipes){
+            r.setRecipeID(newId);
+            ImageHelper.resetRecipeImage(context, r);
+            newId++;
+        }
+
+        if (getRecipeList() != null && getRecipeList().size() != 0){
+            getRecipeList().addAll(importedRecipes);
+        }else{
+            setRecipeList(importedRecipes);
+        }
+
+
+
     }
 }
 

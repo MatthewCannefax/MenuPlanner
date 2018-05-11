@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -363,5 +364,8 @@ public class ImageHelper {
         return bitmap;
     }
 
+    public static void resetRecipeImage(Context context, Recipe recipe){
+        recipe.setImagePath(context.getString(R.string.no_img_selected));
+    }
 
 }
