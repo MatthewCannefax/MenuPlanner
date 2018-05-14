@@ -5,7 +5,7 @@ package com.matthewcannefax.menuplanner.model.Enums;
 
 public enum RecipeCategory {
     //the different categories of recipes based on a standard cookbook
-    ALL, DESSERTS, APPETIZERS, BEVERAGES, VEGETABLES, PASTA, BREAD, MAIN_DISHES, MISCELLANEOUS, SOUP, MEXICAN,
+    ALL, BREAKFAST, DESSERTS, APPETIZERS, BEVERAGES, VEGETABLES, PASTA, BREAD, MAIN_DISHES, MISCELLANEOUS, SOUP, MEXICAN,
     BBQ, ITALIAN, ASIAN, BEEF, CHICKEN, PORK;
 
     //this overridden toString method will display the categories with the first character capitalized
