@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.OptionsActivity;
 import com.matthewcannefax.menuplanner.model.Ingredient;
@@ -34,17 +35,21 @@ public class ShareHelper {
     private final static int PICK_FILE_REQUEST_CODE = 4;
 
     public static void sendGroceryList(Context context, List<Ingredient> ingredients){
-        String sendText;
-        StringBuilder sb = new StringBuilder();
-        for(Ingredient i: ingredients){
-            sb.append(i.getName()).append("\n");
+        if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() != 0) {
+            String sendText;
+            StringBuilder sb = new StringBuilder();
+            for(Ingredient i: ingredients){
+                sb.append(i.getName()).append("\n");
+            }
+            sendText = sb.toString();
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, sendText);
+            sendIntent.setType("text/plain");
+            context.startActivity(sendIntent);
+        } else {
+            Toast.makeText(context, R.string.no_grocery_to_share, Toast.LENGTH_SHORT).show();
         }
-        sendText = sb.toString();
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, sendText);
-        sendIntent.setType("text/plain");
-        context.startActivity(sendIntent);
 
     }
 
