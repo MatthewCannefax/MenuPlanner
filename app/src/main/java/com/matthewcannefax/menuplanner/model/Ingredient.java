@@ -65,6 +65,10 @@ public class Ingredient implements Parcelable {
         this.category = category;
     }
 
+    public String shareIngredientString(){
+        return String.format("%s %s", getMeasurement(), getName());
+    }
+
     @Override
     public String toString() {
         return getName();

@@ -39,7 +39,7 @@ public class ShareHelper {
             String sendText;
             StringBuilder sb = new StringBuilder();
             for(Ingredient i: ingredients){
-                sb.append(i.getName()).append("\n");
+                sb.append(i.shareIngredientString()).append("\n");
             }
             sendText = sb.toString();
             Intent sendIntent = new Intent();
