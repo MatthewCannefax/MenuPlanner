@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -53,6 +54,8 @@ public class MenuListActivity extends AppCompatActivity {
     private ArrayAdapter catSpinnerAdapter;
 
     private Button addIngredientButton;
+
+    private DrawerLayout mDrawerLayout;
     //endregion
 
     @Override
@@ -72,6 +75,7 @@ public class MenuListActivity extends AppCompatActivity {
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
         addIngredientButton = findViewById(R.id.add_recipe_button);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //set the title in the actionbar
         this.setTitle(this.getString(R.string.menu_activity_name));
@@ -106,6 +110,8 @@ public class MenuListActivity extends AppCompatActivity {
                 addRecipeToMenu();
             }
         });
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
         NavDrawer.setupNavDrawer(MenuListActivity.this, this);
     }
@@ -173,53 +179,16 @@ public class MenuListActivity extends AppCompatActivity {
 
         //if the Add Recipe option is clicked
         switch (item.getItemId()) {
-//            case R.id.addRecipeToMenuItem:
-//                if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
-//                    //new intent to move to the RecipeListActivity
-//                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-//                    intent.putExtra("TITLE", "Add To Menu");
-//                    MenuListActivity.this.startActivity(intent);
-//                    return true;
-//                } else {
-//                    Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
-//                }
+            case android.R.id.home:
+
+                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                return true;
 
                 //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:
 
                 NavHelper.newGroceryList(this, this);
-//                //if the grocery list is not null and actually has items in it
-//                if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
-//
-//                    //ask the user if they truly wish to create a new grocery list
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                    builder.setTitle("Generate New Grocery List?");
-//                    builder.setMessage("Are you sure you want to replace your existing grocery list?");
-//                    builder.setNegativeButton("Cancel", null);
-//                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            //if the user clicks ok button, create the new grocery list with this method
-//                            goToGroceryList();
-//                        }
-//                    });
-//
-//                    builder.show();
-//
-//                    return true;
-//                }
-//                //if there is no grocery list and the menu list is not null create a new grocery list
-//                else if (StaticMenu.getMenuList() != null) {
-//                    goToGroceryList();
-//                    return true;
-//                }
-//                //if it gets here there is no grocery list and there is no menu list
-//                //so prompt the user to add menu items
-//                else {
-//                    Toast.makeText(this, "Please add menu items", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                }
-
+                return true;
                 //default; this will allow the back button to work correctly
             default:
                 return false;
