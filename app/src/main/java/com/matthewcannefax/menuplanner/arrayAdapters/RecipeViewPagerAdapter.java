@@ -162,7 +162,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                 spMeasure.setAdapter(measureAdapter);
                 spCat.setAdapter(ingredCatAdapter);
 
-                spCat.setSelection(ingredient.getCategory().ordinal());
+                spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
                 spMeasure.setSelection(ingredient.getMeasurement().getType().ordinal());
 
                 builder.setView(editIngredientView);

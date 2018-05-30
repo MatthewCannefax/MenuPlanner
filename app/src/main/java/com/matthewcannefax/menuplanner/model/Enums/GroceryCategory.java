@@ -77,6 +77,17 @@ public enum GroceryCategory {
         return groceryCategories;
     }
 
+    public static int getCatPosition(GroceryCategory groceryCat){
+        int i = 0;
+        for (GroceryCategory gc: getEnumIngredients()) {
+            if(gc == groceryCat){
+                return i;
+            }
+            i++;
+        }
+        return 0;
+    }
+
     public static List<GroceryCategory> getEnum(){
         List<GroceryCategory> groceryCategories = new ArrayList<>(Arrays.asList(GroceryCategory.values()));
 
