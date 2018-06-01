@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -44,6 +45,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private ListView lv;
     private Context mContext;
     private Button mButton;
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +78,10 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
         //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this);
@@ -188,6 +194,10 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //if the remove selected items option is clicked
         switch (item.getItemId()) {
+            case android.R.id.home:
+
+                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                return true;
             case R.id.removeSelectItems:
                 int count = adapter.getCount();
 

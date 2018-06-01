@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -42,6 +43,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
     private Spinner catSpinner;
     private ArrayAdapter catSpinnerAdapter;
+    DrawerLayout mDrawerLayout;
 
 
     @Override
@@ -94,6 +96,10 @@ public class RecipeListActivity extends AppCompatActivity {
                }
            }
         });
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this);
@@ -150,6 +156,11 @@ public class RecipeListActivity extends AppCompatActivity {
         final Context context = this;
 
         switch(item.getItemId()){
+
+            case android.R.id.home:
+
+                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                return true;
             //remove the select items from the recipelist
             case R.id.removeRecipes:
                 //this var and the loop checks if there are any recipes selected

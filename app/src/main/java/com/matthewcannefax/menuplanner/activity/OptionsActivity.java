@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     Button importBTN;
     Button exportBTN;
+    DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class OptionsActivity extends AppCompatActivity {
         exportBTN = findViewById(R.id.exportBTN);
 
         setupButtonListeners();
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
         NavDrawer.setupNavDrawer(OptionsActivity.this, this);
     }
@@ -68,6 +74,18 @@ public class OptionsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+
+                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                return true;
+
+                default:
+                    return false;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
