@@ -64,6 +64,10 @@ public class MenuListActivity extends AppCompatActivity {
         //using the same layout as the recipelist activity
         setContentView(R.layout.menu_list);
 
+        if(StaticMenu.getMenuList() == null){
+            StaticMenu.loadMenu(this);
+        }
+
         final Context mContext = this;
 
         //this is currently using a sample data class for testing

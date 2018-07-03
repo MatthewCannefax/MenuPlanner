@@ -42,13 +42,17 @@ public class RecipeListActivity extends AppCompatActivity {
     private String title;
 
     private Spinner catSpinner;
-    private ArrayAdapter catSpinnerAdapter;
+    ArrayAdapter catSpinnerAdapter;
     DrawerLayout mDrawerLayout;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(StaticRecipes.getRecipeList() == null){
+            StaticRecipes.loadRecipes(this);
+        }
 
         final Context mContext = this;
         setContentView(R.layout.recipe_menu_list);
@@ -115,6 +119,13 @@ public class RecipeListActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
     }
 
     @Override

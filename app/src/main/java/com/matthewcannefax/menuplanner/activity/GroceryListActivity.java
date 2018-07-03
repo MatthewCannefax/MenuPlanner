@@ -51,6 +51,12 @@ public class GroceryListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(StaticGroceryList.getIngredientList() == null){
+            Intent mainIntent = new Intent(this, MenuListActivity.class);
+            startActivity(mainIntent);
+            finish();
+        }
+
         mContext = this;
 
         //using the same list as the RecipeList and MenuList activities
