@@ -53,6 +53,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
         if(StaticGroceryList.getIngredientList() == null){
             Intent mainIntent = new Intent(this, MenuListActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);
             finish();
         }
