@@ -17,6 +17,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.MainActivity;
+import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
 //this class sets up the navigation drawer for all activities
@@ -83,7 +84,7 @@ public class NavDrawer {
         context.startActivity(intent);
 
         //finish the current activity unless it is the main activity
-        if (currentActivity.getClass() != MainActivity.class) {
+        if (currentActivity.getClass() != MenuListActivity.class) {
             currentActivity.finish();
         }
     }

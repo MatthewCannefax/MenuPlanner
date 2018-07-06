@@ -30,6 +30,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
+import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,9 @@ public class MenuListActivity extends AppCompatActivity {
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
         NavDrawer.setupNavDrawer(MenuListActivity.this, this);
+
+        //check that the required permissions are allowed
+        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
     }
 
     private void addRecipeToMenu(){

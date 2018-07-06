@@ -11,12 +11,11 @@ import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
 
 public enum ActivityNavEnum {
-    MAIN_ACTIVITY("Home", MainActivity.class, 0),
-    MENU_LIST_ACTIVITY("My Menu", MenuListActivity.class, 1),
-    RECIPE_LIST_ACTIVITY("My Cookbook", RecipeListActivity.class, 2),
-    ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 3),
-    VIEW_GROCERY_LIST("View Grocery List", GroceryListActivity.class, 4),
-    NEW_GROCERY_LIST("New Grocery List", GroceryListActivity.class, 5);
+    MENU_LIST_ACTIVITY("My Menu", MenuListActivity.class, 0),
+    RECIPE_LIST_ACTIVITY("My Cookbook", RecipeListActivity.class, 1),
+    ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 2),
+    VIEW_GROCERY_LIST("View Grocery List", GroceryListActivity.class, 3),
+    NEW_GROCERY_LIST("New Grocery List", GroceryListActivity.class, 4);
 
     //get the name of the activity
     private String getName() {
@@ -52,7 +51,7 @@ public enum ActivityNavEnum {
 
     //static method to get the enum
     public static ActivityNavEnum getActivityEnum(int position){
-        ActivityNavEnum navEnum = MAIN_ACTIVITY;
+        ActivityNavEnum navEnum = MENU_LIST_ACTIVITY;
 
         for (ActivityNavEnum e:
              ActivityNavEnum.values()) {
