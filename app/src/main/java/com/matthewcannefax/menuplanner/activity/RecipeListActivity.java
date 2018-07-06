@@ -27,6 +27,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,10 +152,15 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //the add recipes to the menu menuitem
         MenuItem item = menu.findItem(R.id.addRecipesMenuItem);
+        MenuItem exportItem = menu.findItem(R.id.exportCookbook);
+        MenuItem importItem = menu.findItem(R.id.importCookbook);
 
         //if this is simply the My Recipes version of the activity, do not show the add recipes menuitem
         if (title.equals("My Recipes")) {
             item.setVisible(false);
+        }else{
+            exportItem.setVisible(false);
+            importItem.setVisible(false);
         }
 
         return true;
@@ -267,7 +273,15 @@ public class RecipeListActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
                 }
-                b= true;
+                b = true;
+                break;
+            case R.id.importCookbook:
+                ShareHelper.importCookbook(RecipeListActivity.this, this);
+                b = true;
+                break;
+            case R.id.exportCookbook:
+                ShareHelper.sendRecipes(this);
+                b = true;
                 break;
                 default:
                     b = false;
