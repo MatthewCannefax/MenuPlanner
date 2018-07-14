@@ -136,6 +136,7 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onResume();
         if(recipeList != null) {
             adapter.notifyDataSetChanged();
+            //noinspection Convert2Diamond
             catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);

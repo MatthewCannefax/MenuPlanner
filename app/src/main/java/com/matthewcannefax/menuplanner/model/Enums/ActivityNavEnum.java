@@ -1,12 +1,9 @@
 package com.matthewcannefax.menuplanner.model.Enums;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 
 import com.matthewcannefax.menuplanner.activity.AddRecipeActivity;
 import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
-import com.matthewcannefax.menuplanner.activity.MainActivity;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
 

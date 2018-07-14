@@ -3,8 +3,6 @@ package com.matthewcannefax.menuplanner.model.Enums;
 //this enum is for the different categories of grocery items
 //this is hard coded so we can limit the number of categories to just a few
 
-import com.matthewcannefax.menuplanner.model.Ingredient;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

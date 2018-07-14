@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
-import com.matthewcannefax.menuplanner.activity.MainActivity;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
@@ -35,7 +34,7 @@ public class NavDrawer {
     //this method adds the activity enum items to the nav drawer and sets up the intents
     private static void addDrawerItems(final Activity currentActivity, final Context context, ListView mDrawerListView){
         //listview adapter set to the activity enum
-        ArrayAdapter<ActivityNavEnum> mAdapter = new ArrayAdapter<ActivityNavEnum>(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
+        @SuppressWarnings("Convert2Diamond") ArrayAdapter<ActivityNavEnum> mAdapter = new ArrayAdapter<ActivityNavEnum>(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
         mDrawerListView.setAdapter(mAdapter);
 
         //this onClickListener sets starts the activity chosen from the nav drawer list view

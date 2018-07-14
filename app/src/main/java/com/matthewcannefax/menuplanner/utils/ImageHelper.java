@@ -244,12 +244,14 @@ public class ImageHelper {
         if(cursor != null){
             if(cursor.getCount() != 1){
                 cursor.close();
+                //noinspection UnusedAssignment
                 orientation = -1;
             }
 
             cursor.moveToFirst();
             orientation = cursor.getInt(0);
             cursor.close();
+            //noinspection UnusedAssignment
             cursor = null;
         }else{
             orientation = -1;

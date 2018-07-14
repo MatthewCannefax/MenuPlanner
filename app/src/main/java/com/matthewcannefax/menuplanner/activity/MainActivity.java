@@ -1,10 +1,8 @@
 package com.matthewcannefax.menuplanner.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
@@ -25,7 +22,6 @@ import com.matthewcannefax.menuplanner.arrayAdapters.MainActivityViewPagerAdapte
 import com.matthewcannefax.menuplanner.utils.FadeTransformer;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
-import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 public class MainActivity extends AppCompatActivity {
 

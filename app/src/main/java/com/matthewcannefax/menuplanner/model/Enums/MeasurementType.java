@@ -1,8 +1,6 @@
 package com.matthewcannefax.menuplanner.model.Enums;
 
 
-import com.matthewcannefax.menuplanner.model.Measurement;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

@@ -2,7 +2,6 @@ package com.matthewcannefax.menuplanner.arrayAdapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
@@ -11,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.MainActivity;
-import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
 public class MainActivityViewPagerAdapter extends PagerAdapter {
     private final Context context;
