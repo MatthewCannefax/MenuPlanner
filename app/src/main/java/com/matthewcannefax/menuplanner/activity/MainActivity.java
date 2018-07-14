@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
@@ -103,8 +104,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ListView drawerListView = findViewById(R.id.navList);
+
         //setup the nav drawer
-        NavDrawer.setupNavDrawer(MainActivity.this, this);
+        NavDrawer.setupNavDrawer(MainActivity.this, this, drawerListView);
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MainActivity.this, this);

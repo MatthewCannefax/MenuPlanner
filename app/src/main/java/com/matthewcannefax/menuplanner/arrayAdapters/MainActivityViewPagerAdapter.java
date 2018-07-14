@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.arrayAdapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,7 +19,6 @@ import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
 public class MainActivityViewPagerAdapter extends PagerAdapter {
     private Context context;
-    private LayoutInflater layoutInflater;
     private Integer[] images = {R.drawable.dinner_portrait, R.drawable.ingredients_portrait, R.drawable.shopping_cart};
 
 
@@ -40,8 +40,8 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.swipe_layout, null);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.swipe_layout, null);
         ImageView imageViewMain = view.findViewById(R.id.imageView2);
 
         imageViewMain.setImageBitmap(getSampledBitmap(images[position], true));

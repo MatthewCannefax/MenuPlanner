@@ -54,13 +54,8 @@ public class MenuListActivity extends AppCompatActivity {
     //the adapter will be used across the app
     private RecipeMenuItemAdapter adapter;
 
-    private ArrayAdapter catSpinnerAdapter;
-
-    private Button addIngredientButton;
-
     private DrawerLayout mDrawerLayout;
 
-    private AdView mAdView;
     //endregion
 
     @Override
@@ -83,7 +78,7 @@ public class MenuListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
-        addIngredientButton = findViewById(R.id.add_recipe_button);
+        Button addIngredientButton = findViewById(R.id.add_recipe_button);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //set the title in the actionbar
@@ -122,12 +117,14 @@ public class MenuListActivity extends AppCompatActivity {
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
-        NavDrawer.setupNavDrawer(MenuListActivity.this, this);
+        ListView drawerListView = findViewById(R.id.navList);
+
+        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
 
-        mAdView = findViewById(R.id.addEditRecipeBanner);
+        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
     }
@@ -169,7 +166,7 @@ public class MenuListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
             //setup the arrayAdapter for catSpinner
-            catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+            ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }

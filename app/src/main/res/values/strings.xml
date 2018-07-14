@@ -10,13 +10,9 @@
     <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
 
-    <string name="recipe_list_name">Recipe List</string>
-    <string name="menu_list_name">Menu List</string>
-    <string name="add_recipe_list_name">Add Recipe</string>
     <string name="ingredient_header">INGREDIENTS</string>
     <string name="new_recipe_name_box">Recipe Name</string>
     <string name="add_ingredient_btn">Add Ingredient</string>
-    <string name="directions_header">DIRECTIONS:</string>
     <string name="directions_hint">Directions</string>
     <string name="recipe_list_to_json">MyCookBook</string>
     <string name="json_menu_list">menuListToJSON</string>
@@ -43,7 +39,6 @@
     <string name="add_ingredient_dialog_title">Add Ingredient</string>
     <string name="category">CATEGORY: </string>
     <string name="recipe_item_image_description">A recipe photo</string>
-    <string name="select_all">Select All</string>
     <string name="export">Export Cookbook</string>
     <string name="import_cookbook">Import Cookbook</string>
     <string name="options">Options</string>

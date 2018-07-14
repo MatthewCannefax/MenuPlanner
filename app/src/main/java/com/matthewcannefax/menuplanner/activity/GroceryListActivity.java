@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,9 +49,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private ListView lv;
     private Context mContext;
-    private Button mButton;
     DrawerLayout mDrawerLayout;
-    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //initialize the listview
         //might change to recyclerview since it tends to be a little smoother while scrolling
         lv = findViewById(R.id.recipeMenuListView);
-        mButton = findViewById(R.id.addItemButton);
+        Button mButton = findViewById(R.id.addItemButton);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,10 +94,12 @@ public class GroceryListActivity extends AppCompatActivity {
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(GroceryListActivity.this, this);
+        ListView drawerListView = findViewById(R.id.navList);
 
-        mAdView = findViewById(R.id.addEditRecipeBanner);
+        //set up the nav drawer for this activity
+        NavDrawer.setupNavDrawer(GroceryListActivity.this, this, drawerListView);
+
+        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
     }
@@ -109,7 +110,7 @@ public class GroceryListActivity extends AppCompatActivity {
         builder.setTitle("Add Item");
 
         //inflate the add_ingredient_item layout
-        View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
+        @SuppressLint("InflateParams") View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
 
         //controls inside the view
         final EditText etAmount = newItemView.findViewById(R.id.amountText);

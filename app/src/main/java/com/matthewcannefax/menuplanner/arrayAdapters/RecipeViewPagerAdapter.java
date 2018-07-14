@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.arrayAdapters;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,13 +34,11 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private int mTabPosition;
-    private LayoutInflater mLayoutInflater;
     private Recipe mRecipe;
-    private Button mAddIngredientButton;
     private EditText etDirections;
     private boolean enabled;
-    ListView listView;
-    IngredientItemAdapter ingredientItemAdapter;
+    private ListView listView;
+    private IngredientItemAdapter ingredientItemAdapter;
 
     public RecipeViewPagerAdapter(Context context, Recipe recipe, int tabPosition){
         mContext = context;
@@ -57,13 +56,14 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view;
         switch (mTabPosition){
 
                 case 0:
-                mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = mLayoutInflater.inflate(R.layout.ingredient_listview_layout, null);
                 listView = view.findViewById(R.id.ingredientListView);
 
@@ -72,7 +72,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                     listView.setAdapter(ingredientItemAdapter);
                 }
 
-                mAddIngredientButton = view.findViewById(R.id.ingredient_layout_button);
+                    Button mAddIngredientButton = view.findViewById(R.id.ingredient_layout_button);
 
                 ViewPagerHelper.setAddIngredientButton(mContext, view, mAddIngredientButton, mRecipe, ingredientItemAdapter, listView);
                 listViewClickListener();

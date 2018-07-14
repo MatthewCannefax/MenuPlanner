@@ -62,18 +62,12 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Context mContext;
     private ViewPager viewPager;
     RecipeViewPagerAdapter recipeViewPagerAdapter;
-    private TabLayout tabLayout;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
 
     //an object for any changes made to the oldRecipe
     private Recipe newRecipe;
-
-    //an object for the menu item
-    private MenuItem editSubmitBTN;
-
-    private AdView mAdView;
 
     //endregion
 
@@ -143,17 +137,19 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         setUpTabs();
 
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(EditRecipeActivity.this, this);
+        ListView drawerListView = findViewById(R.id.navList);
 
-        mAdView = findViewById(R.id.addEditRecipeBanner);
+        //set up the nav drawer for this activity
+        NavDrawer.setupNavDrawer(EditRecipeActivity.this, this, drawerListView);
+
+        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void setUpTabs(){
         final Context context = this;
-        tabLayout = findViewById(R.id.recipe_tab_layout);
+        TabLayout tabLayout = findViewById(R.id.recipe_tab_layout);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -191,7 +187,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
 
         //currently getting the only item in the menu for this menu item object
-        editSubmitBTN = menu.getItem(0);//if other items are added to this menu, this will need to be changed
+        MenuItem editSubmitBTN = menu.getItem(0);
 
         //setting the text to "Edit" by default, it will be change on each click
         editSubmitBTN.setTitle(getString(R.string.submit));

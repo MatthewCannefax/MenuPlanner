@@ -61,10 +61,6 @@ public class AddRecipeActivity extends AppCompatActivity{
     private Recipe newRecipe;
 
     private ViewPager viewPager;
-    private RecipeViewPagerAdapter recipeViewPagerAdapter;
-    private TabLayout tabLayout;
-
-    private AdView mAdView;
 
     //endregion
 
@@ -116,16 +112,18 @@ public class AddRecipeActivity extends AppCompatActivity{
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
 
-        recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
+        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
         viewPager = findViewById(R.id.ingredient_direction_viewpager);
         viewPager.setAdapter(recipeViewPagerAdapter);
 
         setupTabs();
 
-        //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
-        NavDrawer.setupNavDrawer(AddRecipeActivity.this, this);
+        ListView drawerListView = findViewById(R.id.navList);
 
-        mAdView = findViewById(R.id.addEditRecipeBanner);
+        //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
+        NavDrawer.setupNavDrawer(AddRecipeActivity.this, this, drawerListView);
+
+        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
 
@@ -134,7 +132,7 @@ public class AddRecipeActivity extends AppCompatActivity{
     private void setupTabs(){
 
         final Context context = this;
-        tabLayout = findViewById(R.id.recipe_tab_layout);
+        TabLayout tabLayout = findViewById(R.id.recipe_tab_layout);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

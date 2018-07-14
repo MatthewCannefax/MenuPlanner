@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.matthewcannefax.menuplanner">
 
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -34,7 +35,8 @@
         </activity>
         <activity android:name=".activity.MenuListActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"
@@ -43,7 +45,8 @@
         </activity>
         <activity android:name=".activity.RecipeListActivity"
             android:parentActivityName=".activity.MenuListActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"
@@ -53,7 +56,8 @@
         <activity android:name=".activity.AddRecipeActivity"
             android:parentActivityName=".activity.MenuListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"
@@ -62,7 +66,8 @@
         </activity>
         <activity android:name=".activity.GroceryListActivity"
             android:parentActivityName=".activity.MenuListActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"
@@ -72,7 +77,8 @@
         <activity android:name=".activity.EditRecipeActivity"
             android:parentActivityName=".activity.MenuListActivity"
             android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MenuListActivity"
@@ -82,7 +88,8 @@
         <activity android:name=".activity.OptionsActivity"
             android:parentActivityName=".activity.MainActivity"
             android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"/>

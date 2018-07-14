@@ -23,19 +23,17 @@ import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 //this class sets up the navigation drawer for all activities
 public class NavDrawer {
     //fields
-    private static ListView mDrawerListView;
+//    private static ListView mDrawerListView;
 
     //setup the nav drawer using the context and activity as arguments
-    public static void setupNavDrawer(Activity activity, Context context){
-        //find the navlist listview in the given activity
-        mDrawerListView = activity.findViewById(R.id.navList);
+    public static void setupNavDrawer(Activity activity, Context context, ListView mDrawerListView){
 
         //use the add drawer items method to add the nav drawer enum items to the nav drawer
-        addDrawerItems(activity, context);
+        addDrawerItems(activity, context, mDrawerListView);
     }
 
     //this method adds the activity enum items to the nav drawer and sets up the intents
-    private static void addDrawerItems(final Activity currentActivity, final Context context){
+    private static void addDrawerItems(final Activity currentActivity, final Context context, ListView mDrawerListView){
         //listview adapter set to the activity enum
         ArrayAdapter mAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
         mDrawerListView.setAdapter(mAdapter);

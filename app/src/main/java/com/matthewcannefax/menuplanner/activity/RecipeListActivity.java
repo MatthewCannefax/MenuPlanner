@@ -48,8 +48,6 @@ public class RecipeListActivity extends AppCompatActivity {
     ArrayAdapter catSpinnerAdapter;
     DrawerLayout mDrawerLayout;
 
-    private AdView mAdView;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,10 +108,12 @@ public class RecipeListActivity extends AppCompatActivity {
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
-       //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(RecipeListActivity.this, this);
+        ListView drawerListView = findViewById(R.id.navList);
 
-        mAdView = findViewById(R.id.addEditRecipeBanner);
+       //set up the nav drawer for this activity
+        NavDrawer.setupNavDrawer(RecipeListActivity.this, this, drawerListView);
+
+        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
     }
