@@ -11,7 +11,7 @@ public class Measurement implements Parcelable {
 
     //fields
     private double amount;
-    private MeasurementType type;
+    private final MeasurementType type;
 
     //constructor
     public Measurement(double amount, MeasurementType type){

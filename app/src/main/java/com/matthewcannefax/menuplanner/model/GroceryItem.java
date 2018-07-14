@@ -11,10 +11,10 @@ import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 public class GroceryItem implements Parcelable {
 
     //the name of the grocery item
-    private String name;
+    private final String name;
 
     //the category of the grocery item using the GroceryCategory enum
-    private GroceryCategory category;//category will be as it relates to a grocery store (dairy, meat, etc)
+    private final GroceryCategory category;//category will be as it relates to a grocery store (dairy, meat, etc)
 
 // --Commented out by Inspection START (4/5/2018 1:43 PM):
 //    //default constructor

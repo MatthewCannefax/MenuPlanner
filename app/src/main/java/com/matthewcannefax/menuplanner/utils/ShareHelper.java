@@ -68,7 +68,7 @@ public class ShareHelper {
 
     }
 
-    public static void importCookbook(Activity activity, Context context){
+    public static void importCookbook(Activity activity){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -100,8 +100,5 @@ public class ShareHelper {
             return recipeList;
         }
 
-        private void setRecipeList(List<Recipe> recipeList) {
-            this.recipeList = recipeList;
-        }
     }
 }

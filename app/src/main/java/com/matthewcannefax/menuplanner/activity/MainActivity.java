@@ -33,12 +33,12 @@ public class MainActivity extends AppCompatActivity {
     //This is basically just a way to get to the different activities of the app
 
 
-    ViewPager viewPager;
-    MainActivityViewPagerAdapter adapter;
-    LinearLayout sliderDotsPanel;
+    private ViewPager viewPager;
+    private MainActivityViewPagerAdapter adapter;
+    private LinearLayout sliderDotsPanel;
     private int dotsCount;
     private ImageView[] dots;
-    DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

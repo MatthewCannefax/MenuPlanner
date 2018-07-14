@@ -37,6 +37,7 @@ import java.util.Date;
 import static android.app.Activity.RESULT_OK;
 
 //this class helps with loading/requesting/taking photos for use with the app
+@SuppressWarnings("SameReturnValue")
 public class ImageHelper {
 
     //Getters for gallery and capture request ids
@@ -323,6 +324,7 @@ public class ImageHelper {
     }
 
     //this method creates an image file
+    @SuppressWarnings("unused")
     private static File createImageFile(Context context) throws IOException{
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imgFileName = "RECIPE_PHOTO_" + timeStamp + "_";

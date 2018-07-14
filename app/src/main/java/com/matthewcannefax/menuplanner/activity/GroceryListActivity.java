@@ -49,7 +49,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private ListView lv;
     private Context mContext;
-    DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

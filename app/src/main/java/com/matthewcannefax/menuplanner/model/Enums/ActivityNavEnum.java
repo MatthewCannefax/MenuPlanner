@@ -44,11 +44,6 @@ public enum ActivityNavEnum {
         mPosition = position;
     }
 
-    public static void startActivity(Context context, ActivityNavEnum targetActivity){
-        Intent intent = new Intent(context, targetActivity.getActivity());
-        context.startActivity(intent);
-    }
-
     //static method to get the enum
     public static ActivityNavEnum getActivityEnum(int position){
         ActivityNavEnum navEnum = MENU_LIST_ACTIVITY;

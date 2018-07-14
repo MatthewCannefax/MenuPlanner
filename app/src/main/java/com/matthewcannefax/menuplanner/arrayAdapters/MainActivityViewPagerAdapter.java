@@ -18,8 +18,8 @@ import com.matthewcannefax.menuplanner.activity.MainActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 
 public class MainActivityViewPagerAdapter extends PagerAdapter {
-    private Context context;
-    private Integer[] images = {R.drawable.dinner_portrait, R.drawable.ingredients_portrait, R.drawable.shopping_cart};
+    private final Context context;
+    private final Integer[] images = {R.drawable.dinner_portrait, R.drawable.ingredients_portrait, R.drawable.shopping_cart};
 
 
     public MainActivityViewPagerAdapter(Context context){
@@ -44,7 +44,7 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
         @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.swipe_layout, null);
         ImageView imageViewMain = view.findViewById(R.id.imageView2);
 
-        imageViewMain.setImageBitmap(getSampledBitmap(images[position], true));
+        imageViewMain.setImageBitmap(getSampledBitmap(images[position]));
 
         imageViewMain.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -53,12 +53,8 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
         return view;
     }
 
-    private Bitmap getSampledBitmap(int imageID, boolean isMainIMG){
-        if(isMainIMG){
+    private Bitmap getSampledBitmap(int imageID){
             return loadSampledResource(imageID, 400, 400);
-        }else {
-            return loadSampledResource(imageID, 200, 200);
-        }
     }
 
     private Bitmap loadSampledResource(int imageId, int targetHeight, int targetWidth){

@@ -26,8 +26,8 @@ import java.util.List;
 
 public class ViewPagerHelper {
 
-    public static void setAddIngredientButton(final Context context, final View view, Button button,
-                                              final Recipe newRecipe, final IngredientItemAdapter ingredientItemAdapter, final ListView listView){
+    public static void setAddIngredientButton(final Context context, Button button,
+                                              final Recipe newRecipe, final ListView listView){
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

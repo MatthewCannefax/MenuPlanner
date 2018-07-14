@@ -61,7 +61,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Spinner recipeCat;
     private Context mContext;
     private ViewPager viewPager;
-    RecipeViewPagerAdapter recipeViewPagerAdapter;
+    private RecipeViewPagerAdapter recipeViewPagerAdapter;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;

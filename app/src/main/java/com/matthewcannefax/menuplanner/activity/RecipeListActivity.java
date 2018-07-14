@@ -45,8 +45,8 @@ public class RecipeListActivity extends AppCompatActivity {
     private String title;
 
     private Spinner catSpinner;
-    ArrayAdapter<RecipeCategory> catSpinnerAdapter;
-    DrawerLayout mDrawerLayout;
+    private ArrayAdapter<RecipeCategory> catSpinnerAdapter;
+    private DrawerLayout mDrawerLayout;
 
 
     @Override
@@ -130,12 +130,6 @@ public class RecipeListActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-
-    }
 
     @Override
     public void onResume(){
@@ -284,7 +278,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 b = true;
                 break;
             case R.id.importCookbook:
-                ShareHelper.importCookbook(RecipeListActivity.this, this);
+                ShareHelper.importCookbook(RecipeListActivity.this);
                 b = true;
                 break;
             case R.id.exportCookbook:

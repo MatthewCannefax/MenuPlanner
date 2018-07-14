@@ -32,11 +32,10 @@ import com.matthewcannefax.menuplanner.utils.ViewPagerHelper;
 
 public class RecipeViewPagerAdapter extends PagerAdapter {
 
-    private Context mContext;
-    private int mTabPosition;
-    private Recipe mRecipe;
+    private final Context mContext;
+    private final int mTabPosition;
+    private final Recipe mRecipe;
     private EditText etDirections;
-    private boolean enabled;
     private ListView listView;
     private IngredientItemAdapter ingredientItemAdapter;
 
@@ -74,7 +73,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                     Button mAddIngredientButton = view.findViewById(R.id.ingredient_layout_button);
 
-                ViewPagerHelper.setAddIngredientButton(mContext, view, mAddIngredientButton, mRecipe, ingredientItemAdapter, listView);
+                ViewPagerHelper.setAddIngredientButton(mContext, mAddIngredientButton, mRecipe, listView);
                 listViewClickListener();
 
                 break;

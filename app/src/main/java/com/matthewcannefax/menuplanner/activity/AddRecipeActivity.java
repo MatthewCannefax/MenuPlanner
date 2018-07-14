@@ -29,7 +29,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
-import com.matthewcannefax.menuplanner.arrayAdapters.ButtonArrayAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeViewPagerAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
@@ -55,8 +54,6 @@ public class AddRecipeActivity extends AppCompatActivity{
     private EditText recipeName;
     private ImageView recipeIMG;
     private Spinner recipeCat;
-
-    private IngredientItemAdapter ingredientItemAdapter;
 
     private Recipe newRecipe;
 

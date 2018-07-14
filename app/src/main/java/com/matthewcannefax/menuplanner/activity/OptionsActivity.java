@@ -37,9 +37,9 @@ import java.util.List;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    Button importBTN;
-    Button exportBTN;
-    DrawerLayout mDrawerLayout;
+    private Button importBTN;
+    private Button exportBTN;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class OptionsActivity extends AppCompatActivity {
         importBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareHelper.importCookbook(OptionsActivity.this, context);
+                ShareHelper.importCookbook(OptionsActivity.this);
             }
         });
 
