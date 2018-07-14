@@ -17,7 +17,7 @@ import com.matthewcannefax.menuplanner.model.Ingredient;
 import java.util.List;
 
 
-public class GroceryItemAdapter extends ArrayAdapter {
+public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
 
     //A list to hold the items of the grocery list
     //I need to try and switch this to Grocery type instead of Ingredient type

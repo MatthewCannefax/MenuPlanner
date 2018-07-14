@@ -25,7 +25,7 @@ import java.util.List;
 //This adapter is for displaying the recipes in the menu list activity and the total number of recipes'
 //in the recipe list activity
 
-public class RecipeMenuItemAdapter extends ArrayAdapter {
+public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
 
     //A list to hold all the recipe objects
     private final List<Recipe> mRecipeItems;

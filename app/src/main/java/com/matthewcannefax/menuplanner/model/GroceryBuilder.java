@@ -34,7 +34,6 @@ public class GroceryBuilder {
         List<Ingredient> ingredients = getIngredients();
 
         //this is the new list of ingredients
-        List<Ingredient> newIngredients = new ArrayList<>();
 
         //sort the ingredients by name
         Collections.sort(ingredients, new Comparator<Ingredient>() {
@@ -45,7 +44,7 @@ public class GroceryBuilder {
         });
 
         //add all the items from the ingredients list to the new ingredients list to be consolidated
-        newIngredients.addAll(ingredients);
+        List<Ingredient> newIngredients = new ArrayList<>(ingredients);
 
         //loop through all the ingredients and combine each one with the same name and measurement type
         for (int i = 0; i<newIngredients.size()-1; i++){
@@ -90,6 +89,7 @@ public class GroceryBuilder {
     }
 
     //this method takes a list of ingredients and sorts them by category
+    @SuppressWarnings("UnnecessaryLocalVariable")
     private List<Ingredient> sortByCategory(List<Ingredient> ingredientList){
         List<Ingredient> ingredients = ingredientList;
 

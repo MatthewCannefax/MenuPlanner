@@ -166,7 +166,7 @@ public class MenuListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
             //setup the arrayAdapter for catSpinner
-            ArrayAdapter catSpinnerAdapter = new ArrayAdapter(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }

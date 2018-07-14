@@ -16,7 +16,7 @@ import java.util.List;
 
 //this adapter is for adding ingredients to the ingredient list view in the add/edit recipe activity
 
-public class IngredientItemAdapter extends ArrayAdapter {
+public class IngredientItemAdapter extends ArrayAdapter<Ingredient> {
 
     //initialize a list of ingredients
     private final List<Ingredient> mRecipeIngredients;

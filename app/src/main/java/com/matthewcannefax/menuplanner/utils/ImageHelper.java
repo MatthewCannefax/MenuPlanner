@@ -57,9 +57,9 @@ public class ImageHelper {
     //this is used to set the imageview with photos that are part of the app in the drawable directory
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){
         if(imagePath.equals(context.getString(R.string.no_img_selected))) {
-            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath), 100, 100));
+            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath)));
         }else{
-            imageView.setImageBitmap(loadSampledIMGFile(imagePath, 100, 100));
+            imageView.setImageBitmap(loadSampledIMGFile(imagePath));
         }
     }
 
@@ -273,7 +273,7 @@ public class ImageHelper {
     }
 
     //this method reduces the size of a bitmap image
-    private static Bitmap loadSampledResource(Context context, int imageID, int targetHeight, int targetWidth){
+    private static Bitmap loadSampledResource(Context context, int imageID){
         final BitmapFactory.Options options = new BitmapFactory.Options();
 
         options.inJustDecodeBounds = true;
@@ -284,7 +284,7 @@ public class ImageHelper {
         final int originalWidth = options.outWidth;
         int inSampleSize = 1;
 
-        while((originalHeight / (inSampleSize * 2)) > targetHeight && (originalWidth / (inSampleSize * 2)) > targetWidth){
+        while((originalHeight / (inSampleSize * 2)) > 100 && (originalWidth / (inSampleSize * 2)) > 100){
             inSampleSize *= 2;
         }
 
@@ -295,7 +295,7 @@ public class ImageHelper {
     }
 
     //this method reduce the size of an image file
-    private static Bitmap loadSampledIMGFile(String imagePath, int targetHeight, int targetWidth){
+    private static Bitmap loadSampledIMGFile(String imagePath){
         final BitmapFactory.Options options = new BitmapFactory.Options();
 
         options.inJustDecodeBounds = true;
@@ -306,7 +306,7 @@ public class ImageHelper {
         final int originalWidth = options.outWidth;
         int inSampleSize = 1;
 
-        while((originalHeight / (inSampleSize * 2)) > targetHeight && (originalWidth / (inSampleSize * 2)) > targetWidth){
+        while((originalHeight / (inSampleSize * 2)) > 100 && (originalWidth / (inSampleSize * 2)) > 100){
             inSampleSize *= 2;
         }
 

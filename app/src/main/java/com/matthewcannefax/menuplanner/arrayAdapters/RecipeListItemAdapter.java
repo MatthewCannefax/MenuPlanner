@@ -23,7 +23,7 @@ import java.util.List;
 
 
 
-public class RecipeListItemAdapter extends ArrayAdapter {
+public class RecipeListItemAdapter extends ArrayAdapter<Recipe> {
     //A list to hold all the recipe objects
     private final List<Recipe> mRecipeItems;
 
