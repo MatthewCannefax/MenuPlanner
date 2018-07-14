@@ -18,12 +18,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
@@ -45,6 +47,8 @@ public class RecipeListActivity extends AppCompatActivity {
     private Spinner catSpinner;
     ArrayAdapter catSpinnerAdapter;
     DrawerLayout mDrawerLayout;
+
+    private AdView mAdView;
 
 
     @Override
@@ -108,6 +112,10 @@ public class RecipeListActivity extends AppCompatActivity {
 
        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this);
+
+        mAdView = findViewById(R.id.addEditRecipeBanner);
+
+        AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void setRecipeListAdapter(){

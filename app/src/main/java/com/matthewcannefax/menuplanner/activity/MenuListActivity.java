@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
@@ -27,6 +28,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
@@ -57,6 +59,8 @@ public class MenuListActivity extends AppCompatActivity {
     private Button addIngredientButton;
 
     private DrawerLayout mDrawerLayout;
+
+    private AdView mAdView;
     //endregion
 
     @Override
@@ -122,6 +126,10 @@ public class MenuListActivity extends AppCompatActivity {
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
+
+        mAdView = findViewById(R.id.addEditRecipeBanner);
+
+        AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void addRecipeToMenu(){

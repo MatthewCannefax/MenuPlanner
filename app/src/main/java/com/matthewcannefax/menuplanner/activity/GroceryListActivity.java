@@ -19,6 +19,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.arrayAdapters.GroceryItemAdapter;
@@ -26,6 +29,7 @@ import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
+import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
@@ -46,6 +50,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private Context mContext;
     private Button mButton;
     DrawerLayout mDrawerLayout;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +97,10 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this);
+
+        mAdView = findViewById(R.id.addEditRecipeBanner);
+
+        AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void addGroceryItem(){
