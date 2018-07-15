@@ -364,8 +364,6 @@ public class RecipeListActivity extends AppCompatActivity {
 
             builder.show();
 
-
-
             adapter.notifyDataSetChanged();
         }
 
