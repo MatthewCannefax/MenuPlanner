@@ -41,7 +41,6 @@
     <string name="recipe_item_image_description">A recipe photo</string>
     <string name="export">Export Cookbook</string>
     <string name="import_cookbook">Import Cookbook</string>
-    <string name="options">Options</string>
     <string name="no_grocery_to_share">No Groceries to Share</string>
     <string name="add_to_menu">Add to Menu</string>
 </resources>

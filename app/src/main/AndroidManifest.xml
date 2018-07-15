@@ -25,23 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
         <activity android:name=".activity.MenuListActivity"
-            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"
-                />
-
         </activity>
         <activity android:name=".activity.RecipeListActivity"
             android:parentActivityName=".activity.MenuListActivity"
@@ -60,7 +46,7 @@
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"
+                android:value=".activity.MenuListActivity"
                 />
 
         </activity>
@@ -84,15 +70,6 @@
                 android:value=".activity.MenuListActivity"
                 />
 
-        </activity>
-        <activity android:name=".activity.OptionsActivity"
-            android:parentActivityName=".activity.MainActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
         </activity>
 
         <provider

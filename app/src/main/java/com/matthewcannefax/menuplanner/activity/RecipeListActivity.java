@@ -222,7 +222,7 @@ public class RecipeListActivity extends AppCompatActivity {
                                 StaticRecipes.saveRecipes(thisContext);
 
                                 //this list is empty now, go back to the main activity
-                                Intent intent = new Intent(context, MainActivity.class);
+                                Intent intent = new Intent(context, MenuListActivity.class);
                                 startActivity(intent);
 
                                 //notify the user that the recipes have been removed
