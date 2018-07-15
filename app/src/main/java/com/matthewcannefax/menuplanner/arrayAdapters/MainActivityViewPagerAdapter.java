@@ -51,10 +51,13 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
     }
 
     private Bitmap getSampledBitmap(int imageID){
-            return loadSampledResource(imageID, 400, 400);
+            return loadSampledResource(imageID);
     }
 
-    private Bitmap loadSampledResource(int imageId, int targetHeight, int targetWidth){
+    private Bitmap loadSampledResource(int imageId){
+
+        final int targetHeight = 400;
+        final int targetWidth = 400;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
 

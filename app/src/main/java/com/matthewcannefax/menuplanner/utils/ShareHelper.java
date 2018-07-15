@@ -87,6 +87,7 @@ public class ShareHelper {
     //this static class is needed to work with the GSON library
     static class Recipes{
 
+        @SuppressWarnings("unused")
         List<Recipe> recipeList;
 
         private List<Recipe> getRecipeList() {

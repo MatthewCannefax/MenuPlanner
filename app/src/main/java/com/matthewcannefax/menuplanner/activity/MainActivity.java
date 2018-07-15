@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     //This is basically just a way to get to the different activities of the app
 
 
-    private ViewPager viewPager;
-    private MainActivityViewPagerAdapter adapter;
-    private LinearLayout sliderDotsPanel;
     private int dotsCount;
     private ImageView[] dots;
     private DrawerLayout mDrawerLayout;
@@ -52,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         //Load the Grocery items from JSON to the static class
         StaticGroceryList.loadGroceries(this);
 
-        viewPager = findViewById(R.id.viewPager);
-        sliderDotsPanel = findViewById(R.id.SliderDots);
-        adapter = new MainActivityViewPagerAdapter(this);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        LinearLayout sliderDotsPanel = findViewById(R.id.SliderDots);
+        MainActivityViewPagerAdapter adapter = new MainActivityViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
         FadeTransformer transformer = new FadeTransformer();
         viewPager.setPageTransformer(true, transformer);

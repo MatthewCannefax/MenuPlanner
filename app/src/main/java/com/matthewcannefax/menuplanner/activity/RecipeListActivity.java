@@ -45,7 +45,6 @@ public class RecipeListActivity extends AppCompatActivity {
     private String title;
 
     private Spinner catSpinner;
-    private ArrayAdapter<RecipeCategory> catSpinnerAdapter;
     private DrawerLayout mDrawerLayout;
 
 
@@ -137,7 +136,7 @@ public class RecipeListActivity extends AppCompatActivity {
         if(recipeList != null) {
             adapter.notifyDataSetChanged();
             //noinspection Convert2Diamond
-            catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
+            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }

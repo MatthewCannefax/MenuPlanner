@@ -91,13 +91,11 @@ public class NavDrawer {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
     }
 
-    public static boolean navDrawerOptionsItem(DrawerLayout mDrawerLayout){
+    public static void navDrawerOptionsItem(DrawerLayout mDrawerLayout){
         if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            return true;
         }else{
             mDrawerLayout.openDrawer(GravityCompat.START);
-            return true;
         }
     }
 }

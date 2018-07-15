@@ -24,17 +24,6 @@ public class Recipe implements Parcelable {
     public Recipe() {
     }
 
-    //Constructor with image
-    public Recipe(int recipeID,String name,  RecipeCategory category, String directions, String imagePath, List<Ingredient> ingredientList) {
-        this.recipeID = recipeID;
-        this.name = name;
-        this.category = category;
-        this.directions = directions;
-        this.imagePath = imagePath;
-        this.ingredientList = ingredientList;
-    }
-
-
 
     //region Getters and Setters
     public boolean isItemChecked() {

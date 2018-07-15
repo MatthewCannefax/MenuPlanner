@@ -27,6 +27,8 @@ import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.ViewPagerHelper;
 
+import java.util.Locale;
+
 public class RecipeViewPagerAdapter extends PagerAdapter {
 
     private final Context mContext;
@@ -34,7 +36,6 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
     private final Recipe mRecipe;
     private EditText etDirections;
     private ListView listView;
-    private IngredientItemAdapter ingredientItemAdapter;
 
     public RecipeViewPagerAdapter(Context context, Recipe recipe, int tabPosition){
         mContext = context;
@@ -65,7 +66,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                 listView = view.findViewById(R.id.ingredientListView);
 
                 if(mRecipe.getIngredientList() != null && mRecipe.getIngredientList().size() != 0) {
-                    ingredientItemAdapter = new IngredientItemAdapter(mContext, mRecipe.getIngredientList());
+                    IngredientItemAdapter ingredientItemAdapter = new IngredientItemAdapter(mContext, mRecipe.getIngredientList());
                     listView.setAdapter(ingredientItemAdapter);
                 }
 
@@ -154,7 +155,8 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                 Ingredient ingredient = mRecipe.getIngredientList().get(i);
 
-                etAmount.setText(Double.toString(ingredient.getMeasurement().getAmount()));
+//                etAmount.setText(Double.toString(ingredient.getMeasurement().getAmount()));
+                etAmount.setText(String.format(Locale.US, "%s", ingredient.getMeasurement().getAmount()));
                 etName.setText(ingredient.getName());
 
                 //set the spinner adpaters

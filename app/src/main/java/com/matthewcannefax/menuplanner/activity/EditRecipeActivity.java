@@ -46,7 +46,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Spinner recipeCat;
     private Context mContext;
     private ViewPager viewPager;
-    private RecipeViewPagerAdapter recipeViewPagerAdapter;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -116,7 +115,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
 
-        recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
+        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
         viewPager = findViewById(R.id.ingredient_direction_viewpager);
         viewPager.setAdapter(recipeViewPagerAdapter);
 

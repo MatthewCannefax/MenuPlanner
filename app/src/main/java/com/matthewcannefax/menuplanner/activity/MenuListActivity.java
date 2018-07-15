@@ -19,11 +19,9 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
-import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
@@ -205,13 +203,7 @@ public class MenuListActivity extends AppCompatActivity {
         }
     }
 
-    //this method sets up the Static Grocery list
-    private void setStaticGroceryList(List<Ingredient> groceryItems){
-        StaticGroceryList.setIngredientList(groceryItems);
-        StaticGroceryList.saveGroceries(this);
-    }
-
-// --Commented out by Inspection START (4/5/2018 1:47 PM):
+    // --Commented out by Inspection START (4/5/2018 1:47 PM):
 //    //this method creates the grocery list from the ingredient lists in the recipes on the recipe list
 //    private List<Ingredient> getGroceryList()
 //    {
