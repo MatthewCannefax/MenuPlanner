@@ -100,7 +100,9 @@ public class OptionsActivity extends AppCompatActivity {
                     Uri contentUri = data.getData();
                     InputStream inputStream;
                     try {
+                        assert contentUri != null;
                         inputStream = getContentResolver().openInputStream(contentUri);
+                        assert inputStream != null;
                         BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
                         StringBuilder total = new StringBuilder();
                         String line;

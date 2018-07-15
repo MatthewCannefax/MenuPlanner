@@ -60,7 +60,8 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                 case 0:
                     LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = mLayoutInflater.inflate(R.layout.ingredient_listview_layout, null);
+                    assert mLayoutInflater != null;
+                    view = mLayoutInflater.inflate(R.layout.ingredient_listview_layout, null);
                 listView = view.findViewById(R.id.ingredientListView);
 
                 if(mRecipe.getIngredientList() != null && mRecipe.getIngredientList().size() != 0) {
@@ -77,7 +78,8 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                 case 1:
                 mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = mLayoutInflater.inflate(R.layout.directions_multiline_layout, null);
+                    assert mLayoutInflater != null;
+                    view = mLayoutInflater.inflate(R.layout.directions_multiline_layout, null);
                 etDirections = view.findViewById(R.id.directionsMultilineEditText);
                 etDirections.setText(mRecipe.getDirections());
 
@@ -102,6 +104,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                 default:
                     mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    assert mLayoutInflater != null;
                     view = mLayoutInflater.inflate(R.layout.directions_multiline_layout, null);
                     EditText editText2 = view.findViewById(R.id.directionsMultilineEditText);
                     editText2.setText("");

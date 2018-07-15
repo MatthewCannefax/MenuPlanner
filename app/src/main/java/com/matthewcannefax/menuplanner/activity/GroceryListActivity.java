@@ -220,10 +220,11 @@ public class GroceryListActivity extends AppCompatActivity {
                 for (int i = 0; i < adapter.getCount(); i++) {
 
                     //get the ingredient item from the adapter item
-                    Ingredient ingred = (Ingredient) adapter.getItem(i);
+                    Ingredient ingred = adapter.getItem(i);
 
                     //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
                     //the item will be removed
+                    assert ingred != null;
                     if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i)) {
                         //remove the item from the adapter
 //                    adapter.remove(ingred);

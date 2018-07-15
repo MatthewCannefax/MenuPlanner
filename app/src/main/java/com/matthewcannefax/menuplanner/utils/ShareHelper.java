@@ -80,6 +80,7 @@ public class ShareHelper {
             e.printStackTrace();
         }
 
+        assert recipedata != null;
         return recipedata.getRecipeList();
     }
 

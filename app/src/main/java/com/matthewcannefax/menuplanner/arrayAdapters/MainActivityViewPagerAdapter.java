@@ -37,6 +37,7 @@ public class MainActivityViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert layoutInflater != null;
         @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.swipe_layout, null);
         ImageView imageViewMain = view.findViewById(R.id.imageView2);
 
