@@ -3,6 +3,7 @@ package com.matthewcannefax.menuplanner.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +32,11 @@ import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -303,5 +309,65 @@ public class RecipeListActivity extends AppCompatActivity {
             }
         }
         return anySelected;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        final Context context = this;
+
+        if (requestCode == ShareHelper.getPickFileRequestCode() && resultCode == RESULT_OK) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Import a Cookbook?");
+            builder.setMessage("Are you sure you want to append your cookbook?");
+            builder.setNegativeButton("Cancel", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Uri contentUri = data.getData();
+                    InputStream inputStream;
+                    try {
+                        assert contentUri != null;
+                        inputStream = getContentResolver().openInputStream(contentUri);
+                        assert inputStream != null;
+                        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+                        StringBuilder total = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            total.append(line);
+                        }
+
+                        List<Recipe> importRecipes;
+                        try {
+                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
+                            StaticRecipes.addImportedRecipes(context, importRecipes);
+                            StaticRecipes.saveRecipes(context);
+
+                            Intent intent = new Intent(RecipeListActivity.this, RecipeListActivity.class);
+                            intent.putExtra("TITLE", "My Recipes");
+                            startActivity(intent);
+                            finish();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+            builder.show();
+
+
+
+            adapter.notifyDataSetChanged();
+        }
+
     }
 }
