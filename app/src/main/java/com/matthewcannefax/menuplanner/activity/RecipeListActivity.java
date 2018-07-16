@@ -118,6 +118,12 @@ public class RecipeListActivity extends AppCompatActivity {
        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this, drawerListView);
 
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
         AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -125,6 +126,13 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(EditRecipeActivity.this, this, drawerListView);
+
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
         AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 

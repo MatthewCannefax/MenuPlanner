@@ -4,6 +4,7 @@ package com.matthewcannefax.menuplanner.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -106,10 +107,17 @@ public class AddRecipeActivity extends AppCompatActivity{
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
         NavDrawer.setupNavDrawer(AddRecipeActivity.this, this, drawerListView);
 
+
+
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
         AdView mAdView = findViewById(R.id.addEditRecipeBanner);
 
         AdHelper.SetupBannerAd(this, mAdView);
-
     }
 
     private void setupTabs(){
