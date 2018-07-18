@@ -50,6 +50,8 @@ public class ImageHelper {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_GALLERY = 2;
+    private static final int DEFAULT_IMAGE = R.drawable.ic_photo_camera_black_24dp;
+
 
     //File field for new file creation
     private static File photoFile;
@@ -58,7 +60,8 @@ public class ImageHelper {
     //this is used to set the imageview with photos that are part of the app in the drawable directory
     public static void setImageViewDrawable(String imagePath, Context context, ImageView imageView){
         if(imagePath.equals(context.getString(R.string.no_img_selected))) {
-            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath)));
+//            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath)));
+            imageView.setImageResource(DEFAULT_IMAGE);
         }else{
             imageView.setImageBitmap(loadSampledIMGFile(imagePath));
         }
