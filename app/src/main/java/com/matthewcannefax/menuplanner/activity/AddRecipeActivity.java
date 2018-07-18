@@ -57,6 +57,8 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         newRecipe = new Recipe();
 
+        this.setTitle(R.string.add_recipe);
+
         //instantiate all the controls in the activity
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);

@@ -43,4 +43,5 @@
     <string name="import_cookbook">Import Cookbook</string>
     <string name="no_grocery_to_share">No Groceries to Share</string>
     <string name="add_to_menu">Add to Menu</string>
+    <string name="add_recipe">Add Recipe</string>
 </resources>
