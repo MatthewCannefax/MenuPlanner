@@ -15,4 +15,7 @@ public class RecipeTable {
                     CATEGORY + " TEXT," +
                     IMG + " TEXT," +
                     DIRECTIONS + " TEXT" + ");";
+
+    public static final String SQL_DELETE_TABLE =
+            "DROP TABLE " + TABLE_NAME;
 }

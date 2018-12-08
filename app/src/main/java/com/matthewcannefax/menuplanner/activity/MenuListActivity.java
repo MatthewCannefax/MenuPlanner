@@ -2,6 +2,8 @@ package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +30,7 @@ import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
+import com.matthewcannefax.menuplanner.utils.database.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,8 @@ public class MenuListActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
+    private SQLiteDatabase database;
+
     //endregion
 
     @Override
@@ -62,6 +67,9 @@ public class MenuListActivity extends AppCompatActivity {
         if(StaticMenu.getMenuList() == null){
             StaticMenu.loadMenu(this);
         }
+
+        SQLiteOpenHelper dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
 
         final Context mContext = this;
 
