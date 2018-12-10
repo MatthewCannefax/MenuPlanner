@@ -1,10 +1,12 @@
 package com.matthewcannefax.menuplanner.model;
 
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 
 //this ingredient class inherits from the GroceryItem class
 //this class is just for ingredients in recipes
@@ -26,6 +28,8 @@ public class Ingredient implements Parcelable {
         this.name = name;
         this.category = category;
     }
+
+    public Ingredient(){};
 
     // --Commented out by Inspection (4/5/2018 1:42 PM):public Ingredient(){}
 
@@ -107,5 +111,15 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
+
+    public ContentValues toValues(int recipeID) {
+        ContentValues values = new ContentValues(5);
+        values.put(IngredientTable.COLUMN_RECIPE_ID, recipeID);
+        values.put(IngredientTable.COLUMN_NAME, name);
+        values.put(IngredientTable.COLUMN_CATEGORY, category.toString());
+        values.put(IngredientTable.COLUMN_MEASUREMENT_AMOUNT, measurement.getAmount());
+        values.put(IngredientTable.COLUMN_MEASUREMENT_TYPE, measurement.getType().toString());
+        return values;
+    }
     //endregion
 }

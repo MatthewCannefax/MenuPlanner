@@ -1,9 +1,11 @@
 package com.matthewcannefax.menuplanner.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
+import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
 import java.util.List;
 
@@ -22,6 +24,14 @@ public class Recipe implements Parcelable {
 
     //the default constructor
     public Recipe() {
+    }
+
+    public Recipe(String name, RecipeCategory category, String directions, String imgPath, List<Ingredient> ingredients){
+        this.name = name;
+        this.category = category;
+        this.directions = directions;
+        this.imagePath = imgPath;
+        this.ingredientList = ingredients;
     }
 
 
@@ -80,6 +90,16 @@ public class Recipe implements Parcelable {
 
     public void setIngredientList(List<Ingredient> ingredientList) {
         this.ingredientList = ingredientList;
+    }
+
+    public ContentValues toValues(){
+        ContentValues values = new ContentValues(4);
+//        values.put(RecipeTable.RECIPE_ID, recipeID);
+        values.put(RecipeTable.NAME, name);
+        values.put(RecipeTable.CATEGORY, category.toString());
+        values.put(RecipeTable.IMG, imagePath);
+        values.put(RecipeTable.DIRECTIONS, directions);
+        return values;
     }
     //endregion
 

@@ -21,4 +21,13 @@ public enum RecipeCategory {
         }
 
     }
+
+//    public RecipeCategory stringToCategory(String strCategory){
+//        for(RecipeCategory cat:RecipeCategory.values()){
+//            if(strCategory.equals(cat.toString())){
+//                return cat;
+//            }
+//        }
+//        return MISCELLANEOUS;
+//    }
 }

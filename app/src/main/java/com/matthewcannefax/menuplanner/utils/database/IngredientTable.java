@@ -10,6 +10,16 @@ public class IngredientTable {
     public static final String COLUMN_MEASUREMENT_TYPE = "measurement_type";
     public static final String COLUMN_FOREIGN_KEY = "fk_recipe_id";
 
+    public static final String[] ALL_COLUMNS =
+            {
+                    COLUMN_ID,
+                    COLUMN_RECIPE_ID,
+                    COLUMN_NAME,
+                    COLUMN_CATEGORY,
+                    COLUMN_MEASUREMENT_AMOUNT,
+                    COLUMN_MEASUREMENT_TYPE
+            };
+
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_NAME +"(" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

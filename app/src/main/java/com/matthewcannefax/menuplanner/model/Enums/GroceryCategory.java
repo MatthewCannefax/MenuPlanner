@@ -104,4 +104,13 @@ public enum GroceryCategory {
     public String toString() {
         return mName;
     }
+
+    public static GroceryCategory stringToCategory(String strCat){
+        for (GroceryCategory cat: GroceryCategory.values()){
+            if (cat.mName.equals(strCat)){
+                return cat;
+            }
+        }
+        return OTHER;
+    }
 }

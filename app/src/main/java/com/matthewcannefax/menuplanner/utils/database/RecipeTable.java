@@ -8,6 +8,9 @@ public class RecipeTable {
     public static final String IMG = "img";
     public static final String DIRECTIONS = "directions";
 
+    public static final String[] ALL_COLUMNS =
+            {RECIPE_ID, NAME, CATEGORY, IMG, DIRECTIONS};
+
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_NAME + "(" +
                     RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

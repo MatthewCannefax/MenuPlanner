@@ -47,4 +47,15 @@ public enum MeasurementType {
     public String toString() {
         return mName;
     }
+
+    public static MeasurementType stringToCategory(String measurement){
+        for(MeasurementType type: MeasurementType.values()){
+            if(type.mName.toUpperCase().equals(measurement)){
+                return type;
+            }
+        }
+
+        return PIECE;
+
+    }
 }

@@ -3,6 +3,7 @@ package com.matthewcannefax.menuplanner.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
@@ -31,6 +33,7 @@ import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.database.DBHelper;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,7 @@ public class MenuListActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
-    private SQLiteDatabase database;
+    DataSource mDataSource;
 
     //endregion
 
@@ -68,8 +71,25 @@ public class MenuListActivity extends AppCompatActivity {
             StaticMenu.loadMenu(this);
         }
 
-        SQLiteOpenHelper dbHelper = new DBHelper(this);
-        database = dbHelper.getWritableDatabase();
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
+        List<Recipe> rs = mDataSource.getAllRecipes();
+
+        //for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        try {
+            for(Recipe r : SampleRecipes.recipeList){
+                mDataSource.createRecipe(r);
+                Recipe recipe = r;
+
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        mDataSource.close();
 
         final Context mContext = this;
 
@@ -171,6 +191,8 @@ public class MenuListActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
+        mDataSource.open();
+
         //if the menu list is not null notify the adapter of changes, in case there are any
         if (menuList != null) {
             adapter.notifyDataSetChanged();
@@ -180,6 +202,12 @@ public class MenuListActivity extends AppCompatActivity {
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDataSource.close();
     }
 
     //This is the overridden method to create the options menu in the actionbar
