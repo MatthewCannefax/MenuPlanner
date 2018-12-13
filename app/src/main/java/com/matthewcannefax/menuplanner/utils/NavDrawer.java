@@ -18,6 +18,7 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
+import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
 //this class sets up the navigation drawer for all activities
 public class NavDrawer {
@@ -48,7 +49,8 @@ public class NavDrawer {
                 switch (ActivityNavEnum.getActivityEnum(i)){
                     case RECIPE_LIST_ACTIVITY:
                         //if the recipe list is null or empty the user will be notified that there is no recipes in the cookbook
-                        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
+//                        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
+                        if(RecipeTable.isNotEmpty(context)){
                             selectedActivity.putExtra("TITLE", "My Recipes");
                             startActivity(context, selectedActivity, currentActivity);
                         } else {

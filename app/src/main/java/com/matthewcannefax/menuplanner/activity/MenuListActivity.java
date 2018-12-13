@@ -71,26 +71,6 @@ public class MenuListActivity extends AppCompatActivity {
             StaticMenu.loadMenu(this);
         }
 
-        mDataSource = new DataSource(this);
-        mDataSource.open();
-
-        List<Recipe> rs = mDataSource.getAllRecipes();
-
-        //for testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        try {
-            for(Recipe r : SampleRecipes.recipeList){
-                mDataSource.createRecipe(r);
-                Recipe recipe = r;
-
-            }
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        mDataSource.close();
-
         final Context mContext = this;
 
         //this is currently using a sample data class for testing
@@ -191,7 +171,7 @@ public class MenuListActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        mDataSource.open();
+
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         if (menuList != null) {
@@ -207,7 +187,7 @@ public class MenuListActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mDataSource.close();
+
     }
 
     //This is the overridden method to create the options menu in the actionbar

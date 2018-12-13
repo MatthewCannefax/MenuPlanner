@@ -73,40 +73,119 @@ public class DataSource {
         return newId;
     }
 
+    public Recipe getSpecificRecipe(int recipeID){
+        Recipe recipe = new Recipe();
+        String[] recipeIDS = {Integer.toString(recipeID)};
+
+        Cursor recipeCursor = mDatabase.query(
+                RecipeTable.TABLE_NAME,
+                RecipeTable.ALL_COLUMNS,
+                RecipeTable.RECIPE_ID + "=?",
+                recipeIDS,
+                null,
+                null,
+                null);
+
+        while (recipeCursor.moveToNext()){
+            recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
+            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
+            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY)).toUpperCase()));
+            recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
+            recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
+            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
+        }
+
+        return recipe;
+    }
+
+    public List<Recipe> getFilteredRecipes(RecipeCategory category){
+        List<Recipe> recipes = new ArrayList<>();
+
+        if(category == RecipeCategory.ALL){
+            return getAllRecipes();
+        }
+
+        String[] categories = {category.toString()};
+
+        Cursor recipeCursor = mDatabase.query(
+                RecipeTable.TABLE_NAME,
+                RecipeTable.ALL_COLUMNS,
+                RecipeTable.CATEGORY + "=?",
+                categories,
+                null,
+                null,
+                RecipeTable.NAME);
+
+        while(recipeCursor.moveToNext()){
+            Recipe recipe = new Recipe();
+            recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
+            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
+            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY)).toUpperCase()));
+            recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
+            recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
+            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
+
+            recipes.add(recipe);
+        }
+
+        return recipes;
+    }
+
     public List<Recipe> getAllRecipes(){
         List<Recipe> recipes = new ArrayList<>();
 
-        Cursor recipeCursor = mDatabase.query(RecipeTable.TABLE_NAME, RecipeTable.ALL_COLUMNS, null, null, null, null, null);
+        Cursor recipeCursor = mDatabase.query(
+                RecipeTable.TABLE_NAME,
+                RecipeTable.ALL_COLUMNS,
+                null,
+                null,
+                null,
+                null,
+                null);
 
 
         while(recipeCursor.moveToNext()){
             Recipe recipe = new Recipe();
             recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
             recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
-            recipe.setCategory(RecipeCategory.valueOf(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY)).toUpperCase()));
+            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY)).toUpperCase()));
             recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
             recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
-            recipe.setIngredientList(new ArrayList<Ingredient>());
-
-            Cursor ingredientCursor = mDatabase.query(IngredientTable.TABLE_NAME, IngredientTable.ALL_COLUMNS,
-                    IngredientTable.COLUMN_RECIPE_ID +"= " + recipe.getRecipeID(), null, null, null, null);
-
-            while(ingredientCursor.moveToNext()){
-                Ingredient ingredient = new Ingredient();
-                ingredient.setName(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_NAME)));
-                ingredient.setCategory(GroceryCategory.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_CATEGORY))));
-                ingredient.setMeasurement(new Measurement(
-                        ingredientCursor.getDouble(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_AMOUNT)),
-                        MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
-                ));
-                recipe.getIngredientList().add(ingredient);
-
-            }
+            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
 
             recipes.add(recipe);
         }
 
         return recipes;
+    }
+
+    private List<Ingredient> getRecipeIngredients(int recipeID){
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        String[] recipeIDS = {Integer.toString(recipeID)};
+
+        Cursor ingredientCursor = mDatabase.query(
+                IngredientTable.TABLE_NAME,
+                IngredientTable.ALL_COLUMNS,
+                IngredientTable.COLUMN_RECIPE_ID +"=?",
+                recipeIDS,
+                null,
+                null,
+                null);
+
+        while(ingredientCursor.moveToNext()){
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_NAME)));
+            ingredient.setCategory(GroceryCategory.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_CATEGORY))));
+            ingredient.setMeasurement(new Measurement(
+                    ingredientCursor.getDouble(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_AMOUNT)),
+                    MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
+            ));
+            ingredients.add(ingredient);
+
+        }
+
+        return ingredients;
     }
 
 

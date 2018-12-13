@@ -31,6 +31,7 @@ import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -52,6 +53,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
     private Spinner catSpinner;
     private DrawerLayout mDrawerLayout;
+    private DataSource mDataSource;
 
 
     @Override
@@ -70,7 +72,13 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         StaticRecipes.resetItemsChecked();
-        recipeList = StaticRecipes.getRecipeList();
+//        recipeList = StaticRecipes.getRecipeList();
+
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
+        recipeList = mDataSource.getAllRecipes();
+        mDataSource.close();
 
         Bundle extras = getIntent().getExtras();
         try {
@@ -145,6 +153,7 @@ public class RecipeListActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        mDataSource.open();
         if(recipeList != null) {
             adapter.notifyDataSetChanged();
             //noinspection Convert2Diamond
@@ -152,6 +161,12 @@ public class RecipeListActivity extends AppCompatActivity {
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDataSource.close();
     }
 
     //this overridden method creates the menu item in the actionbar

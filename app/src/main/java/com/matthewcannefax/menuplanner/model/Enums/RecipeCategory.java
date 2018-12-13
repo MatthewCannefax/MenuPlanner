@@ -5,29 +5,45 @@ package com.matthewcannefax.menuplanner.model.Enums;
 
 public enum RecipeCategory {
     //the different categories of recipes based on a standard cookbook
-    ALL, BREAKFAST, DESSERTS, APPETIZERS, BEVERAGES, VEGETABLES, PASTA, BREAD, MAIN_DISHES, MISCELLANEOUS, SOUP, MEXICAN,
-    BBQ, ITALIAN, ASIAN, BEEF, CHICKEN, PORK;
+    ALL("All"),
+    BREAKFAST("Breakfast"),
+    DESSERTS("Desserts"),
+    APPETIZERS("Appetizers"),
+    BEVERAGES("Beverages"),
+    VEGETABLES("Vegetables"),
+    PASTA("Pasta"),
+    BREAD("Bread"),
+    MAIN_DISHES("Main Dishes"),
+    MISCELLANEOUS("Misc"),
+    SOUP("Soup"),
+    MEXICAN("Mexican"),
+    BBQ("BBQ"),
+    ITALIAN("Italian"),
+    ASIAN("Asian"),
+    BEEF("Beef"),
+    CHICKEN("Chicken"),
+    PORK("Pork"),
+    FISH("Fish"),
+    SUSHI("Sushi");
+
+    private final String mName;
+
+    //constructor
+    RecipeCategory(String name){mName = name;}
 
     //this overridden toString method will display the categories with the first character capitalized
     @Override
     public String toString() {
-        switch (this) {
-            case MAIN_DISHES:
-                return "Main Dishes";
-            case BBQ:
-                return "BBQ";
-            default:
-                return this.name().substring(0, 1) + this.name().substring(1).toLowerCase();
-        }
+        return mName;
 
     }
 
-//    public RecipeCategory stringToCategory(String strCategory){
-//        for(RecipeCategory cat:RecipeCategory.values()){
-//            if(strCategory.equals(cat.toString())){
-//                return cat;
-//            }
-//        }
-//        return MISCELLANEOUS;
-//    }
+    public static RecipeCategory stringToCategory(String strCategory){
+        for(RecipeCategory cat:RecipeCategory.values()){
+            if(strCategory.equals(cat.toString().toUpperCase())){
+                return cat;
+            }
+        }
+        return MISCELLANEOUS;
+    }
 }
