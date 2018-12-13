@@ -188,5 +188,22 @@ public class DataSource {
         return ingredients;
     }
 
+    public List<RecipeCategory> getRecipeCategories(){
+        List<RecipeCategory> categories = new ArrayList<>();
+        String[] columns = {RecipeTable.CATEGORY};
+
+        Cursor cursor = mDatabase.query(RecipeTable.TABLE_NAME, columns, null, null, RecipeTable.CATEGORY, null, RecipeTable.CATEGORY);
+        categories.add(RecipeCategory.ALL);
+        while (cursor.moveToNext()){
+            categories.add(
+                    RecipeCategory.stringToCategory(
+                            cursor.getString(
+                                    cursor.getColumnIndex(
+                                            RecipeTable.CATEGORY))));
+        }
+
+        return categories;
+    }
+
 
 }

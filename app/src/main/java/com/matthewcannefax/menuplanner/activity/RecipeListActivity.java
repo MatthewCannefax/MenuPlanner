@@ -70,12 +70,17 @@ public class RecipeListActivity extends AppCompatActivity {
         catSpinner = this.findViewById(R.id.catSpinner);
         Button filterBTN = this.findViewById(R.id.filterBTN);
 
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
+        ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, mDataSource.getRecipeCategories());
+        catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+        catSpinner.setAdapter(catSpinnerAdapter);
 
         StaticRecipes.resetItemsChecked();
 //        recipeList = StaticRecipes.getRecipeList();
 
-        mDataSource = new DataSource(this);
-        mDataSource.open();
+
 
         recipeList = mDataSource.getAllRecipes();
         mDataSource.close();
@@ -100,20 +105,22 @@ public class RecipeListActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-               if (selectedCat != RecipeCategory.ALL) {
-                   List<Recipe> filteredRecipes = new ArrayList<>();
-
-                   for(Recipe r : StaticRecipes.getRecipeList()){
-                       if(r.getCategory() == selectedCat){
-                           filteredRecipes.add(r);
-                       }
-                   }
-
-                   RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, filteredRecipes);
-                   lv.setAdapter(filteredAdapter);
-               } else {
-                   lv.setAdapter(adapter);
-               }
+               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, mDataSource.getFilteredRecipes(selectedCat));
+               lv.setAdapter(filteredAdapter);
+//               if (selectedCat != RecipeCategory.ALL) {
+//                   List<Recipe> filteredRecipes = new ArrayList<>();
+//
+//                   for(Recipe r : StaticRecipes.getRecipeList()){
+//                       if(r.getCategory() == selectedCat){
+//                           filteredRecipes.add(r);
+//                       }
+//                   }
+//
+//                   RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, filteredRecipes);
+//                   lv.setAdapter(filteredAdapter);
+//               } else {
+//                   lv.setAdapter(adapter);
+//               }
            }
         });
 
@@ -157,9 +164,9 @@ public class RecipeListActivity extends AppCompatActivity {
         if(recipeList != null) {
             adapter.notifyDataSetChanged();
             //noinspection Convert2Diamond
-            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
-            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-            catSpinner.setAdapter(catSpinnerAdapter);
+//            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
+//            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+//            catSpinner.setAdapter(catSpinnerAdapter);
         }
     }
 

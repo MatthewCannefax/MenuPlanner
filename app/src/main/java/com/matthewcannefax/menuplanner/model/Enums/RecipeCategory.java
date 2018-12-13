@@ -40,7 +40,7 @@ public enum RecipeCategory {
 
     public static RecipeCategory stringToCategory(String strCategory){
         for(RecipeCategory cat:RecipeCategory.values()){
-            if(strCategory.equals(cat.toString().toUpperCase())){
+            if(cat.toString().equals(strCategory)){
                 return cat;
             }
         }
