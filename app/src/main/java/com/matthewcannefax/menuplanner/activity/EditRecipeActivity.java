@@ -30,6 +30,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +48,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Spinner recipeCat;
     private Context mContext;
     private ViewPager viewPager;
+    private DataSource mDatasource;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -63,7 +65,8 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //set the global context var
         mContext = this;
-
+        mDatasource = new DataSource(this);
+        mDatasource.open();
         //get the recipe item passed from the menulist
         try {
             try {
@@ -128,6 +131,18 @@ public class EditRecipeActivity extends AppCompatActivity {
         NavDrawer.setupNavDrawer(EditRecipeActivity.this, this, drawerListView);
 
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDatasource.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDatasource.open();
     }
 
     @Override
@@ -223,6 +238,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                                 break;
                             }
                         }
+
+                        mDatasource.updateRecipe(newRecipe);
 
                         //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
                         StaticMenu.editMenuRecipe(newRecipe);

@@ -93,8 +93,8 @@ public class Recipe implements Parcelable {
     }
 
     public ContentValues toValues(){
-        ContentValues values = new ContentValues(4);
-//        values.put(RecipeTable.RECIPE_ID, recipeID);
+        ContentValues values = new ContentValues(5);
+        values.put(RecipeTable.RECIPE_ID, recipeID);
         values.put(RecipeTable.NAME, name);
         values.put(RecipeTable.CATEGORY, category.toString());
         values.put(RecipeTable.IMG, imagePath);
