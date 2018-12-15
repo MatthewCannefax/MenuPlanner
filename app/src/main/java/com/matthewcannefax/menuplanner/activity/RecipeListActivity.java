@@ -80,8 +80,6 @@ public class RecipeListActivity extends AppCompatActivity {
         StaticRecipes.resetItemsChecked();
 //        recipeList = StaticRecipes.getRecipeList();
 
-
-
         recipeList = mDataSource.getAllRecipes();
         mDataSource.close();
 
@@ -161,13 +159,21 @@ public class RecipeListActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         mDataSource.open();
-        if(recipeList != null) {
-            adapter.notifyDataSetChanged();
+
+
+        recipeList.clear();
+        recipeList = mDataSource.getAllRecipes();
+        adapter = new RecipeListItemAdapter(this, recipeList);
+        lv.setAdapter(adapter);
+
+
+//        if(recipeList != null) {
+//            adapter.notifyDataSetChanged();
             //noinspection Convert2Diamond
 //            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticRecipes.getRecipeList()));
 //            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
 //            catSpinner.setAdapter(catSpinnerAdapter);
-        }
+//        }
     }
 
     @Override
