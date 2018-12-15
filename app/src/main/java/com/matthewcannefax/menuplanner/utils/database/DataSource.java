@@ -56,7 +56,7 @@ public class DataSource {
     }
 
     public Ingredient createIngredient(Ingredient ingredient, int recipeID){
-        ContentValues values = ingredient.toValues(recipeID);
+        ContentValues values = ingredient.toValuesCreate(recipeID);
         mDatabase.insert(IngredientTable.TABLE_NAME, null, values);
         return ingredient;
     }
@@ -212,13 +212,36 @@ public class DataSource {
             String[] ids = {Integer.toString(newRecipe.getRecipeID())};
             mDatabase.update(RecipeTable.TABLE_NAME, newRecipe.toValues(), RecipeTable.RECIPE_ID + "=?", ids);
 
-            for(int i = 0; i < newRecipe.getIngredientList().size(); i++){
-                if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
-                    String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
-                    mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
-                            IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+            int oldSize = oldRecipe.getIngredientList().size();
+            int newSize = newRecipe.getIngredientList().size();
+
+            if (oldSize == newSize){
+                for(int i = 0; i < newRecipe.getIngredientList().size(); i++){
+                    if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
+                        String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
+                        mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
+                                IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+                    }
                 }
+            }else if(oldSize < newSize){
+                for(int i = 0; i < oldSize; i++){
+                    if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
+                        String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
+                        mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
+                                IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+                    }
+                }
+
+                //loop through new ingredients and insert them into the db
+                for (int i = oldSize; i < newSize; i++){
+                    createIngredient(newRecipe.getIngredientList().get(i), newRecipe.getRecipeID());
+                }
+
+            }else{//oldSize > newSize
+                //loop through all ingredients in the new recipe and delete the difference in the old recipe
             }
+
+
 
     }
 

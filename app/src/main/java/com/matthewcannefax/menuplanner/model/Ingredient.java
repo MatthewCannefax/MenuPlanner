@@ -100,6 +100,17 @@ public class Ingredient implements Parcelable {
     }
     //endregion
 
+    public ContentValues toValuesCreate(int recipeID) {
+        ContentValues values = new ContentValues(5);
+//        values.put(IngredientTable.COLUMN_ID, ingredientID);
+        values.put(IngredientTable.COLUMN_RECIPE_ID, recipeID);
+        values.put(IngredientTable.COLUMN_NAME, name);
+        values.put(IngredientTable.COLUMN_CATEGORY, category.toString());
+        values.put(IngredientTable.COLUMN_MEASUREMENT_AMOUNT, measurement.getAmount());
+        values.put(IngredientTable.COLUMN_MEASUREMENT_TYPE, measurement.getType().toString());
+        return values;
+    }
+
     @Override
     public int describeContents() {
         return 0;
