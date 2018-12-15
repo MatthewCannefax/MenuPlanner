@@ -38,7 +38,7 @@ public class DataSource {
     }
 
     public Recipe createRecipe(Recipe recipe){//build a similar method for ingredients and call it with recipe.ingredients.tovalues
-        ContentValues values = recipe.toValues();
+        ContentValues values = recipe.toValuesCreate();
         mDatabase.insert(RecipeTable.TABLE_NAME, null, values);
 
         //get the id of the last recipe added to the db

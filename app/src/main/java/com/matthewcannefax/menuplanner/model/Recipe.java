@@ -101,6 +101,16 @@ public class Recipe implements Parcelable {
         values.put(RecipeTable.DIRECTIONS, directions);
         return values;
     }
+
+    public ContentValues toValuesCreate(){
+        ContentValues values = new ContentValues(4);
+//        values.put(RecipeTable.RECIPE_ID, recipeID);
+        values.put(RecipeTable.NAME, name);
+        values.put(RecipeTable.CATEGORY, category.toString());
+        values.put(RecipeTable.IMG, imagePath);
+        values.put(RecipeTable.DIRECTIONS, directions);
+        return values;
+    }
     //endregion
 
     //this currently does the same thing as getName()

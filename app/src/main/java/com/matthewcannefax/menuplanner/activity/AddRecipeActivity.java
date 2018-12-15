@@ -28,6 +28,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +47,8 @@ public class AddRecipeActivity extends AppCompatActivity{
 
     private ViewPager viewPager;
 
+    DataSource mDataSource;
+
     //endregion
 
     @Override
@@ -58,6 +61,8 @@ public class AddRecipeActivity extends AppCompatActivity{
         newRecipe = new Recipe();
 
         this.setTitle(R.string.add_recipe);
+
+        mDataSource = new DataSource(this);
 
         //instantiate all the controls in the activity
         recipeName = findViewById(R.id.recipeName);
@@ -199,6 +204,8 @@ public class AddRecipeActivity extends AppCompatActivity{
                 if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
                     newRecipe.setImagePath(getString(R.string.no_img_selected));
                 }
+
+                mDataSource.createRecipe(newRecipe);
 
                 //add the new recipe to the static recipe list
                 //this call also assigns a recipeID and saves the static list to JSON

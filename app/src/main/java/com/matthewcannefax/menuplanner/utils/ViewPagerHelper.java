@@ -81,9 +81,6 @@ public class ViewPagerHelper {
                                 //notify the ingredientItemAdapter that the dataset has been changed
 //                                ingredientItemAdapter.notifyDataSetChanged();
 
-                                DataSource mDatasource = new DataSource(context);
-                                mDatasource.createIngredient(newIngredient, newRecipe.getRecipeID());
-
                                 IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
                                 listView.setAdapter(ingredientItemAdapter1);
                             }
