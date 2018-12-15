@@ -20,11 +20,13 @@ import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerHelper {
+
 
     public static void setAddIngredientButton(final Context context, Button button,
                                               final Recipe newRecipe, final ListView listView){
@@ -68,17 +70,19 @@ public class ViewPagerHelper {
                             //check if the ingredient list exists for this recipe
                             if(newRecipe.getIngredientList() != null){
                                 //add the new Ingredient to the ingredientList
-                                newRecipe.getIngredientList().add(new Ingredient(
-                                        etName.getText().toString(),
-                                        (GroceryCategory)spCat.getSelectedItem(),
-                                        new Measurement(
-                                                Double.parseDouble(etAmount.getText().toString()),
-                                                (MeasurementType)spMeasure.getSelectedItem()
-                                        )
-
+                                Ingredient newIngredient = new Ingredient();
+                                newIngredient.setName(etName.getText().toString());
+                                newIngredient.setCategory((GroceryCategory)spCat.getSelectedItem());
+                                newIngredient.setMeasurement(new Measurement(
+                                        Double.parseDouble(etAmount.getText().toString()),
+                                        (MeasurementType)spMeasure.getSelectedItem()
                                 ));
+                                newRecipe.getIngredientList().add(newIngredient);
                                 //notify the ingredientItemAdapter that the dataset has been changed
 //                                ingredientItemAdapter.notifyDataSetChanged();
+
+                                DataSource mDatasource = new DataSource(context);
+                                mDatasource.createIngredient(newIngredient, newRecipe.getRecipeID());
 
                                 IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
                                 listView.setAdapter(ingredientItemAdapter1);
