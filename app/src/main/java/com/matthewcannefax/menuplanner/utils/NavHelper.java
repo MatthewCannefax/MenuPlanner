@@ -13,6 +13,7 @@ import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
 
@@ -50,7 +51,12 @@ public class NavHelper {
     }
 
     private static void goToGroceryList(Activity activity, Context context){
-        List<Recipe> menuList = StaticMenu.getMenuList();
+//        List<Recipe> menuList = StaticMenu.getMenuList();
+        DataSource mDataSource = new DataSource(context);
+
+        List<Recipe> menuList = mDataSource.getAllMenuRecipes();
+
+
         //check that there are actually items in the menu list
         if (menuList != null && menuList.size() > 0) {
             //new intent to move to the GroceryListActivity
