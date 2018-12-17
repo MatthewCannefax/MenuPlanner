@@ -293,6 +293,9 @@ public class RecipeListActivity extends AppCompatActivity {
                     for(int position = 0; position < recipeList.size(); position++){
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
+
+                            mDataSource.addToMenu(position);
+
                             if(StaticMenu.getMenuList() != null) {
                                 StaticMenu.getMenuList().add(recipeList.get(position));
                             }else{

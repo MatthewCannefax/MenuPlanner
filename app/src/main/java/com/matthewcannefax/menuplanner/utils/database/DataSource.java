@@ -37,6 +37,12 @@ public class DataSource {
         mDbHelper.close();
     }
 
+    public void addToMenu(int recipeID){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MenuTable.COLUMN_RECIPE_ID, recipeID);
+        mDatabase.insert(MenuTable.TABLE_NAME, null, contentValues);
+    }
+
     public Recipe createRecipe(Recipe recipe){//build a similar method for ingredients and call it with recipe.ingredients.tovalues
         ContentValues values = recipe.toValuesCreate();
         mDatabase.insert(RecipeTable.TABLE_NAME, null, values);
@@ -98,6 +104,38 @@ public class DataSource {
         return recipe;
     }
 
+    private Recipe getMenuItems(int id){
+        Recipe recipe = new Recipe();
+
+        String[] idArray = {Integer.toString(id)};
+
+        String[] testArray = {"1"};
+
+        Cursor recipeCursor = mDatabase.query(
+                RecipeTable.TABLE_NAME,
+                RecipeTable.ALL_COLUMNS,
+                RecipeTable.RECIPE_ID + "=?",
+                idArray,
+                null,
+                null,
+                RecipeTable.NAME
+        );
+
+        while (recipeCursor.moveToNext()){
+//            Recipe recipe = new Recipe();
+            recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
+            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
+            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY))));
+            recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
+            recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
+            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
+
+//            recipes.add(recipe);
+        }
+
+        return recipe;
+    }
+
     public List<Recipe> getFilteredRecipes(RecipeCategory category){
         List<Recipe> recipes = new ArrayList<>();
 
@@ -126,6 +164,37 @@ public class DataSource {
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
 
             recipes.add(recipe);
+        }
+
+        return recipes;
+    }
+
+    public List<Recipe> getAllMenuRecipes(){
+         List<Integer> menuIDS = new ArrayList<>();
+
+        String[] recipeIDColumn = {MenuTable.COLUMN_RECIPE_ID};
+
+        Cursor menuTableCursor = mDatabase.query(
+                MenuTable.TABLE_NAME,
+                recipeIDColumn,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(menuTableCursor.moveToNext()){
+            int id;
+            id = menuTableCursor.getInt(menuTableCursor.getColumnIndex(MenuTable.COLUMN_RECIPE_ID));
+            menuIDS.add(id);
+        }
+
+        List<Recipe> recipes = new ArrayList<>();
+
+        for (int i:
+             menuIDS) {
+            recipes.add(getMenuItems(i));
         }
 
         return recipes;

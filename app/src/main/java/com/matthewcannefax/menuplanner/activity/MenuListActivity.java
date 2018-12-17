@@ -73,9 +73,11 @@ public class MenuListActivity extends AppCompatActivity {
 
         final Context mContext = this;
 
+        mDataSource = new DataSource(mContext);
+
         //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
-        menuList = StaticMenu.getMenuList();
+        menuList = mDataSource.getAllMenuRecipes();
 
         //initialize the listview in the activity
         lv = findViewById(R.id.recipeMenuListView);
@@ -171,7 +173,8 @@ public class MenuListActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-
+        menuList = mDataSource.getAllMenuRecipes();
+        setMenuListViewAdapter();
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         if (menuList != null) {
