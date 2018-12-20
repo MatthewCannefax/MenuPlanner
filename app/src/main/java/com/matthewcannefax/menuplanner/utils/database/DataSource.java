@@ -180,8 +180,9 @@ public class DataSource {
         return recipes;
     }
 
-    public void removeGroceryItem(){
-
+    public void removeGroceryItem(Ingredient ingredient){
+        String[] ids = {Integer.toString(ingredient.getIngredientID())};
+        mDatabase.delete(GroceryListTable.TABLE_NAME, GroceryListTable.COLUMN_ID + "=?", ids);
     }
 
     public List<Ingredient> getAllGroceries(){

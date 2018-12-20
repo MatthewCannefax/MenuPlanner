@@ -19,9 +19,9 @@ import java.util.List;
 
 public class NavHelper {
 
-
     public static void newGroceryList(final Activity activity, final Context context){
-        if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0) {
+        DataSource mDataSource = new DataSource(context);
+        if (mDataSource.getAllGroceries() != null && mDataSource.getAllGroceries().size() > 0) {
 
             //ask the user if they truly wish to create a new grocery list
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -40,7 +40,7 @@ public class NavHelper {
 
         }
         //if there is no grocery list and the menu list is not null create a new grocery list
-        else if (StaticMenu.getMenuList() != null) {
+        else if (mDataSource.getAllGroceries() != null) {
             goToGroceryList(activity, context);
         }
         //if it gets here there is no grocery list and there is no menu list

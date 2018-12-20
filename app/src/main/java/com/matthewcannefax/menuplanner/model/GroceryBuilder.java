@@ -24,6 +24,13 @@ public class GroceryBuilder {
 
         //this is the new list of ingredients
 
+        for (int i = 0; i < ingredients.size(); i++){
+            String name = ingredients.get(i).getName().toUpperCase();
+            if (name.equals("WATER")){
+                ingredients.remove(i);
+            }
+        }
+
         //sort the ingredients by name
         Collections.sort(ingredients, new Comparator<Ingredient>() {
             @Override

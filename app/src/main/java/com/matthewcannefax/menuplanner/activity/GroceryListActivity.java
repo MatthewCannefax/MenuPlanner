@@ -45,7 +45,7 @@ public class GroceryListActivity extends AppCompatActivity {
     //A list of ingrediets made from the menu list
     //and a listview object for the listview in this activity
     private GroceryItemAdapter adapter;
-    private List<Ingredient> ingredients;
+    private static List<Ingredient> ingredients;
     private ListView lv;
     private Context mContext;
     private DrawerLayout mDrawerLayout;
@@ -252,14 +252,15 @@ public class GroceryListActivity extends AppCompatActivity {
                     //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
                     //the item will be removed
                     assert ingred != null;
-                    if (ingred.getItemChecked() && ingred == StaticGroceryList.getIngredientList().get(i)) {
+                    if (ingred.getItemChecked()) {
                         //remove the item from the adapter
 //                    adapter.remove(ingred);
-                        StaticGroceryList.getIngredientList().remove(i);
+//                        StaticGroceryList.getIngredientList().remove(i);
+                        mDataSource.removeGroceryItem(ingred);
 
                         //since the item has been removed, the position needs to be stepped back by one
                         //otherwise it will skip an item
-                        i = i - 1;
+//                        i = i - 1;
                     }
                 }
 
@@ -270,16 +271,17 @@ public class GroceryListActivity extends AppCompatActivity {
                 }
 
                 //reset the adapter
+                ingredients = mDataSource.getAllGroceries();
                 adapter = new GroceryItemAdapter(this, ingredients);
                 lv.setAdapter(adapter);
 
                 //when the item was removed from the adpater it was also removed from the static grocery list
                 //save the static grocery list to JSON
-                StaticGroceryList.saveGroceries(this);
+//                StaticGroceryList.saveGroceries(this);
                 return true;
                 
             case R.id.shareGroceryList:
-                ShareHelper.sendGroceryList(this, StaticGroceryList.getIngredientList());
+                ShareHelper.sendGroceryList(this, mDataSource.getAllGroceries());
 
             default:
                 return false;

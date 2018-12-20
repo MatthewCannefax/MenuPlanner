@@ -35,12 +35,12 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
         mGroceryItems = objects;
 
         //remove water from the grocery list
-        for (int i = 0; i < mGroceryItems.size(); i++){
-            String name = mGroceryItems.get(i).getName().toUpperCase();
-            if (name.equals("WATER")){
-                mGroceryItems.remove(i);
-            }
-        }
+//        for (int i = 0; i < mGroceryItems.size(); i++){
+//            String name = mGroceryItems.get(i).getName().toUpperCase();
+//            if (name.equals("WATER")){
+//                mGroceryItems.remove(i);
+//            }
+//        }
         //instantiate the inflater object using the context passed through the constructor
         mInflator = LayoutInflater.from(context);
 

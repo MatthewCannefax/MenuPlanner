@@ -18,7 +18,11 @@ import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
+import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
+
+import java.util.List;
 
 //this class sets up the navigation drawer for all activities
 public class NavDrawer {
@@ -34,6 +38,8 @@ public class NavDrawer {
 
     //this method adds the activity enum items to the nav drawer and sets up the intents
     private static void addDrawerItems(final Activity currentActivity, final Context context, ListView mDrawerListView){
+        final DataSource mDataSource = new DataSource(context);
+
         //listview adapter set to the activity enum
         @SuppressWarnings("Convert2Diamond") ArrayAdapter<ActivityNavEnum> mAdapter = new ArrayAdapter<ActivityNavEnum>(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());
         mDrawerListView.setAdapter(mAdapter);
@@ -58,8 +64,9 @@ public class NavDrawer {
                         }
                         break;
                     case VIEW_GROCERY_LIST:
+                        List<Ingredient> groceries = mDataSource.getAllGroceries();
                         //if there are no items in the grocery list, the user will be notified that there is no grocery list
-                        if(StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() > 0){
+                        if(groceries != null && groceries.size() > 0){
                             startActivity(context, selectedActivity, currentActivity);
                         }else{
                             Toast.makeText(context, "No Grocery List", Toast.LENGTH_SHORT).show();
