@@ -180,7 +180,7 @@ public class MenuListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
             //setup the arrayAdapter for catSpinner
-            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(StaticMenu.getMenuList()));
+            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             catSpinner.setAdapter(catSpinnerAdapter);
         }
