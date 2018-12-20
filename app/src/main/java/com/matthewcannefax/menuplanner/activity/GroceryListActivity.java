@@ -32,6 +32,7 @@ import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,6 +50,8 @@ public class GroceryListActivity extends AppCompatActivity {
     private Context mContext;
     private DrawerLayout mDrawerLayout;
 
+    private DataSource mDataSource;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,9 @@ public class GroceryListActivity extends AppCompatActivity {
             startActivity(mainIntent);
             finish();
         }
+
+        mDataSource = new DataSource(this);
+        mDataSource.open();
 
         mContext = this;
 
@@ -71,7 +77,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //using a static class to pass the grocery list from the MenuListActivity to this activity
         //Need to find a better way to pass that information
         //Maybe make use of Parcelable or use the database once it is available
-        ingredients = StaticGroceryList.getIngredientList();
+        ingredients = mDataSource.getAllGroceries();
 
         //initialize the listview
         //might change to recyclerview since it tends to be a little smoother while scrolling
@@ -178,6 +184,20 @@ public class GroceryListActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDataSource.open();
+        ingredients = mDataSource.getAllGroceries();
+        setGroceryListAdapter();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDataSource.close();
     }
 
     //this method is to setup the grocery list adapter, and will only fire if the grocery list exists

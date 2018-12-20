@@ -66,6 +66,7 @@ public class NavHelper {
             //as it stands now, If I generate a list then move back and generate the list again
             //it will double the list
             GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
+            mDataSource.groceryListToDB(groceryBuilder.consolidateGroceries());
             setStaticGroceryList(context, groceryBuilder.consolidateGroceries());
 
             //start the GroceryListActivity

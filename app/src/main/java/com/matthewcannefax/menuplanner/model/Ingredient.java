@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
 import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 
 //this ingredient class inherits from the GroceryItem class
@@ -102,12 +103,22 @@ public class Ingredient implements Parcelable {
 
     public ContentValues toValuesCreate(int recipeID) {
         ContentValues values = new ContentValues(5);
-//        values.put(IngredientTable.COLUMN_ID, ingredientID);
         values.put(IngredientTable.COLUMN_RECIPE_ID, recipeID);
         values.put(IngredientTable.COLUMN_NAME, name);
         values.put(IngredientTable.COLUMN_CATEGORY, category.toString());
         values.put(IngredientTable.COLUMN_MEASUREMENT_AMOUNT, measurement.getAmount());
         values.put(IngredientTable.COLUMN_MEASUREMENT_TYPE, measurement.getType().toString());
+        return values;
+    }
+
+    public ContentValues toValuesGroceryList() {
+        ContentValues values = new ContentValues(5);
+        values.put(GroceryListTable.COLUMN_NAME, name);
+        values.put(GroceryListTable.COLUMN_CATEGORY, category.toString());
+        values.put(GroceryListTable.COLUMN_MEASUREMENT_AMOUNT, measurement.getAmount());
+        values.put(GroceryListTable.COLUMN_MEASUREMENT_TYPE, measurement.getType().toString());
+        values.put(GroceryListTable.COLUMN_IS_CHECKED, itemChecked);
+
         return values;
     }
 

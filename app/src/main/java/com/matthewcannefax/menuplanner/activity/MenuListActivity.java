@@ -75,7 +75,6 @@ public class MenuListActivity extends AppCompatActivity {
 
         mDataSource = new DataSource(mContext);
 
-        //this is currently using a sample data class for testing
         //this is where the activity will call the database adapter
         menuList = mDataSource.getAllMenuRecipes();
 

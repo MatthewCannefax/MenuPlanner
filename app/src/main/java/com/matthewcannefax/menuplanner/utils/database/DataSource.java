@@ -22,7 +22,6 @@ public class DataSource {
     private SQLiteDatabase mDatabase;
     SQLiteOpenHelper mDbHelper;
 
-
     public DataSource(Context mContext) {
         this.mContext = mContext;
         mDbHelper = new DBHelper(mContext);
@@ -59,6 +58,18 @@ public class DataSource {
 
 
         return recipe;
+    }
+
+    public void groceryListToDB(List<Ingredient> groceries){
+        for (Ingredient i :
+                groceries) {
+            createGroceryItem(i);
+        }
+    }
+
+    public void createGroceryItem(Ingredient ingredient){
+        ContentValues values = ingredient.toValuesGroceryList();
+        mDatabase.insert(GroceryListTable.TABLE_NAME, null, values);
     }
 
     public Ingredient createIngredient(Ingredient ingredient, int recipeID){
@@ -167,6 +178,47 @@ public class DataSource {
         }
 
         return recipes;
+    }
+
+    public void removeGroceryItem(){
+
+    }
+
+    public List<Ingredient> getAllGroceries(){
+        List<Ingredient> groceries = new ArrayList<>();
+
+        Cursor cursor = mDatabase.query(
+                GroceryListTable.TABLE_NAME,
+                GroceryListTable.ALL_COLUMNS,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()){
+            Ingredient ingredient = new Ingredient();
+            ingredient.setIngredientID(cursor.getInt(cursor.getColumnIndex(GroceryListTable.COLUMN_ID)));
+            ingredient.setName(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_NAME)));
+            ingredient.setCategory(GroceryCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_CATEGORY))));
+            ingredient.setMeasurement(new Measurement(
+                    cursor.getDouble(cursor.getColumnIndex(GroceryListTable.COLUMN_MEASUREMENT_AMOUNT)),
+                    MeasurementType.stringToCategory(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
+            ));
+            ingredient.setItemChecked(isItemChecked(cursor.getInt(cursor.getColumnIndex(GroceryListTable.COLUMN_IS_CHECKED))));
+
+            groceries.add(ingredient);
+        }
+
+        return groceries;
+    }
+
+    private boolean isItemChecked(int i){
+        if(i == 1){
+            return true;
+        }
+        return false;
     }
 
     public List<Recipe> getAllMenuRecipes(){
