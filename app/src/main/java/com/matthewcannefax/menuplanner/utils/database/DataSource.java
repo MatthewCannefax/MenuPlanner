@@ -22,26 +22,26 @@ public class DataSource {
     private SQLiteDatabase mDatabase;
     SQLiteOpenHelper mDbHelper;
 
+    //region Constructor/Open/Close
+    //constructor
     public DataSource(Context mContext) {
         this.mContext = mContext;
         mDbHelper = new DBHelper(mContext);
         mDatabase = mDbHelper.getWritableDatabase();
     }
 
+    //get the database
     public void open(){
         mDatabase = mDbHelper.getWritableDatabase();
     }
 
+    //close the database
     public void close(){
         mDbHelper.close();
     }
+//endregion
 
-    public void addToMenu(int recipeID){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MenuTable.COLUMN_RECIPE_ID, recipeID);
-        mDatabase.insert(MenuTable.TABLE_NAME, null, contentValues);
-    }
-
+    //region Recipe Table Statements
     public Recipe createRecipe(Recipe recipe){//build a similar method for ingredients and call it with recipe.ingredients.tovalues
         ContentValues values = recipe.toValuesCreate();
         mDatabase.insert(RecipeTable.TABLE_NAME, null, values);
@@ -60,22 +60,32 @@ public class DataSource {
         return recipe;
     }
 
-    public void groceryListToDB(List<Ingredient> groceries){
-        for (Ingredient i :
-                groceries) {
-            createGroceryItem(i);
+    public List<Recipe> getAllRecipes(){
+        List<Recipe> recipes = new ArrayList<>();
+
+        Cursor recipeCursor = mDatabase.query(
+                RecipeTable.TABLE_NAME,
+                RecipeTable.ALL_COLUMNS,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+
+        while(recipeCursor.moveToNext()){
+            Recipe recipe = new Recipe();
+            recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
+            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
+            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY))));
+            recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
+            recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
+            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
+
+            recipes.add(recipe);
         }
-    }
 
-    public void createGroceryItem(Ingredient ingredient){
-        ContentValues values = ingredient.toValuesGroceryList();
-        mDatabase.insert(GroceryListTable.TABLE_NAME, null, values);
-    }
-
-    public Ingredient createIngredient(Ingredient ingredient, int recipeID){
-        ContentValues values = ingredient.toValuesCreate(recipeID);
-        mDatabase.insert(IngredientTable.TABLE_NAME, null, values);
-        return ingredient;
+        return recipes;
     }
 
     //this method is created to retrieve the id for the last recipe entered in the recipe table to use as the foreign key in the ingredient table
@@ -120,8 +130,6 @@ public class DataSource {
 
         String[] idArray = {Integer.toString(id)};
 
-        String[] testArray = {"1"};
-
         Cursor recipeCursor = mDatabase.query(
                 RecipeTable.TABLE_NAME,
                 RecipeTable.ALL_COLUMNS,
@@ -133,15 +141,12 @@ public class DataSource {
         );
 
         while (recipeCursor.moveToNext()){
-//            Recipe recipe = new Recipe();
             recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
             recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
             recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY))));
             recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
             recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
-
-//            recipes.add(recipe);
         }
 
         return recipe;
@@ -178,6 +183,156 @@ public class DataSource {
         }
 
         return recipes;
+    }
+
+    public List<RecipeCategory> getRecipeCategories(){
+        List<RecipeCategory> categories = new ArrayList<>();
+        String[] columns = {RecipeTable.CATEGORY};
+
+        Cursor cursor = mDatabase.query(RecipeTable.TABLE_NAME, columns, null, null, RecipeTable.CATEGORY, null, RecipeTable.CATEGORY);
+        categories.add(RecipeCategory.ALL);
+        while (cursor.moveToNext()){
+            categories.add(
+                    RecipeCategory.stringToCategory(
+                            cursor.getString(
+                                    cursor.getColumnIndex(
+                                            RecipeTable.CATEGORY))));
+        }
+
+        return categories;
+    }
+
+    public void updateRecipe(Recipe newRecipe){
+        Recipe oldRecipe = getSpecificRecipe(newRecipe.getRecipeID());
+
+        String[] ids = {Integer.toString(newRecipe.getRecipeID())};
+        mDatabase.update(RecipeTable.TABLE_NAME, newRecipe.toValues(), RecipeTable.RECIPE_ID + "=?", ids);
+
+        int oldSize = oldRecipe.getIngredientList().size();
+        int newSize = newRecipe.getIngredientList().size();
+
+        if (oldSize == newSize){
+            for(int i = 0; i < newRecipe.getIngredientList().size(); i++){
+                if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
+                    String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
+                    mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
+                            IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+                }
+            }
+        }else if(oldSize < newSize){
+            for(int i = 0; i < oldSize; i++){
+                if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
+                    String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
+                    mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
+                            IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+                }
+            }
+
+            //loop through new ingredients and insert them into the db
+            for (int i = oldSize; i < newSize; i++){
+                createIngredient(newRecipe.getIngredientList().get(i), newRecipe.getRecipeID());
+            }
+
+        }else{//oldSize > newSize
+            //loop through all ingredients in the new recipe and delete the difference in the old recipe
+        }
+
+
+
+    }
+    //endregion
+
+    //region Menu Table Statements
+    public void addToMenu(int recipeID){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MenuTable.COLUMN_RECIPE_ID, recipeID);
+        mDatabase.insert(MenuTable.TABLE_NAME, null, contentValues);
+    }
+
+    public List<Recipe> getAllMenuRecipes(){
+        List<Integer> menuIDS = new ArrayList<>();
+
+        String[] recipeIDColumn = {MenuTable.COLUMN_RECIPE_ID};
+
+        Cursor menuTableCursor = mDatabase.query(
+                MenuTable.TABLE_NAME,
+                recipeIDColumn,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(menuTableCursor.moveToNext()){
+            int id;
+            id = menuTableCursor.getInt(menuTableCursor.getColumnIndex(MenuTable.COLUMN_RECIPE_ID));
+            menuIDS.add(id);
+        }
+
+        List<Recipe> recipes = new ArrayList<>();
+
+        for (int i:
+                menuIDS) {
+            recipes.add(getMenuItems(i));
+        }
+
+        return recipes;
+    }
+
+
+    //endregion
+
+    //region Ingredient Table Statements
+    public Ingredient createIngredient(Ingredient ingredient, int recipeID){
+        ContentValues values = ingredient.toValuesCreate(recipeID);
+        mDatabase.insert(IngredientTable.TABLE_NAME, null, values);
+        return ingredient;
+    }
+
+    private List<Ingredient> getRecipeIngredients(int recipeID){
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        String[] recipeIDS = {Integer.toString(recipeID)};
+
+        Cursor ingredientCursor = mDatabase.query(
+                IngredientTable.TABLE_NAME,
+                IngredientTable.ALL_COLUMNS,
+                IngredientTable.COLUMN_RECIPE_ID +"=?",
+                recipeIDS,
+                null,
+                null,
+                null);
+
+        while(ingredientCursor.moveToNext()){
+            Ingredient ingredient = new Ingredient();
+            ingredient.setIngredientID(ingredientCursor.getInt(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_ID)));
+            ingredient.setName(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_NAME)));
+            ingredient.setCategory(GroceryCategory.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_CATEGORY))));
+            ingredient.setMeasurement(new Measurement(
+                    ingredientCursor.getDouble(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_AMOUNT)),
+                    MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
+            ));
+            ingredients.add(ingredient);
+
+        }
+
+        return ingredients;
+    }
+
+    //endregion
+
+    //region Grocery List Table Statements
+    public void groceryListToDB(List<Ingredient> groceries){
+        for (Ingredient i :
+                groceries) {
+            createGroceryItem(i);
+        }
+    }
+
+    public void createGroceryItem(Ingredient ingredient){
+        ContentValues values = ingredient.toValuesGroceryList();
+        mDatabase.insert(GroceryListTable.TABLE_NAME, null, values);
     }
 
     public void removeGroceryItem(Ingredient ingredient){
@@ -221,151 +376,5 @@ public class DataSource {
         }
         return false;
     }
-
-    public List<Recipe> getAllMenuRecipes(){
-         List<Integer> menuIDS = new ArrayList<>();
-
-        String[] recipeIDColumn = {MenuTable.COLUMN_RECIPE_ID};
-
-        Cursor menuTableCursor = mDatabase.query(
-                MenuTable.TABLE_NAME,
-                recipeIDColumn,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        while(menuTableCursor.moveToNext()){
-            int id;
-            id = menuTableCursor.getInt(menuTableCursor.getColumnIndex(MenuTable.COLUMN_RECIPE_ID));
-            menuIDS.add(id);
-        }
-
-        List<Recipe> recipes = new ArrayList<>();
-
-        for (int i:
-             menuIDS) {
-            recipes.add(getMenuItems(i));
-        }
-
-        return recipes;
-    }
-
-    public List<Recipe> getAllRecipes(){
-        List<Recipe> recipes = new ArrayList<>();
-
-        Cursor recipeCursor = mDatabase.query(
-                RecipeTable.TABLE_NAME,
-                RecipeTable.ALL_COLUMNS,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-
-        while(recipeCursor.moveToNext()){
-            Recipe recipe = new Recipe();
-            recipe.setRecipeID(recipeCursor.getInt(recipeCursor.getColumnIndex(RecipeTable.RECIPE_ID)));
-            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.NAME)));
-            recipe.setCategory(RecipeCategory.stringToCategory(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.CATEGORY))));
-            recipe.setImagePath(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.IMG)));
-            recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
-            recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
-
-            recipes.add(recipe);
-        }
-
-        return recipes;
-    }
-
-    private List<Ingredient> getRecipeIngredients(int recipeID){
-        List<Ingredient> ingredients = new ArrayList<>();
-
-        String[] recipeIDS = {Integer.toString(recipeID)};
-
-        Cursor ingredientCursor = mDatabase.query(
-                IngredientTable.TABLE_NAME,
-                IngredientTable.ALL_COLUMNS,
-                IngredientTable.COLUMN_RECIPE_ID +"=?",
-                recipeIDS,
-                null,
-                null,
-                null);
-
-        while(ingredientCursor.moveToNext()){
-            Ingredient ingredient = new Ingredient();
-            ingredient.setIngredientID(ingredientCursor.getInt(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_ID)));
-            ingredient.setName(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_NAME)));
-            ingredient.setCategory(GroceryCategory.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_CATEGORY))));
-            ingredient.setMeasurement(new Measurement(
-                    ingredientCursor.getDouble(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_AMOUNT)),
-                    MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
-            ));
-            ingredients.add(ingredient);
-
-        }
-
-        return ingredients;
-    }
-
-    public List<RecipeCategory> getRecipeCategories(){
-        List<RecipeCategory> categories = new ArrayList<>();
-        String[] columns = {RecipeTable.CATEGORY};
-
-        Cursor cursor = mDatabase.query(RecipeTable.TABLE_NAME, columns, null, null, RecipeTable.CATEGORY, null, RecipeTable.CATEGORY);
-        categories.add(RecipeCategory.ALL);
-        while (cursor.moveToNext()){
-            categories.add(
-                    RecipeCategory.stringToCategory(
-                            cursor.getString(
-                                    cursor.getColumnIndex(
-                                            RecipeTable.CATEGORY))));
-        }
-
-        return categories;
-    }
-
-    public void updateRecipe(Recipe newRecipe){
-        Recipe oldRecipe = getSpecificRecipe(newRecipe.getRecipeID());
-
-            String[] ids = {Integer.toString(newRecipe.getRecipeID())};
-            mDatabase.update(RecipeTable.TABLE_NAME, newRecipe.toValues(), RecipeTable.RECIPE_ID + "=?", ids);
-
-            int oldSize = oldRecipe.getIngredientList().size();
-            int newSize = newRecipe.getIngredientList().size();
-
-            if (oldSize == newSize){
-                for(int i = 0; i < newRecipe.getIngredientList().size(); i++){
-                    if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
-                        String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
-                        mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
-                                IngredientTable.COLUMN_ID + "=?", ingredientIDS);
-                    }
-                }
-            }else if(oldSize < newSize){
-                for(int i = 0; i < oldSize; i++){
-                    if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
-                        String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
-                        mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
-                                IngredientTable.COLUMN_ID + "=?", ingredientIDS);
-                    }
-                }
-
-                //loop through new ingredients and insert them into the db
-                for (int i = oldSize; i < newSize; i++){
-                    createIngredient(newRecipe.getIngredientList().get(i), newRecipe.getRecipeID());
-                }
-
-            }else{//oldSize > newSize
-                //loop through all ingredients in the new recipe and delete the difference in the old recipe
-            }
-
-
-
-    }
-
-
+    //endregion
 }
