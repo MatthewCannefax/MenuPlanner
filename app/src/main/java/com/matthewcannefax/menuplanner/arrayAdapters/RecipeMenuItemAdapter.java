@@ -11,14 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
 
@@ -28,22 +31,26 @@ import java.util.List;
 public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
 
     //A list to hold all the recipe objects
-    private final List<Recipe> mRecipeItems;
+    private List<Recipe> mRecipeItems;
     //initialize a new inflater object
     private final LayoutInflater mInflator;
 
     private final Context mContext;
 
     public static final String RECIPE_ID = "item_id";
+    private DataSource mDataSource;
+    private final ListView lv;
 
     //constructor
-    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects) {
+    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects, ListView listView) {
         super(context, R.layout.menu_recipe_list_item, objects);
 
         //instantiate the list of recipes and the inflater object
         mRecipeItems = objects;
         mInflator = LayoutInflater.from(context);
         mContext = context;
+        mDataSource = new DataSource(context);
+        lv = listView;
 
     }
 
@@ -65,7 +72,7 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
     //this overridden method is to setup and return a view for displaying recipes with an image
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         //if the convertview is null set it up with the inflater
         if (convertView == null){
@@ -111,10 +118,9 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
-//                        remove(recipe);
-                        StaticMenu.removeRecipeFromMenu(recipe, mContext);
-                        StaticMenu.saveMenu(mContext);
-                        notifyDataSetChanged();
+                        mDataSource.removeMenuItem(recipe.getRecipeID());
+                        mRecipeItems = mDataSource.getAllMenuRecipes();
+                        lv.setAdapter(new RecipeMenuItemAdapter(mContext, mDataSource.getAllMenuRecipes(), lv));
                     }
                 });
                 builder.show();

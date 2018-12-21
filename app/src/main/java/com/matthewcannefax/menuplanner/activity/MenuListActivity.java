@@ -1,6 +1,8 @@
 package com.matthewcannefax.menuplanner.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -104,7 +106,7 @@ public class MenuListActivity extends AppCompatActivity {
                         }
                     }
 
-                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes);
+                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes, lv);
                     lv.setAdapter(filteredAdapter);
                 } else {
                     lv.setAdapter(adapter);
@@ -128,7 +130,25 @@ public class MenuListActivity extends AppCompatActivity {
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
 
-
+//        lv.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//                builder.setTitle("Remove from Menu?");
+//                builder.setMessage("Are you sure you want to remove " + menuList.get(lv.getSelectedItemPosition()).toString() + "?");
+//                builder.setNegativeButton("Cancel", null);
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(mContext, menuList.get(lv.getSelectedItemPosition()).toString() + "removed", Toast.LENGTH_SHORT).show();
+//                        mDataSource.removeMenuItem(menuList.get(lv.getSelectedItemPosition()).getRecipeID());
+////                        menuList = mDataSource.getAllMenuRecipes();
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                });
+//                return true;
+//            }
+//        });
     }
 
     @Override
@@ -156,7 +176,7 @@ public class MenuListActivity extends AppCompatActivity {
         //set up the menu list adapter only if the menu list exists
         if(menuList != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
-            adapter = new RecipeMenuItemAdapter(this, menuList);
+            adapter = new RecipeMenuItemAdapter(this, menuList, lv);
 
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling

@@ -240,6 +240,16 @@ public class DataSource {
 
 
     }
+
+    public void removeRecipe(Recipe recipe){
+        String[] ids = {Integer.toString(recipe.getRecipeID())};
+        for (Ingredient ingredient :
+                recipe.getIngredientList()) {
+            removeIngredient(ingredient.getIngredientID());
+        }
+
+        mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
+    }
     //endregion
 
     //region Menu Table Statements
@@ -280,6 +290,10 @@ public class DataSource {
         return recipes;
     }
 
+    public void removeMenuItem(int recipID){
+        String[] ids = {Integer.toString(recipID)};
+        mDatabase.delete(MenuTable.TABLE_NAME, MenuTable.COLUMN_RECIPE_ID + "=?", ids);
+    }
 
     //endregion
 
@@ -320,6 +334,10 @@ public class DataSource {
         return ingredients;
     }
 
+    public void removeIngredient(int ingredientID){
+        String[] ids = {Integer.toString(ingredientID)};
+        mDatabase.delete(IngredientTable.TABLE_NAME, IngredientTable.COLUMN_ID + "=?", ids);
+    }
     //endregion
 
     //region Grocery List Table Statements
