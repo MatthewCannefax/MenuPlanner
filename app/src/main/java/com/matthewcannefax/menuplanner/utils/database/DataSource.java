@@ -243,11 +243,8 @@ public class DataSource {
 
     public void removeRecipe(Recipe recipe){
         String[] ids = {Integer.toString(recipe.getRecipeID())};
-        for (Ingredient ingredient :
-                recipe.getIngredientList()) {
-            removeIngredient(ingredient.getIngredientID());
-        }
-
+        removeMenuItem(recipe.getRecipeID());
+        removeIngredient(recipe.getRecipeID());
         mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
     }
     //endregion
@@ -334,9 +331,9 @@ public class DataSource {
         return ingredients;
     }
 
-    public void removeIngredient(int ingredientID){
-        String[] ids = {Integer.toString(ingredientID)};
-        mDatabase.delete(IngredientTable.TABLE_NAME, IngredientTable.COLUMN_ID + "=?", ids);
+    public void removeIngredient(int recipeID){
+        String[] ids = {Integer.toString(recipeID)};
+        mDatabase.delete(IngredientTable.TABLE_NAME, IngredientTable.COLUMN_RECIPE_ID + "=?", ids);
     }
     //endregion
 

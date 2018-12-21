@@ -241,19 +241,22 @@ public class RecipeListActivity extends AppCompatActivity {
                             for(int position = 0; position < recipeList.size(); position++){
                                 if(recipeList.get(position).isItemChecked()){
                                     //make sure that the recipe is also deleted from the menu if it exists there
-                                    StaticMenu.removeRecipeFromMenu(recipeList.get(position), thisContext);
-                                    recipeList.remove(position);
-                                    position = position - 1;
+//                                    StaticMenu.removeRecipeFromMenu(recipeList.get(position), thisContext);
+//                                    recipeList.remove(position);
+
+                                    mDataSource.removeRecipe(recipeList.get(position));
+
+//                                    position = position - 1;
                                 }
                             }
 
-                            if (recipeList != null && recipeList.size() != 0) {
+                            if (mDataSource.getAllRecipes() != null && mDataSource.getAllRecipes().size() != 0) {
                                 //reset the adapter
-                                adapter = new RecipeListItemAdapter(thisContext, recipeList);
+                                adapter = new RecipeListItemAdapter(thisContext, mDataSource.getAllRecipes());
                                 lv.setAdapter(adapter);
 
                                 //save the newly edited recipe list
-                                StaticRecipes.saveRecipes(thisContext);
+                                recipeList = mDataSource.getAllRecipes();
 
                                 //notify the user that the recipes have been removed
                                 Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
@@ -294,7 +297,7 @@ public class RecipeListActivity extends AppCompatActivity {
                         if(recipeList.get(position).isItemChecked()){
                             recipeList.get(position).setItemChecked(false);
 
-                            mDataSource.addToMenu(position);
+                            mDataSource.addToMenu(recipeList.get(position).getRecipeID());
 
                             if(StaticMenu.getMenuList() != null) {
                                 StaticMenu.getMenuList().add(recipeList.get(position));
