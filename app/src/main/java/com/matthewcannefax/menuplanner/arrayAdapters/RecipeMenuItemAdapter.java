@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +20,9 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
+import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
@@ -40,9 +43,10 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
     public static final String RECIPE_ID = "item_id";
     private DataSource mDataSource;
     private final ListView lv;
+    private final Spinner categorySpinner;
 
     //constructor
-    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects, ListView listView) {
+    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects, ListView listView, Spinner catSpinner) {
         super(context, R.layout.menu_recipe_list_item, objects);
 
         //instantiate the list of recipes and the inflater object
@@ -51,6 +55,7 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
         mContext = context;
         mDataSource = new DataSource(context);
         lv = listView;
+        categorySpinner = catSpinner;
 
     }
 
@@ -120,7 +125,9 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
                         Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
                         mDataSource.removeMenuItem(recipe.getRecipeID());
                         mRecipeItems = mDataSource.getAllMenuRecipes();
-                        lv.setAdapter(new RecipeMenuItemAdapter(mContext, mDataSource.getAllMenuRecipes(), lv));
+                        lv.setAdapter(new RecipeMenuItemAdapter(mContext, mDataSource.getAllMenuRecipes(), lv, categorySpinner));
+                        ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<RecipeCategory>(mContext, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
+                        categorySpinner.setAdapter(rcAdapter);
                     }
                 });
                 builder.show();

@@ -100,13 +100,13 @@ public class MenuListActivity extends AppCompatActivity {
                 if (selectedCat != RecipeCategory.ALL) {
                     List<Recipe> filteredRecipes = new ArrayList<>();
 
-                    for(Recipe r : StaticMenu.getMenuList()){
+                    for(Recipe r : mDataSource.getAllMenuRecipes()){
                         if(r.getCategory() == selectedCat){
                             filteredRecipes.add(r);
                         }
                     }
 
-                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes, lv);
+                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes, lv, catSpinner);
                     lv.setAdapter(filteredAdapter);
                 } else {
                     lv.setAdapter(adapter);
@@ -130,25 +130,6 @@ public class MenuListActivity extends AppCompatActivity {
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
 
-//        lv.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//                builder.setTitle("Remove from Menu?");
-//                builder.setMessage("Are you sure you want to remove " + menuList.get(lv.getSelectedItemPosition()).toString() + "?");
-//                builder.setNegativeButton("Cancel", null);
-//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        Toast.makeText(mContext, menuList.get(lv.getSelectedItemPosition()).toString() + "removed", Toast.LENGTH_SHORT).show();
-//                        mDataSource.removeMenuItem(menuList.get(lv.getSelectedItemPosition()).getRecipeID());
-////                        menuList = mDataSource.getAllMenuRecipes();
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                });
-//                return true;
-//            }
-//        });
     }
 
     @Override
@@ -174,9 +155,9 @@ public class MenuListActivity extends AppCompatActivity {
     //this method sets up the menu list adapter
     private void setMenuListViewAdapter(){
         //set up the menu list adapter only if the menu list exists
-        if(menuList != null){
+        if(mDataSource.getAllMenuRecipes() != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
-            adapter = new RecipeMenuItemAdapter(this, menuList, lv);
+            adapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
 
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
@@ -196,7 +177,7 @@ public class MenuListActivity extends AppCompatActivity {
         setMenuListViewAdapter();
 
         //if the menu list is not null notify the adapter of changes, in case there are any
-        if (menuList != null) {
+        if (mDataSource.getAllMenuRecipes() != null) {
             adapter.notifyDataSetChanged();
 
             //setup the arrayAdapter for catSpinner
