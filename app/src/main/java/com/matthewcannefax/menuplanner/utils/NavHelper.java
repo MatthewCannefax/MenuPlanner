@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
-import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
-import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
@@ -79,8 +77,7 @@ public class NavHelper {
     }
 
     private static void setStaticGroceryList(Context context, List<Ingredient> groceryItems){
-        StaticGroceryList.setIngredientList(groceryItems);
-        StaticGroceryList.saveGroceries(context);
+
     }
 }
 

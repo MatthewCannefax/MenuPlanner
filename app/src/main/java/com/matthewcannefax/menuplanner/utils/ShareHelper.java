@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
@@ -11,9 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.io.File;
 import java.util.List;
@@ -26,11 +27,15 @@ public class ShareHelper {
 
     private final static int PICK_FILE_REQUEST_CODE = 4;
 
-    public static void sendGroceryList(Context context, List<Ingredient> ingredients){
-        if (StaticGroceryList.getIngredientList() != null && StaticGroceryList.getIngredientList().size() != 0) {
+    public static void sendGroceryList(Context context){
+        DataSource mDataSource = new DataSource(context);
+
+        List<Ingredient> groceries =  mDataSource.getAllGroceries();
+
+        if (groceries != null && groceries.size() != 0) {
             String sendText;
             StringBuilder sb = new StringBuilder();
-            for(Ingredient i: ingredients){
+            for(Ingredient i: groceries){
                 sb.append(i.shareIngredientString()).append("\n");
             }
             sendText = sb.toString();

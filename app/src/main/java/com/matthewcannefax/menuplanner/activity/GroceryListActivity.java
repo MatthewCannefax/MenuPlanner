@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticGroceryList;
 import com.matthewcannefax.menuplanner.arrayAdapters.GroceryItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
@@ -56,15 +55,17 @@ public class GroceryListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(StaticGroceryList.getIngredientList() == null){
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
+        if(mDataSource.getAllGroceries() == null){
             Intent mainIntent = new Intent(this, MenuListActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);
             finish();
         }
 
-        mDataSource = new DataSource(this);
-        mDataSource.open();
+
 
         mContext = this;
 
@@ -153,27 +154,20 @@ public class GroceryListActivity extends AppCompatActivity {
                 //also using a custom tryParse method to check that the value for the amount is indeed a double
                 if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
                     //add the new Ingredient to the ingredientList
-                    StaticGroceryList.getIngredientList().add(new Ingredient(
+                    Ingredient newGroceryItem = new Ingredient(
                             etName.getText().toString(),
                             (GroceryCategory) spCat.getSelectedItem(),
                             new Measurement(
                                     Double.parseDouble(etAmount.getText().toString()),
                                     (MeasurementType) spMeasure.getSelectedItem()
                             )
-                    ));
+                    );
 
-                    Collections.sort(StaticGroceryList.getIngredientList(), new Comparator<Ingredient>() {
-                        @Override
-                        public int compare(Ingredient ingredient, Ingredient t1) {
-                            return ingredient.getCategory().toString().compareTo(t1.getCategory().toString());
-                        }
-                    });
-
-                    //save the grocery list now that the new item has been added
-                    StaticGroceryList.saveGroceries(mContext);
+                    //add the new grocery item to the database
+                    mDataSource.createGroceryItem(newGroceryItem);
 
                     //notify the arrayadapter that the dataset has changed
-                    adapter = new GroceryItemAdapter(mContext, StaticGroceryList.getIngredientList());
+                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
                     lv.setAdapter(adapter);
 
                 } else {
@@ -281,7 +275,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 return true;
                 
             case R.id.shareGroceryList:
-                ShareHelper.sendGroceryList(this, mDataSource.getAllGroceries());
+                ShareHelper.sendGroceryList(this);
 
             default:
                 return false;

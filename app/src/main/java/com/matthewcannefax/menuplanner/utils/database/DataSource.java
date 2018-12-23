@@ -15,6 +15,8 @@ import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DataSource {
@@ -381,6 +383,14 @@ public class DataSource {
 
             groceries.add(ingredient);
         }
+
+        //sort the grocery list so that the categories are grouped together
+        Collections.sort(groceries, new Comparator<Ingredient>() {
+            @Override
+            public int compare(Ingredient ingredient, Ingredient ingredient2) {
+                return ingredient.getCategory().toString().compareTo(ingredient2.getCategory().toString());
+            }
+        });
 
         return groceries;
     }

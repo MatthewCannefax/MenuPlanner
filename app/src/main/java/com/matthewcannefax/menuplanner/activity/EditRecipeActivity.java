@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
-import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeViewPagerAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
@@ -230,23 +228,10 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                         newRecipe.setImagePath(oldRecipe.getImagePath());
 
-
-                        //Making the change to the Static list of recipes
-                        for (int n = 0; n < StaticRecipes.getRecipeList().size(); n++) {
-                            if (StaticRecipes.getRecipeList().get(n).getRecipeID() == oldRecipe.getRecipeID()) {
-                                StaticRecipes.getRecipeList().set(n, newRecipe);
-                                break;
-                            }
-                        }
-
+                        //update the recipe in the database
                         mDatasource.updateRecipe(newRecipe);
 
-                        //this method takes the newly edited recipe, finds every instance of that recipe in the menu and makes the necessary changes
-                        StaticMenu.editMenuRecipe(newRecipe);
 
-                        //Save the Static lists to JSON files
-                        StaticMenu.saveMenu(mContext);
-                        StaticRecipes.saveRecipes(mContext);
                     }
                 });
 

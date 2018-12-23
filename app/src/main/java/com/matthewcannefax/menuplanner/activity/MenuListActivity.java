@@ -24,8 +24,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.SampleData.SampleRecipes;
-import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
-import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
@@ -68,10 +66,6 @@ public class MenuListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //using the same layout as the recipelist activity
         setContentView(R.layout.menu_list);
-
-        if(StaticMenu.getMenuList() == null){
-            StaticMenu.loadMenu(this);
-        }
 
         final Context mContext = this;
 
@@ -142,7 +136,8 @@ public class MenuListActivity extends AppCompatActivity {
     }
 
     private void addRecipeToMenu(){
-        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() != 0) {
+        List<Recipe> allRecipes = mDataSource.getAllRecipes();
+        if (allRecipes != null && allRecipes.size() != 0) {
             //new intent to move to the RecipeListActivity
             Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
             intent.putExtra("TITLE", "Add To Menu");

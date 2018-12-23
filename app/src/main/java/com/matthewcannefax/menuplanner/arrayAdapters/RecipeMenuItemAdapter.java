@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
 import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;

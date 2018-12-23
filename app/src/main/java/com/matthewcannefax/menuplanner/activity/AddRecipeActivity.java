@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeViewPagerAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
@@ -206,10 +205,6 @@ public class AddRecipeActivity extends AppCompatActivity{
                 }
 
                 mDataSource.createRecipe(newRecipe);
-
-                //add the new recipe to the static recipe list
-                //this call also assigns a recipeID and saves the static list to JSON
-                StaticRecipes.addNewRecipe(newRecipe, this);
 
                 //return to the Recipe list activity
                 Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);

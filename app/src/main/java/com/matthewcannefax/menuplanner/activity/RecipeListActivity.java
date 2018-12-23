@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.StaticItems.StaticMenu;
-import com.matthewcannefax.menuplanner.StaticItems.StaticRecipes;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
@@ -60,9 +58,7 @@ public class RecipeListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(StaticRecipes.getRecipeList() == null){
-            StaticRecipes.loadRecipes(this);
-        }
+
 
         final Context mContext = this;
         setContentView(R.layout.recipe_menu_list);
@@ -77,7 +73,7 @@ public class RecipeListActivity extends AppCompatActivity {
         catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         catSpinner.setAdapter(catSpinnerAdapter);
 
-        StaticRecipes.resetItemsChecked();
+
 //        recipeList = StaticRecipes.getRecipeList();
 
         recipeList = mDataSource.getAllRecipes();
@@ -261,8 +257,6 @@ public class RecipeListActivity extends AppCompatActivity {
                                 //notify the user that the recipes have been removed
                                 Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
                             } else {
-                                //save the recipe list
-                                StaticRecipes.saveRecipes(thisContext);
 
                                 //this list is empty now, go back to the main activity
                                 Intent intent = new Intent(context, MenuListActivity.class);
@@ -299,20 +293,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
                             mDataSource.addToMenu(recipeList.get(position).getRecipeID());
 
-                            if(StaticMenu.getMenuList() != null) {
-                                StaticMenu.getMenuList().add(recipeList.get(position));
-                            }else{
-                                //if the menu list is null set with a new list and then add
-                                StaticMenu.setMenuList(new ArrayList<Recipe>());
-                                StaticMenu.getMenuList().add(recipeList.get(position));
-                            }
-
                         }
                     }
-
-                    //save the menu list
-                    StaticMenu.saveMenu(this);
-                    @SuppressWarnings("unused") boolean result = JSONHelper.exportRecipesToJSON(this, StaticMenu.getMenuList(), getString(R.string.json_menu_list));
 
                     //return to the menu activity
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
@@ -381,9 +363,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
                         List<Recipe> importRecipes;
                         try {
-                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
-                            StaticRecipes.addImportedRecipes(context, importRecipes);
-                            StaticRecipes.saveRecipes(context);
+//                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
+//                            StaticRecipes.addImportedRecipes(context, importRecipes);
+//                            StaticRecipes.saveRecipes(context);
 
                             Intent intent = new Intent(RecipeListActivity.this, RecipeListActivity.class);
                             intent.putExtra("TITLE", "My Recipes");
