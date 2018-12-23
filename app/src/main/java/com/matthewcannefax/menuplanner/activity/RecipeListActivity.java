@@ -363,9 +363,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
                         List<Recipe> importRecipes;
                         try {
-//                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
-//                            StaticRecipes.addImportedRecipes(context, importRecipes);
-//                            StaticRecipes.saveRecipes(context);
+                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
+                            mDataSource.importRecipesToDB(importRecipes);
 
                             Intent intent = new Intent(RecipeListActivity.this, RecipeListActivity.class);
                             intent.putExtra("TITLE", "My Recipes");

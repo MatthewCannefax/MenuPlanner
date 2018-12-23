@@ -13,6 +13,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -238,9 +239,6 @@ public class DataSource {
         }else{//oldSize > newSize
             //loop through all ingredients in the new recipe and delete the difference in the old recipe
         }
-
-
-
     }
 
     public void removeRecipe(Recipe recipe){
@@ -248,6 +246,13 @@ public class DataSource {
         removeMenuItem(recipe.getRecipeID());
         removeIngredient(recipe.getRecipeID());
         mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
+    }
+
+    public void importRecipesToDB(List<Recipe> importedRecipes){
+        for (Recipe r :
+                importedRecipes) {
+            createRecipe(r);
+        }
     }
     //endregion
 
