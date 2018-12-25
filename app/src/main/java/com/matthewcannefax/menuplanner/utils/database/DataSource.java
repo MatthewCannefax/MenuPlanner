@@ -314,6 +314,11 @@ public class DataSource {
         String[] ids = {Integer.toString(recipe.getRecipeID())};
         removeMenuItem(recipe.getRecipeID());
         removeRecipeIngredients(recipe.getRecipeID());
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
 
         close();

@@ -19,7 +19,10 @@ public class NavHelper {
 
     public static void newGroceryList(final Activity activity, final Context context){
         DataSource mDataSource = new DataSource(context);
-        if (mDataSource.getAllGroceries() != null && mDataSource.getAllGroceries().size() > 0) {
+
+        List<Ingredient> groceries = mDataSource.getAllGroceries();
+
+        if (groceries != null && groceries.size() > 0) {
 
             //ask the user if they truly wish to create a new grocery list
             AlertDialog.Builder builder = new AlertDialog.Builder(context);

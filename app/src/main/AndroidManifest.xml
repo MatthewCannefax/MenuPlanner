@@ -26,12 +26,10 @@
         </activity>
 
         <activity android:name=".activity.MenuListActivity"
-            android:screenOrientation="portrait"
             tools:targetApi="jelly_bean">
         </activity>
         <activity android:name=".activity.RecipeListActivity"
             android:parentActivityName=".activity.MenuListActivity"
-            android:screenOrientation="portrait"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -52,7 +50,6 @@
         </activity>
         <activity android:name=".activity.GroceryListActivity"
             android:parentActivityName=".activity.MenuListActivity"
-            android:screenOrientation="portrait"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
