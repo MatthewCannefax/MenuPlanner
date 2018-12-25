@@ -46,6 +46,11 @@ public class DataSource {
 
     //region Recipe Table Statements
     public Recipe createRecipe(Recipe recipe){//build a similar method for ingredients and call it with recipe.ingredients.tovalues
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         ContentValues values = recipe.toValuesCreate();
         mDatabase.insert(RecipeTable.TABLE_NAME, null, values);
 
@@ -59,11 +64,17 @@ public class DataSource {
             }
         }
 
+        close();
 
         return recipe;
     }
 
     public List<Recipe> getAllRecipes(){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<Recipe> recipes = new ArrayList<>();
 
         Cursor recipeCursor = mDatabase.query(
@@ -88,11 +99,16 @@ public class DataSource {
             recipes.add(recipe);
         }
 
+        close();
+
         return recipes;
     }
 
     //this method is created to retrieve the id for the last recipe entered in the recipe table to use as the foreign key in the ingredient table
     public int getRecipeIDFromDB(){
+        if(!mDatabase.isOpen()){
+            open();
+        }
         //query the last recipe added to the db
         Cursor cursor = mDatabase.query(RecipeTable.TABLE_NAME, new String[]{RecipeTable.RECIPE_ID}, null, null, null, null, RecipeTable.RECIPE_ID + " DESC", "1" );
         int newId = 0;
@@ -100,10 +116,16 @@ public class DataSource {
             //get the id of the last recipe recorded in the db
             newId = cursor.getInt(cursor.getColumnIndex(RecipeTable.RECIPE_ID));
         }
+        close();
         return newId;
     }
 
     public Recipe getSpecificRecipe(int recipeID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         Recipe recipe = new Recipe();
         String[] recipeIDS = {Integer.toString(recipeID)};
 
@@ -125,10 +147,17 @@ public class DataSource {
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
         }
 
+        close();
+
         return recipe;
     }
 
     private Recipe getMenuItems(int id){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         Recipe recipe = new Recipe();
 
         String[] idArray = {Integer.toString(id)};
@@ -152,10 +181,17 @@ public class DataSource {
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
         }
 
+        close();
+
         return recipe;
     }
 
     public List<Recipe> getFilteredRecipes(RecipeCategory category){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<Recipe> recipes = new ArrayList<>();
 
         if(category == RecipeCategory.ALL){
@@ -185,10 +221,17 @@ public class DataSource {
             recipes.add(recipe);
         }
 
+        close();
+
         return recipes;
     }
 
     public List<RecipeCategory> getRecipeCategories(){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<RecipeCategory> categories = new ArrayList<>();
         String[] columns = {RecipeTable.CATEGORY};
 
@@ -202,10 +245,17 @@ public class DataSource {
                                             RecipeTable.CATEGORY))));
         }
 
+        close();
+
         return categories;
     }
 
     public void updateRecipe(Recipe newRecipe){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         Recipe oldRecipe = getSpecificRecipe(newRecipe.getRecipeID());
 
         String[] ids = {Integer.toString(newRecipe.getRecipeID())};
@@ -239,13 +289,22 @@ public class DataSource {
         }else{//oldSize > newSize
             //loop through all ingredients in the new recipe and delete the difference in the old recipe
         }
+
+        close();
     }
 
     public void removeRecipe(Recipe recipe){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         String[] ids = {Integer.toString(recipe.getRecipeID())};
         removeMenuItem(recipe.getRecipeID());
         removeIngredient(recipe.getRecipeID());
         mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
+
+        close();
     }
 
     public void importRecipesToDB(List<Recipe> importedRecipes){
@@ -258,12 +317,25 @@ public class DataSource {
 
     //region Menu Table Statements
     public void addToMenu(int recipeID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(MenuTable.COLUMN_RECIPE_ID, recipeID);
         mDatabase.insert(MenuTable.TABLE_NAME, null, contentValues);
+
+        close();
+
     }
 
     public List<Recipe> getAllMenuRecipes(){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<Integer> menuIDS = new ArrayList<>();
 
         String[] recipeIDColumn = {MenuTable.COLUMN_RECIPE_ID};
@@ -291,24 +363,47 @@ public class DataSource {
             recipes.add(getMenuItems(i));
         }
 
+        close();
+
         return recipes;
     }
 
     public void removeMenuItem(int recipID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         String[] ids = {Integer.toString(recipID)};
         mDatabase.delete(MenuTable.TABLE_NAME, MenuTable.COLUMN_RECIPE_ID + "=?", ids);
+
+        close();
+
     }
 
     //endregion
 
     //region Ingredient Table Statements
     public Ingredient createIngredient(Ingredient ingredient, int recipeID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         ContentValues values = ingredient.toValuesCreate(recipeID);
         mDatabase.insert(IngredientTable.TABLE_NAME, null, values);
+
+        close();
+
         return ingredient;
     }
 
     private List<Ingredient> getRecipeIngredients(int recipeID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<Ingredient> ingredients = new ArrayList<>();
 
         String[] recipeIDS = {Integer.toString(recipeID)};
@@ -335,12 +430,22 @@ public class DataSource {
 
         }
 
+        close();
+
         return ingredients;
     }
 
     public void removeIngredient(int recipeID){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         String[] ids = {Integer.toString(recipeID)};
         mDatabase.delete(IngredientTable.TABLE_NAME, IngredientTable.COLUMN_RECIPE_ID + "=?", ids);
+
+        close();
+
     }
     //endregion
 
@@ -353,16 +458,36 @@ public class DataSource {
     }
 
     public void createGroceryItem(Ingredient ingredient){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         ContentValues values = ingredient.toValuesGroceryList();
         mDatabase.insert(GroceryListTable.TABLE_NAME, null, values);
+
+        close();
+
     }
 
     public void removeGroceryItem(Ingredient ingredient){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         String[] ids = {Integer.toString(ingredient.getIngredientID())};
         mDatabase.delete(GroceryListTable.TABLE_NAME, GroceryListTable.COLUMN_ID + "=?", ids);
+
+        close();
     }
 
     public List<Ingredient> getAllGroceries(){
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         List<Ingredient> groceries = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(
@@ -396,6 +521,8 @@ public class DataSource {
                 return ingredient.getCategory().toString().compareTo(ingredient2.getCategory().toString());
             }
         });
+
+        close();
 
         return groceries;
     }
