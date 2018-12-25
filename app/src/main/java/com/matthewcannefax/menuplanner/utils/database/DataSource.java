@@ -3,7 +3,6 @@ package com.matthewcannefax.menuplanner.utils.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,7 +12,6 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Measurement;
 import com.matthewcannefax.menuplanner.model.Recipe;
-import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -259,6 +257,11 @@ public class DataSource {
         Recipe oldRecipe = getSpecificRecipe(newRecipe.getRecipeID());
 
         String[] ids = {Integer.toString(newRecipe.getRecipeID())};
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
         mDatabase.update(RecipeTable.TABLE_NAME, newRecipe.toValues(), RecipeTable.RECIPE_ID + "=?", ids);
 
         int oldSize = oldRecipe.getIngredientList().size();
@@ -287,7 +290,16 @@ public class DataSource {
             }
 
         }else{//oldSize > newSize
-            //loop through all ingredients in the new recipe and delete the difference in the old recipe
+            for(int i = 0; i < newSize; i++){
+                if(!newRecipe.getIngredientList().get(i).equals(oldRecipe.getIngredientList().get(i))){
+                    String[] ingredientIDS = {Integer.toString(newRecipe.getIngredientList().get(i).getIngredientID())};
+                    mDatabase.update(IngredientTable.TABLE_NAME, newRecipe.getIngredientList().get(i).toValues(newRecipe.getRecipeID()),
+                            IngredientTable.COLUMN_ID + "=?", ingredientIDS);
+                }
+            }
+            for(int i = newSize; i < oldSize; i++){
+                removeSpecificIngredient(oldRecipe.getIngredientList().get(i).getIngredientID());
+            }
         }
 
         close();
@@ -301,7 +313,7 @@ public class DataSource {
 
         String[] ids = {Integer.toString(recipe.getRecipeID())};
         removeMenuItem(recipe.getRecipeID());
-        removeIngredient(recipe.getRecipeID());
+        removeRecipeIngredients(recipe.getRecipeID());
         mDatabase.delete(RecipeTable.TABLE_NAME, RecipeTable.RECIPE_ID + "=?", ids);
 
         close();
@@ -435,7 +447,18 @@ public class DataSource {
         return ingredients;
     }
 
-    public void removeIngredient(int recipeID){
+    public void removeSpecificIngredient(int ingredientID){
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        String[] ids = {Integer.toString(ingredientID)};
+        mDatabase.delete(IngredientTable.TABLE_NAME, IngredientTable.COLUMN_ID + "=?", ids);
+
+        close();
+    }
+
+    public void removeRecipeIngredients(int recipeID){
 
         if(!mDatabase.isOpen()){
             open();
