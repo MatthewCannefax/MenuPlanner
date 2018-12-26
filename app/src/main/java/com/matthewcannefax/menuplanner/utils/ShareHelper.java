@@ -2,22 +2,33 @@ package com.matthewcannefax.menuplanner.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.activity.MenuListActivity;
+import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
 import com.matthewcannefax.menuplanner.model.Ingredient;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ShareHelper {
 
@@ -87,6 +98,57 @@ public class ShareHelper {
 
         assert recipedata != null;
         return recipedata.getRecipeList();
+    }
+
+    public static void activityResultImportCookbook(final Context context, final Activity currentActivity, int requestCode, int resultCode, final Intent data){
+
+        if (requestCode == ShareHelper.getPickFileRequestCode() && resultCode == RESULT_OK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Import a Cookbook?");
+            builder.setMessage("Are you sure you want to append your cookbook?");
+            builder.setNegativeButton("Cancel", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Uri contentUri = data.getData();
+                    InputStream inputStream;
+                    try{
+                        assert contentUri != null;
+                        inputStream = context.getContentResolver().openInputStream(contentUri);
+                        assert  inputStream != null;
+                        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+                        StringBuilder total = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            total.append(line);
+                        }
+
+                        List<Recipe> importRecipes;
+                        try {
+                            DataSource mDataSource = new DataSource(context);
+                            importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
+                            mDataSource.importRecipesToDB(importRecipes);
+
+                            Intent intent = new Intent(currentActivity, RecipeListActivity.class);
+                            intent.putExtra("TITLE", "My Recipes");
+                            context.startActivity(intent);
+                            if(currentActivity.getClass() != MenuListActivity.class){
+                                currentActivity.finish();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            builder.show();
+        }
     }
 
     //this static class is needed to work with the GSON library

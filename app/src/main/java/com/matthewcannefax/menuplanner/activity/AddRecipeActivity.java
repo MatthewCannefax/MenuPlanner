@@ -27,6 +27,7 @@ import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
@@ -233,6 +234,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         //get the path for the new image and set it to the new recipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
+        ShareHelper.activityResultImportCookbook(this, AddRecipeActivity.this, requestCode, resultCode, data);
 
     }
 }

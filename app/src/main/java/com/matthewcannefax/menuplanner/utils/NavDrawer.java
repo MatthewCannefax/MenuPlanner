@@ -73,6 +73,9 @@ public class NavDrawer {
                     case NEW_GROCERY_LIST:
                         NavHelper.newGroceryList(currentActivity, context);
                         break;
+                    case IMPORT_COOKBOOK:
+                        ShareHelper.importCookbook(currentActivity);
+                        break;
                     default:
                         //all other activities just start up
                         startActivity(context, selectedActivity, currentActivity);

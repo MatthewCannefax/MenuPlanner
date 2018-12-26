@@ -32,6 +32,7 @@ import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
+import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -294,5 +295,12 @@ public class GroceryListActivity extends AppCompatActivity {
                 editText.setOnFocusChangeListener(null);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ShareHelper.activityResultImportCookbook(this, GroceryListActivity.this, requestCode, resultCode, data);
     }
 }
