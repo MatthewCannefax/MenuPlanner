@@ -62,8 +62,10 @@ public class ImageHelper {
         if(imagePath.equals(context.getString(R.string.no_img_selected))) {
 //            imageView.setImageBitmap(loadSampledResource(context, getResId(context, imagePath)));
             imageView.setImageResource(DEFAULT_IMAGE);
-        }else{
+        }else if(loadSampledIMGFile(imagePath) != null){
             imageView.setImageBitmap(loadSampledIMGFile(imagePath));
+        }else {
+            imageView.setImageResource(DEFAULT_IMAGE);
         }
     }
 
