@@ -362,7 +362,7 @@ public class ImageHelper {
         if(orientation == ExifInterface.ORIENTATION_ROTATE_180){
             m.postRotate(180);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true );
-        }else if (orientation <= ExifInterface.ORIENTATION_ROTATE_90){
+        }else if (orientation <= ExifInterface.ORIENTATION_ROTATE_90 && orientation > 1){
             m.postRotate(90);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true );
         }else if (orientation == ExifInterface.ORIENTATION_ROTATE_270){
