@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +49,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Context mContext;
     private ViewPager viewPager;
     private DataSource mDatasource;
+    private DrawerLayout mDrawerLayout;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -87,6 +89,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
@@ -142,6 +145,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mDatasource.open();
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
     }
 
     @Override
@@ -245,7 +250,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                 return true;
             }
         }
-        else{
+        else if(item.getItemId() == android.R.id.home) {
+            NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+            return true;
+        }else{
             return false;
         }
 

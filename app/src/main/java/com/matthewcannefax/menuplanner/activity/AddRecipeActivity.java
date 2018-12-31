@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +50,8 @@ public class AddRecipeActivity extends AppCompatActivity{
 
     DataSource mDataSource;
 
+    private DrawerLayout mDrawerLayout;
+
     //endregion
 
     @Override
@@ -68,6 +71,7 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //make sure RecipeCategory.ALL is not an option in the spinner
         List<RecipeCategory> recipeCats = new ArrayList<>();
@@ -111,11 +115,19 @@ public class AddRecipeActivity extends AppCompatActivity{
 
         ListView drawerListView = findViewById(R.id.navList);
 
+
+
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
         NavDrawer.setupNavDrawer(AddRecipeActivity.this, this, drawerListView);
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
     }
 
     @Override
@@ -221,6 +233,9 @@ public class AddRecipeActivity extends AppCompatActivity{
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
                 return true;
             }
+        }else if(item.getItemId() == android.R.id.home){
+            NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+            return true;
         }else{
             return false;
         }
