@@ -321,7 +321,9 @@ public class ImageHelper {
         options.inSampleSize = inSampleSize;
         options.inJustDecodeBounds = false;
 
-        return BitmapFactory.decodeFile(imagePath, options);
+        File file = new File(imagePath);
+
+        return getBitmapExif(file, BitmapFactory.decodeFile(imagePath, options));
     }
 
     //this method is used to the the resource id of a drawable image
