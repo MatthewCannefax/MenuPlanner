@@ -510,6 +510,16 @@ public class DataSource {
         close();
     }
 
+    public void removeAllGroceries(){
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        mDatabase.delete(GroceryListTable.TABLE_NAME, null, null);
+
+        close();
+    }
+
     public List<Ingredient> getAllGroceries(){
 
         if(!mDatabase.isOpen()){

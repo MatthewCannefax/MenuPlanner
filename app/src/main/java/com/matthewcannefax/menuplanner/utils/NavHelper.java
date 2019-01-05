@@ -63,12 +63,9 @@ public class NavHelper {
             //new intent to move to the GroceryListActivity
             Intent intent = new Intent(activity, GroceryListActivity.class);
 
-            //adding to the staticList. this needs to change to a different way of moving data around
-            //as it stands now, If I generate a list then move back and generate the list again
-            //it will double the list
+            mDataSource.removeAllGroceries();
             GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
             mDataSource.groceryListToDB(groceryBuilder.consolidateGroceries());
-            setStaticGroceryList(context, groceryBuilder.consolidateGroceries());
 
             //start the GroceryListActivity
             activity.startActivity(intent);
@@ -79,8 +76,6 @@ public class NavHelper {
         }
     }
 
-    private static void setStaticGroceryList(Context context, List<Ingredient> groceryItems){
 
-    }
 }
 
