@@ -8,7 +8,7 @@
         android:id="@+id/generateGroceryListItem"
         android:icon="@drawable/ic_playlist_add_black_24dp"
         android:title="@string/new_grocery_list"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
     <!--<item-->
         <!--android:id="@+id/addRecipeToMenuItem"-->
