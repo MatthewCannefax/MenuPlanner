@@ -62,6 +62,10 @@ public class ShareHelper {
     }
 
     public static void sendRecipes(Context context){
+
+        DataSource mDataSource = new DataSource(context);
+
+        JSONHelper.exportRecipesToJSON(context, mDataSource.getAllRecipes(), context.getString(R.string.recipe_list_to_json));
         String filename = context.getString(R.string.recipe_list_to_json);
         File fileLocation = new File(context.getFilesDir().getAbsolutePath(), filename );
         String authority = BuildConfig.APPLICATION_ID + ".provider";
