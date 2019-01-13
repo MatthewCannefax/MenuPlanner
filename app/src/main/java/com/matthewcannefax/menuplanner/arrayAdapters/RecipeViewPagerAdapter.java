@@ -176,6 +176,8 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                         mRecipe.getIngredientList().get(i).setCategory((GroceryCategory) spCat.getSelectedItem());
                         mRecipe.getIngredientList().get(i).setMeasurement(new Measurement(Double.parseDouble(etAmount.getText().toString()),
                                                                                             (MeasurementType)spMeasure.getSelectedItem()));
+                        IngredientItemAdapter ingredientItemAdapter = (IngredientItemAdapter)listView.getAdapter();
+                        ingredientItemAdapter.notifyDataSetChanged();
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
