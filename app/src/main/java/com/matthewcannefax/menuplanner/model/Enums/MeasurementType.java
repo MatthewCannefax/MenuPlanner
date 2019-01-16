@@ -8,14 +8,15 @@ import java.util.Comparator;
 import java.util.List;
 
 public enum MeasurementType {
+    PIECE(""),//This will show as an empty, so instead of 1 piece onion it will show 1 onion
     POUND("lbs"),
     OUNCE("oz"),
     TABLESPOON("tbsp"),
     TEASPOON("tsp"),
     CUP("cup"),
     GALLON("gallon"),
-    PIECE("piece"),
     CAN("can"),
+    JAR("jar"),
     BAG("bag"),
     PACKAGE("package"),
     BOTTLE("bottle"),
