@@ -8,11 +8,10 @@
         android:title="@string/share"
         app:showAsAction="ifRoom"
         />
-    <!--<item-->
-        <!--android:id="@+id/addNewGroceryItem"-->
-        <!--android:icon="@drawable/ic_add_black_24dp"-->
-        <!--android:title="@string/add_item"-->
-        <!--app:showAsAction="ifRoom"/>-->
+    <item
+        android:id="@+id/selectAllGroceries"
+        android:title="@string/select_all"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/removeSelectItems"
         android:icon="@drawable/ic_delete_black_24dp"

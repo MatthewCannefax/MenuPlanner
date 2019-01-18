@@ -277,6 +277,13 @@ public class GroceryListActivity extends AppCompatActivity {
                 
             case R.id.shareGroceryList:
                 ShareHelper.sendGroceryList(this);
+            case R.id.selectAllGroceries:
+                for (Ingredient i :
+                        mDataSource.getAllGroceries()) {
+                    mDataSource.setGroceryItemChecked(i.getIngredientID(), true);
+                }
+                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
+                lv.setAdapter(adapter);
 
             default:
                 return false;
