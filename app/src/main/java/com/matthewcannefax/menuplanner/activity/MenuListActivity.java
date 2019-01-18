@@ -81,6 +81,8 @@ public class MenuListActivity extends AppCompatActivity {
         //this method to set the menu list adapter
         setMenuListViewAdapter();
 
+        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+
         filterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +99,8 @@ public class MenuListActivity extends AppCompatActivity {
                     RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes, lv, catSpinner);
                     lv.setAdapter(filteredAdapter);
                 } else {
-                    lv.setAdapter(adapter);
+
+                    lv.setAdapter(allMenuAdapter);
                 }
             }
         });
@@ -117,6 +120,16 @@ public class MenuListActivity extends AppCompatActivity {
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
+
+        //if the menu list is not null notify the adapter of changes, in case there are any
+        if (mDataSource.getAllMenuRecipes() != null) {
+            adapter.notifyDataSetChanged();
+
+            //setup the arrayAdapter for catSpinner
+            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
+            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+            catSpinner.setAdapter(catSpinnerAdapter);
+        }
 
     }
 
@@ -165,15 +178,37 @@ public class MenuListActivity extends AppCompatActivity {
         menuList = mDataSource.getAllMenuRecipes();
         setMenuListViewAdapter();
 
-        //if the menu list is not null notify the adapter of changes, in case there are any
-        if (mDataSource.getAllMenuRecipes() != null) {
-            adapter.notifyDataSetChanged();
+        if(mDataSource.getAllMenuRecipes() != null && mDataSource.getAllMenuRecipes().size() != 0){
+            if(catSpinner.getSelectedItemPosition() != 0){
 
-            //setup the arrayAdapter for catSpinner
-            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
-            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-            catSpinner.setAdapter(catSpinnerAdapter);
+                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+                List<Recipe> filteredRecipes = new ArrayList<>();
+
+                for (Recipe r :
+                        mDataSource.getAllMenuRecipes()) {
+                    if(r.getCategory() == selectedCat){
+                        filteredRecipes.add(r);
+                    }
+                }
+
+
+                adapter = new RecipeMenuItemAdapter(this, filteredRecipes, lv, catSpinner);
+            }else{
+                adapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+            }
+
+            lv.setAdapter(adapter);
         }
+
+//        //if the menu list is not null notify the adapter of changes, in case there are any
+//        if (mDataSource.getAllMenuRecipes() != null) {
+//            adapter.notifyDataSetChanged();
+//
+//            //setup the arrayAdapter for catSpinner
+//            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
+//            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+//            catSpinner.setAdapter(catSpinnerAdapter);
+//        }
     }
 
     @Override

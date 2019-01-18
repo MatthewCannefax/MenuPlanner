@@ -149,7 +149,14 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         recipeList.clear();
-        recipeList = mDataSource.getAllRecipes();
+
+        if(catSpinner.getSelectedItemPosition() != 0){
+            recipeList = mDataSource.getFilteredRecipes((RecipeCategory)catSpinner.getSelectedItem());
+        }else{
+            recipeList = mDataSource.getAllRecipes();
+
+
+        }
         adapter = new RecipeListItemAdapter(this, recipeList);
         lv.setAdapter(adapter);
 
