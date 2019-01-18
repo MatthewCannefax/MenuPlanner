@@ -498,6 +498,8 @@ public class DataSource {
 
     }
 
+
+
     public void removeGroceryItem(Ingredient ingredient){
 
         if(!mDatabase.isOpen()){
@@ -519,6 +521,43 @@ public class DataSource {
 
         close();
     }
+
+
+    public void setGroceryItemChecked(int groceryItemID, boolean itemChecked){
+        Ingredient selectedGroceryItem = new Ingredient();
+        String[] ids = {Integer.toString(groceryItemID)};
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        Cursor cursor = mDatabase.query(GroceryListTable.TABLE_NAME,
+                GroceryListTable.ALL_COLUMNS,
+                GroceryListTable.COLUMN_ID + "=?",
+                ids,
+                null,
+                null,
+                null
+                );
+
+        while (cursor.moveToNext()){
+            selectedGroceryItem.setIngredientID(groceryItemID);
+            selectedGroceryItem.setName(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_NAME)));
+            selectedGroceryItem.setCategory(GroceryCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_CATEGORY))));
+            selectedGroceryItem.setMeasurement(new Measurement(
+                    cursor.getDouble(cursor.getColumnIndex(GroceryListTable.COLUMN_MEASUREMENT_AMOUNT)),
+                    MeasurementType.stringToCategory(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
+            ));
+            selectedGroceryItem.setItemChecked(isItemChecked(cursor.getInt(cursor.getColumnIndex(GroceryListTable.COLUMN_IS_CHECKED))));
+        }
+
+        selectedGroceryItem.setItemChecked(itemChecked);
+
+        mDatabase.update(GroceryListTable.TABLE_NAME, selectedGroceryItem.toValuesGroceryList(), GroceryListTable.COLUMN_ID + "=?", ids);
+
+        close();
+    }
+
 
     public List<Ingredient> getAllGroceries(){
 

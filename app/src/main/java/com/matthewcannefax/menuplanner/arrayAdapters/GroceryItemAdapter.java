@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
     private final List<Ingredient> mGroceryItems;
     //A new LayoutInflater object
     private final LayoutInflater mInflator;
+    private final Context mContext;
 
 
 
@@ -33,6 +35,7 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
 
         //set the objects to the groceryitems list
         mGroceryItems = objects;
+        mContext = context;
 
         //remove water from the grocery list
 //        for (int i = 0; i < mGroceryItems.size(); i++){
@@ -92,7 +95,7 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
         tvMeasurement.setText(measurePlusName);
         tvCategory.setText(item.getCategory().toString());
         cbChecked.setChecked(false);
-
+        final DataSource mDataSource = new DataSource(mContext);
         //this click listener strikes through the items of the grocery item view when clicked
         //this signifies that the item has been checked
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -100,14 +103,14 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
             public void onClick(View view) {
                 if (item.getItemChecked()){
                     item.setItemChecked(false);
-//                    tvName.setPaintFlags(0);
+                    mDataSource.setGroceryItemChecked(item.getIngredientID(), false);
                     tvCategory.setPaintFlags(0);
                     tvMeasurement.setPaintFlags(0);
 
                     cbChecked.setChecked(false);
                 }else{
                     item.setItemChecked(true);
-//                    tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    mDataSource.setGroceryItemChecked(item.getIngredientID(), true);
                     tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     tvMeasurement.setPaintFlags(tvMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -118,8 +121,13 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
 
         if(item.getItemChecked()){
             cbChecked.setChecked(true);
+            tvCategory.setPaintFlags(tvCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            tvMeasurement.setPaintFlags(tvMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
         }else{
             cbChecked.setChecked(false);
+            tvCategory.setPaintFlags(0);
+            tvMeasurement.setPaintFlags(0);
         }
 
         return convertView;
