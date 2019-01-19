@@ -40,9 +40,10 @@
     <string name="category">CATEGORY: </string>
     <string name="recipe_item_image_description">A recipe photo</string>
     <string name="export">Export Cookbook</string>
-    <string name="import_cookbook">Import Cookbook</string>
+    <string name="import_cookbook">Import Recipes</string>
     <string name="no_grocery_to_share">No Groceries to Share</string>
     <string name="add_to_menu">Add to Menu</string>
     <string name="add_recipe">Add Recipe</string>
     <string name="select_all">Select All</string>
+
 </resources>

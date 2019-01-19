@@ -192,9 +192,12 @@ public class AddRecipeActivity extends AppCompatActivity{
         //add the menu button to add recipes to the recipes list
         MenuInflater menuInflater = getMenuInflater();
 
+
+
         //using the menu layout created specifically for this activity
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
-
+        MenuItem shareItem = menu.findItem(R.id.shareRecipe);
+        shareItem.setVisible(false);
         return true;
     }
 

@@ -308,7 +308,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 b = true;
                 break;
             case R.id.exportCookbook:
-                ShareHelper.sendRecipes(this);
+                ShareHelper.sendAllRecipes(this);
                 b = true;
                 break;
                 default:

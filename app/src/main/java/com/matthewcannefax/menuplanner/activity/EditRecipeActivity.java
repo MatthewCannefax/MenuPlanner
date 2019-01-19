@@ -253,6 +253,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         else if(item.getItemId() == android.R.id.home) {
             NavDrawer.navDrawerOptionsItem(mDrawerLayout);
             return true;
+        }else if(item.getItemId() == R.id.shareRecipe){
+            ShareHelper.sendSingleRecipe(this, oldRecipe.getRecipeID());
+            return true;
         }else{
             return false;
         }

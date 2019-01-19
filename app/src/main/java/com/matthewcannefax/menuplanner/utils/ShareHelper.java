@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -61,7 +62,44 @@ public class ShareHelper {
 
     }
 
-    public static void sendRecipes(Context context){
+    public static void sendSingleRecipe(Context context, int recipeID){
+
+        DataSource mDataSource = new DataSource(context);
+
+        List<Recipe> recipes = new ArrayList<>();
+        recipes.add(mDataSource.getSpecificRecipe(recipeID));
+
+        String filename = recipes.get(0).getName() + " Recipe";
+        JSONHelper.exportRecipesToJSON(context, recipes, filename);
+        File fileLocation = new File(context.getFilesDir().getAbsolutePath(), filename );
+        String authority = BuildConfig.APPLICATION_ID + ".provider";
+        Uri path = FileProvider.getUriForFile(context, authority, fileLocation);
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setType("text/*");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
+        context.startActivity(Intent.createChooser(emailIntent, "Send email...3"));
+    }
+
+    public static void sendRecipeSelection(Context context, List<Recipe> recipes){
+
+        JSONHelper.exportRecipesToJSON(context, recipes, context.getString(R.string.recipe_list_to_json));
+        String filename = context.getString(R.string.recipe_list_to_json);
+        File fileLocation = new File(context.getFilesDir().getAbsolutePath(), filename );
+        String authority = BuildConfig.APPLICATION_ID + ".provider";
+        Uri path = FileProvider.getUriForFile(context, authority, fileLocation);
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setType("text/*");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
+        context.startActivity(Intent.createChooser(emailIntent, "Send email...3"));
+    }
+
+    public static void sendAllRecipes(Context context){
 
         DataSource mDataSource = new DataSource(context);
 
