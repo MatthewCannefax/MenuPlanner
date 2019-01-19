@@ -28,6 +28,7 @@ import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //This activity is to display the total list of recipes from the db
@@ -74,6 +75,7 @@ public class RecipeListActivity extends AppCompatActivity {
         try {
             title = extras.getString("TITLE");
         } catch (NullPointerException e) {
+            title = "My Recipes";
             e.printStackTrace();
         }
 
@@ -192,7 +194,7 @@ public class RecipeListActivity extends AppCompatActivity {
         MenuItem importItem = menu.findItem(R.id.importCookbook);
 
         //if this is simply the My Recipes version of the activity, do not show the add recipes menuitem
-        if (title.equals("My Recipes")) {
+        if (!title.equals(getString(R.string.add_to_menu))) {
             item.setVisible(false);
         }else{
             exportItem.setVisible(false);
@@ -308,7 +310,26 @@ public class RecipeListActivity extends AppCompatActivity {
                 b = true;
                 break;
             case R.id.exportCookbook:
-                ShareHelper.sendAllRecipes(this);
+
+                anySelected = anySelected();
+                if(anySelected){
+                    //loop through the recipe list and add the selected recipes to send
+                    List<Recipe> sendRecipes = new ArrayList<>();
+
+                    for(int position = 0; position < recipeList.size(); position++){
+                        if(recipeList.get(position).isItemChecked()){
+                            recipeList.get(position).setItemChecked(false);
+
+                            sendRecipes.add(recipeList.get(position));
+
+                        }
+                    }
+                    ShareHelper.sendRecipeSelection(this, sendRecipes);
+                }else{
+                    Toast.makeText(this, "Please select recipes to share", Toast.LENGTH_SHORT).show();
+                }
+
+
                 b = true;
                 break;
                 default:

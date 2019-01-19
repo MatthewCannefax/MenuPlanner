@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
@@ -85,8 +84,9 @@ public class ShareHelper {
 
     public static void sendRecipeSelection(Context context, List<Recipe> recipes){
 
-        JSONHelper.exportRecipesToJSON(context, recipes, context.getString(R.string.recipe_list_to_json));
-        String filename = context.getString(R.string.recipe_list_to_json);
+        String filename = context.getString(R.string.selected_recipes);
+        JSONHelper.exportRecipesToJSON(context, recipes, filename);
+
         File fileLocation = new File(context.getFilesDir().getAbsolutePath(), filename );
         String authority = BuildConfig.APPLICATION_ID + ".provider";
         Uri path = FileProvider.getUriForFile(context, authority, fileLocation);

@@ -13,7 +13,8 @@ public enum ActivityNavEnum {
     ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 2),
     VIEW_GROCERY_LIST("View Grocery List", GroceryListActivity.class, 3),
     NEW_GROCERY_LIST("New Grocery List", GroceryListActivity.class, 4),
-    IMPORT_COOKBOOK("Import Cookbook", RecipeListActivity.class, 5);
+    IMPORT_COOKBOOK("Import Recipes", RecipeListActivity.class, 5),
+    SHARE_COOKBOOK("Share Cookbook", RecipeListActivity.class, 6);
 
     //get the name of the activity
     private String getName() {

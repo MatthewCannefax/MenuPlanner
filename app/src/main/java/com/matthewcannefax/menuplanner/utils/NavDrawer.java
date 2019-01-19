@@ -17,9 +17,11 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.activity.MenuListActivity;
 import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
 import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //this class sets up the navigation drawer for all activities
@@ -75,6 +77,14 @@ public class NavDrawer {
                         break;
                     case IMPORT_COOKBOOK:
                         ShareHelper.importCookbook(currentActivity);
+                        break;
+                    case SHARE_COOKBOOK:
+                        List<Recipe> recipes = mDataSource.getAllRecipes();
+                        if(recipes != null && recipes.size() != 0){
+                            ShareHelper.sendAllRecipes(context);
+                        }else{
+                            Toast.makeText(context, "There are no recipes in your cookbook", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     default:
                         //all other activities just start up

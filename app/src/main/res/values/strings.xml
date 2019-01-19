@@ -42,8 +42,9 @@
     <string name="export">Export Cookbook</string>
     <string name="import_cookbook">Import Recipes</string>
     <string name="no_grocery_to_share">No Groceries to Share</string>
-    <string name="add_to_menu">Add to Menu</string>
+    <string name="add_to_menu">Add To Menu</string>
     <string name="add_recipe">Add Recipe</string>
     <string name="select_all">Select All</string>
+    <string name="selected_recipes">My Recipes</string>
 
 </resources>
