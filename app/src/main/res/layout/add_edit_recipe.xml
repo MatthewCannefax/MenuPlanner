@@ -27,7 +27,6 @@
             android:ems="10"
             android:hint="@string/new_recipe_name_box"
             android:inputType="textPersonName"
-            android:text="@string/new_recipe_name_box"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
