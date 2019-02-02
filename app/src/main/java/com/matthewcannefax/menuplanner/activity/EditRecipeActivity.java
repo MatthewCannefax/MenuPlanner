@@ -117,6 +117,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         //setup the image if it is present
         if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), this, recipeIMG);
+        }else{
+            ImageHelper.setImageViewDrawable("", this, recipeIMG);
         }
 
         ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
