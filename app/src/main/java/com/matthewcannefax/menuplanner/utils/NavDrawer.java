@@ -82,6 +82,7 @@ public class NavDrawer {
                         List<Recipe> recipes = mDataSource.getAllRecipes();
                         if(recipes != null && recipes.size() != 0){
                             ShareHelper.sendAllRecipes(context);
+//                            ShareHelper.sendAllRecipesDB(context);
                         }else{
                             Toast.makeText(context, "There are no recipes in your cookbook", Toast.LENGTH_SHORT).show();
                         }

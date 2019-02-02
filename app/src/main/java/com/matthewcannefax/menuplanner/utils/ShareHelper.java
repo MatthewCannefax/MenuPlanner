@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
@@ -21,10 +22,13 @@ import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +101,47 @@ public class ShareHelper {
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
         context.startActivity(Intent.createChooser(emailIntent, "Send email...3"));
+    }
+
+    public static void sendAllRecipesDB(Context context){
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+
+        File copyDBFile = new File("");
+
+        if(sd.canWrite()){
+            String currentDBPath = "//data//com.matthewcannefax.menuplanner//databases//cookbook.db";
+            String copyDBPath = "cookbookCOPY.db";
+            File currentDBFile = new File(data, currentDBPath);
+            copyDBFile = new File(sd, copyDBPath);
+            boolean completed = false;
+            if(currentDBFile.exists()){
+
+                try {
+                    FileChannel src = new FileInputStream(currentDBFile).getChannel();
+                    FileChannel dst = new FileOutputStream(copyDBFile).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    completed = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(completed){
+                    Toast.makeText(context, "File Copy completed", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        if (copyDBFile.exists()) {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("application/octet-stream");
+            String authority = BuildConfig.APPLICATION_ID + ".provider";
+            Uri path = FileProvider.getUriForFile(context, authority, copyDBFile);
+            emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "MY COOKBOOK");
+            context.startActivity(emailIntent);
+        }
     }
 
     public static void sendAllRecipes(Context context){
