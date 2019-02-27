@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -58,6 +60,28 @@ public class JSONHelper {
             }
         }
         return false;
+    }
+
+    public static List<Recipe> preloadCookbookFromJSON(Context context){
+        List<Recipe> recipes = new ArrayList<>();
+
+        try {
+            InputStream is = context.getAssets().open("preloaded");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonString = new String(buffer, "UTF-8");
+
+            Gson gson = new Gson();
+            Recipes recipeData = gson.fromJson(jsonString, Recipes.class);
+            recipes = recipeData.getRecipeList();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        return recipes;
     }
 
     //import a list of recipes from a JSON file

@@ -39,7 +39,10 @@ public enum GroceryCategory {
     TOYS("Toys", false),
     HOME("Home Goods",false),
     BABY("Baby", false),
-    SHOES("Shoes", false);
+    SHOES("Shoes", false),
+    CANDY("Candy", true),
+    SNACKS("Snacks", true),
+    CEREAL("Cereal", true);
 
     //fields
     final String mName;

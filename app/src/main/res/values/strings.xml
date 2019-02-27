@@ -46,5 +46,6 @@
     <string name="add_recipe">Add Recipe</string>
     <string name="select_all">Select All</string>
     <string name="selected_recipes">My Recipes</string>
+    <string name="is_preloaded">isPreloaded</string>
 
 </resources>

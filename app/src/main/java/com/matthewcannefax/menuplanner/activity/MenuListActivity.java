@@ -2,6 +2,7 @@ package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +24,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
@@ -64,6 +66,11 @@ public class MenuListActivity extends AppCompatActivity {
         final Context mContext = this;
 
         mDataSource = new DataSource(mContext);
+
+        List<Recipe> allRecipes = mDataSource.getAllRecipes();
+        if(allRecipes == null || allRecipes.size() == 0) {
+            mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(this));
+        }
 
         //this is where the activity will call the database adapter
         menuList = mDataSource.getAllMenuRecipes();
