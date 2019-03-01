@@ -67,9 +67,15 @@ public class MenuListActivity extends AppCompatActivity {
 
         mDataSource = new DataSource(mContext);
 
-        List<Recipe> allRecipes = mDataSource.getAllRecipes();
-        if(allRecipes == null || allRecipes.size() == 0) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.is_preloaded), 0);
+        boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);
+
+//        List<Recipe> allRecipes = mDataSource.getAllRecipes();
+        if(!isPreloaded) {
             mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(this));
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putBoolean(getString(R.string.is_preloaded), true);
+            edit.commit();
         }
 
         //this is where the activity will call the database adapter
