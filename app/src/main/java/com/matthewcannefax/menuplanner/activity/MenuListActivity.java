@@ -1,11 +1,13 @@
 package com.matthewcannefax.menuplanner.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,16 +69,11 @@ public class MenuListActivity extends AppCompatActivity {
 
         mDataSource = new DataSource(mContext);
 
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.is_preloaded), 0);
+        final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.is_preloaded), 0);
         boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);
 
 //        List<Recipe> allRecipes = mDataSource.getAllRecipes();
-        if(!isPreloaded) {
-            mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(this));
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putBoolean(getString(R.string.is_preloaded), true);
-            edit.commit();
-        }
+
 
         //this is where the activity will call the database adapter
         menuList = mDataSource.getAllMenuRecipes();
@@ -133,6 +130,28 @@ public class MenuListActivity extends AppCompatActivity {
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
+
+//        && (mDataSource.getAllRecipes() == null || mDataSource.getAllRecipes().size() == 0)
+        if(!isPreloaded ) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Use predefined recipes?");
+            builder.setMessage("Would you like to add a list of predefined recipes to get you started?");
+            builder.setNegativeButton("No", null);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(mContext));
+                    SharedPreferences.Editor edit = sharedPref.edit();
+                    edit.putBoolean(getString(R.string.is_preloaded), true);
+                    edit.apply();
+                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.show();
+
+        }
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         if (mDataSource.getAllMenuRecipes() != null) {
