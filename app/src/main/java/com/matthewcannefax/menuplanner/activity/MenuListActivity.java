@@ -132,7 +132,7 @@ public class MenuListActivity extends AppCompatActivity {
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
 
 //        && (mDataSource.getAllRecipes() == null || mDataSource.getAllRecipes().size() == 0)
-        if(!isPreloaded ) {
+        if(!isPreloaded && PermissionsHelper.isMenuFirstInstance()) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Use predefined recipes?");
@@ -163,6 +163,7 @@ public class MenuListActivity extends AppCompatActivity {
             catSpinner.setAdapter(catSpinnerAdapter);
         }
 
+        PermissionsHelper.setMenuFirstInstance(false);
     }
 
     @Override

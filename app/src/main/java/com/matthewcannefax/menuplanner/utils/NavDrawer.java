@@ -53,6 +53,10 @@ public class NavDrawer {
 
                 //switch statement to ensure that the user doesn't navigate to an empty activity
                 switch (ActivityNavEnum.getActivityEnum(i)){
+                    case MENU_LIST_ACTIVITY:
+                        selectedActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(context, selectedActivity, currentActivity);
+                        break;
                     case RECIPE_LIST_ACTIVITY:
                         //if the recipe list is null or empty the user will be notified that there is no recipes in the cookbook
 //                        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
@@ -99,6 +103,7 @@ public class NavDrawer {
     //this method starts the provided activity
     private static void startActivity(Context context, Intent intent, Activity currentActivity){
         //start the activity with the given intent
+
         context.startActivity(intent);
 
         //finish the current activity unless it is the main activity

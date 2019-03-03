@@ -20,6 +20,17 @@ public class PermissionsHelper {
     //string list of permissions
     private static List<String> permissions;
 
+    //this boolean will be switched to true or false to show whether the menulist activity has been opened before in the current session.
+    private static boolean menuFirstInstance = true;
+
+    public static boolean isMenuFirstInstance() {
+        return menuFirstInstance;
+    }
+
+    public static void setMenuFirstInstance(boolean menuFirstInstance) {
+        PermissionsHelper.menuFirstInstance = menuFirstInstance;
+    }
+
     //get the permission id for the camera
     static int getMyPermissionsRequestCamera() {
         return MY_PERMISSIONS_REQUEST_CAMERA;
