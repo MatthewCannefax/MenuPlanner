@@ -137,7 +137,15 @@ public class MenuListActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Use predefined recipes?");
             builder.setMessage("Would you like to add a list of predefined recipes to get you started?");
-            builder.setNegativeButton("No", null);
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences.Editor edit = sharedPref.edit();
+                        edit.putBoolean(getString(R.string.is_preloaded), true);
+                        edit.apply();
+                }
+            });
+            builder.setNeutralButton("Maybe Later", null);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
