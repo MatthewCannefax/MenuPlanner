@@ -86,7 +86,7 @@ public class GroceryItemAdapter extends ArrayAdapter<Ingredient> {
 
 
         //combine measurement text with name text
-        String measurePlusName = String.format("%s\t\t%s", item.getMeasurement().toString(), item.getName());
+        String measurePlusName = String.format("%s %s", item.getMeasurement().toString(), item.getName());
 
         //set the text of the textviews
 //        tvName.setText(item.getName());
