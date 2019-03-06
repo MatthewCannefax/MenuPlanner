@@ -392,7 +392,10 @@ public class DataSource {
         }
 
         String[] ids = {Integer.toString(recipID)};
-        mDatabase.delete(MenuTable.TABLE_NAME, MenuTable.COLUMN_RECIPE_ID + "=?", ids);
+
+        String recipeIDStatement = String.format("SELECT menu_id FROM menu_table WHERE recipe_id = %s LIMIT 1", recipID);
+        mDatabase.execSQL(String.format("DELETE FROM %s WHERE menu_id = (%s)", MenuTable.TABLE_NAME, recipeIDStatement));
+
 
         close();
 
