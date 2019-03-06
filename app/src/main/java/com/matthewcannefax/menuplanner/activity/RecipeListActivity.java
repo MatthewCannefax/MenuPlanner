@@ -18,7 +18,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.arrayAdapters.RecipeListItemAdapter;
 import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
@@ -44,6 +46,9 @@ public class RecipeListActivity extends AppCompatActivity {
     private Spinner catSpinner;
     private DrawerLayout mDrawerLayout;
     private DataSource mDataSource;
+
+    //interstitial ad
+    private InterstitialAd mInterstitialAd;
 
 
     @Override
@@ -298,8 +303,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
                     //return to the menu activity
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
-//                    returnToMenu.putExtra("RESULT", result);
                     RecipeListActivity.this.startActivity(returnToMenu);
+                    AdHelper.showInterstitial(this);
+
                 } else {
                     Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
                 }

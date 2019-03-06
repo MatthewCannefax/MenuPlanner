@@ -6,6 +6,14 @@
     <!--This is the actual unit id-->
     <!--<string name="admob_banner_unit_id">ca-app-pub-2575502817890974/8118992350</string>-->
 
+    <!--this is the actual id for insterstitial ads-->
+    <!--<string name="admob_interstitial_id">ca-app-pub-2575502817890974/9283465402</string>-->
+
+
+    <!--TEST ID-->
+    <!--this is the test id for interstitial ads-->
+    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+
     <!--this is the test id-->
     <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
