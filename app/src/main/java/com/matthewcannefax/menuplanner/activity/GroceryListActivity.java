@@ -187,6 +187,7 @@ public class GroceryListActivity extends AppCompatActivity {
         mDataSource.open();
         ingredients = mDataSource.getAllGroceries();
         setGroceryListAdapter();
+        AdHelper.showGroceryInterstitial(this);
     }
 
     @Override
@@ -270,9 +271,6 @@ public class GroceryListActivity extends AppCompatActivity {
                 adapter = new GroceryItemAdapter(this, ingredients);
                 lv.setAdapter(adapter);
 
-                //when the item was removed from the adpater it was also removed from the static grocery list
-                //save the static grocery list to JSON
-//                StaticGroceryList.saveGroceries(this);
                 return true;
                 
             case R.id.shareGroceryList:

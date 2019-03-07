@@ -21,6 +21,28 @@ public class AdHelper {
         mAdView.loadAd(adRequest);
     }
 
+    public static void showGroceryInterstitial(final Context context){
+        MobileAds.initialize(context, context.getString(R.string.admob_app_id));
+
+        final InterstitialAd interstitialAd = new InterstitialAd(context);
+        interstitialAd.setAdUnitId(context.getString(R.string.admob_grocery_interstitial));
+        interstitialAd.loadAd(new AdRequest.Builder().build());
+
+        interstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toast.makeText(context, i, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                interstitialAd.show();
+            }
+        });
+    }
+
     public static void showInterstitial(final Context context){
         MobileAds.initialize(context, context.getString(R.string.admob_app_id));
 
