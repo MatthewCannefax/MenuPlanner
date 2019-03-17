@@ -38,7 +38,9 @@ public class AdHelper {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                interstitialAd.show();
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                }
             }
         });
     }
@@ -60,7 +62,9 @@ public class AdHelper {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                interstitialAd.show();
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                }
             }
         });
 

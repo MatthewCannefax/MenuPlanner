@@ -187,7 +187,7 @@ public class GroceryListActivity extends AppCompatActivity {
         mDataSource.open();
         ingredients = mDataSource.getAllGroceries();
         setGroceryListAdapter();
-        AdHelper.showGroceryInterstitial(this);
+
     }
 
     @Override
@@ -270,6 +270,8 @@ public class GroceryListActivity extends AppCompatActivity {
                 ingredients = mDataSource.getAllGroceries();
                 adapter = new GroceryItemAdapter(this, ingredients);
                 lv.setAdapter(adapter);
+
+                AdHelper.showGroceryInterstitial(this);
 
                 return true;
                 
