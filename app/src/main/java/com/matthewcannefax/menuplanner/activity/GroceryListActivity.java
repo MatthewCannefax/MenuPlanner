@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -208,7 +209,8 @@ public class GroceryListActivity extends AppCompatActivity {
         }
         //if the grocery list does not exist send the user a toast to say that the grocery list was not found
         else {
-            Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "No Grocery List Found", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -263,7 +265,8 @@ public class GroceryListActivity extends AppCompatActivity {
                 //display a Toast confirming to the user that the items have been removed
                 //may want to switch to a dialog so the user can confirm deletion
                 if (count != adapter.getCount()) {
-                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Items Removed", Snackbar.LENGTH_LONG).show();
                 }
 
                 //reset the adapter

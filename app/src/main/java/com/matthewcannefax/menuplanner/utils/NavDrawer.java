@@ -4,6 +4,7 @@ package com.matthewcannefax.menuplanner.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -64,7 +65,8 @@ public class NavDrawer {
                             selectedActivity.putExtra("TITLE", "My Recipes");
                             startActivity(context, selectedActivity, currentActivity);
                         } else {
-                            Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     case VIEW_GROCERY_LIST:
@@ -73,7 +75,8 @@ public class NavDrawer {
                         if(groceries != null && groceries.size() > 0){
                             startActivity(context, selectedActivity, currentActivity);
                         }else{
-                            Toast.makeText(context, "No Grocery List", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "No Grocery List", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Grocery List", Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     case NEW_GROCERY_LIST:
@@ -88,7 +91,8 @@ public class NavDrawer {
                             ShareHelper.sendAllRecipes(context);
 //                            ShareHelper.sendAllRecipesDB(context);
                         }else{
-                            Toast.makeText(context, "There are no recipes in your cookbook", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "There are no recipes in your cookbook", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     default:

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -233,7 +234,8 @@ public class AddRecipeActivity extends AppCompatActivity{
                 return true;
             } else {
                 String message = getString(R.string.at_least_one_ingredient);
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
                 return true;
             }
         }else if(item.getItemId() == android.R.id.home){

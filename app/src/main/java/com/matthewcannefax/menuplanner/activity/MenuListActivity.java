@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -191,7 +192,8 @@ public class MenuListActivity extends AppCompatActivity {
             intent.putExtra("TITLE", "Add To Menu");
             MenuListActivity.this.startActivity(intent);
         } else {
-            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -208,7 +210,8 @@ public class MenuListActivity extends AppCompatActivity {
         }
         //if the list does not exist, send the user a toast saying that there are no menu items
         else{
-            Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "No Menu Items", Snackbar.LENGTH_LONG).show();
         }
     }
 

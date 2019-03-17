@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -144,7 +145,8 @@ public class RecipeListActivity extends AppCompatActivity {
             //set the RecipeMenuItemAdapter as the adapter for the listview
             lv.setAdapter(adapter);
         }else {
-            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "No Recipes Found", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -260,7 +262,8 @@ public class RecipeListActivity extends AppCompatActivity {
                                 recipeList = mDataSource.getAllRecipes();
 
                                 //notify the user that the recipes have been removed
-                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(findViewById(android.R.id.content), "Removed", Snackbar.LENGTH_LONG).show();
                             } else {
 
                                 //this list is empty now, go back to the main activity
@@ -268,7 +271,8 @@ public class RecipeListActivity extends AppCompatActivity {
                                 startActivity(intent);
 
                                 //notify the user that the recipes have been removed
-                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(findViewById(android.R.id.content), "Removed", Snackbar.LENGTH_LONG).show();
 
                                 //close this activity
                                 finish();
@@ -279,7 +283,8 @@ public class RecipeListActivity extends AppCompatActivity {
                     builder.show();
 
                 } else{
-                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "No Recipes Selected", Snackbar.LENGTH_LONG).show();
                 }
 
                 b = true;
@@ -307,7 +312,8 @@ public class RecipeListActivity extends AppCompatActivity {
                     AdHelper.showInterstitial(this);
 
                 } else {
-                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "No Recipes Selected", Snackbar.LENGTH_LONG).show();
                 }
                 b = true;
                 break;
@@ -332,7 +338,8 @@ public class RecipeListActivity extends AppCompatActivity {
                     }
                     ShareHelper.sendRecipeSelection(this, sendRecipes);
                 }else{
-                    Toast.makeText(this, "Please select recipes to share", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Please select recipes to share", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Please select recipes to share", Snackbar.LENGTH_LONG).show();
                 }
 
 

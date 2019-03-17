@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
@@ -47,7 +48,8 @@ public class NavHelper {
         //if it gets here there is no grocery list and there is no menu list
         //so prompt the user to add menu items
         else {
-            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
+            Snackbar.make(activity.findViewById(android.R.id.content), "Please add menu items", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -72,7 +74,8 @@ public class NavHelper {
         }
         //if there are items in the menu list, Toast the user saying just that
         else {
-            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
+            Snackbar.make(activity.findViewById(android.R.id.content), "Please add menu items", Snackbar.LENGTH_LONG).show();
         }
     }
 
