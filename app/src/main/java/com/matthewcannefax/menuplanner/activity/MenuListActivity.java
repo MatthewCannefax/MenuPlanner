@@ -91,7 +91,7 @@ public class MenuListActivity extends AppCompatActivity {
         //this method to set the menu list adapter
         setMenuListViewAdapter();
 
-        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
 
         filterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ public class MenuListActivity extends AppCompatActivity {
                         }
                     }
 
-                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, filteredRecipes, lv, catSpinner);
+                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, MenuListActivity.this, filteredRecipes, lv, catSpinner);
                     lv.setAdapter(filteredAdapter);
                 } else {
 
@@ -200,7 +200,7 @@ public class MenuListActivity extends AppCompatActivity {
         //set up the menu list adapter only if the menu list exists
         if(mDataSource.getAllMenuRecipes() != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
-            adapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+            adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
 
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
@@ -233,9 +233,9 @@ public class MenuListActivity extends AppCompatActivity {
                 }
 
 
-                adapter = new RecipeMenuItemAdapter(this, filteredRecipes, lv, catSpinner);
+                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, filteredRecipes, lv, catSpinner);
             }else{
-                adapter = new RecipeMenuItemAdapter(this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
             }
 
             lv.setAdapter(adapter);

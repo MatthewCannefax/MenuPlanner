@@ -1,11 +1,13 @@
 package com.matthewcannefax.menuplanner.arrayAdapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +45,10 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
     private DataSource mDataSource;
     private final ListView lv;
     private final Spinner categorySpinner;
+    private final Activity currentActivity;
 
     //constructor
-    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull List<Recipe> objects, ListView listView, Spinner catSpinner) {
+    public RecipeMenuItemAdapter(@NonNull Context context, @NonNull Activity currentActivity, @NonNull List<Recipe> objects, ListView listView, Spinner catSpinner) {
         super(context, R.layout.menu_recipe_list_item, objects);
 
         //instantiate the list of recipes and the inflater object
@@ -55,6 +58,7 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
         mDataSource = new DataSource(context);
         lv = listView;
         categorySpinner = catSpinner;
+        this.currentActivity = currentActivity;
 
     }
 
@@ -121,10 +125,11 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(mContext, recipe.toString() + " removed", Toast.LENGTH_LONG).show();
+                        Snackbar.make(currentActivity.findViewById(android.R.id.content), recipe.toString() + " removed", Snackbar.LENGTH_LONG).show();
                         mDataSource.removeMenuItem(recipe.getRecipeID());
                         mRecipeItems = mDataSource.getAllMenuRecipes();
-                        lv.setAdapter(new RecipeMenuItemAdapter(mContext, mDataSource.getAllMenuRecipes(), lv, categorySpinner));
+                        lv.setAdapter(new RecipeMenuItemAdapter(mContext, currentActivity, mDataSource.getAllMenuRecipes(), lv, categorySpinner));
                         ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<RecipeCategory>(mContext, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
                         categorySpinner.setAdapter(rcAdapter);
                     }
