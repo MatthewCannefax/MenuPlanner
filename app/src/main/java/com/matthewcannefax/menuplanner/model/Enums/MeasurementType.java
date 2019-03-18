@@ -14,6 +14,8 @@ public enum MeasurementType {
     TABLESPOON("tbsp"),
     TEASPOON("tsp"),
     CUP("cup"),
+    PINT("pt"),
+    QUART("qt"),
     GALLON("gallon"),
     CAN("can"),
     JAR("jar"),
