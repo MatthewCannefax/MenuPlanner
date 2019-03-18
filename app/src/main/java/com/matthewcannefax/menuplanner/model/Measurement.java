@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 
+import java.text.DecimalFormat;
 
 
 public class Measurement implements Parcelable {
@@ -40,7 +41,9 @@ public class Measurement implements Parcelable {
     //returning the string format of the Measurement (i.e. "1.0 lbs.")
     @Override
     public String toString() {
-        return String.format("%s %s", this.amount, this.type);
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formatted = df.format(this.amount);
+        return String.format("%s %s", formatted, this.type);
     }
 
     //region Parcelable Methods
