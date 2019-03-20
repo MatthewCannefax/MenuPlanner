@@ -308,8 +308,10 @@ public class RecipeListActivity extends AppCompatActivity {
 
                     //return to the menu activity
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
+                    returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     RecipeListActivity.this.startActivity(returnToMenu);
                     AdHelper.showInterstitial(this);
+                    RecipeListActivity.this.finish();
 
                 } else {
 //                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
