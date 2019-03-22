@@ -17,6 +17,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -82,30 +83,37 @@ public class ImageHelper {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(title);
-                builder.setMessage(message);
 
-                //neutral button is a simple null cancel
-                builder.setNeutralButton(cancel, null);
 
-                //take a new photo with the positive button
-                builder.setPositiveButton(takePhoto, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        takePhoto(activity, context);
-                    }
-                });
+                if (PermissionsHelper.checkPermissionsForImage(context)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(title);
+                    builder.setMessage(message);
 
-                //choose a photo from gallery with the negative button
-                builder.setNegativeButton(existing, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        activity.startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_GALLERY);
-                    }
-                });
+                    //neutral button is a simple null cancel
+                    builder.setNeutralButton(cancel, null);
 
-                builder.show();
+                    //take a new photo with the positive button
+                    builder.setPositiveButton(takePhoto, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            takePhoto(activity, context);
+                        }
+                    });
+
+                    //choose a photo from gallery with the negative button
+                    builder.setNegativeButton(existing, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_IMAGE_GALLERY);
+                        }
+                    });
+
+                    builder.show();
+                } else {
+                    PermissionsHelper.checkPermissions(activity, context);
+                    Snackbar.make(activity.findViewById(android.R.id.content), "Permissions must be granted to add photos", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
     }

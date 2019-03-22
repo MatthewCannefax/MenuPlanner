@@ -59,6 +59,17 @@ public class PermissionsHelper {
         }
     }
 
+    public static boolean checkPermissionsForImage(Context context){
+        boolean permmission = false;
+
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            permmission = true;
+        }
+
+        return permmission;
+    }
+
     //check for permissions to use External storage
     private static void checkStoragePermmisions(Context context){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
