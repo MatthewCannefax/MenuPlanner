@@ -13,4 +13,8 @@
         android:id="@+id/menuSubmitBTN"
         android:title="@string/submit"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
 </menu>

@@ -10,6 +10,10 @@
         android:title="@string/new_grocery_list"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
     <!--<item-->
         <!--android:id="@+id/addRecipeToMenuItem"-->
         <!--android:icon="@drawable/ic_add_black_24dp"-->

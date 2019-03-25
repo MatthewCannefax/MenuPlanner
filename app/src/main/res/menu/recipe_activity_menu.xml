@@ -26,4 +26,8 @@
         android:title="@string/remove_recipes"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
 </menu>

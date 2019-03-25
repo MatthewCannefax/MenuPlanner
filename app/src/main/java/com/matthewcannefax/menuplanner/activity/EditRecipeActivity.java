@@ -260,7 +260,16 @@ public class EditRecipeActivity extends AppCompatActivity {
         }else if(item.getItemId() == R.id.shareRecipe){
             ShareHelper.sendSingleRecipe(this, oldRecipe.getRecipeID());
             return true;
-        }else{
+        }
+        else if(item.getItemId() == R.id.help){
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+            builder.setTitle("Help");
+            builder.setMessage(R.string.edit_recipe_help);
+            builder.setNeutralButton("OK", null);
+            builder.show();
+            return true;
+        }
+        else{
             return false;
         }
 

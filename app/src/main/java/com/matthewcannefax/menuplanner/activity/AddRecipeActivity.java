@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -241,7 +242,15 @@ public class AddRecipeActivity extends AppCompatActivity{
         }else if(item.getItemId() == android.R.id.home){
             NavDrawer.navDrawerOptionsItem(mDrawerLayout);
             return true;
-        }else{
+        }else if(item.getItemId() == R.id.help){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Help");
+            builder.setMessage(R.string.add_recipe_help);
+            builder.setNeutralButton("OK", null);
+            builder.show();
+            return true;
+        }
+        else{
             return false;
         }
 

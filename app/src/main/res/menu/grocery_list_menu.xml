@@ -18,5 +18,9 @@
         android:title="@string/remove_selected_items"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"
+        app:showAsAction="never"/>
 
 </menu>

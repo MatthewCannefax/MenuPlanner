@@ -291,6 +291,13 @@ public class MenuListActivity extends AppCompatActivity {
 
                 NavHelper.newGroceryList(this, this);
                 return true;
+            case R.id.help:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Help");
+                builder.setMessage(R.string.menu_list_help);
+                builder.setNeutralButton("OK", null);
+                builder.show();
+                return true;
                 //default; this will allow the back button to work correctly
             default:
                 return false;

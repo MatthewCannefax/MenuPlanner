@@ -347,6 +347,14 @@ public class RecipeListActivity extends AppCompatActivity {
 
                 b = true;
                 break;
+            case R.id.help:
+                AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+                helpBuilder.setTitle("Help");
+                helpBuilder.setMessage(R.string.recipe_list_help);
+                helpBuilder.setNeutralButton("OK", null);
+                helpBuilder.show();
+                b = true;
+                break;
                 default:
                     b = false;
         }
