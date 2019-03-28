@@ -167,7 +167,7 @@ public class ShareHelper {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        activity.startActivityForResult(Intent.createChooser(intent, "Select a cookbook file..."), PICK_FILE_REQUEST_CODE);
+        activity.startActivityForResult(Intent.createChooser(intent, activity.getString(R.string.select_a_cookbook_file)), PICK_FILE_REQUEST_CODE);
     }
 
     public static List<Recipe> jsonToRecipe(Context context, String jsonString){
@@ -179,7 +179,7 @@ public class ShareHelper {
         try {
             recipedata = gson.fromJson(jsonString, Recipes.class);
         } catch (JsonSyntaxException e) {
-            Toast.makeText(context, "Invalid File", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.invalid_file, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
@@ -191,10 +191,10 @@ public class ShareHelper {
 
         if (requestCode == ShareHelper.getPickFileRequestCode() && resultCode == RESULT_OK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Import a Cookbook?");
-            builder.setMessage("Are you sure you want to append your cookbook?");
-            builder.setNegativeButton("Cancel", null);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.import_cookbook_question);
+            builder.setMessage(R.string.append_cookbook_question);
+            builder.setNegativeButton(R.string.cancel, null);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Uri contentUri = data.getData();
@@ -217,7 +217,7 @@ public class ShareHelper {
                             mDataSource.importRecipesToDB(importRecipes);
 
                             Intent intent = new Intent(currentActivity, RecipeListActivity.class);
-                            intent.putExtra("TITLE", "My Recipes");
+                            intent.putExtra("TITLE", R.string.my_recipes);
                             context.startActivity(intent);
                             if(currentActivity.getClass() != MenuListActivity.class){
                                 currentActivity.finish();

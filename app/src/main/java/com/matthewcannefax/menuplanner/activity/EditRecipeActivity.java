@@ -83,7 +83,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //make sure the recipe received is not a null object
         if(oldRecipe == null){
-            throw new AssertionError("Null recipe received");
+            throw new AssertionError(getString(R.string.null_recipe_received));
         }
 
         //instantiate all the controls in the activity
@@ -219,10 +219,10 @@ public class EditRecipeActivity extends AppCompatActivity {
             if (oldRecipe.getIngredientList() != null && oldRecipe.getIngredientList().size() != 0) {
                 //Alert dialog to ask the user if they are sure they want to save the recipe
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Save Recipe?");
-                builder.setMessage("Are you sure you want to make changes to " + oldRecipe.getName() + "?");
-                builder.setNegativeButton("Cancel", null);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.save_recipe_question);
+                builder.setMessage(getString(R.string.are_you_sure_change) + oldRecipe.getName() + getString(R.string.question_mark));
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //new recipe object created by the user
@@ -265,7 +265,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
             builder.setTitle("Help");
             builder.setMessage(R.string.edit_recipe_help);
-            builder.setNeutralButton("OK", null);
+            builder.setNeutralButton(R.string.ok, null);
             builder.show();
             return true;
         }

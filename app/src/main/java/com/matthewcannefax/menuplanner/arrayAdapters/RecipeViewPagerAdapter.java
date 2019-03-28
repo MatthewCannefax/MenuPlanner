@@ -138,7 +138,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Edit Ingredient");
+                builder.setTitle(R.string.edit_ingredient);
 
                 View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item,
                         (ViewGroup)view.findViewById(android.R.id.content), false);
@@ -168,8 +168,8 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
                 builder.setView(editIngredientView);
 
-                builder.setNegativeButton("Cancel", null);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int n) {
                         mRecipe.getIngredientList().get(i).setName(etName.getText().toString());
@@ -180,7 +180,7 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                         ingredientItemAdapter.notifyDataSetChanged();
                     }
                 });
-                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int n) {
                             mRecipe.getIngredientList().remove(i);

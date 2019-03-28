@@ -244,9 +244,9 @@ public class AddRecipeActivity extends AppCompatActivity{
             return true;
         }else if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Help");
+            builder.setTitle(R.string.help);
             builder.setMessage(R.string.add_recipe_help);
-            builder.setNeutralButton("OK", null);
+            builder.setNeutralButton(R.string.ok, null);
             builder.show();
             return true;
         }

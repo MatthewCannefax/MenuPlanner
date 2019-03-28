@@ -62,7 +62,7 @@
     <string name="selected_recipes">My Recipes</string>
     <string name="is_preloaded">isPreloaded</string>
 
-    <string name="help">Help</string>
+
 
     <!--Help dialogs-->
 
@@ -71,5 +71,34 @@
     <string name="grocery_list_help"> Select: items to remove</string>
     <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
     <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
+    <string name="help">Help</string>
+    <string name="ok">OK</string>
+    <string name="are_you_sure_change">Are you sure you want to make changes to</string>
+    <string name="question_mark">\?</string>
+    <string name="save_recipe_question">Save Recipe?</string>
+    <string name="null_recipe_received">Null recipe received</string>
+    <string name="items_removed">Items Removed</string>
+    <string name="no_grocery_list_found">No Grocery List Found</string>
+    <string name="enter_name_amount">Please enter a name and amount</string>
+    <string name="grocery_list">Grocery List</string>
+    <string name="no_menu_items">No Menu Items</string>
+    <string name="no_recipes_in_cookbook">No Recipes in the Cookbook</string>
+    <string name="select_recipes_to_share">Please select recipes to share</string>
+    <string name="no_recipes_selected">No Recipes Selected</string>
+    <string name="removed">Removed</string>
+    <string name="permanently_delete">The recipes will be deleted permanently!</string>
+    <string name="delete_complete">Delete Recipes Completely?</string>
+    <string name="no_recipes_found">No Recipes Found</string>
+    <string name="my_recipes">My Recipes</string>
+    <string name="delete">Delete</string>
+    <string name="edit_ingredient">Edit Ingredient</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="please_add_menu_items">Please add menu items</string>
+    <string name="are_you_sure_replace_glist">Are you sure you want to replace your existing grocery list?</string>
+    <string name="new_glist_question">Generate New Grocery List?</string>
+    <string name="select_a_cookbook_file">Select a cookbook file...</string>
+    <string name="invalid_file">Invalid File</string>
+    <string name="import_cookbook_question">Import a Cookbook?</string>
+    <string name="append_cookbook_question">Are you sure you want to append your cookbook?</string>
 
 </resources>

@@ -136,7 +136,7 @@ public class ImageHelper {
                     //create an image file
                     photoFile = createImageFile(context);
                 } catch (IOException e) {
-                    Toast.makeText(activity.getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity.getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                 }
                 //check if the photofile is null or not
                 if (photoFile != null){

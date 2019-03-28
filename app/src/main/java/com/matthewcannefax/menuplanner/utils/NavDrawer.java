@@ -62,11 +62,11 @@ public class NavDrawer {
                         //if the recipe list is null or empty the user will be notified that there is no recipes in the cookbook
 //                        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
                         if(RecipeTable.isNotEmpty(context)){
-                            selectedActivity.putExtra("TITLE", "My Recipes");
+                            selectedActivity.putExtra("TITLE", R.string.my_recipes);
                             startActivity(context, selectedActivity, currentActivity);
                         } else {
 //                            Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
-                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     case VIEW_GROCERY_LIST:
@@ -76,7 +76,7 @@ public class NavDrawer {
                             startActivity(context, selectedActivity, currentActivity);
                         }else{
 //                            Toast.makeText(context, "No Grocery List", Toast.LENGTH_SHORT).show();
-                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Grocery List", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), R.string.no_grocery_list_found, Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     case NEW_GROCERY_LIST:
@@ -92,7 +92,7 @@ public class NavDrawer {
 //                            ShareHelper.sendAllRecipesDB(context);
                         }else{
 //                            Toast.makeText(context, "There are no recipes in your cookbook", Toast.LENGTH_SHORT).show();
-                            Snackbar.make(currentActivity.findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(currentActivity.findViewById(android.R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
                         }
                         break;
                     default:

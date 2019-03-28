@@ -189,11 +189,11 @@ public class MenuListActivity extends AppCompatActivity {
         if (allRecipes != null && allRecipes.size() != 0) {
             //new intent to move to the RecipeListActivity
             Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-            intent.putExtra("TITLE", "Add To Menu");
+            intent.putExtra("TITLE", R.string.add_to_menu);
             MenuListActivity.this.startActivity(intent);
         } else {
 //            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
-            Snackbar.make(findViewById(android.R.id.content), "No Recipes in the Cookbook", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_in_cookbook, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -211,7 +211,7 @@ public class MenuListActivity extends AppCompatActivity {
         //if the list does not exist, send the user a toast saying that there are no menu items
         else{
 //            Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
-            Snackbar.make(findViewById(android.R.id.content), "No Menu Items", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.no_menu_items, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -293,9 +293,9 @@ public class MenuListActivity extends AppCompatActivity {
                 return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Help");
+                builder.setTitle(R.string.help);
                 builder.setMessage(R.string.menu_list_help);
-                builder.setNeutralButton("OK", null);
+                builder.setNeutralButton(R.string.ok, null);
                 builder.show();
                 return true;
                 //default; this will allow the back button to work correctly

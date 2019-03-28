@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
 import com.matthewcannefax.menuplanner.model.GroceryBuilder;
 import com.matthewcannefax.menuplanner.model.Ingredient;
@@ -27,10 +28,10 @@ public class NavHelper {
 
             //ask the user if they truly wish to create a new grocery list
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Generate New Grocery List?");
-            builder.setMessage("Are you sure you want to replace your existing grocery list?");
-            builder.setNegativeButton("Cancel", null);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.new_glist_question);
+            builder.setMessage(R.string.are_you_sure_replace_glist);
+            builder.setNegativeButton(R.string.cancel, null);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     //if the user clicks ok button, create the new grocery list with this method
@@ -49,7 +50,7 @@ public class NavHelper {
         //so prompt the user to add menu items
         else {
 //            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
-            Snackbar.make(activity.findViewById(android.R.id.content), "Please add menu items", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(activity.findViewById(android.R.id.content), R.string.please_add_menu_items, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -75,7 +76,7 @@ public class NavHelper {
         //if there are items in the menu list, Toast the user saying just that
         else {
 //            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
-            Snackbar.make(activity.findViewById(android.R.id.content), "Please add menu items", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(activity.findViewById(android.R.id.content), R.string.please_add_menu_items, Snackbar.LENGTH_LONG).show();
         }
     }
 

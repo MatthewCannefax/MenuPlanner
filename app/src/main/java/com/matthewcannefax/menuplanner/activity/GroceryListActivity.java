@@ -75,7 +75,7 @@ public class GroceryListActivity extends AppCompatActivity {
         setContentView(R.layout.grocery_list_layout);
 
         //set the title in the actionbar
-        this.setTitle("Grocery List");
+        this.setTitle(R.string.grocery_list);
 
         //using a static class to pass the grocery list from the MenuListActivity to this activity
         //Need to find a better way to pass that information
@@ -121,7 +121,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private void addGroceryItem(){
         //create an alertdialog to input this information
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Item");
+        builder.setTitle(R.string.add_item);
 
         //inflate the add_ingredient_item layout
         @SuppressLint("InflateParams") View newItemView = getLayoutInflater().inflate(R.layout.add_ingredient_item, null);
@@ -174,7 +174,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 } else {
                     //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
-                    Toast.makeText(getApplicationContext(), "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -210,7 +210,7 @@ public class GroceryListActivity extends AppCompatActivity {
         //if the grocery list does not exist send the user a toast to say that the grocery list was not found
         else {
 //            Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
-            Snackbar.make(findViewById(android.R.id.content), "No Grocery List Found", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.no_grocery_list_found, Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -266,7 +266,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 //may want to switch to a dialog so the user can confirm deletion
                 if (count != adapter.getCount()) {
 //                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(findViewById(android.R.id.content), "Items Removed", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.items_removed, Snackbar.LENGTH_LONG).show();
                 }
 
                 //reset the adapter

@@ -61,8 +61,8 @@ public class ViewPagerHelper {
                 builder.setView(editIngredientView);
 
                 //setup the buttons for the alertdialog
-                builder.setNegativeButton("Cancel", null);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //check if the all the inputs are filled in correctly
@@ -111,7 +111,7 @@ public class ViewPagerHelper {
                             }
                         }else{
                             //send a Toast prompting the user to make sure and fill in the alert dialog correctly
-                            Toast.makeText(context, "Please enter a name and amount", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
