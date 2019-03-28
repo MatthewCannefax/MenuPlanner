@@ -61,17 +61,6 @@
     <string name="select_all">Select All</string>
     <string name="selected_recipes">My Recipes</string>
     <string name="is_preloaded">isPreloaded</string>
-
-
-
-    <!--Help dialogs-->
-
-    <string name="recipe_list_help"> Hold: open recipe\nSelect: recipes to share or remove\n+: add selected recipes to menu</string>
-    <string name="menu_list_help"> Hold: remove recipe from menu\nSelect: open recipe</string>
-    <string name="grocery_list_help"> Select: items to remove</string>
-    <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
-    <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
-    <string name="help">Help</string>
     <string name="ok">OK</string>
     <string name="are_you_sure_change">Are you sure you want to make changes to</string>
     <string name="question_mark">\?</string>
@@ -100,5 +89,16 @@
     <string name="invalid_file">Invalid File</string>
     <string name="import_cookbook_question">Import a Cookbook?</string>
     <string name="append_cookbook_question">Are you sure you want to append your cookbook?</string>
+
+
+    <!--Help dialogs-->
+
+    <string name="recipe_list_help"> Hold: open recipe\nSelect: recipes to share or remove\n+: add selected recipes to menu</string>
+    <string name="menu_list_help"> Hold: remove recipe from menu\nSelect: open recipe</string>
+    <string name="grocery_list_help"> Select: items to remove</string>
+    <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
+    <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
+    <string name="help">Help</string>
+
 
 </resources>
