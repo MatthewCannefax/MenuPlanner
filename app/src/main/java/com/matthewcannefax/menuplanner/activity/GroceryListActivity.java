@@ -274,7 +274,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 adapter = new GroceryItemAdapter(this, ingredients);
                 lv.setAdapter(adapter);
 
-                AdHelper.showGroceryInterstitial(this);
+//                AdHelper.showGroceryInterstitial(this);
 
                 return true;
                 
