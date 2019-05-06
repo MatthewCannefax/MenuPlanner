@@ -78,6 +78,8 @@ public class RecipeListActivity extends AppCompatActivity {
         mDataSource.close();
 
         Bundle extras = getIntent().getExtras();
+
+//        title = getString(R.string.my_recipes);
         try {
             title = extras.getString("TITLE");
         } catch (NullPointerException e) {

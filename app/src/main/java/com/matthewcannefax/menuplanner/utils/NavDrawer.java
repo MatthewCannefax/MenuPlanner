@@ -62,7 +62,7 @@ public class NavDrawer {
                         //if the recipe list is null or empty the user will be notified that there is no recipes in the cookbook
 //                        if (StaticRecipes.getRecipeList() != null && StaticRecipes.getRecipeList().size() > 0) {
                         if(RecipeTable.isNotEmpty(context)){
-                            selectedActivity.putExtra("TITLE", R.string.my_recipes);
+                            selectedActivity.putExtra("TITLE", currentActivity.getString(R.string.my_recipes));
                             startActivity(context, selectedActivity, currentActivity);
                         } else {
 //                            Toast.makeText(context, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();

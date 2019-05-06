@@ -189,7 +189,7 @@ public class MenuListActivity extends AppCompatActivity {
         if (allRecipes != null && allRecipes.size() != 0) {
             //new intent to move to the RecipeListActivity
             Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-            intent.putExtra("TITLE", R.string.add_to_menu);
+            intent.putExtra("TITLE", getString(R.string.add_to_menu));
             MenuListActivity.this.startActivity(intent);
         } else {
 //            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
