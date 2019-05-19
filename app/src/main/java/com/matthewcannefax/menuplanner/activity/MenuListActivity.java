@@ -27,6 +27,7 @@ import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.model.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
@@ -94,6 +95,45 @@ public class MenuListActivity extends AppCompatActivity {
 
         final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
 
+        setFilterBTNListener(mContext, filterBTN, allMenuAdapter);
+
+        addIngredientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRecipeToMenu();
+            }
+        });
+
+        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
+
+        ListView drawerListView = findViewById(R.id.navList);
+
+        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
+
+        //check that the required permissions are allowed
+        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
+
+//        && (mDataSource.getAllRecipes() == null || mDataSource.getAllRecipes().size() == 0)
+        checkPermissions(mContext, sharedPref, isPreloaded);
+
+        //if the menu list is not null notify the adapter of changes, in case there are any
+        setCatAdapter();
+
+        PermissionsHelper.setMenuFirstInstance(false);
+    }
+
+    private void setCatAdapter() {
+        if (mDataSource.getAllMenuRecipes() != null) {
+            adapter.notifyDataSetChanged();
+
+            //setup the arrayAdapter for catSpinner
+            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
+            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+            catSpinner.setAdapter(catSpinnerAdapter);
+        }
+    }
+
+    private void setFilterBTNListener(final Context mContext, Button filterBTN, final RecipeMenuItemAdapter allMenuAdapter) {
         filterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,24 +155,9 @@ public class MenuListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        addIngredientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addRecipeToMenu();
-            }
-        });
-
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-
-        ListView drawerListView = findViewById(R.id.navList);
-
-        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
-
-        //check that the required permissions are allowed
-        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
-
-//        && (mDataSource.getAllRecipes() == null || mDataSource.getAllRecipes().size() == 0)
+    private void checkPermissions(final Context mContext, final SharedPreferences sharedPref, boolean isPreloaded) {
         if(!isPreloaded && PermissionsHelper.isMenuFirstInstance()) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -161,18 +186,6 @@ public class MenuListActivity extends AppCompatActivity {
             builder.show();
 
         }
-
-        //if the menu list is not null notify the adapter of changes, in case there are any
-        if (mDataSource.getAllMenuRecipes() != null) {
-            adapter.notifyDataSetChanged();
-
-            //setup the arrayAdapter for catSpinner
-            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
-            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-            catSpinner.setAdapter(catSpinnerAdapter);
-        }
-
-        PermissionsHelper.setMenuFirstInstance(false);
     }
 
     @Override

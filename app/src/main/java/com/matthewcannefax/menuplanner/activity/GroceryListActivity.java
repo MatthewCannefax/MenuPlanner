@@ -60,14 +60,7 @@ public class GroceryListActivity extends AppCompatActivity {
         mDataSource = new DataSource(this);
         mDataSource.open();
 
-        if(mDataSource.getAllGroceries() == null){
-            Intent mainIntent = new Intent(this, MenuListActivity.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(mainIntent);
-            finish();
-        }
-
-
+        checkForNullGroceries();
 
         mContext = this;
 
@@ -107,6 +100,15 @@ public class GroceryListActivity extends AppCompatActivity {
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this, drawerListView);
 
 
+    }
+
+    private void checkForNullGroceries() {
+        if(mDataSource.getAllGroceries() == null){
+            Intent mainIntent = new Intent(this, MenuListActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(mainIntent);
+            finish();
+        }
     }
 
     @Override

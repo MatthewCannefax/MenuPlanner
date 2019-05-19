@@ -79,13 +79,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-//        title = getString(R.string.my_recipes);
-        try {
-            title = extras.getString("TITLE");
-        } catch (NullPointerException e) {
-            title = getString(R.string.my_recipes);
-            e.printStackTrace();
-        }
+        getExtraTitle(extras);
 
         //set the title in the actionbar
         this.setTitle(title);
@@ -96,28 +90,7 @@ public class RecipeListActivity extends AppCompatActivity {
         //this method sets the adapter for the Recipe list view
         setRecipeListAdapter();
 
-        filterBTN.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, mDataSource.getFilteredRecipes(selectedCat));
-               lv.setAdapter(filteredAdapter);
-//               if (selectedCat != RecipeCategory.ALL) {
-//                   List<Recipe> filteredRecipes = new ArrayList<>();
-//
-//                   for(Recipe r : StaticRecipes.getRecipeList()){
-//                       if(r.getCategory() == selectedCat){
-//                           filteredRecipes.add(r);
-//                       }
-//                   }
-//
-//                   RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, filteredRecipes);
-//                   lv.setAdapter(filteredAdapter);
-//               } else {
-//                   lv.setAdapter(adapter);
-//               }
-           }
-        });
+        setFilterBTNListener(mContext, filterBTN);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -128,6 +101,26 @@ public class RecipeListActivity extends AppCompatActivity {
        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this, drawerListView);
 
+    }
+
+    private void getExtraTitle(Bundle extras) {
+        try {
+            title = extras.getString("TITLE");
+        } catch (NullPointerException e) {
+            title = getString(R.string.my_recipes);
+            e.printStackTrace();
+        }
+    }
+
+    private void setFilterBTNListener(final Context mContext, Button filterBTN) {
+        filterBTN.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, mDataSource.getFilteredRecipes(selectedCat));
+               lv.setAdapter(filteredAdapter);
+           }
+        });
     }
 
     @Override

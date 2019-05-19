@@ -6,9 +6,9 @@ android {
         applicationId "com.matthewcannefax.menuplanner"
         minSdkVersion 15
         targetSdkVersion 26
-        versionName '1.0.2'
+        versionName '1.0.4'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 21
+        versionCode 24
     }
     buildTypes {
         release {
