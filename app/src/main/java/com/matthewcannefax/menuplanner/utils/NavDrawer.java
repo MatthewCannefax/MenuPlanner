@@ -27,6 +27,10 @@ import java.util.List;
 
 //this class sets up the navigation drawer for all activities
 public class NavDrawer {
+    private NavDrawer(){
+        throw new AssertionError();
+    }
+
     //fields
 //    private static ListView mDrawerListView;
 

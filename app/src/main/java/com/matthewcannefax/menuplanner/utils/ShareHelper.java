@@ -35,6 +35,9 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 public class ShareHelper {
+    private ShareHelper(){
+        throw new AssertionError();
+    }
 
     public static int getPickFileRequestCode() {
         return PICK_FILE_REQUEST_CODE;

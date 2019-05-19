@@ -13,6 +13,10 @@ import com.matthewcannefax.menuplanner.R;
 
 public class AdHelper {
 
+    private AdHelper(){
+        throw new AssertionError();
+    }
+
     public static void SetupBannerAd(Context context, AdView mAdView){
         MobileAds.initialize(context, context.getString(R.string.admob_app_id));
 

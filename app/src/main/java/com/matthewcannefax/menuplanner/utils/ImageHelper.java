@@ -41,6 +41,11 @@ import static android.app.Activity.RESULT_OK;
 @SuppressWarnings("SameReturnValue")
 public class ImageHelper {
 
+    //private constructor to restrict access
+    private ImageHelper(){
+        throw new AssertionError();
+    }
+
     //Getters for gallery and capture request ids
     private static int getRequestImageCapture() {
         return REQUEST_IMAGE_CAPTURE;

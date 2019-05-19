@@ -18,8 +18,12 @@ import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import java.util.List;
 
 public class NavHelper {
-
+    private NavHelper(){
+        throw new AssertionError();
+    }
     public static void newGroceryList(final Activity activity, final Context context){
+
+
         DataSource mDataSource = new DataSource(context);
 
         List<Ingredient> groceries = mDataSource.getAllGroceries();

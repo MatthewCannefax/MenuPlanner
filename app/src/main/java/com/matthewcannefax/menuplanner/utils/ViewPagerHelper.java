@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerHelper {
-
+    private ViewPagerHelper(){
+        throw new AssertionError();
+    }
 
     public static void setAddIngredientButton(final Context context, Button button,
                                               final Recipe newRecipe, final ListView listView){

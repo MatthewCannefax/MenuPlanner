@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionsHelper {
+    private PermissionsHelper(){
+        throw new AssertionError();
+    }
+
 
     //constant int field to identify the permission type
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;

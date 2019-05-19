@@ -21,6 +21,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 //for creating and loading JSON files
 public class JSONHelper {
+    private JSONHelper(){
+        throw new AssertionError();
+    }
+
     private static final String TAG = "JSONHelper";
     private static String mFileName;
 

@@ -12,6 +12,10 @@ import java.util.List;
 //this class is used to filter through the recipes by category
 public class FilterHelper {
 
+    private FilterHelper(){
+        throw new AssertionError();
+    }
+
     //this method returns a list of categories that are used in the given recipe list
     public static List<RecipeCategory> getRecipeCategoriesUsed(List<Recipe> recipeList){
 
