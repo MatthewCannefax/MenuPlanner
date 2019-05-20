@@ -117,7 +117,8 @@ public class RecipeListActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, mDataSource.getFilteredRecipes(selectedCat));
+               recipeList = mDataSource.getFilteredRecipes(selectedCat);
+               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, recipeList);
                lv.setAdapter(filteredAdapter);
            }
         });
