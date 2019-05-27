@@ -282,7 +282,7 @@ public class GroceryListActivity extends AppCompatActivity {
                 
             case R.id.shareGroceryList:
                 ShareHelper.sendGroceryList(this);
-
+                return true;
             case R.id.selectAllGroceries:
                 for (Ingredient i :
                         mDataSource.getAllGroceries()) {
@@ -290,14 +290,14 @@ public class GroceryListActivity extends AppCompatActivity {
                 }
                 adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
                 lv.setAdapter(adapter);
-
+                return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Help");
                 builder.setMessage(R.string.grocery_list_help);
                 builder.setNeutralButton("OK", null);
                 builder.show();
-
+                return true;
             default:
                 return false;
         }
