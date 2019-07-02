@@ -75,7 +75,7 @@ public class MenuListActivity extends AppCompatActivity {
         final SharedPreferences sharedPref = getSharedPreferences(getString(R.string.is_preloaded), 0);
         boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);
 
-//        List<Recipe> allRecipes = mDataSource.getAllRecipes();
+
 
 
         //this is where the activity will call the database adapter
