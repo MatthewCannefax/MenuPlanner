@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -84,7 +85,8 @@ public class MenuListActivity extends AppCompatActivity {
         lv = findViewById(R.id.recipeMenuListView);
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
-        Button addIngredientButton = findViewById(R.id.add_recipe_button);
+        FloatingActionButton fab = findViewById(R.id.fab);
+//        Button addIngredientButton = findViewById(R.id.add_recipe_button);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //set the title in the actionbar
@@ -97,12 +99,19 @@ public class MenuListActivity extends AppCompatActivity {
 
         setFilterBTNListener(mContext, filterBTN, allMenuAdapter);
 
-        addIngredientButton.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addRecipeToMenu();
             }
         });
+
+//        addIngredientButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                addRecipeToMenu();
+//            }
+//        });
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
 
