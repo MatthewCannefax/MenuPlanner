@@ -122,8 +122,7 @@ public class MenuListActivity extends AppCompatActivity {
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
 
-//        && (mDataSource.getAllRecipes() == null || mDataSource.getAllRecipes().size() == 0)
-        checkPermissions(mContext, sharedPref, isPreloaded);
+        //checkPermissions(mContext, sharedPref, isPreloaded);
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         setCatAdapter();
@@ -166,36 +165,36 @@ public class MenuListActivity extends AppCompatActivity {
         });
     }
 
-    private void checkPermissions(final Context mContext, final SharedPreferences sharedPref, boolean isPreloaded) {
-        if(!isPreloaded && PermissionsHelper.isMenuFirstInstance()) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Use predefined recipes?");
-            builder.setMessage("Would you like to add a list of predefined recipes to get you started?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                        SharedPreferences.Editor edit = sharedPref.edit();
-                        edit.putBoolean(getString(R.string.is_preloaded), true);
-                        edit.apply();
-                }
-            });
-            builder.setNeutralButton("Maybe Later", null);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(mContext));
-                    SharedPreferences.Editor edit = sharedPref.edit();
-                    edit.putBoolean(getString(R.string.is_preloaded), true);
-                    edit.apply();
-                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-                    startActivity(intent);
-                }
-            });
-            builder.show();
-
-        }
-    }
+//    private void checkPermissions(final Context mContext, final SharedPreferences sharedPref, boolean isPreloaded) {
+//        if(!isPreloaded && PermissionsHelper.isMenuFirstInstance()) {
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("Use predefined recipes?");
+//            builder.setMessage("Would you like to add a list of predefined recipes to get you started?");
+//            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPreferences.Editor edit = sharedPref.edit();
+//                        edit.putBoolean(getString(R.string.is_preloaded), true);
+//                        edit.apply();
+//                }
+//            });
+//            builder.setNeutralButton("Maybe Later", null);
+//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(mContext));
+//                    SharedPreferences.Editor edit = sharedPref.edit();
+//                    edit.putBoolean(getString(R.string.is_preloaded), true);
+//                    edit.apply();
+//                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
+//                    startActivity(intent);
+//                }
+//            });
+//            builder.show();
+//
+//        }
+//    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
