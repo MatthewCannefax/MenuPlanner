@@ -93,9 +93,9 @@
 
     <!--Help dialogs-->
 
-    <string name="recipe_list_help"> Hold: open recipe\nSelect: recipes to share or remove\n+: add selected recipes to menu</string>
-    <string name="menu_list_help"> Hold: remove recipe from menu\nSelect: open recipe</string>
-    <string name="grocery_list_help"> Select: items to remove</string>
+    <string name="recipe_list_help"> Hold: open recipe\nSelect: recipes to share or remove\nFloating Button(arrow): add selected recipes to menu</string>
+    <string name="menu_list_help"> Hold: remove recipe from menu\nSelect: open recipe\nFloating Button(+): add recipes to menu</string>
+    <string name="grocery_list_help"> Select: items to remove\nFloating Button(+): add grocery item</string>
     <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
     <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
     <string name="help">Help</string>

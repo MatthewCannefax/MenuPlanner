@@ -2,12 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/addRecipesMenuItem"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="@string/add_recipes"
-        app:showAsAction="ifRoom"
-        />
+    <!--<item-->
+        <!--android:id="@+id/addRecipesMenuItem"-->
+        <!--android:icon="@drawable/ic_add_black_24dp"-->
+        <!--android:title="@string/add_recipes"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--/>-->
     <item
         android:id="@+id/importCookbook"
         android:icon="@drawable/ic_file_download_black_24dp"

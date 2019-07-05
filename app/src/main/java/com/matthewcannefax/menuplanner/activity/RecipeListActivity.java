@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +44,7 @@ public class RecipeListActivity extends AppCompatActivity {
     private ListView lv;
     private RecipeListItemAdapter adapter;
     private String title;
+    private FloatingActionButton fab;
 
     private Spinner catSpinner;
     private DrawerLayout mDrawerLayout;
@@ -63,6 +65,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         catSpinner = this.findViewById(R.id.catSpinner);
         Button filterBTN = this.findViewById(R.id.filterBTN);
+        fab = this.findViewById(R.id.fab);
 
         mDataSource = new DataSource(this);
         mDataSource.open();
@@ -98,9 +101,46 @@ public class RecipeListActivity extends AppCompatActivity {
 
         ListView drawerListView = findViewById(R.id.navList);
 
+        setFabListener();
+
        //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(RecipeListActivity.this, this, drawerListView);
 
+    }
+
+    private void setFabListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean anySelected = anySelected();
+
+                //check if any of the recipe items have been selected
+                anySelected = anySelected();
+
+                if (anySelected) {
+                    //loop through the recipe list and add the selected recipes to the menu
+                    for(int position = 0; position < recipeList.size(); position++){
+                        if(recipeList.get(position).isItemChecked()){
+                            recipeList.get(position).setItemChecked(false);
+
+                            mDataSource.addToMenu(recipeList.get(position).getRecipeID());
+
+                        }
+                    }
+
+                    //return to the menu activity
+                    Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
+                    returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    RecipeListActivity.this.startActivity(returnToMenu);
+                    AdHelper.showInterstitial(getApplicationContext());
+                    RecipeListActivity.this.finish();
+
+                } else {
+//                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_selected, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void getExtraTitle(Bundle extras) {
@@ -192,13 +232,14 @@ public class RecipeListActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.recipe_activity_menu, menu);
 
         //the add recipes to the menu menuitem
-        MenuItem item = menu.findItem(R.id.addRecipesMenuItem);
+//        MenuItem item = menu.findItem(R.id.addRecipesMenuItem);
         MenuItem exportItem = menu.findItem(R.id.exportCookbook);
         MenuItem importItem = menu.findItem(R.id.importCookbook);
 
         //if this is simply the My Recipes version of the activity, do not show the add recipes menuitem
         if (!title.equals(getString(R.string.add_to_menu))) {
-            item.setVisible(false);
+//            item.setVisible(false);
+            fab.setVisibility(View.INVISIBLE);
         }else{
             exportItem.setVisible(false);
             importItem.setVisible(false);
@@ -286,35 +327,35 @@ public class RecipeListActivity extends AppCompatActivity {
                 b = true;
                 break;
                 //add the selected recipes to the weekly menu
-            case R.id.addRecipesMenuItem:
-
-                //check if any of the recipe items have been selected
-                anySelected = anySelected();
-
-                if (anySelected) {
-                    //loop through the recipe list and add the selected recipes to the menu
-                    for(int position = 0; position < recipeList.size(); position++){
-                        if(recipeList.get(position).isItemChecked()){
-                            recipeList.get(position).setItemChecked(false);
-
-                            mDataSource.addToMenu(recipeList.get(position).getRecipeID());
-
-                        }
-                    }
-
-                    //return to the menu activity
-                    Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
-                    returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    RecipeListActivity.this.startActivity(returnToMenu);
-                    AdHelper.showInterstitial(this);
-                    RecipeListActivity.this.finish();
-
-                } else {
-//                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_selected, Snackbar.LENGTH_LONG).show();
-                }
-                b = true;
-                break;
+//            case R.id.addRecipesMenuItem:
+//
+//                //check if any of the recipe items have been selected
+//                anySelected = anySelected();
+//
+//                if (anySelected) {
+//                    //loop through the recipe list and add the selected recipes to the menu
+//                    for(int position = 0; position < recipeList.size(); position++){
+//                        if(recipeList.get(position).isItemChecked()){
+//                            recipeList.get(position).setItemChecked(false);
+//
+//                            mDataSource.addToMenu(recipeList.get(position).getRecipeID());
+//
+//                        }
+//                    }
+//
+//                    //return to the menu activity
+//                    Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
+//                    returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    RecipeListActivity.this.startActivity(returnToMenu);
+//                    AdHelper.showInterstitial(this);
+//                    RecipeListActivity.this.finish();
+//
+//                } else {
+////                    Toast.makeText(this, "No Recipes Selected", Toast.LENGTH_SHORT).show();
+//                    Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_selected, Snackbar.LENGTH_LONG).show();
+//                }
+//                b = true;
+//                break;
             case R.id.importCookbook:
                 ShareHelper.importCookbook(RecipeListActivity.this);
                 b = true;
