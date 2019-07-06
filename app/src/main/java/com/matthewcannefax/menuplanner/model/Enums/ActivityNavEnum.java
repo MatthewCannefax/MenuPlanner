@@ -47,13 +47,41 @@ public enum ActivityNavEnum {
     public static ActivityNavEnum getActivityEnum(int position){
         ActivityNavEnum navEnum = MENU_LIST_ACTIVITY;
 
-        for (ActivityNavEnum e:
-             ActivityNavEnum.values()) {
-            if (e.getPosition() == position){
-                navEnum = e;
+        switch (position){
+            case 0:
+                navEnum = MENU_LIST_ACTIVITY;
                 break;
-            }
+            case 1:
+                navEnum = RECIPE_LIST_ACTIVITY;
+                break;
+            case 2:
+                navEnum = ADD_RECIPE_ACTIVITY;
+                break;
+            case 3:
+                navEnum = VIEW_GROCERY_LIST;
+                break;
+            case 4:
+                navEnum = NEW_GROCERY_LIST;
+                break;
+            case 5:
+                navEnum = IMPORT_COOKBOOK;
+                break;
+            case 6:
+                navEnum = SHARE_COOKBOOK;
+                break;
+            default:
+                navEnum = MENU_LIST_ACTIVITY;
+                break;
+
         }
+
+//        for (ActivityNavEnum e:
+//             ActivityNavEnum.values()) {
+//            if (e.getPosition() == position){
+//                navEnum = e;
+//                break;
+//            }
+//        }
 
         return navEnum;
     }
