@@ -481,6 +481,26 @@ public class DataSource {
     //endregion
 
     //region Grocery List Table Statements
+
+    public void menuIngredientsToGroceryDB(){
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        String sqlString = "INSERT INTO grocery_list_table (grocery_name, grocery_category, measurement_amount, measurement_type)\n" +
+                "SELECT a.ingredient_name, a.category, SUM(a.measurement_amount), a.measurement_type  \n" +
+                "FROM ingredient_table AS a \n" +
+                "INNER JOIN menu_table AS b ON b.recipe_id = a.recipe_id\n" +
+                "GROUP BY UPPER(a.ingredient_name), a.category, a.measurement_type\n" +
+                "ORDER BY a.category, UPPER(a.ingredient_name);";
+
+        String deleteWaterString ="DELETE FROM grocery_list_table WHERE grocery_id = (SELECT grocery_id FROM grocery_list_table WHERE UPPER(grocery_name) = 'WATER');";
+
+        mDatabase.execSQL(sqlString);
+
+        close();
+    }
+
     public void groceryListToDB(List<Ingredient> groceries){
         for (Ingredient i :
                 groceries) {

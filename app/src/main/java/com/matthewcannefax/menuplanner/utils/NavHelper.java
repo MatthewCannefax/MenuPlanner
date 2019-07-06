@@ -71,8 +71,9 @@ public class NavHelper {
             Intent intent = new Intent(activity, GroceryListActivity.class);
 
             mDataSource.removeAllGroceries();
-            GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
-            mDataSource.groceryListToDB(groceryBuilder.consolidateGroceries());
+//            GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
+            mDataSource.menuIngredientsToGroceryDB();
+//            mDataSource.groceryListToDB(groceryBuilder.consolidateGroceries());
 
             //start the GroceryListActivity
             activity.startActivity(intent);
