@@ -34,8 +34,10 @@ import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 //this class is for editing already existing recipes
@@ -96,12 +98,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName.setText(oldRecipe.getName());
 
         //make sure RecipeCategory.ALL is not an option in the categories
-        List<RecipeCategory> recipeCats = new ArrayList<>();
-        for(RecipeCategory rc : RecipeCategory.values()){
-            if(rc != RecipeCategory.ALL){
-                recipeCats.add(rc);
-            }
-        }
+        List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
+        recipeCats.remove(0);
 
         Collections.sort(recipeCats, new Comparator<RecipeCategory>() {
             @Override
