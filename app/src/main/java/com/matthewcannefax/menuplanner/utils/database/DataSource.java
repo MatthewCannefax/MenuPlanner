@@ -23,6 +23,23 @@ public class DataSource {
     private SQLiteDatabase mDatabase;
     SQLiteOpenHelper mDbHelper;
 
+    private static final String USED_RECIPE_CATEGORY_STRING =
+            "SELECT category FROM recipe_table " +
+            "GROUP BY category ORDER BY category";
+
+    public static String getRecipeCategoryString(){
+        return USED_RECIPE_CATEGORY_STRING;
+    }
+
+    private static final String USED_MENU_CATEGORY_STRING =
+            "SELECT a.category FROM recipe_table AS a " +
+            "INNER JOIN menu_table AS b ON b.recipe_id = a.recipe_id " +
+            "GROUP BY a.category ORDER BY a.category";
+
+    public static String getMenuCategoryString(){
+        return USED_MENU_CATEGORY_STRING;
+    }
+
     //region Constructor/Open/Close
     //constructor
     public DataSource(Context mContext) {
@@ -65,6 +82,26 @@ public class DataSource {
         close();
 
         return recipe;
+    }
+
+    public List<RecipeCategory> getUsedCategoriesFromDB(String sqlString){
+
+        List<RecipeCategory> categories = new ArrayList<>();
+        categories.add(RecipeCategory.ALL);
+
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        Cursor cursor = mDatabase.rawQuery(sqlString, null);
+
+        while (cursor.moveToNext()){
+            categories.add(RecipeCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(RecipeTable.CATEGORY))));
+        }
+
+        close();
+
+        return categories;
     }
 
     public List<Recipe> getAllRecipes(){

@@ -130,7 +130,7 @@ public class RecipeMenuItemAdapter extends ArrayAdapter<Recipe> {
                         mDataSource.removeMenuItem(recipe.getRecipeID());
                         mRecipeItems = mDataSource.getAllMenuRecipes();
                         lv.setAdapter(new RecipeMenuItemAdapter(mContext, currentActivity, mDataSource.getAllMenuRecipes(), lv, categorySpinner));
-                        ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<RecipeCategory>(mContext, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
+                        ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<RecipeCategory>(mContext, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mContext));
                         categorySpinner.setAdapter(rcAdapter);
                     }
                 });
