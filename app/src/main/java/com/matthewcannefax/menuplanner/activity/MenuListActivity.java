@@ -319,6 +319,21 @@ public class MenuListActivity extends AppCompatActivity {
                 builder.setNeutralButton(R.string.ok, null);
                 builder.show();
                 return true;
+            case R.id.removeAll:
+                AlertDialog.Builder removeBuilder = new AlertDialog.Builder(this);
+                removeBuilder.setTitle(getString(R.string.are_you_sure));
+                removeBuilder.setMessage(getString(R.string.remove_all_from_menu));
+                removeBuilder.setNegativeButton(getString(R.string.no), null);
+                removeBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mDataSource.removeAllMenuItems();
+                        lv.setAdapter(null);
+                        Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
+                    }
+                });
+                removeBuilder.show();
+                return true;
                 //default; this will allow the back button to work correctly
             default:
                 return false;

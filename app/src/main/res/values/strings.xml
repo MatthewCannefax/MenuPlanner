@@ -100,6 +100,11 @@
     <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
     <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
     <string name="help">Help</string>
+    <string name="remove_all">Remove All</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="remove_all_from_menu">Remove all recipes from your menu?</string>
+    <string name="recipes_removed">Recipes removed</string>
+    <string name="no">NO</string>
 
 
 </resources>

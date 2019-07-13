@@ -438,6 +438,16 @@ public class DataSource {
 
     }
 
+    public void removeAllMenuItems(){
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        mDatabase.delete(MenuTable.TABLE_NAME, null, null);
+
+        close();
+    }
+
     //endregion
 
     //region Ingredient Table Statements
