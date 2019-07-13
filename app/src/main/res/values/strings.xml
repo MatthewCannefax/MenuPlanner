@@ -4,24 +4,24 @@
     <string name="admob_app_id">ca-app-pub-2575502817890974~6303331890</string>
 
     <!--This is the actual unit id-->
-    <!--<string name="admob_banner_unit_id">ca-app-pub-2575502817890974/8118992350</string>-->
+    <string name="admob_banner_unit_id">ca-app-pub-2575502817890974/8118992350</string>
 
     <!--this is the actual id for interstitial ads-->
-    <!--<string name="admob_interstitial_id">ca-app-pub-2575502817890974/9283465402</string>-->
+    <string name="admob_interstitial_id">ca-app-pub-2575502817890974/9283465402</string>
 
     <!--this is the actual id for grocery interstitial ads-->
-    <!--<string name="admob_grocery_interstitial">ca-app-pub-2575502817890974/2612694394</string>-->
+    <string name="admob_grocery_interstitial">ca-app-pub-2575502817890974/2612694394</string>
 
 
     <!--TEST ID-->
     <!--this is the test id for grocery interstitial-->
-    <string name="admob_grocery_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <!--<string name="admob_grocery_interstitial">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <!--this is the test id for interstitial ads-->
-    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+    <!--<string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
 
     <!--this is the test id-->
-    <string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="admob_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
 
 
     <string name="ingredient_header">INGREDIENTS</string>
@@ -32,6 +32,7 @@
     <string name="json_menu_list">menuListToJSON</string>
     <string name="json_grocery_list">groceryListToJSON</string>
     <string name="name">Name</string>
+    <string name="ingredient_name">Item Name</string>
     <string name="amount">Amount</string>
     <string name="recipe_list_activity_title">My Recipes</string>
     <string name="remove_selected_items">Remove Selected Items</string>

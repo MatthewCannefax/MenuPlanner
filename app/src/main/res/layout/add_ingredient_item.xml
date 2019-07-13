@@ -7,7 +7,6 @@
 
     <EditText
         android:id="@+id/ingredientName"
-
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,8 +18,8 @@
         android:ems="10"
         android:gravity="center"
         android:textSize="16sp"
-        android:inputType="textNoSuggestions"
-        android:hint="@string/name"/>
+        android:inputType="textFilter"
+        android:hint="@string/ingredient_name"/>
 
     <Spinner
         android:id="@+id/categorySpinner"
