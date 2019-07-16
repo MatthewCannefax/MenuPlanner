@@ -37,7 +37,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:contentDescription=""
+            android:contentDescription="@string/edit_image_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/recipeName"
             app:layout_constraintTop_toTopOf="parent"

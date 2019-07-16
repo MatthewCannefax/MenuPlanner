@@ -105,6 +105,7 @@
     <string name="remove_all_from_menu">Remove all recipes from your menu?</string>
     <string name="recipes_removed">Recipes removed</string>
     <string name="no">NO</string>
+    <string name="edit_image_desc">Edit Image</string>
 
 
 </resources>
