@@ -544,6 +544,7 @@ public class DataSource {
         String deleteWaterString ="DELETE FROM grocery_list_table WHERE grocery_id = (SELECT grocery_id FROM grocery_list_table WHERE UPPER(grocery_name) = 'WATER');";
 
         mDatabase.execSQL(sqlString);
+        mDatabase.execSQL(deleteWaterString);
 
         close();
     }
