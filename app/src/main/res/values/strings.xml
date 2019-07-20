@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Menu Helper</string>
 
-    <string name="admob_app_id">ca-app-pub-2575502817890974~6303331890</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-2575502817890974~6303331890</string>
 
     <!--This is the actual unit id-->
-    <string name="admob_banner_unit_id">ca-app-pub-2575502817890974/8118992350</string>
+    <string name="admob_banner_unit_id" translatable="false">ca-app-pub-2575502817890974/8118992350</string>
 
     <!--this is the actual id for interstitial ads-->
-    <string name="admob_interstitial_id">ca-app-pub-2575502817890974/9283465402</string>
+    <string name="admob_interstitial_id" translatable="false">ca-app-pub-2575502817890974/9283465402</string>
 
     <!--this is the actual id for grocery interstitial ads-->
-    <string name="admob_grocery_interstitial">ca-app-pub-2575502817890974/2612694394</string>
+    <string name="admob_grocery_interstitial" translatable="false">ca-app-pub-2575502817890974/2612694394</string>
 
 
     <!--TEST ID-->
@@ -28,9 +28,9 @@
     <string name="new_recipe_name_box">Recipe Name</string>
     <string name="add_ingredient_btn">Add Ingredient</string>
     <string name="directions_hint">Directions</string>
-    <string name="recipe_list_to_json">MyCookBook</string>
-    <string name="json_menu_list">menuListToJSON</string>
-    <string name="json_grocery_list">groceryListToJSON</string>
+    <string name="recipe_list_to_json" translatable="false">MyCookBook</string>
+    <string name="json_menu_list" translatable="false">menuListToJSON</string>
+    <string name="json_grocery_list" translatable="false">groceryListToJSON</string>
     <string name="name">Name</string>
     <string name="ingredient_name">Item Name</string>
     <string name="amount">Amount</string>
@@ -38,7 +38,7 @@
     <string name="remove_selected_items">Remove Selected Items</string>
     <string name="add_item">Add Item</string>
     <string name="filter_button">Filter</string>
-    <string name="no_img_selected">default_recipe</string>
+    <string name="no_img_selected" translatable="false">default_recipe</string>
     <string name="existing">Existing</string>
     <string name="new_photo_title">New Photo</string>
     <string name="new_photo_message">Take a new photo or add an existing photo from the gallery?</string>
@@ -61,10 +61,10 @@
     <string name="add_recipe">Add Recipe</string>
     <string name="select_all">Select All</string>
     <string name="selected_recipes">My Recipes</string>
-    <string name="is_preloaded">isPreloaded</string>
-    <string name="ok">OK</string>
+    <string name="is_preloaded" translatable="false">isPreloaded</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="are_you_sure_change">Are you sure you want to make changes to</string>
-    <string name="question_mark">\?</string>
+    <string name="question_mark" translatable="false">\?</string>
     <string name="save_recipe_question">Save Recipe?</string>
     <string name="null_recipe_received">Null recipe received</string>
     <string name="items_removed">Items Removed</string>
@@ -94,11 +94,11 @@
 
     <!--Help dialogs-->
 
-    <string name="recipe_list_help"> Hold: open recipe\nSelect: recipes to share or remove\nFloating Button(arrow): add selected recipes to menu</string>
-    <string name="menu_list_help"> Hold: remove recipe from menu\nSelect: open recipe\nFloating Button(+): add recipes to menu</string>
-    <string name="grocery_list_help"> Select: items to remove\nFloating Button(+): add grocery item</string>
-    <string name="edit_recipe_help"> Touch image: to add image\nMust Submit to save any changes</string>
-    <string name="add_recipe_help"> Touch image: to add image\nMust Submit to save recipe</string>
+    <string name="recipe_list_help">Hold: open recipe Select: recipes to share or remove Floating Button(arrow): add selected recipes to menu</string>
+    <string name="menu_list_help">Hold: remove recipe from menu Select: open recipe Floating Button(+): add recipes to menu</string>
+    <string name="grocery_list_help">Select: items to remove Floating Button(+): add grocery item</string>
+    <string name="edit_recipe_help">Touch image: to add image Must Submit to save any changes</string>
+    <string name="add_recipe_help">Touch image: to add image Must Submit to save recipe</string>
     <string name="help">Help</string>
     <string name="remove_all">Remove All</string>
     <string name="are_you_sure">Are you sure?</string>
