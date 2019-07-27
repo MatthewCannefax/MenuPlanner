@@ -106,6 +106,12 @@
     <string name="recipes_removed">Recipes removed</string>
     <string name="no">NO</string>
     <string name="edit_image_desc">Edit Image</string>
+    <string name="continue_question">Continue?</string>
+    <string name="wish_to_continue">No menu items found, do wish to continue?</string>
+    <string name="yes">Yes</string>
+    <string name="replace_grocery_title">Replace Existing Grocery List?</string>
+    <string name="replace_grocery_message">Replace your existing grocery list with an empty list?</string>
+    <string name="append_grocery_list">Append Grocery List</string>
 
 
 </resources>

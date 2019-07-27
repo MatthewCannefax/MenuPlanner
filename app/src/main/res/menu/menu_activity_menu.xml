@@ -11,6 +11,11 @@
         app:showAsAction="never"
         />
     <item
+        android:id="@+id/appendGroceryListItem"
+        android:title="@string/append_grocery_list"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/removeAll"
         android:title="@string/remove_all"
         app:showAsAction="never"

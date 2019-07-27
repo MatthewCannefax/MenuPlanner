@@ -27,8 +27,10 @@ public class NavHelper {
         DataSource mDataSource = new DataSource(context);
 
         List<Ingredient> groceries = mDataSource.getAllGroceries();
+        List<Recipe> menu = mDataSource.getAllMenuRecipes();
 
-        if (groceries != null && groceries.size() > 0) {
+        //if there is an existing grocery list
+        if ((groceries != null && groceries.size() > 0) && (menu != null && menu.size() > 0)) {
 
             //ask the user if they truly wish to create a new grocery list
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -47,7 +49,7 @@ public class NavHelper {
 
         }
         //if there is no grocery list and the menu list is not null create a new grocery list
-        else if (mDataSource.getAllGroceries() != null) {
+        else if (groceries != null) {
             goToGroceryList(activity, context);
         }
         //if it gets here there is no grocery list and there is no menu list
@@ -58,11 +60,13 @@ public class NavHelper {
         }
     }
 
-    private static void goToGroceryList(Activity activity, Context context){
+    //create a new grocery list either by creating from menu items, or starting a new blank list
+    private static void goToGroceryList(final Activity activity, Context context){
 //        List<Recipe> menuList = StaticMenu.getMenuList();
-        DataSource mDataSource = new DataSource(context);
+        final DataSource mDataSource = new DataSource(context);
 
         List<Recipe> menuList = mDataSource.getAllMenuRecipes();
+        List<Ingredient> groceries = mDataSource.getAllGroceries();
 
 
         //check that there are actually items in the menu list
@@ -78,10 +82,40 @@ public class NavHelper {
             //start the GroceryListActivity
             activity.startActivity(intent);
         }
-        //if there are items in the menu list, Toast the user saying just that
+        //if there are no items in the menu list, Toast the user saying just that
         else {
-//            Toast.makeText(context, "Please add menu items", Toast.LENGTH_SHORT).show();
-            Snackbar.make(activity.findViewById(android.R.id.content), R.string.please_add_menu_items, Snackbar.LENGTH_LONG).show();
+
+            if (groceries == null || groceries.size() == 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(R.string.continue_question);
+                        builder.setMessage(R.string.wish_to_continue);
+                        builder.setNegativeButton(R.string.no, null);
+                        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(activity, GroceryListActivity.class);
+                                activity.startActivity(intent);
+                            }
+                        });
+                builder.show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(R.string.replace_grocery_title);
+                        builder.setMessage(R.string.replace_grocery_message);
+                        builder.setNegativeButton(R.string.no, null);
+                        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                mDataSource.removeAllGroceries();
+
+                                Intent intent = new Intent(activity, GroceryListActivity.class);
+                                activity.startActivity(intent);
+                            }
+                        });
+                builder.show();
+            }
+
         }
     }
 

@@ -312,6 +312,11 @@ public class MenuListActivity extends AppCompatActivity {
 
                 NavHelper.newGroceryList(this, this);
                 return true;
+            case R.id.appendGroceryListItem:
+                mDataSource.menuIngredientsToGroceryDB();
+                Intent appendIntent = new Intent(this, GroceryListActivity.class);
+                startActivity(appendIntent);
+                return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.help);

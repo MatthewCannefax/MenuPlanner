@@ -72,4 +72,10 @@
     <string name="something_went_wrong">Algo salió mal.</string>
     <string name="submit">Enviar</string>
     <string name="take_new_photo">Tomar foto</string>
+    <string name="append_grocery_list">Adjuntar lista de la compra</string>
+    <string name="continue_question">¿Continuar?</string>
+    <string name="replace_grocery_message">¿Reemplazar su lista de la compra existente con una lista vacía?</string>
+    <string name="replace_grocery_title">Reemplazar lista de compras existente?</string>
+    <string name="wish_to_continue">No se han encontrado elementos del menú, ¿desea continuar?</string>
+    <string name="yes">Sí</string>
 </resources>
