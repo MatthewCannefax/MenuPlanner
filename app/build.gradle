@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.matthewcannefax.menuplanner"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 26
         versionName '1.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 33
