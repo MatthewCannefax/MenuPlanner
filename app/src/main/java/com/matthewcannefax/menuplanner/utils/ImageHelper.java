@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 
 import java.io.File;
 import java.io.FileOutputStream;

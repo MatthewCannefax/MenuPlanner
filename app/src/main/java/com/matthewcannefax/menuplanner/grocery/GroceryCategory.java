@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.model.Enums;
+package com.matthewcannefax.menuplanner.grocery;
 
 //this enum is for the different categories of grocery items
 //this is hard coded so we can limit the number of categories to just a few

@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.arrayAdapters;
+package com.matthewcannefax.menuplanner.addEdit;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,11 +20,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
-import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Measurement;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
+import com.matthewcannefax.menuplanner.recipe.MeasurementType;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Measurement;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.utils.ViewPagerHelper;
 
 import java.util.Locale;

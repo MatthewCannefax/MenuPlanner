@@ -1,10 +1,8 @@
-package com.matthewcannefax.menuplanner.model;
+package com.matthewcannefax.menuplanner.grocery;
 
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
 
 //this object class is grocery items including, but not limited to, recipe ingredients
 

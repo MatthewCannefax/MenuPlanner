@@ -14,10 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.MenuListActivity;
-import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.io.BufferedReader;

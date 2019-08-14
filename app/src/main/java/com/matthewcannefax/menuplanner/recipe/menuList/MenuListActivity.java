@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.activity;
+package com.matthewcannefax.menuplanner.recipe.menuList;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,17 +19,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
-import com.matthewcannefax.menuplanner.utils.ImageHelper;
-import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;

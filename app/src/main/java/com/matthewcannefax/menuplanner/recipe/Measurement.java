@@ -1,9 +1,7 @@
-package com.matthewcannefax.menuplanner.model;
+package com.matthewcannefax.menuplanner.recipe;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
 
 import java.text.DecimalFormat;
 

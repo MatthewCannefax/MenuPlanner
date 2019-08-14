@@ -1,10 +1,9 @@
-package com.matthewcannefax.menuplanner.model;
+package com.matthewcannefax.menuplanner.recipe;
 
 import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
 import java.util.List;

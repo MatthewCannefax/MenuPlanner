@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.arrayAdapters;
+package com.matthewcannefax.menuplanner.recipe.recipeList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 
 import java.util.List;

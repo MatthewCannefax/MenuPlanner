@@ -1,11 +1,11 @@
-package com.matthewcannefax.menuplanner.model.Enums;
+package com.matthewcannefax.menuplanner.utils;
 
 import android.app.Activity;
 
-import com.matthewcannefax.menuplanner.activity.AddRecipeActivity;
-import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
-import com.matthewcannefax.menuplanner.activity.MenuListActivity;
-import com.matthewcannefax.menuplanner.activity.RecipeListActivity;
+import com.matthewcannefax.menuplanner.addEdit.AddRecipeActivity;
+import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 
 public enum ActivityNavEnum {
     MENU_LIST_ACTIVITY("My Menu", MenuListActivity.class, 0),

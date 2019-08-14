@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:largeHeap="true">
 
-        <activity android:name=".activity.SplashActivity"
+        <activity android:name=".splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,46 +24,46 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MenuListActivity"
+        <activity android:name=".recipe.menuList.MenuListActivity"
             tools:targetApi="jelly_bean">
         </activity>
-        <activity android:name=".activity.RecipeListActivity"
-            android:parentActivityName=".activity.MenuListActivity"
+        <activity android:name=".recipe.recipeList.RecipeListActivity"
+            android:parentActivityName=".recipe.menuList.MenuListActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MenuListActivity"
+                android:value=".recipe.menuList.MenuListActivity"
                 />
 
         </activity>
-        <activity android:name=".activity.AddRecipeActivity"
-            android:parentActivityName=".activity.MenuListActivity"
+        <activity android:name=".addEdit.AddRecipeActivity"
+            android:parentActivityName=".recipe.menuList.MenuListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MenuListActivity"
+                android:value=".recipe.menuList.MenuListActivity"
                 />
 
         </activity>
-        <activity android:name=".activity.GroceryListActivity"
-            android:parentActivityName=".activity.MenuListActivity"
+        <activity android:name=".grocery.GroceryListActivity"
+            android:parentActivityName=".recipe.menuList.MenuListActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MenuListActivity"
+                android:value=".recipe.menuList.MenuListActivity"
                 />
 
         </activity>
-        <activity android:name=".activity.EditRecipeActivity"
-            android:parentActivityName=".activity.MenuListActivity"
+        <activity android:name=".addEdit.EditRecipeActivity"
+            android:parentActivityName=".recipe.menuList.MenuListActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MenuListActivity"
+                android:value=".recipe.menuList.MenuListActivity"
                 />
 
         </activity>

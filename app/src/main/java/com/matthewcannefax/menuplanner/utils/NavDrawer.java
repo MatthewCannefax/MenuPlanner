@@ -12,17 +12,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.MenuListActivity;
-import com.matthewcannefax.menuplanner.model.Enums.ActivityNavEnum;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //this class sets up the navigation drawer for all activities

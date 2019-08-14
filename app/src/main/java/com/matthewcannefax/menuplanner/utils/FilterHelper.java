@@ -2,15 +2,10 @@ package com.matthewcannefax.menuplanner.utils;
 
 
 import android.content.Context;
-import android.provider.ContactsContract;
 
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 //this class is used to filter through the recipes by category

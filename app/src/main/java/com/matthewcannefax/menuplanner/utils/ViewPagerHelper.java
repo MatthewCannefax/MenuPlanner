@@ -14,13 +14,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.arrayAdapters.IngredientItemAdapter;
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
-import com.matthewcannefax.menuplanner.model.Enums.MeasurementType;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Measurement;
-import com.matthewcannefax.menuplanner.model.Recipe;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
+import com.matthewcannefax.menuplanner.recipe.IngredientItemAdapter;
+import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
+import com.matthewcannefax.menuplanner.recipe.MeasurementType;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Measurement;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

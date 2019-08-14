@@ -6,13 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.GroceryListActivity;
-import com.matthewcannefax.menuplanner.model.GroceryBuilder;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
@@ -75,9 +73,9 @@ public class NavHelper {
             Intent intent = new Intent(activity, GroceryListActivity.class);
 
             mDataSource.removeAllGroceries();
-//            GroceryBuilder groceryBuilder = new GroceryBuilder(menuList);
+
             mDataSource.menuIngredientsToGroceryDB();
-//            mDataSource.groceryListToDB(groceryBuilder.consolidateGroceries());
+
 
             //start the GroceryListActivity
             activity.startActivity(intent);

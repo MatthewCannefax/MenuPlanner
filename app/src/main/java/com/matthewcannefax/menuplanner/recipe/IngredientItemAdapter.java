@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.arrayAdapters;
+package com.matthewcannefax.menuplanner.recipe;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.Ingredient;
 
 import java.util.List;
 

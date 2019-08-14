@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.arrayAdapters;
+package com.matthewcannefax.menuplanner.recipe.menuList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,13 +16,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.activity.EditRecipeActivity;
-import com.matthewcannefax.menuplanner.activity.MenuListActivity;
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;

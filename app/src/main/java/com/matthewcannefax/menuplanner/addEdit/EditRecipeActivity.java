@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.activity;
+package com.matthewcannefax.menuplanner.addEdit;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,21 +19,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeMenuItemAdapter;
-import com.matthewcannefax.menuplanner.arrayAdapters.RecipeViewPagerAdapter;
-import com.matthewcannefax.menuplanner.model.Enums.RecipeCategory;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.menuList.RecipeMenuItemAdapter;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;

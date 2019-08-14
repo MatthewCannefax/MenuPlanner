@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.arrayAdapters;
+package com.matthewcannefax.menuplanner.grocery;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -12,7 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.model.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;

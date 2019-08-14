@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.model.Enums;
+package com.matthewcannefax.menuplanner.recipe;
 
 //this enum is here for the different categories of recipes so the recipelist can be more searchable
 //The categories are hard coded to limit the number of categories to just a few instead of an unlimited amount

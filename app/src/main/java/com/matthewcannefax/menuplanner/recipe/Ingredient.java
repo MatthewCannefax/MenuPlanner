@@ -1,11 +1,11 @@
-package com.matthewcannefax.menuplanner.model;
+package com.matthewcannefax.menuplanner.recipe;
 
 
 import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.matthewcannefax.menuplanner.model.Enums.GroceryCategory;
+import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
 import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 

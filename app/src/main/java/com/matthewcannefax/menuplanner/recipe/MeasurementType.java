@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.model.Enums;
+package com.matthewcannefax.menuplanner.recipe;
 
 
 import java.util.ArrayList;

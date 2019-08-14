@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.matthewcannefax.menuplanner.model.Ingredient;
-import com.matthewcannefax.menuplanner.model.Recipe;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Recipe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
