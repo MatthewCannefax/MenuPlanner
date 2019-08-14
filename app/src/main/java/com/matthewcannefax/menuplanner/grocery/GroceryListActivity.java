@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,9 +43,11 @@ public class GroceryListActivity extends AppCompatActivity {
 
     //A list of ingrediets made from the menu list
     //and a listview object for the listview in this activity
-    private GroceryItemAdapter adapter;
+//    private GroceryItemAdapter adapter;
+    private GroceryRecyclerAdapter recyclerAdapter;
     private static List<Ingredient> ingredients;
-    private ListView lv;
+//    private ListView lv;
+    private RecyclerView recyclerView;
     private Context mContext;
     private DrawerLayout mDrawerLayout;
 
@@ -61,7 +65,8 @@ public class GroceryListActivity extends AppCompatActivity {
         mContext = this;
 
         //using the same list as the RecipeList and MenuList activities
-        setContentView(R.layout.grocery_list_layout);
+//        setContentView(R.layout.grocery_list_layout);
+        setContentView(R.layout.grocery_recyclerview_layout);
 
         //set the title in the actionbar
         this.setTitle(R.string.grocery_list);
@@ -73,7 +78,8 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //initialize the listview
         //might change to recyclerview since it tends to be a little smoother while scrolling
-        lv = findViewById(R.id.recipeMenuListView);
+//        lv = findViewById(R.id.recipeMenuListView);
+        recyclerView = findViewById(R.id.groceryRecyclerView);
 //        Button mButton = findViewById(R.id.addItemButton);
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -174,8 +180,12 @@ public class GroceryListActivity extends AppCompatActivity {
                     mDataSource.createGroceryItem(newGroceryItem);
 
                     //notify the arrayadapter that the dataset has changed
-                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
-                    lv.setAdapter(adapter);
+//                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
+//                    lv.setAdapter(adapter);
+
+                    recyclerAdapter = new GroceryRecyclerAdapter(mContext, mDataSource.getAllGroceries());
+                    recyclerView.setAdapter(recyclerAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
                 } else {
                     //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
@@ -207,10 +217,14 @@ public class GroceryListActivity extends AppCompatActivity {
         //if the ingredients list exists
         if(ingredients != null){
             //initialize the GroceryItemAdapter passing the ingredients list
-            adapter = new GroceryItemAdapter(this, ingredients);
+//            adapter = new GroceryItemAdapter(this, ingredients);
+//
+//            //set the GroceryItemAdapter as the adapter for the listview
+//            lv.setAdapter(adapter);
 
-            //set the GroceryItemAdapter as the adapter for the listview
-            lv.setAdapter(adapter);
+            recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients);
+            recyclerView.setAdapter(recyclerAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         //if the grocery list does not exist send the user a toast to say that the grocery list was not found
         else {
@@ -244,13 +258,13 @@ public class GroceryListActivity extends AppCompatActivity {
                 NavDrawer.navDrawerOptionsItem(mDrawerLayout);
                 return true;
             case R.id.removeSelectItems:
-                int count = adapter.getCount();
+                int count = recyclerAdapter.getItemCount();
 
                 //loop through the adapter
-                for (int i = 0; i < adapter.getCount(); i++) {
+                for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
 
                     //get the ingredient item from the adapter item
-                    Ingredient ingred = adapter.getItem(i);
+                    Ingredient ingred = recyclerAdapter.getItem(i);
 
                     //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
                     //the item will be removed
@@ -269,15 +283,19 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 //display a Toast confirming to the user that the items have been removed
                 //may want to switch to a dialog so the user can confirm deletion
-                if (count != adapter.getCount()) {
+                if (count != recyclerAdapter.getItemCount()) {
 //                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
                     Snackbar.make(findViewById(android.R.id.content), R.string.items_removed, Snackbar.LENGTH_LONG).show();
                 }
 
                 //reset the adapter
                 ingredients = mDataSource.getAllGroceries();
-                adapter = new GroceryItemAdapter(this, ingredients);
-                lv.setAdapter(adapter);
+//                adapter = new GroceryItemAdapter(this, ingredients);
+//                lv.setAdapter(adapter);
+
+                recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients);
+                recyclerView.setAdapter(recyclerAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //                AdHelper.showGroceryInterstitial(this);
 
@@ -291,8 +309,12 @@ public class GroceryListActivity extends AppCompatActivity {
                         mDataSource.getAllGroceries()) {
                     mDataSource.setGroceryItemChecked(i.getIngredientID(), true);
                 }
-                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
-                lv.setAdapter(adapter);
+//                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
+//                lv.setAdapter(adapter);
+
+                recyclerAdapter = new GroceryRecyclerAdapter(this, mDataSource.getAllGroceries());
+                recyclerView.setAdapter(recyclerAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
