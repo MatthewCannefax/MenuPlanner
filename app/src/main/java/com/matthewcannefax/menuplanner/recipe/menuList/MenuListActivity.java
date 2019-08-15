@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,7 +45,8 @@ public class MenuListActivity extends AppCompatActivity {
 
     //region Class VARS
     //the listview object to display the menu
-    private ListView lv;
+//    private ListView lv;
+    private RecyclerView recyclerView;
 
     private Spinner catSpinner;
 
@@ -52,7 +55,8 @@ public class MenuListActivity extends AppCompatActivity {
     private List<Recipe> menuList;
 
     //the adapter will be used across the app
-    private RecipeMenuItemAdapter adapter;
+//    private RecipeMenuItemAdapter adapter;
+    private MenuListRecyclerAdapter adapter;
 
     private DrawerLayout mDrawerLayout;
 
@@ -64,7 +68,7 @@ public class MenuListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //using the same layout as the recipelist activity
-        setContentView(R.layout.menu_list);
+        setContentView(R.layout.recycler_menu_list);
 
         final Context mContext = this;
 
@@ -80,7 +84,8 @@ public class MenuListActivity extends AppCompatActivity {
         menuList = mDataSource.getAllMenuRecipes();
 
         //initialize the listview in the activity
-        lv = findViewById(R.id.recipeMenuListView);
+//        lv = findViewById(R.id.recipeMenuListView);
+        recyclerView = findViewById(R.id.menuRecyclerView);
         catSpinner = findViewById(R.id.catSpinner);
         Button filterBTN = findViewById(R.id.filterBTN);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -93,7 +98,8 @@ public class MenuListActivity extends AppCompatActivity {
         //this method to set the menu list adapter
         setMenuListViewAdapter();
 
-        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+//        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
 
         setFilterBTNListener(mContext, filterBTN, allMenuAdapter);
 
@@ -126,6 +132,7 @@ public class MenuListActivity extends AppCompatActivity {
         setCatAdapter();
 
         PermissionsHelper.setMenuFirstInstance(false);
+
     }
 
     private void setCatAdapter() {
@@ -139,7 +146,7 @@ public class MenuListActivity extends AppCompatActivity {
         }
     }
 
-    private void setFilterBTNListener(final Context mContext, Button filterBTN, final RecipeMenuItemAdapter allMenuAdapter) {
+    private void setFilterBTNListener(final Context mContext, Button filterBTN, final MenuListRecyclerAdapter allMenuAdapter) {
         filterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,11 +160,14 @@ public class MenuListActivity extends AppCompatActivity {
                         }
                     }
 
-                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, MenuListActivity.this, filteredRecipes, lv, catSpinner);
-                    lv.setAdapter(filteredAdapter);
+//                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, MenuListActivity.this, filteredRecipes, lv, catSpinner);
+                    MenuListRecyclerAdapter filteredAdapter = new MenuListRecyclerAdapter(mContext, filteredRecipes, catSpinner);
+                    recyclerView.setAdapter(filteredAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 } else {
 
-                    lv.setAdapter(allMenuAdapter);
+                    recyclerView.setAdapter(allMenuAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 }
             }
         });
@@ -221,11 +231,12 @@ public class MenuListActivity extends AppCompatActivity {
         //set up the menu list adapter only if the menu list exists
         if(mDataSource.getAllMenuRecipes() != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
-            adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
-
+//            adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+            adapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
-            lv.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
         //if the list does not exist, send the user a toast saying that there are no menu items
         else{
@@ -255,12 +266,15 @@ public class MenuListActivity extends AppCompatActivity {
                 }
 
 
-                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, filteredRecipes, lv, catSpinner);
+//                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, filteredRecipes, lv, catSpinner);
+                adapter = new MenuListRecyclerAdapter(this, filteredRecipes, catSpinner);
             }else{
-                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+//                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
+                adapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
             }
 
-            lv.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
 
 //        //if the menu list is not null notify the adapter of changes, in case there are any
@@ -334,7 +348,7 @@ public class MenuListActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mDataSource.removeAllMenuItems();
                             menuList = null;
-                            lv.setAdapter(null);
+                            recyclerView.setAdapter(null);
                             Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
                         }
                     });
