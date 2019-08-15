@@ -108,7 +108,6 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
                             recyclerAdapter.notifyDataSetChanged();
                             ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(view.getContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(view.getContext()));
                             mCategorySpinner.setAdapter(rcAdapter);
-                            int test = 0;
                         }
                     });
             builder.show();

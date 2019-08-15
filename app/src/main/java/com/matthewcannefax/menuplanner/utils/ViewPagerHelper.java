@@ -3,6 +3,8 @@ package com.matthewcannefax.menuplanner.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.IngredientItemAdapter;
+import com.matthewcannefax.menuplanner.addEdit.IngredientRecyclerAdapter;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
@@ -30,7 +33,7 @@ public class ViewPagerHelper {
     }
 
     public static void setAddIngredientButton(final Context context, Button button,
-                                              final Recipe newRecipe, final ListView listView){
+                                              final Recipe newRecipe, final RecyclerView recyclerView){
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +85,11 @@ public class ViewPagerHelper {
                                 //notify the ingredientItemAdapter that the dataset has been changed
 //                                ingredientItemAdapter.notifyDataSetChanged();
 
-                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
-                                listView.setAdapter(ingredientItemAdapter1);
+//                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
+                                IngredientRecyclerAdapter recyclerAdapter1 = new IngredientRecyclerAdapter(context, newRecipe.getIngredientList(), newRecipe);
+                                recyclerView.setAdapter(recyclerAdapter1);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//                                listView.setAdapter(ingredientItemAdapter1);
                             }
                             //if the ingredient list does not exist create the new Ingredient and a new Ingredient list
                             //then add that to the recipe
@@ -107,8 +113,12 @@ public class ViewPagerHelper {
 
 
                                 //setup the ingredient item adapter for the recipeIngreds listView
-                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
-                                listView.setAdapter(ingredientItemAdapter1);
+//                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
+//                                listView.setAdapter(ingredientItemAdapter1);
+
+                                IngredientRecyclerAdapter recyclerAdapter1 = new IngredientRecyclerAdapter(context, newRecipe.getIngredientList(), newRecipe);
+                                recyclerView.setAdapter(recyclerAdapter1);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(context));
                             }
                         }else{
                             //send a Toast prompting the user to make sure and fill in the alert dialog correctly
