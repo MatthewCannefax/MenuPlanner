@@ -25,7 +25,6 @@ import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.recipe.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.utils.ViewPagerHelper;
 
 import java.util.Locale;
