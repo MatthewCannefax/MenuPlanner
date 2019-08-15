@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,8 +41,10 @@ public class RecipeListActivity extends AppCompatActivity {
     //list to hold the list of recipes from the db
     private List<Recipe> recipeList;
     //initialize the listview that will display the recipes
-    private ListView lv;
-    private RecipeListItemAdapter adapter;
+//    private ListView lv;
+//    private RecipeListItemAdapter adapter;
+    RecyclerView recyclerView;
+    RecipeRecyclerAdapter recyclerAdapter;
     private String title;
     private FloatingActionButton fab;
 
@@ -59,7 +63,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         final Context mContext = this;
-        setContentView(R.layout.recipe_menu_list);
+        setContentView(R.layout.recycler_recipe_list);
 
         catSpinner = this.findViewById(R.id.catSpinner);
         Button filterBTN = this.findViewById(R.id.filterBTN);
@@ -86,7 +90,8 @@ public class RecipeListActivity extends AppCompatActivity {
         this.setTitle(title);
 
         //Instantiate the listview
-        lv = findViewById(R.id.recipeMenuListView);
+        recyclerView = findViewById(R.id.recipeRecyclerView);
+
 
         //this method sets the adapter for the Recipe list view
         setRecipeListAdapter();
@@ -156,8 +161,10 @@ public class RecipeListActivity extends AppCompatActivity {
            public void onClick(View view) {
                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
                recipeList = mDataSource.getFilteredRecipes(selectedCat);
-               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, recipeList);
-               lv.setAdapter(filteredAdapter);
+//               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, recipeList);
+               RecipeRecyclerAdapter filteredAdapter = new RecipeRecyclerAdapter(mContext, recipeList);
+               recyclerView.setAdapter(filteredAdapter);
+               recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
            }
         });
     }
@@ -174,10 +181,11 @@ public class RecipeListActivity extends AppCompatActivity {
     private void setRecipeListAdapter(){
         if (recipeList != null){
             //instantiate the RecipeMenuItemAdapter passing the total list of recipes
-            adapter = new RecipeListItemAdapter(this, recipeList);
+            recyclerAdapter = new RecipeRecyclerAdapter(this, recipeList);
 
             //set the RecipeMenuItemAdapter as the adapter for the listview
-            lv.setAdapter(adapter);
+            recyclerView.setAdapter(recyclerAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }else {
 //            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
             Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
@@ -200,9 +208,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
 
         }
-        adapter = new RecipeListItemAdapter(this, recipeList);
-        lv.setAdapter(adapter);
-
+        recyclerAdapter = new RecipeRecyclerAdapter(this, recipeList);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        if(recipeList != null) {
 //            adapter.notifyDataSetChanged();
@@ -290,9 +298,9 @@ public class RecipeListActivity extends AppCompatActivity {
 
                             if (mDataSource.getAllRecipes() != null && mDataSource.getAllRecipes().size() != 0) {
                                 //reset the adapter
-                                adapter = new RecipeListItemAdapter(thisContext, mDataSource.getAllRecipes());
-                                lv.setAdapter(adapter);
-
+                                recyclerAdapter = new RecipeRecyclerAdapter(thisContext, mDataSource.getAllRecipes());
+                                recyclerView.setAdapter(recyclerAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(thisContext));
                                 //save the newly edited recipe list
                                 recipeList = mDataSource.getAllRecipes();
 
