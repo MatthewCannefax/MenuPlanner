@@ -22,7 +22,7 @@ import android.widget.Spinner;
 
 import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.RecipeMenuItemAdapter;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListRecyclerAdapter;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.AdHelper;
@@ -71,7 +71,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         //get the recipe item passed from the menulist
         try {
             try {
-                oldRecipe = getIntent().getExtras().getParcelable(RecipeMenuItemAdapter.RECIPE_ID);
+                oldRecipe = getIntent().getExtras().getParcelable(MenuListRecyclerAdapter.RECIPE_ID);
                 newRecipe = oldRecipe;
             } catch (NullPointerException e) {
                 e.printStackTrace();

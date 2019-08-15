@@ -78,4 +78,7 @@
     <string name="replace_grocery_title">Reemplazar lista de compras existente?</string>
     <string name="wish_to_continue">No se han encontrado elementos del menú, ¿desea continuar?</string>
     <string name="yes">Sí</string>
+    <string name="are_you_sure_remove_format">¿Seguro que quieres eliminar %s?</string>
+    <string name="format_recipe_removed">%s eliminada</string>
+    <string name="remove_from_menu">Eliminar del menú?</string>
 </resources>

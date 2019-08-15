@@ -112,6 +112,9 @@
     <string name="replace_grocery_title">Replace Existing Grocery List?</string>
     <string name="replace_grocery_message">Replace your existing grocery list with an empty list?</string>
     <string name="append_grocery_list">Append Grocery List</string>
+    <string name="remove_from_menu">Remove from menu?</string>
+    <string name="are_you_sure_remove_format">Are you sure you want to remove %s?</string>
+    <string name="format_recipe_removed">%s removed</string>
 
 
 </resources>

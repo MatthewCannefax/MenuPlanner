@@ -45,7 +45,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     public MenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View mItemView = mInflater.inflate(R.layout.menu_recipe_list_item, viewGroup, false);
 
-        return new MenuViewHolder(mItemView, this, i);
+        return new MenuViewHolder(mItemView, this);
     }
 
     @Override
@@ -63,18 +63,16 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView mImageView;
         TextView mTextView;
-        Recipe currentRecipe;
         DataSource mDataSource;
         MenuListRecyclerAdapter recyclerAdapter;
 
 
-        public MenuViewHolder(View itemView, MenuListRecyclerAdapter adapter, int position) {
+        public MenuViewHolder(View itemView, MenuListRecyclerAdapter adapter) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.itemNameText);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            currentRecipe = mMenuList.get(position);
             mDataSource = new DataSource(itemView.getContext());
             recyclerAdapter = adapter;
 
@@ -82,13 +80,38 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
 
         @Override
         public void onClick(View view) {
+            int mPosition = getLayoutPosition();
+
+            Recipe currentRecipe = mMenuList.get(mPosition);
+
             Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
             intent.putExtra(RECIPE_ID, currentRecipe);
             view.getContext().startActivity(intent);
         }
 
         @Override
-        public boolean onLongClick(View view) {
+        public boolean onLongClick(final View view) {
+            int mPosition = getLayoutPosition();
+
+            final Recipe currentRecipe = mMenuList.get(mPosition);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+                    .setTitle(view.getContext().getString(R.string.remove_from_menu))
+                    .setMessage(String.format(view.getContext().getString(R.string.are_you_sure_remove_format), currentRecipe.toString()))
+                    .setNegativeButton(view.getContext().getString(R.string.cancel), null)
+                    .setPositiveButton(view.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Snackbar.make(view, String.format(view.getContext().getString(R.string.format_recipe_removed), currentRecipe.toString()), Snackbar.LENGTH_LONG).show();
+                            mDataSource.removeMenuItem(currentRecipe.getRecipeID());
+                            mMenuList = mDataSource.getAllMenuRecipes();
+                            recyclerAdapter.notifyDataSetChanged();
+                            ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(view.getContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(view.getContext()));
+                            mCategorySpinner.setAdapter(rcAdapter);
+                            int test = 0;
+                        }
+                    });
+            builder.show();
             return false;
         }
     }
