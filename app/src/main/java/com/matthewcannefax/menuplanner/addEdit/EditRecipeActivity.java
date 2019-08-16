@@ -57,6 +57,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     //an object for any changes made to the oldRecipe
     private Recipe newRecipe;
 
+    public static final String RECIPE_ID = "item_id";
+
     //endregion
 
     @Override
@@ -71,7 +73,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         //get the recipe item passed from the menulist
         try {
             try {
-                oldRecipe = getIntent().getExtras().getParcelable(MenuListRecyclerAdapter.RECIPE_ID);
+                oldRecipe = getIntent().getExtras().getParcelable(RECIPE_ID);
                 newRecipe = oldRecipe;
             } catch (NullPointerException e) {
                 e.printStackTrace();

@@ -25,7 +25,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     private List<Recipe> mRecipeList;
     private LayoutInflater mInflater;
     private Context mContext;
-    public static final String RECIPE_ID = "item_id";
 
 
     public RecipeRecyclerAdapter(Context context, List<Recipe> recipeList){
@@ -90,7 +89,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             Recipe currentRecipe = mRecipeList.get(mPosition);
 
             Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(RECIPE_ID, currentRecipe);
+            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
             view.getContext().startActivity(intent);
 
             return true;

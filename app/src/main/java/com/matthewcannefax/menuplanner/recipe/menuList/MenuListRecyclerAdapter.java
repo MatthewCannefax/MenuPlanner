@@ -30,7 +30,6 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     private List<Recipe> mMenuList;
     private LayoutInflater mInflater;
     private Context mContext;
-    public static final String RECIPE_ID = "item_id";
     Spinner mCategorySpinner;
 
     public MenuListRecyclerAdapter(Context context, List<Recipe> menuList, Spinner categorySpinner){
@@ -85,7 +84,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
             Recipe currentRecipe = mMenuList.get(mPosition);
 
             Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(RECIPE_ID, currentRecipe);
+            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
             view.getContext().startActivity(intent);
         }
 
