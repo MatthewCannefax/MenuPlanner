@@ -8,22 +8,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecyclerAdapter.GroceryViewHolder> {
 
     private List<Ingredient> mGroceryList;
     private LayoutInflater mInflater;
+    private Map<Integer, Boolean> headingMap;
 
     public GroceryRecyclerAdapter(Context context, List<Ingredient> groceryList){
         mInflater = LayoutInflater.from(context);
         mGroceryList = groceryList;
+        headingMap = new HashMap<>();
+
+        headingMap.put(mGroceryList.get(0).getIngredientID(), true);
+
+        for (int i = 0; i < mGroceryList.size(); i++){
+            if(i != 0){
+                Ingredient current = mGroceryList.get(i);
+                Ingredient previous = mGroceryList.get(i -1);
+
+                if(current.getCategory() != previous.getCategory()){
+                    headingMap.put(current.getIngredientID(), true);
+                }else {
+                    headingMap.put(current.getIngredientID(), false);
+                }
+            }
+        }
+        int n = 9;
     }
 
     @NonNull
@@ -41,14 +62,30 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
         holder.mMeasurement.setText(measurePlusName);
         holder.mCategory.setText(mCurrent.getCategory().toString());
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+
+
+        if(!headingMap.get(mCurrent.getIngredientID())){
+            holder.mCategory.setVisibility(View.INVISIBLE);
+            params.setMargins(0, -15, 0, -15);
+            holder.mCategory.setLayoutParams(params);
+
+        }else{
+            holder.mCategory.setVisibility(View.VISIBLE);
+            params.setMargins(0, 10, 0, 0);
+            holder.mCategory.setLayoutParams(params);
+        }
+
         if(mCurrent.getItemChecked()){
             holder.mGroceryCheckBox.setChecked(true);
             holder.mMeasurement.setPaintFlags(holder.mMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.mCategory.setPaintFlags(holder.mCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//            holder.mCategory.setPaintFlags(holder.mCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else{
             holder.mGroceryCheckBox.setChecked(false);
             holder.mMeasurement.setPaintFlags(0);
-            holder.mCategory.setPaintFlags(0);
+//            holder.mCategory.setPaintFlags(0);
         }
     }
 
@@ -88,14 +125,14 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
             if (clickedIngredient.getItemChecked()){
                 clickedIngredient.setItemChecked(false);
                 mDatasource.setGroceryItemChecked(clickedIngredient.getIngredientID(), false);
-                mCategory.setPaintFlags(0);
+//                mCategory.setPaintFlags(0);
                 mMeasurement.setPaintFlags(0);
 
                 mGroceryCheckBox.setChecked(false);
             }else {
                 clickedIngredient.setItemChecked(true);
                 mDatasource.setGroceryItemChecked(clickedIngredient.getIngredientID(), true);
-                mCategory.setPaintFlags(mCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                mCategory.setPaintFlags(mCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mMeasurement.setPaintFlags(mMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                 mGroceryCheckBox.setChecked(true);
