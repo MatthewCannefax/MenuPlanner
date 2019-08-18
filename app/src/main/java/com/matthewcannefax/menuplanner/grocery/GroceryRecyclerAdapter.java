@@ -30,21 +30,23 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
         mGroceryList = groceryList;
         headingMap = new HashMap<>();
 
-        headingMap.put(mGroceryList.get(0).getIngredientID(), true);
+        if (mGroceryList != null && mGroceryList.size() != 0) {
+            headingMap.put(mGroceryList.get(0).getIngredientID(), true);
 
-        for (int i = 0; i < mGroceryList.size(); i++){
-            if(i != 0){
-                Ingredient current = mGroceryList.get(i);
-                Ingredient previous = mGroceryList.get(i -1);
+            for (int i = 0; i < mGroceryList.size(); i++){
+                if(i != 0){
+                    Ingredient current = mGroceryList.get(i);
+                    Ingredient previous = mGroceryList.get(i -1);
 
-                if(current.getCategory() != previous.getCategory()){
-                    headingMap.put(current.getIngredientID(), true);
-                }else {
-                    headingMap.put(current.getIngredientID(), false);
+                    if(current.getCategory() != previous.getCategory()){
+                        headingMap.put(current.getIngredientID(), true);
+                    }else {
+                        headingMap.put(current.getIngredientID(), false);
+                    }
                 }
             }
         }
-        int n = 9;
+
     }
 
     @NonNull
