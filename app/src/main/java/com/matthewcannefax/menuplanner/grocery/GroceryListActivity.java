@@ -143,11 +143,6 @@ public class GroceryListActivity extends AppCompatActivity {
         final EditText etName = newItemView.findViewById(R.id.ingredientName);
         final Spinner spCat = newItemView.findViewById(R.id.categorySpinner);
 
-        //set up the clicklisteners for the editTexts inside the alertdialog
-        //these clicklisteners will clear the text inside and then null the listener itself
-        clearEditText(etName);
-        clearEditText(etAmount);
-
         //setup the default array adapters for the category and measurementtype spinners
         ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
         ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.getEnum());
@@ -326,20 +321,6 @@ public class GroceryListActivity extends AppCompatActivity {
             default:
                 return false;
         }
-    }
-
-    //this method clears any editText boxes and then nulls the clicklistener so it can't be clear again
-    private void clearEditText(final EditText editText){
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                //clear the text in the box
-                editText.setText("");
-
-                //null the click listener
-                editText.setOnFocusChangeListener(null);
-            }
-        });
     }
 
     @Override
