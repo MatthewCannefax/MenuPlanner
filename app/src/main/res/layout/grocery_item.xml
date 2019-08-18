@@ -17,21 +17,25 @@
 
 
     <LinearLayout
+        android:id="@+id/groceryItemSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/groceryCheckBox"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".75"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
+            android:textSize="16dp"
             android:clickable="false"/>
 
         <TextView
             android:id="@+id/tvMeasurement"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textSize="16sp" />

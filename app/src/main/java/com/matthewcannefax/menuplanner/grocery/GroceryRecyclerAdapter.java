@@ -58,22 +58,29 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
     @Override
     public void onBindViewHolder(GroceryViewHolder holder, int position) {
         Ingredient mCurrent = mGroceryList.get(position);
-        String measurePlusName = String.format("%s %s", mCurrent.getMeasurement().toString(), mCurrent.getName());
-        holder.mMeasurement.setText(measurePlusName);
+//        String measurePlusName = String.format("%s %s", mCurrent.getMeasurement().toString(), mCurrent.getName());
+        holder.mMeasurement.setText(mCurrent.getMeasurement().toString());
+        holder.mGroceryCheckBox.setText(mCurrent.getName());
         holder.mCategory.setText(mCurrent.getCategory().toString());
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-
+        if(position == 0 || (position %2) == 0){
+            holder.mGrocerySection.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.divider));
+        }else{
+            holder.mGrocerySection.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.white));
+        }
 
 
         if(!headingMap.get(mCurrent.getIngredientID())){
             holder.mCategory.setVisibility(View.INVISIBLE);
-            params.setMargins(0, -15, 0, -15);
+            holder.mCategory.setTextSize(0);
+            params.setMargins(0, 0, 0, 0);
             holder.mCategory.setLayoutParams(params);
 
         }else{
             holder.mCategory.setVisibility(View.VISIBLE);
+            holder.mCategory.setTextSize(16);
             params.setMargins(0, 10, 0, 0);
             holder.mCategory.setLayoutParams(params);
         }
@@ -104,6 +111,7 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
         CheckBox mGroceryCheckBox;
         TextView mMeasurement;
         TextView mCategory;
+        LinearLayout mGrocerySection;
 
 
         public GroceryViewHolder(View itemView, GroceryRecyclerAdapter adapter) {
@@ -111,6 +119,7 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
             mGroceryCheckBox = itemView.findViewById(R.id.groceryCheckBox);
             mMeasurement = itemView.findViewById(R.id.tvMeasurement);
             mCategory = itemView.findViewById(R.id.tvCategory);
+            mGrocerySection = itemView.findViewById(R.id.groceryItemSection);
             itemView.setOnClickListener(this);
         }
 
