@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +24,20 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
 
     private List<Ingredient> mGroceryList;
     private LayoutInflater mInflater;
-    private Map<Integer, Boolean> headingMap;
+    private SparseBooleanArray headingArray;
+    private SparseBooleanArray dividerArray;
+    private boolean divider;
 
     public GroceryRecyclerAdapter(Context context, List<Ingredient> groceryList){
         mInflater = LayoutInflater.from(context);
         mGroceryList = groceryList;
-        headingMap = new HashMap<>();
+        headingArray = new SparseBooleanArray();
+        dividerArray = new SparseBooleanArray();
+        divider = true;
 
         if (mGroceryList != null && mGroceryList.size() != 0) {
-            headingMap.put(mGroceryList.get(0).getIngredientID(), true);
+            headingArray.append(mGroceryList.get(0).getIngredientID(), true);
+            dividerArray.append(0, true);
 
             for (int i = 0; i < mGroceryList.size(); i++){
                 if(i != 0){
@@ -39,10 +45,19 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
                     Ingredient previous = mGroceryList.get(i -1);
 
                     if(current.getCategory() != previous.getCategory()){
-                        headingMap.put(current.getIngredientID(), true);
+                        headingArray.append(current.getIngredientID(), true);
+                        divider = true;
                     }else {
-                        headingMap.put(current.getIngredientID(), false);
+                        headingArray.append(current.getIngredientID(), false);
+                        if(dividerArray.get(i - 1)){
+                            divider = false;
+                        }else {
+                            divider = true;
+                        }
                     }
+
+
+                    dividerArray.append(i, divider);
                 }
             }
         }
@@ -67,14 +82,14 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        if(position == 0 || (position %2) == 0){
+        if(dividerArray.get(position)){
             holder.mGrocerySection.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.divider));
         }else{
             holder.mGrocerySection.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.white));
         }
 
 
-        if(!headingMap.get(mCurrent.getIngredientID())){
+        if(!headingArray.get(mCurrent.getIngredientID())){
             holder.mCategory.setVisibility(View.INVISIBLE);
             holder.mCategory.setTextSize(0);
             params.setMargins(0, 0, 0, 0);
