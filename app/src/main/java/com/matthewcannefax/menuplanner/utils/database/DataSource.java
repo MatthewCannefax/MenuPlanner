@@ -525,6 +525,43 @@ public class DataSource {
         close();
 
     }
+
+    public Ingredient getSpecificIngredient(CharSequence charSequence){
+        if(!mDatabase.isOpen()){
+            open();
+        }
+
+        String name = charSequence.toString();
+        String[] nameArray = {name};
+
+        Ingredient ingredient = new Ingredient();
+
+        Cursor ingredientCursor = mDatabase.query(
+                IngredientTable.TABLE_NAME,
+                IngredientTable.ALL_COLUMNS,
+                IngredientTable.COLUMN_NAME +"=?",
+                nameArray,
+                null,
+                null,
+                null);
+
+
+        if (ingredientCursor != null && ingredientCursor.getCount() != 0) {
+            ingredientCursor.moveToFirst();
+            ingredient.setIngredientID(ingredientCursor.getInt(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_ID)));
+            ingredient.setName(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_NAME)));
+            ingredient.setCategory(GroceryCategory.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_CATEGORY))));
+            ingredient.setMeasurement(new Measurement(
+                    ingredientCursor.getDouble(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_AMOUNT)),
+                    MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
+            ));
+        }
+
+
+        close();
+
+        return ingredient;
+    }
     //endregion
 
     //region Grocery List Table Statements

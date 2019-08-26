@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,8 @@ public class ViewPagerHelper {
 
     public static void setAddIngredientButton(final Context context, Button button,
                                               final Recipe newRecipe, final RecyclerView recyclerView){
+
+        final DataSource mDataSource = new DataSource(context);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,9 +55,6 @@ public class ViewPagerHelper {
                 final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
                 final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
 
-                //use the clearEditText method to clear the editTexts in the Alert Dialog and the null the listener
-                clearEditText(etName);
-                clearEditText(etAmount);
 
                 //setup the default array adapters for the category and measurementtype spinners
                 ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
@@ -60,6 +63,28 @@ public class ViewPagerHelper {
                 //set the spinner adpaters
                 spMeasure.setAdapter(measureAdapter);
                 spCat.setAdapter(ingredCatAdapter);
+
+                etName.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        String s = charSequence.toString();
+
+                        Ingredient ingredient = mDataSource.getSpecificIngredient(charSequence);
+
+                        if(ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null){
+                            spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
+                            spMeasure.setSelection(ingredient.getMeasurement().getType().ordinal());
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                    }
+                });
 
                 //set the new view as the view for the alertdialog
                 builder.setView(editIngredientView);
