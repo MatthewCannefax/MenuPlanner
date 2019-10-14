@@ -40,6 +40,19 @@ public enum MeasurementType {
         return measurementTypes;
     }
 
+    public static int getOrdinal(MeasurementType measurement){
+        List<MeasurementType> mTypes = getEnum();
+        int count = 0;
+        for (MeasurementType mType :
+                mTypes) {
+            if (mType == measurement) {
+                return count;
+            }
+            count++;
+        }
+        return 0;
+    }
+
     //constructor
     MeasurementType(String name){
         mName = name;

@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.addEdit.IngredientItemAdapter;
 import com.matthewcannefax.menuplanner.addEdit.IngredientRecyclerAdapter;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
@@ -77,7 +76,7 @@ public class ViewPagerHelper {
 
                         if(ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null){
                             spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
-                            spMeasure.setSelection(ingredient.getMeasurement().getType().ordinal());
+                            spMeasure.setSelection(MeasurementType.getOrdinal(ingredient.getMeasurement().getType()));
                         }
                     }
 

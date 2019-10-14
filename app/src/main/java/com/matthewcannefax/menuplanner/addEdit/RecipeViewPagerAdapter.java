@@ -105,7 +105,6 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
                         mRecipe.setDirections(etDirections.getText().toString());
                     }
                 });
-//                etDirections.setFocusable(false);
                 break;
 
                 default:
@@ -125,9 +124,6 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
         return view;
     }
 
-
-
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         ViewPager vp = (ViewPager) container;
@@ -135,69 +131,4 @@ public class RecipeViewPagerAdapter extends PagerAdapter {
 
         vp.removeView(view);
     }
-
-
-//    private void listViewClickListener(){
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//                builder.setTitle(R.string.edit_ingredient);
-//
-//                View editIngredientView = LayoutInflater.from(mContext).inflate(R.layout.add_ingredient_item,
-//                        (ViewGroup)view.findViewById(android.R.id.content), false);
-//
-//                //controls inside the view
-//                final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
-//                final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
-//                final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
-//                final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
-//
-//                //setup the default array adapters for the category and measurementtype spinners
-//                ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, MeasurementType.values());
-//                ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, GroceryCategory.getEnumIngredients());
-//
-//                Ingredient ingredient = mRecipe.getIngredientList().get(i);
-//
-////                etAmount.setText(Double.toString(ingredient.getMeasurement().getAmount()));
-//                etAmount.setText(String.format(Locale.US, "%s", ingredient.getMeasurement().getAmount()));
-//                etName.setText(ingredient.getName());
-//
-//                //set the spinner adpaters
-//                spMeasure.setAdapter(measureAdapter);
-//                spCat.setAdapter(ingredCatAdapter);
-//
-//                spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
-//                spMeasure.setSelection(ingredient.getMeasurement().getType().ordinal());
-//
-//                builder.setView(editIngredientView);
-//
-//                builder.setNegativeButton(R.string.cancel, null);
-//                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int n) {
-//                        mRecipe.getIngredientList().get(i).setName(etName.getText().toString());
-//                        mRecipe.getIngredientList().get(i).setCategory((GroceryCategory) spCat.getSelectedItem());
-//                        mRecipe.getIngredientList().get(i).setMeasurement(new Measurement(Double.parseDouble(etAmount.getText().toString()),
-//                                                                                            (MeasurementType)spMeasure.getSelectedItem()));
-//                        IngredientItemAdapter ingredientItemAdapter = (IngredientItemAdapter)listView.getAdapter();
-//                        ingredientItemAdapter.notifyDataSetChanged();
-//                    }
-//                });
-//                builder.setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int n) {
-//                            mRecipe.getIngredientList().remove(i);
-////                            IngredientItemAdapter ingredientItemAdapter = (IngredientItemAdapter) listView.getAdapter();
-//                        ((IngredientItemAdapter)(listView.getAdapter())).notifyDataSetChanged();
-////                            ingredientItemAdapter.notifyDataSetChanged();
-//                    }
-//                });
-//
-//                builder.show();
-//                return false;
-//            }
-//        });
-//    }
 }
