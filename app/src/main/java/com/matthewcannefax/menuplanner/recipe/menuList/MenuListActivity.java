@@ -205,9 +205,9 @@ public class MenuListActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
-
-        AdHelper.SetupBannerAd(this, mAdView);
+//        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
+//
+//        AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void addRecipeToMenu(){

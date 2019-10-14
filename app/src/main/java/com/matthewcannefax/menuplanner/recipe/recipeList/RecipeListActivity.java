@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.recipe.recipeList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -135,7 +136,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
                     returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     RecipeListActivity.this.startActivity(returnToMenu);
-                    AdHelper.showInterstitial(getApplicationContext());
+//                    AdHelper.showInterstitial(getApplicationContext());
                     RecipeListActivity.this.finish();
 
                 } else {
@@ -173,9 +174,9 @@ public class RecipeListActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
-
-        AdHelper.SetupBannerAd(this, mAdView);
+//        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
+//
+//        AdHelper.SetupBannerAd(this, mAdView);
     }
 
     private void setRecipeListAdapter(){
@@ -228,6 +229,7 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
     //this overridden method creates the menu item in the actionbar
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
 
