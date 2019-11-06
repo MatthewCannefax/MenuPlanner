@@ -153,14 +153,14 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
                 mDatasource.setGroceryItemChecked(clickedIngredient.getIngredientID(), false);
 //                mCategory.setPaintFlags(0);
                 mMeasurement.setPaintFlags(0);
-
+                mGroceryCheckBox.setPaintFlags(0);
                 mGroceryCheckBox.setChecked(false);
             }else {
                 clickedIngredient.setItemChecked(true);
                 mDatasource.setGroceryItemChecked(clickedIngredient.getIngredientID(), true);
 //                mCategory.setPaintFlags(mCategory.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mMeasurement.setPaintFlags(mMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+                mGroceryCheckBox.setPaintFlags(mGroceryCheckBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mGroceryCheckBox.setChecked(true);
             }
 
