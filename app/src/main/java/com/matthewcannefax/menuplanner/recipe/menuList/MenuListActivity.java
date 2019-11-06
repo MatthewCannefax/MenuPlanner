@@ -60,6 +60,8 @@ public class MenuListActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
+    private Button filterBTN;
+
     DataSource mDataSource;
 
     //endregion
@@ -84,7 +86,7 @@ public class MenuListActivity extends AppCompatActivity {
 //        lv = findViewById(R.id.recipeMenuListView);
         recyclerView = findViewById(R.id.menuRecyclerView);
         catSpinner = findViewById(R.id.catSpinner);
-        Button filterBTN = findViewById(R.id.filterBTN);
+        filterBTN = findViewById(R.id.filterBTN);
         FloatingActionButton fab = findViewById(R.id.fab);
 //        Button addIngredientButton = findViewById(R.id.add_recipe_button);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -147,12 +149,12 @@ public class MenuListActivity extends AppCompatActivity {
         filterBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+                RecipeCategory selectedCat = (RecipeCategory) catSpinner.getSelectedItem();
                 if (selectedCat != RecipeCategory.ALL) {
                     List<Recipe> filteredRecipes = new ArrayList<>();
 
-                    for(Recipe r : mDataSource.getAllMenuRecipes()){
-                        if(r.getCategory() == selectedCat){
+                    for (Recipe r : mDataSource.getAllMenuRecipes()) {
+                        if (r.getCategory() == selectedCat) {
                             filteredRecipes.add(r);
                         }
                     }
@@ -162,44 +164,13 @@ public class MenuListActivity extends AppCompatActivity {
                     recyclerView.setAdapter(filteredAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 } else {
-
-                    recyclerView.setAdapter(allMenuAdapter);
+                    MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getApplicationContext(), mDataSource.getAllMenuRecipes(), catSpinner);
+                    recyclerView.setAdapter(allAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 }
             }
         });
     }
-
-//    private void checkPermissions(final Context mContext, final SharedPreferences sharedPref, boolean isPreloaded) {
-//        if(!isPreloaded && PermissionsHelper.isMenuFirstInstance()) {
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("Use predefined recipes?");
-//            builder.setMessage("Would you like to add a list of predefined recipes to get you started?");
-//            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                        SharedPreferences.Editor edit = sharedPref.edit();
-//                        edit.putBoolean(getString(R.string.is_preloaded), true);
-//                        edit.apply();
-//                }
-//            });
-//            builder.setNeutralButton("Maybe Later", null);
-//            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(mContext));
-//                    SharedPreferences.Editor edit = sharedPref.edit();
-//                    edit.putBoolean(getString(R.string.is_preloaded), true);
-//                    edit.apply();
-//                    Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-//                    startActivity(intent);
-//                }
-//            });
-//            builder.show();
-//
-//        }
-//    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -274,15 +245,6 @@ public class MenuListActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
 
-//        //if the menu list is not null notify the adapter of changes, in case there are any
-//        if (mDataSource.getAllMenuRecipes() != null) {
-//            adapter.notifyDataSetChanged();
-//
-//            //setup the arrayAdapter for catSpinner
-//            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getRecipeCategoriesUsed(mDataSource.getAllMenuRecipes()));
-//            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
-//            catSpinner.setAdapter(catSpinnerAdapter);
-//        }
     }
 
     @Override
@@ -346,6 +308,8 @@ public class MenuListActivity extends AppCompatActivity {
                             mDataSource.removeAllMenuItems();
                             menuList = null;
                             recyclerView.setAdapter(null);
+                            setCatAdapter();
+                            setFilterBTNListener(getApplicationContext(),filterBTN,null);
                             Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
                         }
                     });
