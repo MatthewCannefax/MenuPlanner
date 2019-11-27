@@ -81,4 +81,6 @@
     <string name="are_you_sure_remove_format">¿Seguro que quieres eliminar %s?</string>
     <string name="format_recipe_removed">%s eliminada</string>
     <string name="remove_from_menu">Eliminar del menú?</string>
+    <string name="recipe_detail_image_description">Una imagen de esta receta. ¡Parece sabroso!</string>
+    <string name="category_textview">CATEGORÍA:</string>
 </resources>

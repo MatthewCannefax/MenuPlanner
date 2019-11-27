@@ -1,11 +1,13 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +32,18 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     private List<Recipe> mMenuList;
     private LayoutInflater mInflater;
     private Context mContext;
+    private FragmentManager mFragmentManager;
     Spinner mCategorySpinner;
 
-    public MenuListRecyclerAdapter(Context context, List<Recipe> menuList, Spinner categorySpinner){
+    private boolean mTwoPane;
+
+    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner, boolean isTwoPane){
         mMenuList = menuList;
         mInflater = LayoutInflater.from(context);
         mContext = context;
+        mFragmentManager = fragmentManager;
         mCategorySpinner = categorySpinner;
+        mTwoPane = isTwoPane;
     }
 
     @NonNull
@@ -80,12 +87,21 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
         @Override
         public void onClick(View view) {
             int mPosition = getLayoutPosition();
-
             Recipe currentRecipe = mMenuList.get(mPosition);
 
-            Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
-            view.getContext().startActivity(intent);
+            if(mTwoPane){
+                int selectedID = currentRecipe.getRecipeID();
+                RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(selectedID);
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.recipe_detail_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }else {
+                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
+                intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
+                view.getContext().startActivity(intent);
+            }
+
         }
 
         @Override

@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,6 +65,11 @@ public class MenuListActivity extends AppCompatActivity {
 
     DataSource mDataSource;
 
+    private boolean mTwoPane;
+    private Activity mActivity;
+
+    public static final String RECIPE_ID_STRING = "selected_recipe";
+
     //endregion
 
     @Override
@@ -72,6 +78,10 @@ public class MenuListActivity extends AppCompatActivity {
         //using the same layout as the recipelist activity
         setContentView(R.layout.recycler_menu_list);
 
+        if(findViewById(R.id.recipe_detail_container) != null){
+            mTwoPane = true;
+        }
+        mActivity = this;
         final Context mContext = this;
 
         mDataSource = new DataSource(mContext);
@@ -98,7 +108,7 @@ public class MenuListActivity extends AppCompatActivity {
         setMenuListViewAdapter();
 
 //        final RecipeMenuItemAdapter allMenuAdapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
-        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
+        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getSupportFragmentManager(),this, mDataSource.getAllMenuRecipes(), catSpinner, mTwoPane);
 
         setFilterBTNListener(mContext, filterBTN, allMenuAdapter);
 
@@ -132,6 +142,8 @@ public class MenuListActivity extends AppCompatActivity {
 
         PermissionsHelper.setMenuFirstInstance(false);
 
+
+
     }
 
     private void setCatAdapter() {
@@ -160,11 +172,11 @@ public class MenuListActivity extends AppCompatActivity {
                     }
 
 //                    RecipeMenuItemAdapter filteredAdapter = new RecipeMenuItemAdapter(mContext, MenuListActivity.this, filteredRecipes, lv, catSpinner);
-                    MenuListRecyclerAdapter filteredAdapter = new MenuListRecyclerAdapter(mContext, filteredRecipes, catSpinner);
+                    MenuListRecyclerAdapter filteredAdapter = new MenuListRecyclerAdapter(getSupportFragmentManager(), mContext, filteredRecipes, catSpinner, mTwoPane);
                     recyclerView.setAdapter(filteredAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 } else {
-                    MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getApplicationContext(), mDataSource.getAllMenuRecipes(), catSpinner);
+                    MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getSupportFragmentManager(), getApplicationContext(), mDataSource.getAllMenuRecipes(), catSpinner, mTwoPane);
                     recyclerView.setAdapter(allAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                 }
@@ -200,7 +212,7 @@ public class MenuListActivity extends AppCompatActivity {
         if(mDataSource.getAllMenuRecipes() != null){
             //initialize the RecipeMenuItemAdapter passing the list of menu items
 //            adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
-            adapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
+            adapter = new MenuListRecyclerAdapter(getSupportFragmentManager(), this, mDataSource.getAllMenuRecipes(), catSpinner, mTwoPane);
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
             recyclerView.setAdapter(adapter);
@@ -235,10 +247,10 @@ public class MenuListActivity extends AppCompatActivity {
 
 
 //                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, filteredRecipes, lv, catSpinner);
-                adapter = new MenuListRecyclerAdapter(this, filteredRecipes, catSpinner);
+                adapter = new MenuListRecyclerAdapter(getSupportFragmentManager(), this, filteredRecipes, catSpinner, mTwoPane);
             }else{
 //                adapter = new RecipeMenuItemAdapter(this, MenuListActivity.this, mDataSource.getAllMenuRecipes(), lv, catSpinner);
-                adapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
+                adapter = new MenuListRecyclerAdapter(getSupportFragmentManager(), this, mDataSource.getAllMenuRecipes(), catSpinner, mTwoPane);
             }
 
             recyclerView.setAdapter(adapter);

@@ -117,4 +117,9 @@
     <string name="format_recipe_removed">%s removed</string>
 
 
+
+    <string name="recipe_detail_image_description">An image of this recipe. It looks tasty!</string>
+    <string name="category_textview">"CATEGORY: "</string>
+
+
 </resources>
