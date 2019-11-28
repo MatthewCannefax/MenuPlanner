@@ -120,6 +120,7 @@
 
     <string name="recipe_detail_image_description">An image of this recipe. It looks tasty!</string>
     <string name="category_textview">"CATEGORY: "</string>
+    <string name="directions_heading">DIRECTIONS</string>
 
 
 </resources>
