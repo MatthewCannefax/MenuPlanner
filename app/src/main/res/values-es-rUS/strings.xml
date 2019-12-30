@@ -84,4 +84,6 @@
     <string name="recipe_detail_image_description">Una imagen de esta receta. ¡Parece sabroso!</string>
     <string name="category_textview">CATEGORÍA:</string>
     <string name="directions_heading">DIRECCIONES</string>
+    <string name="almost_dinner_time">Casi la hora de la cena</string>
+    <string name="whats_for_dinner">¿Qué hay para cenar esta noche?</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -22,23 +23,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.utils.AdHelper;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
-import com.matthewcannefax.menuplanner.utils.NavDrawer;
-import com.matthewcannefax.menuplanner.utils.NavHelper;
+import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
+import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 //this activity is to display the selected MenuList
 //it has contains buttons to add a recipe to the menu and generate a grocery list
@@ -141,7 +145,10 @@ public class MenuListActivity extends AppCompatActivity {
         setCatAdapter();
 
         PermissionsHelper.setMenuFirstInstance(false);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationHelper notificationHelper = new NotificationHelper(mContext);
+            notificationHelper.scheduleJob();
+        }
 
 
     }

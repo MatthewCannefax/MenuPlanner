@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.utils;
+package com.matthewcannefax.menuplanner.utils.navigation;
 
 
 import android.app.Activity;
@@ -17,6 +17,8 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.utils.ActivityNavEnum;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 

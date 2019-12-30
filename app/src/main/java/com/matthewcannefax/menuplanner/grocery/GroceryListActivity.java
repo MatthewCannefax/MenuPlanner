@@ -23,14 +23,12 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
-import com.matthewcannefax.menuplanner.utils.AdHelper;
-import com.matthewcannefax.menuplanner.utils.NavDrawer;
+import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;

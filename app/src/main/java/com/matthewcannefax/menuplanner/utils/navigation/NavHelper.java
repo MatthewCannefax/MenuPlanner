@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.utils;
+package com.matthewcannefax.menuplanner.utils.navigation;
 
 import android.app.Activity;
 import android.content.Context;
