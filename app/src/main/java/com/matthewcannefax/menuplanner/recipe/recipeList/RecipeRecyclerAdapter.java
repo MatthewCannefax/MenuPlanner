@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
@@ -21,7 +23,6 @@ import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import java.util.List;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeViewHolder> {
-
     private List<Recipe> mRecipeList;
     private LayoutInflater mInflater;
     private Context mContext;
@@ -45,7 +46,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public void onBindViewHolder(RecipeRecyclerAdapter.RecipeViewHolder holder, int position) {
 
         Recipe mCurrent = mRecipeList.get(position);
-        holder.mCheckBox.setText(mCurrent.toString());
+        holder.tvName.setText(mCurrent.toString());
         holder.mCheckBox.setChecked(mCurrent.isItemChecked());
         ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
 
@@ -58,6 +59,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         CheckBox mCheckBox;
+        TextView tvName;
         ImageView mImageView;
         RecipeRecyclerAdapter recyclerAdapter;
         DataSource mDataSource;
@@ -67,6 +69,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         public RecipeViewHolder(View itemView, RecipeRecyclerAdapter adapter) {
             super(itemView);
             mCheckBox = itemView.findViewById(R.id.cbName);
+            tvName = itemView.findViewById(R.id.tvName);
             mImageView = itemView.findViewById(R.id.imageView);
             recyclerAdapter = adapter;
             mDataSource = new DataSource(itemView.getContext());
