@@ -47,6 +47,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
         Recipe mCurrent = mRecipeList.get(position);
         holder.tvName.setText(mCurrent.toString());
+        holder.tvCategory.setText(mCurrent.getCategory().toString());
         holder.mCheckBox.setChecked(mCurrent.isItemChecked());
         ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
 
@@ -60,16 +61,16 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         CheckBox mCheckBox;
         TextView tvName;
+        TextView tvCategory;
         ImageView mImageView;
         RecipeRecyclerAdapter recyclerAdapter;
         DataSource mDataSource;
-
-
 
         public RecipeViewHolder(View itemView, RecipeRecyclerAdapter adapter) {
             super(itemView);
             mCheckBox = itemView.findViewById(R.id.cbName);
             tvName = itemView.findViewById(R.id.tvName);
+            tvCategory = itemView.findViewById(R.id.tvCategory);
             mImageView = itemView.findViewById(R.id.imageView);
             recyclerAdapter = adapter;
             mDataSource = new DataSource(itemView.getContext());

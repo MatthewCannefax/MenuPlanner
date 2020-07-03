@@ -31,19 +31,34 @@
             android:contentDescription="menu/recipe item"
             tools:ignore="VectorDrawableCompat, HardcodedText"/>
 
-        <TextView
-            android:id="@+id/itemNameText"
+        <LinearLayout
+            android:id="@+id/nameAndCatLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
+            android:orientation="vertical"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:text="A menu/recipe item"
-            android:textSize="20sp"
-            tools:ignore="HardcodedText" />
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:id="@+id/itemNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="A menu/recipe item"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -58,6 +58,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     public void onBindViewHolder(MenuViewHolder holder, int position) {
         Recipe mCurrent = mMenuList.get(position);
         holder.mTextView.setText(mCurrent.getName());
+        holder.tvCategory.setText(mCurrent.getCategory().toString());
         ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
     }
 
@@ -69,6 +70,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         ImageView mImageView;
         TextView mTextView;
+        TextView tvCategory;
         DataSource mDataSource;
         MenuListRecyclerAdapter recyclerAdapter;
 
@@ -77,6 +79,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.itemNameText);
+            tvCategory = itemView.findViewById(R.id.tvCategory);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             mDataSource = new DataSource(itemView.getContext());
