@@ -3,6 +3,7 @@ package com.matthewcannefax.menuplanner.grocery;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -77,7 +78,7 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
         Ingredient mCurrent = mGroceryList.get(position);
 //        String measurePlusName = String.format("%s %s", mCurrent.getMeasurement().toString(), mCurrent.getName());
         holder.mMeasurement.setText(mCurrent.getMeasurement().toString());
-        holder.mGroceryCheckBox.setText(mCurrent.getName());
+        holder.tvName.setText(mCurrent.getName());
         holder.mCategory.setText(mCurrent.getCategory().toString());
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -90,13 +91,15 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
 
 
         if(!headingArray.get(mCurrent.getIngredientID())){
-            holder.mCategory.setVisibility(View.INVISIBLE);
+//            holder.mCategory.setVisibility(View.INVISIBLE);
+            holder.headingLayout.setVisibility(View.GONE);
             holder.mCategory.setTextSize(0);
             params.setMargins(0, 0, 0, 0);
             holder.mCategory.setLayoutParams(params);
 
         }else{
-            holder.mCategory.setVisibility(View.VISIBLE);
+//            holder.mCategory.setVisibility(View.VISIBLE);
+            holder.headingLayout.setVisibility(View.VISIBLE);
             holder.mCategory.setTextSize(16);
             params.setMargins(0, 10, 0, 0);
             holder.mCategory.setLayoutParams(params);
@@ -128,7 +131,9 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
         CheckBox mGroceryCheckBox;
         TextView mMeasurement;
         TextView mCategory;
-        LinearLayout mGrocerySection;
+        TextView tvName;
+        LinearLayout headingLayout;
+        ConstraintLayout mGrocerySection;
 
 
         public GroceryViewHolder(View itemView, GroceryRecyclerAdapter adapter) {
@@ -136,6 +141,8 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryRecycler
             mGroceryCheckBox = itemView.findViewById(R.id.groceryCheckBox);
             mMeasurement = itemView.findViewById(R.id.tvMeasurement);
             mCategory = itemView.findViewById(R.id.tvCategory);
+            tvName = itemView.findViewById(R.id.tvName);
+            headingLayout = itemView.findViewById(R.id.headingLayout);
             mGrocerySection = itemView.findViewById(R.id.groceryItemSection);
             itemView.setOnClickListener(this);
         }
