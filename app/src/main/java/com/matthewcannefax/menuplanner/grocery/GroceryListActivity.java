@@ -75,10 +75,7 @@ public class GroceryListActivity extends AppCompatActivity {
         ingredients = mDataSource.getAllGroceries();
 
         //initialize the listview
-        //might change to recyclerview since it tends to be a little smoother while scrolling
-//        lv = findViewById(R.id.recipeMenuListView);
         recyclerView = findViewById(R.id.groceryRecyclerView);
-//        Button mButton = findViewById(R.id.addItemButton);
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,12 +84,6 @@ public class GroceryListActivity extends AppCompatActivity {
                 addGroceryItem();
             }
         });
-//        mButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                addGroceryItem();
-//            }
-//        });
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
@@ -243,7 +234,6 @@ public class GroceryListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
-
         //if the remove selected items option is clicked
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -264,20 +254,12 @@ public class GroceryListActivity extends AppCompatActivity {
                     assert ingred != null;
                     if (ingred.getItemChecked()) {
                         //remove the item from the adapter
-//                    adapter.remove(ingred);
-//                        StaticGroceryList.getIngredientList().remove(i);
                         mDataSource.removeGroceryItem(ingred);
-
-                        //since the item has been removed, the position needs to be stepped back by one
-                        //otherwise it will skip an item
-//                        i = i - 1;
                     }
                 }
-
                 //display a Toast confirming to the user that the items have been removed
                 //may want to switch to a dialog so the user can confirm deletion
                 if (count != recyclerAdapter.getItemCount()) {
-//                    Toast.makeText(this, "Items Removed", Toast.LENGTH_SHORT).show();
                     Snackbar.make(findViewById(android.R.id.content), R.string.items_removed, Snackbar.LENGTH_LONG).show();
                 }
 
