@@ -33,6 +33,7 @@ import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
@@ -144,6 +145,7 @@ public class GroceryListActivity extends AppCompatActivity {
         builder.setView(newItemView);
 
         builder.setNegativeButton("Cancel", null);
+        final GroceryClickListener clickGroceryItem = this::clickGroceryItem;
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -167,7 +169,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
 //                    lv.setAdapter(adapter);
 
-                    recyclerAdapter = new GroceryRecyclerAdapter(mContext, mDataSource.getAllGroceries());
+                    recyclerAdapter = new GroceryRecyclerAdapter(mContext, mDataSource.getAllGroceries(), clickGroceryItem);
                     recyclerView.setAdapter(recyclerAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -200,13 +202,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private void setGroceryListAdapter(){
         //if the ingredients list exists
         if(ingredients != null){
-            //initialize the GroceryItemAdapter passing the ingredients list
-//            adapter = new GroceryItemAdapter(this, ingredients);
-//
-//            //set the GroceryItemAdapter as the adapter for the listview
-//            lv.setAdapter(adapter);
-
-            recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients);
+            recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients, this::clickGroceryItem);
             recyclerView.setAdapter(recyclerAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -215,6 +211,14 @@ public class GroceryListActivity extends AppCompatActivity {
 //            Toast.makeText(this, "No Grocery List Found", Toast.LENGTH_SHORT).show();
             Snackbar.make(findViewById(android.R.id.content), R.string.no_grocery_list_found, Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void clickGroceryItem(int position, GroceryViewChangeListener groceryViewChangeListener) {
+         Ingredient clickedIngredient = ingredients.get(position);
+         clickedIngredient.setItemChecked(!clickedIngredient.getItemChecked());
+         mDataSource.setGroceryItemChecked(clickedIngredient.getIngredientID(), clickedIngredient.getItemChecked());
+
+         groceryViewChangeListener.changeView(clickedIngredient.getItemChecked());
     }
 
     //create the menu in the actionbar
@@ -268,7 +272,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                adapter = new GroceryItemAdapter(this, ingredients);
 //                lv.setAdapter(adapter);
 
-                recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients);
+                recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients, this::clickGroceryItem);
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -287,7 +291,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
 //                lv.setAdapter(adapter);
 
-                recyclerAdapter = new GroceryRecyclerAdapter(this, mDataSource.getAllGroceries());
+                recyclerAdapter = new GroceryRecyclerAdapter(this, mDataSource.getAllGroceries(), this::clickGroceryItem);
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 return true;
