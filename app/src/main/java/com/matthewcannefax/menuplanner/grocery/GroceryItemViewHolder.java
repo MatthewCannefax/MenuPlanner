@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 public class GroceryItemViewHolder extends RecyclerView.ViewHolder {
 
