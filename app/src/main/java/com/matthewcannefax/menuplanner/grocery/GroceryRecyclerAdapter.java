@@ -13,7 +13,7 @@ import com.matthewcannefax.menuplanner.recipe.Ingredient;
 
 import java.util.List;
 
-public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryViewHolder> {
+public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryItemViewHolder> {
 
     private List<Ingredient> mGroceryList;
     private LayoutInflater mInflater;
@@ -59,14 +59,14 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryViewHold
 
     @NonNull
     @Override
-    public GroceryViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public GroceryItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View mItemView = mInflater.inflate(R.layout.grocery_item, viewGroup, false);
 
-        return new GroceryViewHolder(mItemView, groceryClickListener);
+        return new GroceryItemViewHolder(mItemView, groceryClickListener);
     }
 
     @Override
-    public void onBindViewHolder(com.matthewcannefax.menuplanner.grocery.GroceryViewHolder holder, int position) {
+    public void onBindViewHolder(GroceryItemViewHolder holder, int position) {
         holder.bind(mGroceryList.get(position), dividerArray.get(position), headingArray.get(mGroceryList.get(position).getIngredientID()), position);
     }
 

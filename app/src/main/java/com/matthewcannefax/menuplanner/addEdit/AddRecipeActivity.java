@@ -117,14 +117,8 @@ public class AddRecipeActivity extends AppCompatActivity{
         setupTabs();
 
         ListView drawerListView = findViewById(R.id.navList);
-
-
-
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
         NavDrawer.setupNavDrawer(AddRecipeActivity.this, this, drawerListView);
-
-
-
     }
 
     @Override

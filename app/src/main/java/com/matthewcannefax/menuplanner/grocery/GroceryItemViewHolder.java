@@ -14,7 +14,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-public class GroceryViewHolder extends RecyclerView.ViewHolder {
+public class GroceryItemViewHolder extends RecyclerView.ViewHolder {
 
     Context mContext;
 
@@ -28,7 +28,7 @@ public class GroceryViewHolder extends RecyclerView.ViewHolder {
     GroceryClickListener groceryClickListener;
 
 
-    public GroceryViewHolder(View itemView, GroceryClickListener groceryClickListener) {
+    public GroceryItemViewHolder(View itemView, GroceryClickListener groceryClickListener) {
         super(itemView);
         mContext = itemView.getContext();
         mGroceryCheckBox = itemView.findViewById(R.id.groceryCheckBox);
