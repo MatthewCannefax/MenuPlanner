@@ -13,16 +13,14 @@ import android.widget.TextView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 
-public class GroceryItemViewHolder extends RecyclerView.ViewHolder {
+public class GroceryItemViewHolder extends GroceryViewHolder {
 
     Context mContext;
 
     //Views
     CheckBox mGroceryCheckBox;
     TextView mMeasurement;
-    TextView mCategory;
     TextView tvName;
-    LinearLayout headingLayout;
     ConstraintLayout mGrocerySection;
     GroceryClickListener groceryClickListener;
 
@@ -32,9 +30,7 @@ public class GroceryItemViewHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
         mGroceryCheckBox = itemView.findViewById(R.id.groceryCheckBox);
         mMeasurement = itemView.findViewById(R.id.tvMeasurement);
-        mCategory = itemView.findViewById(R.id.tvCategory);
         tvName = itemView.findViewById(R.id.tvName);
-        headingLayout = itemView.findViewById(R.id.headingLayout);
         mGrocerySection = itemView.findViewById(R.id.groceryItemSection);
         this.groceryClickListener = groceryClickListener;
     }
@@ -50,40 +46,19 @@ public class GroceryItemViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bind(Ingredient ingredient, boolean isDivider, boolean isHeading, final int position){
+    @Override
+    public void bind(GroceryRow item) {
+        bind((GroceryItemRow) item);
+    }
+
+    private void bind(GroceryItemRow item) {
         final GroceryViewChangeListener groceryViewChangeListener = this::changeView;
-        mGrocerySection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                groceryClickListener.checkGroceryItem(position, groceryViewChangeListener);
-            }
-        });
+        mGrocerySection.setOnClickListener(view -> groceryClickListener.checkGroceryItem(item.getGroceryItem().getIngredientID(), groceryViewChangeListener));
 
-        mMeasurement.setText(ingredient.getMeasurement().toString());
-        tvName.setText(ingredient.getName());
-        mCategory.setText(ingredient.getCategory().toString());
+        mMeasurement.setText(item.getGroceryItem().getMeasurement().toString());
+        tvName.setText(item.getGroceryItem().getName());
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        if (isDivider) {
-            mGrocerySection.setBackgroundColor(mContext.getResources().getColor(R.color.divider));
-        } else {
-            mGrocerySection.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-        }
-
-        if (isHeading) {
-            headingLayout.setVisibility(View.VISIBLE);
-            mCategory.setTextSize(16f);
-            params.setMargins(0, 10, 0, 0);
-            mCategory.setLayoutParams(params);
-        } else {
-            headingLayout.setVisibility(View.GONE);
-            mCategory.setTextSize(0f);
-            params.setMargins(0,0,0,0);
-            mCategory.setLayoutParams(params);
-        }
-
-        if (ingredient.getItemChecked()) {
+        if (item.getGroceryItem().getItemChecked()) {
             mGroceryCheckBox.setChecked(true);
             mMeasurement.setPaintFlags(mMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

@@ -98,7 +98,9 @@ public class GroceryListActivity extends AppCompatActivity {
         //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this, drawerListView);
 
-
+        GroceryRowBuilder rowBuilder = new GroceryRowBuilder(ingredients);
+        List<GroceryRow> rows = rowBuilder.getGroceryRows();
+        int i = 0;
     }
 
     private void checkForNullGroceries() {
@@ -169,7 +171,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
 //                    lv.setAdapter(adapter);
 
-                    recyclerAdapter = new GroceryRecyclerAdapter(mContext, mDataSource.getAllGroceries(), clickGroceryItem);
+                    recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), clickGroceryItem);
                     recyclerView.setAdapter(recyclerAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -202,7 +204,7 @@ public class GroceryListActivity extends AppCompatActivity {
     private void setGroceryListAdapter(){
         //if the ingredients list exists
         if(ingredients != null){
-            recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients, this::clickGroceryItem);
+            recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
             recyclerView.setAdapter(recyclerAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -213,12 +215,18 @@ public class GroceryListActivity extends AppCompatActivity {
         }
     }
 
-    private void clickGroceryItem(int position, GroceryViewChangeListener groceryViewChangeListener) {
-         Ingredient clickedIngredient = ingredients.get(position);
-         clickedIngredient.setItemChecked(!clickedIngredient.getItemChecked());
-         mDataSource.setGroceryItemChecked(clickedIngredient.getIngredientID(), clickedIngredient.getItemChecked());
+    private void clickGroceryItem(int ingredientID, GroceryViewChangeListener groceryViewChangeListener) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getIngredientID() == ingredientID) {
+                ingredient.setItemChecked(!ingredient.getItemChecked());
+                mDataSource.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
 
-         groceryViewChangeListener.changeView(clickedIngredient.getItemChecked());
+                groceryViewChangeListener.changeView(ingredient.getItemChecked());
+                break;
+            }
+        }
+
+
     }
 
     //create the menu in the actionbar
@@ -249,16 +257,17 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 //loop through the adapter
                 for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
+                    if (recyclerAdapter.getItem(i) instanceof GroceryItemRow) {
+                        //get the ingredient item from the adapter item
+                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getItem(i)).getGroceryItem();
 
-                    //get the ingredient item from the adapter item
-                    Ingredient ingred = recyclerAdapter.getItem(i);
-
-                    //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
-                    //the item will be removed
-                    assert ingred != null;
-                    if (ingred.getItemChecked()) {
-                        //remove the item from the adapter
-                        mDataSource.removeGroceryItem(ingred);
+                        //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
+                        //the item will be removed
+                        assert ingred != null;
+                        if (ingred.getItemChecked()) {
+                            //remove the item from the adapter
+                            mDataSource.removeGroceryItem(ingred);
+                        }
                     }
                 }
                 //display a Toast confirming to the user that the items have been removed
@@ -272,7 +281,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                adapter = new GroceryItemAdapter(this, ingredients);
 //                lv.setAdapter(adapter);
 
-                recyclerAdapter = new GroceryRecyclerAdapter(this, ingredients, this::clickGroceryItem);
+                recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -291,7 +300,7 @@ public class GroceryListActivity extends AppCompatActivity {
 //                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
 //                lv.setAdapter(adapter);
 
-                recyclerAdapter = new GroceryRecyclerAdapter(this, mDataSource.getAllGroceries(), this::clickGroceryItem);
+                recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), this::clickGroceryItem);
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 return true;
