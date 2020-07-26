@@ -21,8 +21,8 @@ public class RecipeDetailListRowBuilder {
 
     public List<RecipeDetailListRow> build() {
         List<RecipeDetailListRow> rowList = new ArrayList<>();
+        rowList.add(new RecipeDetailHeadingRow(context.getString(R.string.ingredient_header)));
         if (recipe.getIngredientList() != null && recipe.getIngredientList().size() != 0) {
-            rowList.add(new RecipeDetailHeadingRow(context.getString(R.string.ingredient_header)));
             for (Ingredient ingredient : recipe.getIngredientList()) {
                 rowList.add(new RecipeDetailIngredientRow(ingredient));
             }
