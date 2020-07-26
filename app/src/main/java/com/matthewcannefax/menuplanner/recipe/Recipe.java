@@ -15,7 +15,7 @@ public class Recipe implements Parcelable {
     //props for the name, category, directions, image and list of ingredients
     private String name;
     private RecipeCategory category; //Categories will be dish related (Chicken, Beef, etc)
-    private String directions;
+    private String directions = "";
     private String imagePath;
     private List<Ingredient> ingredientList;
     private int recipeID;

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,28 +39,20 @@ import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity{
 
-    //region Class Vars
-    //initialize the objects of the activity
     private EditText recipeName;
     private ImageView recipeIMG;
     private Spinner recipeCat;
-
     private Recipe newRecipe;
-
-    private ViewPager viewPager;
-
+    private RecyclerView recyclerView;
     DataSource mDataSource;
-
     private DrawerLayout mDrawerLayout;
 
-    //endregion
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 //        Context mContext = this;
-        setContentView(R.layout.add_edit_recipe);
+        setContentView(R.layout.layout_add_edit_recipe);
 
         newRecipe = new Recipe();
 
@@ -71,25 +64,13 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
+        recyclerView = findViewById(R.id.ingredient_direction_recyclerview);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        //make sure RecipeCategory.ALL is not an option in the spinner
-//        List<RecipeCategory> recipeCats = new ArrayList<>();
-//        for (RecipeCategory rc : RecipeCategory.values()){
-//            if(rc != RecipeCategory.ALL){
-//                recipeCats.add(rc);
-//            }
-//        }
 
         List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
         recipeCats.remove(0);
 
-        Collections.sort(recipeCats, new Comparator<RecipeCategory>() {
-            @Override
-            public int compare(RecipeCategory recipeCategory, RecipeCategory t1) {
-                 return recipeCategory.toString().compareTo(t1.toString());
-            }
-        });
+        Collections.sort(recipeCats, (recipeCategory, t1) -> recipeCategory.toString().compareTo(t1.toString()));
 
         //setup the Category Spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
@@ -103,18 +84,8 @@ public class AddRecipeActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        //use the clearEditText method to setup a on focus listener to clear the text on focus
-        //and then null the listener so it doesn't happen again
-        clearEditText(recipeName);
-
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
-
-        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
-        viewPager = findViewById(R.id.ingredient_direction_viewpager);
-        viewPager.setAdapter(recipeViewPagerAdapter);
-
-        setupTabs();
 
         ListView drawerListView = findViewById(R.id.navList);
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
@@ -136,60 +107,11 @@ public class AddRecipeActivity extends AppCompatActivity{
 //        AdHelper.SetupBannerAd(this, mAdView);
     }
 
-    private void setupTabs(){
-
-        final Context context = this;
-        TabLayout tabLayout = findViewById(R.id.recipe_tab_layout);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
-                    case 0:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(context, newRecipe, 0);
-                        viewPager.setAdapter(recipeViewPagerAdapter);
-                        break;
-                    case 1:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter2 = new RecipeViewPagerAdapter(context, newRecipe, 1);
-                        viewPager.setAdapter(recipeViewPagerAdapter2);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-    }
-
-
-    //this method takes an editText, clears the text and then nulls the listener itself, so it won't clear again
-    private void clearEditText(final EditText editText){
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                //clear the text
-                editText.setText("");
-
-                //null the listener
-                editText.setOnFocusChangeListener(null);
-            }
-        });
-    }
-
     //create the menu button in the actionbar (currently only contains the submit option)
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         //add the menu button to add recipes to the recipes list
         MenuInflater menuInflater = getMenuInflater();
-
-
 
         //using the menu layout created specifically for this activity
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
@@ -201,7 +123,6 @@ public class AddRecipeActivity extends AppCompatActivity{
     //handle the clicks of the menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
         //if the submit button is clicked
         //this is where the new recipe is all put together and then added to Recipe list and JSON files
         if(item.getItemId() == R.id.menuSubmitBTN){
@@ -211,7 +132,6 @@ public class AddRecipeActivity extends AppCompatActivity{
                 newRecipe.setName(recipeName.getText().toString());
 //                newRecipe.setDirections(directionsMultiLine.getText().toString());
                 newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
-
 
                 if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
                     newRecipe.setImagePath(getString(R.string.no_img_selected));
@@ -259,6 +179,5 @@ public class AddRecipeActivity extends AppCompatActivity{
         //get the path for the new image and set it to the new recipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
         ShareHelper.activityResultImportCookbook(this, AddRecipeActivity.this, requestCode, resultCode, data);
-
     }
 }
