@@ -11,6 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,46 +25,50 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Measurement;
+import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
+import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddRecipeActivity extends AppCompatActivity{
+public class AddRecipeActivity extends AppCompatActivity {
 
-    //region Class Vars
-    //initialize the objects of the activity
     private EditText recipeName;
     private ImageView recipeIMG;
     private Spinner recipeCat;
-
     private Recipe newRecipe;
-
-    private ViewPager viewPager;
-
+    private RecyclerView recyclerView;
     DataSource mDataSource;
-
+    AddIngredientClickListener addIngredientClickListener;
+    DirectionsChangedListener directionsChangedListener;
     private DrawerLayout mDrawerLayout;
 
-    //endregion
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 //        Context mContext = this;
-        setContentView(R.layout.add_edit_recipe);
+        setContentView(R.layout.layout_add_edit_recipe);
+
+        addIngredientClickListener = this::addIngredientListener;
+        directionsChangedListener = this::directionsChangeListener;
 
         newRecipe = new Recipe();
 
@@ -71,25 +80,13 @@ public class AddRecipeActivity extends AppCompatActivity{
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
+        recyclerView = findViewById(R.id.ingredient_direction_recyclerview);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        //make sure RecipeCategory.ALL is not an option in the spinner
-//        List<RecipeCategory> recipeCats = new ArrayList<>();
-//        for (RecipeCategory rc : RecipeCategory.values()){
-//            if(rc != RecipeCategory.ALL){
-//                recipeCats.add(rc);
-//            }
-//        }
 
         List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
         recipeCats.remove(0);
 
-        Collections.sort(recipeCats, new Comparator<RecipeCategory>() {
-            @Override
-            public int compare(RecipeCategory recipeCategory, RecipeCategory t1) {
-                 return recipeCategory.toString().compareTo(t1.toString());
-            }
-        });
+        Collections.sort(recipeCats, (recipeCategory, t1) -> recipeCategory.toString().compareTo(t1.toString()));
 
         //setup the Category Spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, recipeCats);
@@ -103,18 +100,16 @@ public class AddRecipeActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        //use the clearEditText method to setup a on focus listener to clear the text on focus
-        //and then null the listener so it doesn't happen again
-        clearEditText(recipeName);
+        RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(
+                new RecipeDetailListRowBuilder(this, newRecipe).build(),
+                newRecipe,
+                addIngredientClickListener,
+                directionsChangedListener);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
-
-        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
-        viewPager = findViewById(R.id.ingredient_direction_viewpager);
-        viewPager.setAdapter(recipeViewPagerAdapter);
-
-        setupTabs();
 
         ListView drawerListView = findViewById(R.id.navList);
         //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
@@ -136,60 +131,11 @@ public class AddRecipeActivity extends AppCompatActivity{
 //        AdHelper.SetupBannerAd(this, mAdView);
     }
 
-    private void setupTabs(){
-
-        final Context context = this;
-        TabLayout tabLayout = findViewById(R.id.recipe_tab_layout);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
-                    case 0:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(context, newRecipe, 0);
-                        viewPager.setAdapter(recipeViewPagerAdapter);
-                        break;
-                    case 1:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter2 = new RecipeViewPagerAdapter(context, newRecipe, 1);
-                        viewPager.setAdapter(recipeViewPagerAdapter2);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-    }
-
-
-    //this method takes an editText, clears the text and then nulls the listener itself, so it won't clear again
-    private void clearEditText(final EditText editText){
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                //clear the text
-                editText.setText("");
-
-                //null the listener
-                editText.setOnFocusChangeListener(null);
-            }
-        });
-    }
-
     //create the menu button in the actionbar (currently only contains the submit option)
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         //add the menu button to add recipes to the recipes list
         MenuInflater menuInflater = getMenuInflater();
-
-
 
         //using the menu layout created specifically for this activity
         menuInflater.inflate(R.menu.add_recipe_menu, menu);
@@ -200,11 +146,10 @@ public class AddRecipeActivity extends AppCompatActivity{
 
     //handle the clicks of the menu items
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-
+    public boolean onOptionsItemSelected(MenuItem item) {
         //if the submit button is clicked
         //this is where the new recipe is all put together and then added to Recipe list and JSON files
-        if(item.getItemId() == R.id.menuSubmitBTN){
+        if (item.getItemId() == R.id.menuSubmitBTN) {
 
             if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
                 //get the name, directions and category from the controls
@@ -212,8 +157,7 @@ public class AddRecipeActivity extends AppCompatActivity{
 //                newRecipe.setDirections(directionsMultiLine.getText().toString());
                 newRecipe.setCategory((RecipeCategory) recipeCat.getSelectedItem());
 
-
-                if(newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")){
+                if (newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")) {
                     newRecipe.setImagePath(getString(R.string.no_img_selected));
                 }
 
@@ -234,18 +178,17 @@ public class AddRecipeActivity extends AppCompatActivity{
                 Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
                 return true;
             }
-        }else if(item.getItemId() == android.R.id.home){
+        } else if (item.getItemId() == android.R.id.home) {
             NavDrawer.navDrawerOptionsItem(mDrawerLayout);
             return true;
-        }else if(item.getItemId() == R.id.help){
+        } else if (item.getItemId() == R.id.help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.help);
             builder.setMessage(R.string.add_recipe_help);
             builder.setNeutralButton(R.string.ok, null);
             builder.show();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
 
@@ -259,6 +202,116 @@ public class AddRecipeActivity extends AppCompatActivity{
         //get the path for the new image and set it to the new recipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
         ShareHelper.activityResultImportCookbook(this, AddRecipeActivity.this, requestCode, resultCode, data);
+    }
 
+    private void addIngredientListener() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.add_ingredient_dialog_title));
+
+        View editIngredientView = LayoutInflater.from(
+                this).inflate(
+                R.layout.add_ingredient_item, findViewById(android.R.id.content), false);
+
+        //controls inside the view
+        final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+        final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+        final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+        final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+        ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
+        final ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.getEnumIngredients());
+
+        //set the spinner adpaters
+        spMeasure.setAdapter(measureAdapter);
+        spCat.setAdapter(ingredCatAdapter);
+
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = charSequence.toString();
+
+                Ingredient ingredient = mDataSource.getSpecificIngredient(charSequence);
+
+                if (ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null) {
+                    spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
+                    spMeasure.setSelection(MeasurementType.getOrdinal(ingredient.getMeasurement().getType()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        builder.setView(editIngredientView);
+
+        //setup the buttons for the alertdialog
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            //check if the all the inputs are filled in correctly
+            if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                //check if the ingredient list exists for this recipe
+                if (newRecipe.getIngredientList() != null) {
+                    //add the new Ingredient to the ingredientList
+                    Ingredient newIngredient = new Ingredient();
+                    newIngredient.setName(etName.getText().toString());
+                    newIngredient.setCategory((GroceryCategory) spCat.getSelectedItem());
+                    newIngredient.setMeasurement(new Measurement(
+                            Double.parseDouble(etAmount.getText().toString()),
+                            (MeasurementType) spMeasure.getSelectedItem()
+                    ));
+                    newRecipe.getIngredientList().add(newIngredient);
+                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
+                    recyclerView.setAdapter(recyclerAdapter1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                }
+                //if the ingredient list does not exist create the new Ingredient and a new Ingredient list
+                //then add that to the recipe
+                else {
+                    //create the new ingredient
+                    Ingredient ingredient = new Ingredient(
+                            etName.getText().toString(),
+                            (GroceryCategory) spCat.getSelectedItem(),
+                            new Measurement(
+                                    Double.parseDouble(etAmount.getText().toString()),
+                                    (MeasurementType) spMeasure.getSelectedItem()
+                            ));
+                    //create the new ingredient list
+                    List<Ingredient> newIngredredients = new ArrayList<>();
+
+                    //add the new ingredient to the the new list
+                    newIngredredients.add(ingredient);
+
+                    //set the new list as the list for the new recipe
+                    newRecipe.setIngredientList(newIngredredients);
+
+
+                    //setup the ingredient item adapter for the recipeIngreds listView
+//                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
+//                                listView.setAdapter(ingredientItemAdapter1);
+
+                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
+                    recyclerView.setAdapter(recyclerAdapter1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                }
+            } else {
+                //send a Toast prompting the user to make sure and fill in the alert dialog correctly
+                Toast.makeText(this, R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void directionsChangeListener(String string) {
+        if (string.equals(null)) {
+            newRecipe.setDirections("");
+        } else {
+            newRecipe.setDirections(string);
+        }
     }
 }

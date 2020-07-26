@@ -7,27 +7,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
+import com.matthewcannefax.menuplanner.recipe.Ingredient;
+import com.matthewcannefax.menuplanner.recipe.Measurement;
+import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
+import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,9 +55,11 @@ public class EditRecipeActivity extends AppCompatActivity {
     private ImageView recipeIMG;
     private Spinner recipeCat;
     private Context mContext;
-    private ViewPager viewPager;
     private DataSource mDatasource;
     private DrawerLayout mDrawerLayout;
+    private RecyclerView recyclerView;
+    private boolean areDirectionsChanged = false;
+    private String newDirections;
 
     //an object for the unedited recipe
     private Recipe oldRecipe;
@@ -61,7 +74,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_edit_recipe);
+        setContentView(R.layout.layout_add_edit_recipe);
 
         //set the global context var
         mContext = this;
@@ -89,6 +102,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        recyclerView = findViewById(R.id.ingredient_direction_recyclerview);
 
         //set text in the textviews
         recipeName.setText(oldRecipe.getName());
@@ -118,11 +132,9 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         ImageHelper.setImageViewClickListener(this, recipeIMG, EditRecipeActivity.this);
 
-        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(this, newRecipe, 0);
-        viewPager = findViewById(R.id.ingredient_direction_viewpager);
-        viewPager.setAdapter(recipeViewPagerAdapter);
-
-        setUpTabs();
+        RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, oldRecipe).build(), oldRecipe, this::clickAddIngredientButton, this::setAreDirectionsChanged);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ListView drawerListView = findViewById(R.id.navList);
 
@@ -154,36 +166,6 @@ public class EditRecipeActivity extends AppCompatActivity {
 //
 //        AdHelper.SetupBannerAd(this, mAdView);
     }
-
-    private void setUpTabs(){
-        final Context context = this;
-        TabLayout tabLayout = findViewById(R.id.recipe_tab_layout);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
-                    case 0:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter = new RecipeViewPagerAdapter(context, oldRecipe, 0);
-                        viewPager.setAdapter(recipeViewPagerAdapter);
-                        break;
-                    case 1:
-                        RecipeViewPagerAdapter recipeViewPagerAdapter2 = new RecipeViewPagerAdapter(context, oldRecipe, 1);
-                        viewPager.setAdapter(recipeViewPagerAdapter2);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
 
     //create the menu button in the actionbar (currently only contains the submit option)
     @Override
@@ -231,10 +213,12 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                         newRecipe.setImagePath(oldRecipe.getImagePath());
 
+                        if (areDirectionsChanged) {
+                            newRecipe.setDirections(newDirections);
+                        }
+
                         //update the recipe in the database
                         mDatasource.updateRecipe(newRecipe);
-
-
                     }
                 });
 
@@ -277,5 +261,122 @@ public class EditRecipeActivity extends AppCompatActivity {
         //get the path of the new image and set to the newRecipe object
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(this, requestCode, resultCode, data, recipeIMG));
         ShareHelper.activityResultImportCookbook(this, EditRecipeActivity.this, requestCode, resultCode, data);
+    }
+
+    private void clickAddIngredientButton() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.add_ingredient_dialog_title));
+
+        View editIngredientView = LayoutInflater.from(
+                this).inflate(
+                        R.layout.add_ingredient_item, findViewById(android.R.id.content), false);
+
+        //controls inside the view
+        final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+        final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+        final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+        final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+        ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MeasurementType.getEnum());
+        final ArrayAdapter<GroceryCategory> ingredCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, GroceryCategory.getEnumIngredients());
+
+        //set the spinner adpaters
+        spMeasure.setAdapter(measureAdapter);
+        spCat.setAdapter(ingredCatAdapter);
+
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = charSequence.toString();
+
+                Ingredient ingredient = mDatasource.getSpecificIngredient(charSequence);
+
+                if(ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null){
+                    spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
+                    spMeasure.setSelection(MeasurementType.getOrdinal(ingredient.getMeasurement().getType()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        builder.setView(editIngredientView);
+
+        //setup the buttons for the alertdialog
+        builder.setNegativeButton(R.string.cancel, null);
+        final AddIngredientClickListener addIngredientClickListener = this::clickAddIngredientButton;
+        final DirectionsChangedListener directionsChangedListener = this::setAreDirectionsChanged;
+        builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+            //check if the all the inputs are filled in correctly
+            if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                //check if the ingredient list exists for this recipe
+                if(newRecipe.getIngredientList() != null){
+                    //add the new Ingredient to the ingredientList
+                    Ingredient newIngredient = new Ingredient();
+                    newIngredient.setName(etName.getText().toString());
+                    newIngredient.setCategory((GroceryCategory)spCat.getSelectedItem());
+                    newIngredient.setMeasurement(new Measurement(
+                            Double.parseDouble(etAmount.getText().toString()),
+                            (MeasurementType)spMeasure.getSelectedItem()
+                    ));
+                    newRecipe.getIngredientList().add(newIngredient);
+                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
+                    recyclerView.setAdapter(recyclerAdapter1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                }
+                //if the ingredient list does not exist create the new Ingredient and a new Ingredient list
+                //then add that to the recipe
+                else{
+                    //create the new ingredient
+                    Ingredient ingredient = new Ingredient(
+                            etName.getText().toString(),
+                            (GroceryCategory)spCat.getSelectedItem(),
+                            new Measurement(
+                                    Double.parseDouble(etAmount.getText().toString()),
+                                    (MeasurementType)spMeasure.getSelectedItem()
+                            ));
+                    //create the new ingredient list
+                    List<Ingredient> newIngredredients = new ArrayList<>();
+
+                    //add the new ingredient to the the new list
+                    newIngredredients.add(ingredient);
+
+                    //set the new list as the list for the new recipe
+                    newRecipe.setIngredientList(newIngredredients);
+
+
+                    //setup the ingredient item adapter for the recipeIngreds listView
+//                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
+//                                listView.setAdapter(ingredientItemAdapter1);
+
+                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
+                    recyclerView.setAdapter(recyclerAdapter1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                }
+            }else{
+                //send a Toast prompting the user to make sure and fill in the alert dialog correctly
+                Toast.makeText(this, R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void setAreDirectionsChanged(String string) {
+        if (oldRecipe.getDirections() == null) {
+            if (!string.equals("")) {
+                areDirectionsChanged = true;
+                newDirections = string;
+            }
+        } else {
+            newDirections = string;
+            areDirectionsChanged = (!oldRecipe.getDirections().equals(string));
+        }
     }
 }

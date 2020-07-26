@@ -93,12 +93,12 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
             Recipe currentRecipe = mMenuList.get(mPosition);
 
             if(mTwoPane){
-                int selectedID = currentRecipe.getRecipeID();
-                RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(selectedID);
-                mFragmentManager.beginTransaction()
-                        .replace(R.id.recipe_detail_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
+//                int selectedID = currentRecipe.getRecipeID();
+//                RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(selectedID);
+//                mFragmentManager.beginTransaction()
+//                        .replace(R.id.recipe_detail_container, fragment)
+//                        .addToBackStack(null)
+//                        .commit();
             }else {
                 Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
                 intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);

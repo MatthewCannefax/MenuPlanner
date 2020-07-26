@@ -6,37 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/headingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="Canned Goods"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold|italic"
-            tools:ignore="HardcodedText"/>
-        <View
-            android:id="@+id/borderView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/heading_border" />
-    </LinearLayout>
-
-
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
