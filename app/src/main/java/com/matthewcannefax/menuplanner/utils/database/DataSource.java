@@ -27,14 +27,14 @@ public class DataSource {
             "SELECT category FROM recipe_table " +
             "GROUP BY category ORDER BY category";
 
+    private static final String USED_MENU_CATEGORY_STRING =
+            "SELECT a.category FROM recipe_table AS a " +
+                    "INNER JOIN menu_table AS b ON b.recipe_id = a.recipe_id " +
+                    "GROUP BY a.category ORDER BY a.category";
+
     public static String getRecipeCategoryString(){
         return USED_RECIPE_CATEGORY_STRING;
     }
-
-    private static final String USED_MENU_CATEGORY_STRING =
-            "SELECT a.category FROM recipe_table AS a " +
-            "INNER JOIN menu_table AS b ON b.recipe_id = a.recipe_id " +
-            "GROUP BY a.category ORDER BY a.category";
 
     public static String getMenuCategoryString(){
         return USED_MENU_CATEGORY_STRING;
@@ -593,20 +593,18 @@ public class DataSource {
         }
     }
 
-    public void createGroceryItem(Ingredient ingredient){
-
+    public long createGroceryItem(Ingredient ingredient){
         if(!mDatabase.isOpen()){
             open();
         }
-
         ContentValues values = ingredient.toValuesGroceryList();
         mDatabase.insert(GroceryListTable.TABLE_NAME, null, values);
-
+        Cursor cursor = mDatabase.rawQuery("SELECT MAX(grocery_id) FROM grocery_list_table", null);
+        cursor.moveToFirst();
+        long id = cursor.getLong(0);
         close();
-
+        return id;
     }
-
-
 
     public void removeGroceryItem(Ingredient ingredient){
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,18 +37,18 @@ import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
 //to the menu list
 public class GroceryListActivity extends AppCompatActivity {
 
-    //A list of ingrediets made from the menu list
-    //and a listview object for the listview in this activity
-//    private GroceryItemAdapter adapter;
+    public static final float MILLISECONDS_PER_INCH = 50f;
+
     private GroceryRecyclerAdapter recyclerAdapter;
     private static List<Ingredient> ingredients;
-//    private ListView lv;
     private RecyclerView recyclerView;
     private Context mContext;
     private DrawerLayout mDrawerLayout;
@@ -163,9 +164,28 @@ public class GroceryListActivity extends AppCompatActivity {
                     );
 
                     //add the new grocery item to the database
-                    mDataSource.createGroceryItem(newGroceryItem);
+                    long scrollid = mDataSource.createGroceryItem(newGroceryItem);
                     List<GroceryRow> rows = new GroceryRowBuilder(mDataSource.getAllGroceries()).getGroceryRows();
                     recyclerAdapter.submitList(rows);
+                    LinearSmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
+                        @Override
+                        protected int getVerticalSnapPreference() {
+                            return LinearSmoothScroller.SNAP_TO_START;
+                        }
+
+                        @Override
+                        protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                            return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
+                        }
+                    };
+                    Map<String, Integer> positionMap = new HashMap<>();
+                    for (int position = 0; position < rows.size(); position++) {
+                        positionMap.put(rows.get(position).getId(), position);
+                    }
+                    int p = positionMap.get(Long.toString(scrollid));
+                    smoothScroller.setTargetPosition(positionMap.get(Long.toString(scrollid)));
+                    recyclerView.postDelayed(() -> recyclerView.getLayoutManager().startSmoothScroll(smoothScroller), 200);
+
 
                 } else {
                     //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
