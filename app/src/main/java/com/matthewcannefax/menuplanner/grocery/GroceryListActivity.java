@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
@@ -147,50 +148,46 @@ public class GroceryListActivity extends AppCompatActivity {
 
         builder.setNegativeButton("Cancel", null);
         final GroceryClickListener clickGroceryItem = this::clickGroceryItem;
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //check that there are values for the name and the amount
-                //also using a custom tryParse method to check that the value for the amount is indeed a double
-                if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
-                    //add the new Ingredient to the ingredientList
-                    Ingredient newGroceryItem = new Ingredient(
-                            etName.getText().toString(),
-                            (GroceryCategory) spCat.getSelectedItem(),
-                            new Measurement(
-                                    Double.parseDouble(etAmount.getText().toString()),
-                                    (MeasurementType) spMeasure.getSelectedItem()
-                            )
-                    );
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            //check that there are values for the name and the amount
+            //also using a custom tryParse method to check that the value for the amount is indeed a double
+            if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                //add the new Ingredient to the ingredientList
+                Ingredient newGroceryItem = new Ingredient(
+                        etName.getText().toString(),
+                        (GroceryCategory) spCat.getSelectedItem(),
+                        new Measurement(
+                                Double.parseDouble(etAmount.getText().toString()),
+                                (MeasurementType) spMeasure.getSelectedItem()
+                        )
+                );
 
-                    //add the new grocery item to the database
-                    long scrollid = mDataSource.createGroceryItem(newGroceryItem);
-                    List<GroceryRow> rows = new GroceryRowBuilder(mDataSource.getAllGroceries()).getGroceryRows();
-                    recyclerAdapter.submitList(rows);
-                    LinearSmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
-                        @Override
-                        protected int getVerticalSnapPreference() {
-                            return LinearSmoothScroller.SNAP_TO_START;
-                        }
+                //add the new grocery item to the database
+                long scrollid = mDataSource.createGroceryItem(newGroceryItem);
+                List<GroceryRow> rows = new GroceryRowBuilder(mDataSource.getAllGroceries()).getGroceryRows();
+                recyclerAdapter.submitList(rows);
+//                    LinearSmoothScroller smoothScroller = new LinearSmoothScroller(mContext) {
+//                        @Override
+//                        protected int getVerticalSnapPreference() {
+//                            return LinearSmoothScroller.SNAP_TO_START;
+//                        }
+//
+//                        @Override
+//                        protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+//                            return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
+//                        }
+//                    };
+//                    Map<String, Integer> positionMap = new HashMap<>();
+//                    for (int position = 0; position < rows.size(); position++) {
+//                        positionMap.put(rows.get(position).getId(), position);
+//                    }
+//                    smoothScroller.setTargetPosition(positionMap.get(Long.toString(scrollid)));
+//                    recyclerView.postDelayed(() -> recyclerView.getLayoutManager().startSmoothScroll(smoothScroller), 200);
+                Snackbar.make((View) recyclerView.getParent(), String.format(getString(R.string.grocery_item_added), newGroceryItem.getName()), Snackbar.LENGTH_LONG).show();
 
-                        @Override
-                        protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                            return MILLISECONDS_PER_INCH / displayMetrics.densityDpi;
-                        }
-                    };
-                    Map<String, Integer> positionMap = new HashMap<>();
-                    for (int position = 0; position < rows.size(); position++) {
-                        positionMap.put(rows.get(position).getId(), position);
-                    }
-                    int p = positionMap.get(Long.toString(scrollid));
-                    smoothScroller.setTargetPosition(positionMap.get(Long.toString(scrollid)));
-                    recyclerView.postDelayed(() -> recyclerView.getLayoutManager().startSmoothScroll(smoothScroller), 200);
-
-
-                } else {
-                    //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
-                    Toast.makeText(getApplicationContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
+                Toast.makeText(getApplicationContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -90,7 +90,7 @@
     <string name="invalid_file">Invalid File</string>
     <string name="import_cookbook_question">Import a Cookbook?</string>
     <string name="append_cookbook_question">Are you sure you want to append your cookbook?</string>
-
+    <string name="grocery_item_added">%s added successfully.</string>
 
     <!--Help dialogs-->
 

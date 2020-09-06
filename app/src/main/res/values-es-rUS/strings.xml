@@ -26,6 +26,7 @@
     <string name="existing">Existente</string>
     <string name="export">Libro de cocina de exportación</string>
     <string name="filter_button">Filtrar</string>
+    <string name="grocery_item_added">%s agregada con éxito</string>
     <string name="grocery_list">Lista de compras</string>
     <string name="grocery_list_help">Seleccione: elementos para eliminar Botón flotante (+): agregar artículo de comestibles</string>
     <string name="help">Ayuda</string>
