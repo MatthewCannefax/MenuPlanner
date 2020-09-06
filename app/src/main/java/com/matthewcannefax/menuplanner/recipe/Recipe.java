@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
 import java.util.List;
+import java.util.Objects;
 
 //This object class is for creating Recipe objects
 
@@ -111,6 +112,26 @@ public class Recipe implements Parcelable {
         return values;
     }
     //endregion
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return recipeID == recipe.recipeID &&
+                itemChecked == recipe.itemChecked &&
+                Objects.equals(name, recipe.name) &&
+                category == recipe.category &&
+                Objects.equals(directions, recipe.directions) &&
+                Objects.equals(imagePath, recipe.imagePath) &&
+                Objects.equals(ingredientList, recipe.ingredientList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, category, directions, imagePath, ingredientList, recipeID, itemChecked);
+    }
 
     //this currently does the same thing as getName()
     @Override

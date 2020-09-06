@@ -1,134 +1,96 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.FragmentManager;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
-import com.matthewcannefax.menuplanner.utils.FilterHelper;
+import com.matthewcannefax.menuplanner.recipe.RecipeClickListener;
+import com.matthewcannefax.menuplanner.recipe.RecipeDiffUtil;
+import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeLongClickListener;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-import java.util.List;
+public class MenuListRecyclerAdapter extends ListAdapter<Recipe, MenuListRecyclerAdapter.MenuViewHolder> {
 
-public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecyclerAdapter.MenuViewHolder> {
+    private RecipeClickListener clickListener;
+    private RecipeLongClickListener longClickListener;
 
-    private List<Recipe> mMenuList;
-    private LayoutInflater mInflater;
-    private Context mContext;
-    private FragmentManager mFragmentManager;
-    Spinner mCategorySpinner;
-
-    private boolean mTwoPane;
-
-    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner, boolean isTwoPane){
-        mMenuList = menuList;
-        mInflater = LayoutInflater.from(context);
-        mContext = context;
-        mFragmentManager = fragmentManager;
-        mCategorySpinner = categorySpinner;
-        mTwoPane = isTwoPane;
+    public MenuListRecyclerAdapter(RecipeClickListener clickListener, RecipeLongClickListener longClickListener) {
+        super(new RecipeDiffUtil());
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View mItemView = mInflater.inflate(R.layout.menu_recipe_list_item, viewGroup, false);
-
-        return new MenuViewHolder(mItemView, this);
+        View mItemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.menu_recipe_list_item, viewGroup, false);
+        return new MenuViewHolder(mItemView, this)
+                .setClickListener(clickListener)
+                .setLongClickListener(longClickListener);
     }
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
-        Recipe mCurrent = mMenuList.get(position);
-        holder.mTextView.setText(mCurrent.getName());
-        holder.tvCategory.setText(mCurrent.getCategory().toString());
-        ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
+        holder.bind(getItem(position));
     }
 
     @Override
-    public int getItemCount() {
-        return mMenuList.size();
+    public void onViewRecycled(@NonNull MenuViewHolder holder) {
+        holder.unbindListeners();
     }
 
-    class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    class MenuViewHolder extends RecyclerView.ViewHolder {
         ImageView mImageView;
         TextView mTextView;
         TextView tvCategory;
+        CardView cardView;
+        private RecipeClickListener clickListener;
+        private RecipeLongClickListener longClickListener;
         DataSource mDataSource;
         MenuListRecyclerAdapter recyclerAdapter;
-
 
         public MenuViewHolder(View itemView, MenuListRecyclerAdapter adapter) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.itemNameText);
             tvCategory = itemView.findViewById(R.id.tvCategory);
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
+            cardView = itemView.findViewById(R.id.itemCard);
             mDataSource = new DataSource(itemView.getContext());
             recyclerAdapter = adapter;
-
         }
 
-        @Override
-        public void onClick(View view) {
-            int mPosition = getLayoutPosition();
-            Recipe currentRecipe = mMenuList.get(mPosition);
-
-            if(mTwoPane){
-//                int selectedID = currentRecipe.getRecipeID();
-//                RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(selectedID);
-//                mFragmentManager.beginTransaction()
-//                        .replace(R.id.recipe_detail_container, fragment)
-//                        .addToBackStack(null)
-//                        .commit();
-            }else {
-                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-                intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
-                view.getContext().startActivity(intent);
-            }
-
+        public void bind(Recipe recipe) {
+            mTextView.setText(recipe.getName());
+            tvCategory.setText(recipe.getCategory().toString());
+            ImageHelper.setImageViewDrawable(recipe.getImagePath(), itemView.getContext(), mImageView);
+            cardView.setOnClickListener(view -> clickListener.click(recipe));
+            cardView.setOnLongClickListener(view -> longClickListener.longClick(recipe));
         }
 
-        @Override
-        public boolean onLongClick(final View view) {
-            int mPosition = getLayoutPosition();
+        public void unbindListeners() {
+            itemView.setOnClickListener(null);
+            itemView.setOnLongClickListener(null);
+        }
 
-            final Recipe currentRecipe = mMenuList.get(mPosition);
+        public MenuViewHolder setClickListener(RecipeClickListener clickListener) {
+            this.clickListener = clickListener;
+            return this;
+        }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
-                    .setTitle(view.getContext().getString(R.string.remove_from_menu))
-                    .setMessage(String.format(view.getContext().getString(R.string.are_you_sure_remove_format), currentRecipe.toString()))
-                    .setNegativeButton(view.getContext().getString(R.string.cancel), null)
-                    .setPositiveButton(view.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Snackbar.make(view, String.format(view.getContext().getString(R.string.format_recipe_removed), currentRecipe.toString()), Snackbar.LENGTH_LONG).show();
-                            mDataSource.removeMenuItem(currentRecipe.getRecipeID());
-                            mMenuList = mDataSource.getAllMenuRecipes();
-                            recyclerAdapter.notifyDataSetChanged();
-                            ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(view.getContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(view.getContext()));
-                            mCategorySpinner.setAdapter(rcAdapter);
-                        }
-                    });
-            builder.show();
-            return false;
+        public MenuViewHolder setLongClickListener(RecipeLongClickListener longClickListener) {
+            this.longClickListener = longClickListener;
+            return this;
         }
     }
 }

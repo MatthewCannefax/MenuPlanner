@@ -44,17 +44,8 @@ public class GroceryRecyclerAdapter extends ListAdapter<GroceryRow, GroceryViewH
         super.onViewRecycled(holder);
     }
 
-    //    public GroceryRow getItem(int position){
-//        return mGroceryRows.get(position);
-//    }
-
     @Override
     public int getItemViewType(int position) {
         return getItem(position).getGroceryRowType();
     }
-
-//    @Override
-//    public int getItemCount() {
-//        return mGroceryRows.size();
-//    }
 }
