@@ -1,25 +1,13 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
-import com.matthewcannefax.menuplanner.recipe.Ingredient;
-import com.matthewcannefax.menuplanner.recipe.Measurement;
-import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 
 import java.util.List;
-import java.util.Locale;
 
 import static com.matthewcannefax.menuplanner.addEdit.RecipeDetailListRow.ADD_INGREDIENT_BTN_ROW;
 import static com.matthewcannefax.menuplanner.addEdit.RecipeDetailListRow.DIRECTIONS_ROW;

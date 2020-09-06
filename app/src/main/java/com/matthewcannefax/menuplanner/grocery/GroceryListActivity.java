@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +36,6 @@ import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
@@ -97,10 +99,6 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //set up the nav drawer for this activity
         NavDrawer.setupNavDrawer(GroceryListActivity.this, this, drawerListView);
-
-        GroceryRowBuilder rowBuilder = new GroceryRowBuilder(ingredients);
-        List<GroceryRow> rows = rowBuilder.getGroceryRows();
-        int i = 0;
     }
 
     private void checkForNullGroceries() {
@@ -166,14 +164,8 @@ public class GroceryListActivity extends AppCompatActivity {
 
                     //add the new grocery item to the database
                     mDataSource.createGroceryItem(newGroceryItem);
-
-                    //notify the arrayadapter that the dataset has changed
-//                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
-//                    lv.setAdapter(adapter);
-
-                    recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), clickGroceryItem);
-                    recyclerView.setAdapter(recyclerAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                    List<GroceryRow> rows = new GroceryRowBuilder(mDataSource.getAllGroceries()).getGroceryRows();
+                    recyclerAdapter.submitList(rows);
 
                 } else {
                     //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
@@ -204,9 +196,11 @@ public class GroceryListActivity extends AppCompatActivity {
     private void setGroceryListAdapter(){
         //if the ingredients list exists
         if(ingredients != null){
-            recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
+            recyclerAdapter = new GroceryRecyclerAdapter(this::clickGroceryItem);
             recyclerView.setAdapter(recyclerAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerAdapter.submitList(null);
+            recyclerAdapter.submitList(new GroceryRowBuilder(ingredients).getGroceryRows());
         }
         //if the grocery list does not exist send the user a toast to say that the grocery list was not found
         else {
@@ -257,9 +251,9 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 //loop through the adapter
                 for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
-                    if (recyclerAdapter.getItem(i) instanceof GroceryItemRow) {
+                    if (recyclerAdapter.getCurrentList().get(i) instanceof GroceryItemRow) {
                         //get the ingredient item from the adapter item
-                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getItem(i)).getGroceryItem();
+                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getCurrentList().get(i)).getGroceryItem();
 
                         //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
                         //the item will be removed
@@ -278,12 +272,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
                 //reset the adapter
                 ingredients = mDataSource.getAllGroceries();
-//                adapter = new GroceryItemAdapter(this, ingredients);
-//                lv.setAdapter(adapter);
-
-                recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
-                recyclerView.setAdapter(recyclerAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerAdapter.submitList(new GroceryRowBuilder(ingredients).getGroceryRows());
 
 //                AdHelper.showGroceryInterstitial(this);
 
@@ -297,12 +286,7 @@ public class GroceryListActivity extends AppCompatActivity {
                         mDataSource.getAllGroceries()) {
                     mDataSource.setGroceryItemChecked(i.getIngredientID(), true);
                 }
-//                adapter = new GroceryItemAdapter(this, mDataSource.getAllGroceries());
-//                lv.setAdapter(adapter);
-
-                recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), this::clickGroceryItem);
-                recyclerView.setAdapter(recyclerAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerAdapter.submitList(new GroceryRowBuilder(mDataSource.getAllGroceries()).getGroceryRows());
                 return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

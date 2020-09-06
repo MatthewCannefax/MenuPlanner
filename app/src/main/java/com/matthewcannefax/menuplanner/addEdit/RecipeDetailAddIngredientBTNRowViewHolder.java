@@ -1,8 +1,7 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.matthewcannefax.menuplanner.R;

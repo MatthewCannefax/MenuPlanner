@@ -1,27 +1,23 @@
 package com.matthewcannefax.menuplanner.grocery;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.Ingredient;
-
-import java.util.List;
 
 import static com.matthewcannefax.menuplanner.grocery.GroceryRow.GROCERY_HEADER;
 import static com.matthewcannefax.menuplanner.grocery.GroceryRow.GROCERY_ITEM;
 
-public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryViewHolder> {
+public class GroceryRecyclerAdapter extends ListAdapter<GroceryRow, GroceryViewHolder> {
 
-    private List<GroceryRow> mGroceryRows;
-    GroceryClickListener groceryClickListener;
+    private GroceryClickListener groceryClickListener;
 
-    public GroceryRecyclerAdapter(List<Ingredient> groceryList, GroceryClickListener groceryClickListener){
+    public GroceryRecyclerAdapter(GroceryClickListener groceryClickListener){
+        super(new GroceryRowDiffUtil());
         this.groceryClickListener = groceryClickListener;
-        mGroceryRows = new GroceryRowBuilder(groceryList).getGroceryRows();
     }
 
     @NonNull
@@ -40,20 +36,25 @@ public class GroceryRecyclerAdapter extends RecyclerView.Adapter<GroceryViewHold
 
     @Override
     public void onBindViewHolder(GroceryViewHolder holder, int position) {
-        holder.bind(mGroceryRows.get(position));
+        holder.bind(getItem(position));
     }
 
-    public GroceryRow getItem(int position){
-        return mGroceryRows.get(position);
+    @Override
+    public void onViewRecycled(@NonNull GroceryViewHolder holder) {
+        super.onViewRecycled(holder);
     }
+
+    //    public GroceryRow getItem(int position){
+//        return mGroceryRows.get(position);
+//    }
 
     @Override
     public int getItemViewType(int position) {
-        return mGroceryRows.get(position).getGroceryRowType();
+        return getItem(position).getGroceryRowType();
     }
 
-    @Override
-    public int getItemCount() {
-        return mGroceryRows.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return mGroceryRows.size();
+//    }
 }

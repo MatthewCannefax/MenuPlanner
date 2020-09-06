@@ -9,6 +9,8 @@ import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
 import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 
+import java.util.Objects;
+
 //this ingredient class inherits from the GroceryItem class
 //this class is just for ingredients in recipes
 
@@ -147,4 +149,20 @@ public class Ingredient implements Parcelable {
             return new Ingredient[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return itemChecked == that.itemChecked &&
+                Objects.equals(measurement, that.measurement) &&
+                Objects.equals(name, that.name) &&
+                category == that.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(measurement, name, category, itemChecked);
+    }
 }

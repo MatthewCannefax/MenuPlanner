@@ -2,16 +2,13 @@ package com.matthewcannefax.menuplanner.grocery;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.Ingredient;
 
 public class GroceryItemViewHolder extends GroceryViewHolder {
 
@@ -67,5 +64,10 @@ public class GroceryItemViewHolder extends GroceryViewHolder {
             tvName.setPaintFlags(0);
             mMeasurement.setPaintFlags(0);
         }
+    }
+
+    @Override
+    public void unbindListeners() {
+        mGrocerySection.setOnClickListener(null);
     }
 }

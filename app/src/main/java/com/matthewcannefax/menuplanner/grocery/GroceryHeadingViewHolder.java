@@ -1,7 +1,7 @@
 package com.matthewcannefax.menuplanner.grocery;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,5 +23,10 @@ public class GroceryHeadingViewHolder extends GroceryViewHolder {
 
     private void bind(GroceryHeadingRow row) {
         title.setText(row.getHeading());
+    }
+
+    @Override
+    public void unbindListeners() {
+        //Do nothing
     }
 }

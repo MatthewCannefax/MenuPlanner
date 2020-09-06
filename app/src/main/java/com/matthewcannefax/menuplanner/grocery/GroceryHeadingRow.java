@@ -6,6 +6,7 @@ public class GroceryHeadingRow extends GroceryRow{
     public GroceryHeadingRow(String heading) {
         setGroceryRowType(GROCERY_HEADER);
         this.heading = heading;
+        setId(heading);
     }
 
     public String getHeading() {

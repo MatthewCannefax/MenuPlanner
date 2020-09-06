@@ -1,22 +1,12 @@
 package com.matthewcannefax.menuplanner.utils.notifications;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
-
-import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 
 import java.util.Calendar;
 import java.util.Date;
