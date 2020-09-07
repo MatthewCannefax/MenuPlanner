@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class AddRecipeActivity extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private Spinner recipeCat;
     private Recipe newRecipe;
     private RecyclerView recyclerView;
+    private RecipeDetailListAdapter adapter;
     DataSource mDataSource;
     AddIngredientClickListener addIngredientClickListener;
     DirectionsChangedListener directionsChangedListener;
@@ -97,14 +99,13 @@ public class AddRecipeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(
-                new RecipeDetailListRowBuilder(this, newRecipe).build(),
-                newRecipe,
+        adapter = new RecipeDetailListAdapter(
                 addIngredientClickListener,
-                directionsChangedListener);
+                directionsChangedListener,
+                this::ingredientLongClick);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
 
@@ -262,9 +263,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                             (MeasurementType) spMeasure.getSelectedItem()
                     ));
                     newRecipe.getIngredientList().add(newIngredient);
-                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
-                    recyclerView.setAdapter(recyclerAdapter1);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
                 }
                 //if the ingredient list does not exist create the new Ingredient and a new Ingredient list
                 //then add that to the recipe
@@ -279,28 +278,17 @@ public class AddRecipeActivity extends AppCompatActivity {
                             ));
                     //create the new ingredient list
                     List<Ingredient> newIngredredients = new ArrayList<>();
-
                     //add the new ingredient to the the new list
                     newIngredredients.add(ingredient);
-
                     //set the new list as the list for the new recipe
                     newRecipe.setIngredientList(newIngredredients);
-
-
-                    //setup the ingredient item adapter for the recipeIngreds listView
-//                                IngredientItemAdapter ingredientItemAdapter1 = new IngredientItemAdapter(context, newRecipe.getIngredientList());
-//                                listView.setAdapter(ingredientItemAdapter1);
-
-                    RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(this, newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
-                    recyclerView.setAdapter(recyclerAdapter1);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
                 }
             } else {
                 //send a Toast prompting the user to make sure and fill in the alert dialog correctly
                 Toast.makeText(this, R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
             }
         });
-
         builder.show();
     }
 
@@ -310,5 +298,50 @@ public class AddRecipeActivity extends AppCompatActivity {
         } else {
             newRecipe.setDirections(string);
         }
+    }
+
+    private boolean ingredientLongClick(Ingredient clickedIngredient) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this)
+                .setTitle(R.string.edit_ingredient);
+
+        View editIngredientView = LayoutInflater.from(this).inflate(R.layout.add_ingredient_item, findViewById(android.R.id.content), false);
+
+        final EditText etAmount = editIngredientView.findViewById(R.id.amountText);
+        final Spinner spMeasure = editIngredientView.findViewById(R.id.amountSpinner);
+        final EditText etName = editIngredientView.findViewById(R.id.ingredientName);
+        final Spinner spCat = editIngredientView.findViewById(R.id.categorySpinner);
+
+        ArrayAdapter<MeasurementType> measureAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                MeasurementType.values());
+        ArrayAdapter<GroceryCategory> ingredientCategoryAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                GroceryCategory.getEnumIngredients());
+        etAmount.setText(String.format(Locale.US, "%s", clickedIngredient.getMeasurement().getAmount()));
+        etName.setText(clickedIngredient.getName());
+        spMeasure.setAdapter(measureAdapter);
+        spCat.setAdapter(ingredientCategoryAdapter);
+        spCat.setSelection(GroceryCategory.getCatPosition(clickedIngredient.getCategory()));
+        spMeasure.setSelection(clickedIngredient.getMeasurement().getType().ordinal());
+
+        builder.setView(editIngredientView)
+                .setNegativeButton(getString(R.string.cancel), null)
+                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                    int index = newRecipe.getIngredientList().indexOf(clickedIngredient);
+                    newRecipe.getIngredientList().get(index).setName(etName.getText().toString());
+                    newRecipe.getIngredientList().get(index).setCategory((GroceryCategory) spCat.getSelectedItem());
+                    newRecipe.getIngredientList().get(index).setMeasurement(new Measurement(Double.parseDouble(
+                            etAmount.getText().toString()),
+                            (MeasurementType) spMeasure.getSelectedItem()));
+                    adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
+                })
+                .setNeutralButton(R.string.delete, (dialogInterface, i) -> {
+                    newRecipe.getIngredientList().remove(clickedIngredient);
+                    adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
+                });
+        builder.show();
+        return false;
     }
 }

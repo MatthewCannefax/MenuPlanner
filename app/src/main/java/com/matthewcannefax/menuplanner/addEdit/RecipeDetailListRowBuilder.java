@@ -24,7 +24,13 @@ public class RecipeDetailListRowBuilder {
         rowList.add(new RecipeDetailHeadingRow(context.getString(R.string.ingredient_header)));
         if (recipe.getIngredientList() != null && recipe.getIngredientList().size() != 0) {
             for (Ingredient ingredient : recipe.getIngredientList()) {
-                rowList.add(new RecipeDetailIngredientRow(ingredient));
+                Ingredient copyIngredient = new Ingredient();
+                copyIngredient.setIngredientID(ingredient.getIngredientID());
+                copyIngredient.setMeasurement(ingredient.getMeasurement());
+                copyIngredient.setCategory(ingredient.getCategory());
+                copyIngredient.setName(ingredient.getName());
+                copyIngredient.setItemChecked(ingredient.getItemChecked());
+                rowList.add(new RecipeDetailIngredientRow(copyIngredient));
             }
         }
 

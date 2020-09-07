@@ -6,6 +6,7 @@ public class RecipeDetailDirectionsRow extends RecipeDetailListRow {
 
     public RecipeDetailDirectionsRow(String directions) {
         setRowType(DIRECTIONS_ROW);
+        setId(Integer.toString(DIRECTIONS_ROW));
         this.directions = directions;
     }
 

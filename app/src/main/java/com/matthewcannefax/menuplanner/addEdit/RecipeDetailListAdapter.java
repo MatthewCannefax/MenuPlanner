@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -14,22 +15,20 @@ import static com.matthewcannefax.menuplanner.addEdit.RecipeDetailListRow.DIRECT
 import static com.matthewcannefax.menuplanner.addEdit.RecipeDetailListRow.HEADING_ROW;
 import static com.matthewcannefax.menuplanner.addEdit.RecipeDetailListRow.INGREDIENT_ITEM_ROW;
 
-public class RecipeDetailListAdapter extends RecyclerView.Adapter<RecipeDetailViewHolder> {
+public class RecipeDetailListAdapter extends ListAdapter<RecipeDetailListRow, RecipeDetailViewHolder> {
 
-    private List<RecipeDetailListRow> rowList;
-    private Recipe mRecipe;
     private AddIngredientClickListener addIngredientClickListener;
     private DirectionsChangedListener directionsChangedListener;
+    private IngredientLongClickListener longClickListener;
 
     public RecipeDetailListAdapter(
-            List<RecipeDetailListRow> ingredientList,
-            Recipe recipe,
             AddIngredientClickListener addIngredientClickListener,
-            DirectionsChangedListener directionsChangedListener) {
-        rowList = ingredientList;
-        mRecipe = recipe;
+            DirectionsChangedListener directionsChangedListener,
+            IngredientLongClickListener longClickListener) {
+        super(new RecipeDetailDiffUtil());
         this.addIngredientClickListener = addIngredientClickListener;
         this.directionsChangedListener = directionsChangedListener;
+        this.longClickListener = longClickListener;
     }
 
     @Override
@@ -48,7 +47,8 @@ public class RecipeDetailListAdapter extends RecyclerView.Adapter<RecipeDetailVi
                         LayoutInflater.from(parent.getContext()).inflate(
                                 R.layout.ingredient_list_item,
                                 parent,
-                                false));
+                                false),
+                        longClickListener);
 
             case ADD_INGREDIENT_BTN_ROW:
                 return new RecipeDetailAddIngredientBTNRowViewHolder(
@@ -70,17 +70,12 @@ public class RecipeDetailListAdapter extends RecyclerView.Adapter<RecipeDetailVi
 
     @Override
     public void onBindViewHolder(RecipeDetailViewHolder holder, int position) {
-        holder.bind(rowList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return rowList.size();
+        holder.bind(getItem(position));
     }
 
     @Override
     public int getItemViewType(int position) {
-        return rowList.get(position).getRowType();
+        return getItem(position).getRowType();
     }
 
 }
