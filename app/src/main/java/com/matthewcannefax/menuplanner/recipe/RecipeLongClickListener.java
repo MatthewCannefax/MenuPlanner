@@ -1,4 +1,4 @@
-package com.matthewcannefax.menuplanner.recipe.recipeList;
+package com.matthewcannefax.menuplanner.recipe;
 
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 

@@ -16,7 +16,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeClickListener;
 import com.matthewcannefax.menuplanner.recipe.RecipeDiffUtil;
-import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeLongClickListener;
+import com.matthewcannefax.menuplanner.recipe.RecipeLongClickListener;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 

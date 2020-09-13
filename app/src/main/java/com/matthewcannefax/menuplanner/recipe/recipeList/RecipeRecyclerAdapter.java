@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,86 +16,87 @@ import android.widget.TextView;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeClickListener;
+import com.matthewcannefax.menuplanner.recipe.RecipeDiffUtil;
+import com.matthewcannefax.menuplanner.recipe.RecipeLongClickListener;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
 
-public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeViewHolder> {
-    private List<Recipe> mRecipeList;
-    private LayoutInflater mInflater;
+
+public class RecipeRecyclerAdapter extends ListAdapter<Recipe, RecipeRecyclerAdapter.RecipeViewHolder> {
     private Context mContext;
+    private RecipeClickListener clickListener;
+    private RecipeLongClickListener longClickListener;
 
 
-    public RecipeRecyclerAdapter(Context context, List<Recipe> recipeList){
-        mRecipeList =recipeList;
-        mInflater = LayoutInflater.from(context);
+    public RecipeRecyclerAdapter(Context context, RecipeClickListener clickListener, RecipeLongClickListener longClickListener){
+        super(new RecipeDiffUtil());
         mContext = context;
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     @NonNull
     @Override
-    public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View mItemView = mInflater.inflate(R.layout.recipe_checkbox_item, viewGroup, false);
-
-        return new RecipeViewHolder(mItemView, this);
+    public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+        return new RecipeViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_checkbox_item, parent, false))
+                .setClickListener(clickListener)
+                .setLongClickListener(longClickListener);
     }
 
     @Override
     public void onBindViewHolder(RecipeRecyclerAdapter.RecipeViewHolder holder, int position) {
-
-        Recipe mCurrent = mRecipeList.get(position);
-        holder.tvName.setText(mCurrent.toString());
-        holder.tvCategory.setText(mCurrent.getCategory().toString());
-        holder.mCheckBox.setChecked(mCurrent.isItemChecked());
-        ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
-
+        holder.bind(getItem(position), mContext);
     }
 
     @Override
-    public int getItemCount() {
-        return mRecipeList.size();
+    public void onViewRecycled(@NonNull RecipeViewHolder holder) {
+        holder.unbindListeners();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        CheckBox mCheckBox;
-        TextView tvName;
-        TextView tvCategory;
-        ImageView mImageView;
-        RecipeRecyclerAdapter recyclerAdapter;
-        DataSource mDataSource;
+    public class RecipeViewHolder extends RecyclerView.ViewHolder{
+        private CheckBox mCheckBox;
+        private TextView tvName;
+        private TextView tvCategory;
+        private ImageView mImageView;
+        private RecipeClickListener clickListener;
+        private RecipeLongClickListener longClickListener;
 
-        public RecipeViewHolder(View itemView, RecipeRecyclerAdapter adapter) {
+        public RecipeViewHolder(View itemView) {
             super(itemView);
             mCheckBox = itemView.findViewById(R.id.cbName);
             tvName = itemView.findViewById(R.id.tvName);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             mImageView = itemView.findViewById(R.id.imageView);
-            recyclerAdapter = adapter;
-            mDataSource = new DataSource(itemView.getContext());
-            itemView.setOnLongClickListener(this);
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
-            int mPosition = getLayoutPosition();
-            Recipe currentRecipe = mRecipeList.get(mPosition);
-
-            currentRecipe.setItemChecked(!currentRecipe.isItemChecked());
-            mCheckBox.setChecked(currentRecipe.isItemChecked());
+        public void bind(Recipe recipe, Context context) {
+            tvName.setText(recipe.toString());
+            tvCategory.setText(recipe.getCategory().toString());
+            mCheckBox.setChecked(recipe.isItemChecked());
+            itemView.setOnClickListener(view -> {
+                clickListener.click(recipe);
+                mCheckBox.setChecked(recipe.isItemChecked());
+            });
+            itemView.setOnLongClickListener(view -> longClickListener.longClick(recipe));
+            ImageHelper.setImageViewDrawable(recipe.getImagePath(), context, mImageView);
         }
 
-        @Override
-        public boolean onLongClick(View view) {
-            int mPosition = getLayoutPosition();
-            Recipe currentRecipe = mRecipeList.get(mPosition);
+        public void unbindListeners() {
+            itemView.setOnClickListener(null);
+            itemView.setOnLongClickListener(null);
+        }
 
-            Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
-            view.getContext().startActivity(intent);
+        public RecipeViewHolder setClickListener(RecipeClickListener clickListener) {
+            this.clickListener = clickListener;
+            return this;
+        }
 
-            return true;
+        public RecipeViewHolder setLongClickListener(RecipeLongClickListener longClickListener) {
+            this.longClickListener = longClickListener;
+            return this;
         }
     }
 }
