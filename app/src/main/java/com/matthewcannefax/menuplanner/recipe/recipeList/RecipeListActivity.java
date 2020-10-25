@@ -17,8 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -58,10 +58,9 @@ public class RecipeListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Context mContext = this;
-        setContentView(R.layout.recycler_recipe_list);
+        setContentView(R.layout.activity_recipe_list);
 
         catSpinner = this.findViewById(R.id.catSpinner);
-        Button filterBTN = this.findViewById(R.id.filterBTN);
         fab = this.findViewById(R.id.fab);
 
         mDataSource = new DataSource(this);
@@ -86,7 +85,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         //this method sets the adapter for the Recipe list view
         setRecipeListAdapter();
-        setFilterBTNListener(mContext, filterBTN);
+        setFilterListener();
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
         ListView drawerListView = findViewById(R.id.navList);
@@ -128,14 +127,19 @@ public class RecipeListActivity extends AppCompatActivity {
         }
     }
 
-    private void setFilterBTNListener(final Context mContext, Button filterBTN) {
-        filterBTN.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-               recipeList = mDataSource.getFilteredRecipes(selectedCat);
-               recyclerAdapter.submitList(recipeList);
-           }
+    private void setFilterListener() {
+        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
+                recipeList = mDataSource.getFilteredRecipes(selectedCat);
+                recyclerAdapter.submitList(recipeList);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
     }
 

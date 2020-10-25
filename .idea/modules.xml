@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MenuPlanner.iml" filepath="$PROJECT_DIR$/MenuPlanner.iml" group="MenuPlanner" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="MenuPlanner/app" />
+      <module fileurl="file://$PROJECT_DIR$/MenuPlanner.iml" filepath="$PROJECT_DIR$/MenuPlanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MenuPlanner.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MenuPlanner.app.iml" />
     </modules>
   </component>
 </project>
