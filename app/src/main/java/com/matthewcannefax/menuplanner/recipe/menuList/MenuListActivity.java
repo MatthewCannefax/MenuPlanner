@@ -70,12 +70,8 @@ public class MenuListActivity extends DrawerActivity {
 
         //this method to set the menu list adapter
         setMenuListViewAdapter();
-//        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
         setFilterListener();
         fab.setOnClickListener(view -> addRecipeToMenu());
-//        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-//        ListView drawerListView = findViewById(R.id.navList);
-//        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
         //if the menu list is not null notify the adapter of changes, in case there are any
