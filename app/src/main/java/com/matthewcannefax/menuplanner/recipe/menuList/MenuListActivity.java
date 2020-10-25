@@ -30,7 +30,6 @@ import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -217,7 +216,7 @@ public class MenuListActivity extends DrawerActivity {
                 return true;
                 //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:
-                NavHelper.newGroceryList(this, this);
+                newGroceryList();
                 return true;
             case R.id.appendGroceryListItem:
                 mDataSource.menuIngredientsToGroceryDB();
