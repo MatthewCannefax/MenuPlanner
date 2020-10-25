@@ -1,13 +1,12 @@
 package com.matthewcannefax.menuplanner.grocery;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.drawerlayout.widget.DrawerLayout;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,7 +26,6 @@ import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -241,12 +238,10 @@ public class GroceryListActivity extends DrawerActivity {
         //if the remove selected items option is clicked
         switch (item.getItemId()) {
             case android.R.id.home:
-
-                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                navDrawerOptionsItem();
                 return true;
             case R.id.removeSelectItems:
                 int count = recyclerAdapter.getItemCount();
-
                 //loop through the adapter
                 for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
                     if (recyclerAdapter.getCurrentList().get(i) instanceof GroceryItemRow) {

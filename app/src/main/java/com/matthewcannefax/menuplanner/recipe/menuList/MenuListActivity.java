@@ -8,9 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.drawerlayout.widget.DrawerLayout;
+
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.matthewcannefax.menuplanner.DrawerActivity;
@@ -32,7 +30,6 @@ import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
@@ -216,7 +213,7 @@ public class MenuListActivity extends DrawerActivity {
         //if the Add Recipe option is clicked
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+                navDrawerOptionsItem();
                 return true;
                 //if the Generate Grocery List option is clicked
             case R.id.generateGroceryListItem:

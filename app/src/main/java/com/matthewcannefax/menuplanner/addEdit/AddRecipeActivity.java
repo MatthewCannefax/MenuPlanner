@@ -33,7 +33,6 @@ import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
@@ -111,7 +110,6 @@ public class AddRecipeActivity extends DrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
     }
 
     @Override
@@ -171,7 +169,7 @@ public class AddRecipeActivity extends DrawerActivity {
                 return true;
             }
         } else if (item.getItemId() == android.R.id.home) {
-            NavDrawer.navDrawerOptionsItem(mDrawerLayout);
+            navDrawerOptionsItem();
             return true;
         } else if (item.getItemId() == R.id.help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
