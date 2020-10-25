@@ -6,9 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
@@ -21,10 +19,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
@@ -46,7 +44,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-public class AddRecipeActivity extends AppCompatActivity {
+public class AddRecipeActivity extends DrawerActivity {
 
     private EditText recipeName;
     private ImageView recipeIMG;
@@ -57,14 +55,10 @@ public class AddRecipeActivity extends AppCompatActivity {
     DataSource mDataSource;
     AddIngredientClickListener addIngredientClickListener;
     DirectionsChangedListener directionsChangedListener;
-    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        Context mContext = this;
-        setContentView(R.layout.layout_add_edit_recipe);
 
         addIngredientClickListener = this::addIngredientListener;
         directionsChangedListener = this::directionsChangeListener;
@@ -80,7 +74,6 @@ public class AddRecipeActivity extends AppCompatActivity {
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
         recyclerView = findViewById(R.id.ingredient_direction_recyclerview);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
         recipeCats.remove(0);
@@ -108,10 +101,11 @@ public class AddRecipeActivity extends AppCompatActivity {
         adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
+    }
 
-        ListView drawerListView = findViewById(R.id.navList);
-        //set up the navigation drawer for this activity using the NavDrawer class and passing context and activity
-        NavDrawer.setupNavDrawer(AddRecipeActivity.this, this, drawerListView);
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_add_edit_recipe;
     }
 
     @Override

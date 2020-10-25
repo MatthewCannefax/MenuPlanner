@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.android.gms.ads.InterstitialAd;
+import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //This activity is to display the total list of recipes from the db
-public class RecipeListActivity extends AppCompatActivity {
+public class RecipeListActivity extends DrawerActivity {
 
     //list to hold the list of recipes from the db
     private List<Recipe> recipeList;
@@ -47,7 +48,6 @@ public class RecipeListActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     private Spinner catSpinner;
-    private DrawerLayout mDrawerLayout;
     private DataSource mDataSource;
 
     //interstitial ad
@@ -57,8 +57,6 @@ public class RecipeListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Context mContext = this;
-        setContentView(R.layout.activity_recipe_list);
 
         catSpinner = this.findViewById(R.id.catSpinner);
         fab = this.findViewById(R.id.fab);
@@ -86,13 +84,12 @@ public class RecipeListActivity extends AppCompatActivity {
         //this method sets the adapter for the Recipe list view
         setRecipeListAdapter();
         setFilterListener();
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-        ListView drawerListView = findViewById(R.id.navList);
         setFabListener();
-       //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(RecipeListActivity.this, this, drawerListView);
+    }
 
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_recipe_list;
     }
 
     private void setFabListener(){

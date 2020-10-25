@@ -2,22 +2,16 @@ package com.matthewcannefax.menuplanner.grocery;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +22,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
@@ -38,21 +33,17 @@ import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
 //to the menu list
-public class GroceryListActivity extends AppCompatActivity {
+public class GroceryListActivity extends DrawerActivity {
 
     public static final float MILLISECONDS_PER_INCH = 50f;
 
     private GroceryRecyclerAdapter recyclerAdapter;
     private static List<Ingredient> ingredients;
     private RecyclerView recyclerView;
-    private Context mContext;
-    private DrawerLayout mDrawerLayout;
 
     private DataSource mDataSource;
 
@@ -64,12 +55,6 @@ public class GroceryListActivity extends AppCompatActivity {
         mDataSource.open();
 
         checkForNullGroceries();
-
-        mContext = this;
-
-        //using the same list as the RecipeList and MenuList activities
-//        setContentView(R.layout.grocery_list_layout);
-        setContentView(R.layout.grocery_recyclerview_layout);
 
         //set the title in the actionbar
         this.setTitle(R.string.grocery_list);
@@ -92,15 +77,11 @@ public class GroceryListActivity extends AppCompatActivity {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
+    }
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-
-        ListView drawerListView = findViewById(R.id.navList);
-
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(GroceryListActivity.this, this, drawerListView);
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_grocery_list;
     }
 
     private void checkForNullGroceries() {

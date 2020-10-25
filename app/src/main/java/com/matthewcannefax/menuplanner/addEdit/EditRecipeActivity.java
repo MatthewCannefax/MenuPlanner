@@ -7,8 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
@@ -18,14 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
@@ -49,16 +47,14 @@ import java.util.Locale;
 
 //this class is for editing already existing recipes
 
-public class EditRecipeActivity extends AppCompatActivity {
+public class EditRecipeActivity extends DrawerActivity {
     //region VARS
 
     //initialize the objects of the activity
     private EditText recipeName;
     private ImageView recipeIMG;
     private Spinner recipeCat;
-    private Context mContext;
     private DataSource mDatasource;
-    private DrawerLayout mDrawerLayout;
     private RecyclerView recyclerView;
     private boolean areDirectionsChanged = false;
     private String newDirections;
@@ -77,10 +73,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_edit_recipe);
 
-        //set the global context var
-        mContext = this;
         mDatasource = new DataSource(this);
         mDatasource.open();
         //get the recipe item passed from the menulist
@@ -104,7 +97,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         recipeName = findViewById(R.id.recipeName);
         recipeIMG = findViewById(R.id.recipeIMG);
         recipeCat = findViewById(R.id.categorySpinner);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
         recyclerView = findViewById(R.id.ingredient_direction_recyclerview);
 
         //set text in the textviews
@@ -137,11 +129,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.submitList(new RecipeDetailListRowBuilder(this, oldRecipe).build());
+    }
 
-        ListView drawerListView = findViewById(R.id.navList);
-
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(EditRecipeActivity.this, this, drawerListView);
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_add_edit_recipe;
     }
 
     @Override
@@ -154,8 +146,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mDatasource.open();
-
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
     }
 
     @Override

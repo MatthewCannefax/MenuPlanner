@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
 import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
@@ -43,22 +44,20 @@ import java.util.List;
 
 //this activity is to display the selected MenuList
 //it has contains buttons to add a recipe to the menu and generate a grocery list
-public class MenuListActivity extends AppCompatActivity {
+public class MenuListActivity extends DrawerActivity {
 
     //region Class VARS
     private RecyclerView recyclerView;
     private Spinner catSpinner;
     private List<Recipe> menuList;
     private MenuListRecyclerAdapter adapter;
-    private DrawerLayout mDrawerLayout;
+//    private DrawerLayout mDrawerLayout;
     DataSource mDataSource;
     //endregion
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //using the same layout as the recipelist activity
-        setContentView(R.layout.activity_menu_list);
         final Context mContext = this;
         mDataSource = new DataSource(mContext);
 
@@ -69,7 +68,6 @@ public class MenuListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.menuRecyclerView);
         catSpinner = findViewById(R.id.catSpinner);
         FloatingActionButton fab = findViewById(R.id.fab);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         //set the title in the actionbar
         this.setTitle(this.getString(R.string.menu_activity_name));
@@ -79,9 +77,9 @@ public class MenuListActivity extends AppCompatActivity {
 //        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
         setFilterListener();
         fab.setOnClickListener(view -> addRecipeToMenu());
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-        ListView drawerListView = findViewById(R.id.navList);
-        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
+//        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
+//        ListView drawerListView = findViewById(R.id.navList);
+//        NavDrawer.setupNavDrawer(MenuListActivity.this, this, drawerListView);
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
         //if the menu list is not null notify the adapter of changes, in case there are any
@@ -91,6 +89,11 @@ public class MenuListActivity extends AppCompatActivity {
             NotificationHelper notificationHelper = new NotificationHelper(mContext);
             notificationHelper.scheduleJob();
         }
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_menu_list;
     }
 
     private void setCatAdapter() {
