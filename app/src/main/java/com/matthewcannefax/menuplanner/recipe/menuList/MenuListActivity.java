@@ -3,17 +3,16 @@ package com.matthewcannefax.menuplanner.recipe.menuList;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,42 +44,30 @@ public class MenuListActivity extends DrawerActivity {
     //region Class VARS
     private RecyclerView recyclerView;
     private Spinner catSpinner;
-    private List<Recipe> menuList;
     private MenuListRecyclerAdapter adapter;
-//    private DrawerLayout mDrawerLayout;
-    DataSource mDataSource;
+    private MenuListViewModel viewModel;
     //endregion
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MenuListViewModel.class);
+        viewModel.setDataSource(this);
+        viewModel.loadMenu();
         final Context mContext = this;
-        mDataSource = new DataSource(mContext);
-
-        //this is where the activity will call the database adapter
-        menuList = mDataSource.getAllMenuRecipes();
-
-        //initialize the listview in the activity
         recyclerView = findViewById(R.id.menuRecyclerView);
         catSpinner = findViewById(R.id.catSpinner);
         FloatingActionButton fab = findViewById(R.id.fab);
-
-        //set the title in the actionbar
         this.setTitle(this.getString(R.string.menu_activity_name));
-
-        //this method to set the menu list adapter
         setMenuListViewAdapter();
         setFilterListener();
         fab.setOnClickListener(view -> addRecipeToMenu());
-        //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(MenuListActivity.this, this);
-        //if the menu list is not null notify the adapter of changes, in case there are any
-        setCatAdapter();
         PermissionsHelper.setMenuFirstInstance(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationHelper notificationHelper = new NotificationHelper(mContext);
-            notificationHelper.scheduleJob();
-        }
+        viewModel.getMenuList().observe(this, recipes -> {
+            adapter.submitList(recipes);
+            setCatAdapter();
+        });
     }
 
     @Override
@@ -89,9 +76,7 @@ public class MenuListActivity extends DrawerActivity {
     }
 
     private void setCatAdapter() {
-        if (mDataSource.getAllMenuRecipes() != null) {
-            adapter.notifyDataSetChanged();
-
+        if (viewModel.getMenuList() != null) {
             //setup the arrayAdapter for catSpinner
             @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(getApplicationContext()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
@@ -103,18 +88,7 @@ public class MenuListActivity extends DrawerActivity {
         catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                RecipeCategory selectedCat = (RecipeCategory) catSpinner.getSelectedItem();
-                if (selectedCat != RecipeCategory.ALL) {
-                    List<Recipe> filteredRecipes = new ArrayList<>();
-                    for (Recipe r : mDataSource.getAllMenuRecipes()) {
-                        if (r.getCategory() == selectedCat) {
-                            filteredRecipes.add(r);
-                        }
-                    }
-                    adapter.submitList(filteredRecipes);
-                } else {
-                    adapter.submitList(mDataSource.getAllMenuRecipes());
-                }
+                viewModel.filterRecipes((RecipeCategory) catSpinner.getSelectedItem());
             }
 
             @Override
@@ -132,8 +106,7 @@ public class MenuListActivity extends DrawerActivity {
     }
 
     private void addRecipeToMenu(){
-        List<Recipe> allRecipes = mDataSource.getAllRecipes();
-        if (allRecipes != null && allRecipes.size() != 0) {
+        if (!viewModel.isCookbookEmpty()) {
             //new intent to move to the RecipeListActivity
             Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
             intent.putExtra("TITLE", getString(R.string.add_to_menu));
@@ -148,46 +121,6 @@ public class MenuListActivity extends DrawerActivity {
         adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Recipe> menuRecipes = mDataSource.getAllMenuRecipes();
-        if(menuRecipes != null){
-            adapter.submitList(menuRecipes);
-        } else {
-            Snackbar.make(findViewById(android.R.id.content), R.string.no_menu_items, Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        menuList = mDataSource.getAllMenuRecipes();
-        setMenuListViewAdapter();
-        if(mDataSource.getAllMenuRecipes() != null && mDataSource.getAllMenuRecipes().size() != 0){
-            if(catSpinner.getSelectedItemPosition() != 0){
-                RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-                List<Recipe> filteredRecipes = new ArrayList<>();
-                for (Recipe r :
-                        mDataSource.getAllMenuRecipes()) {
-                    if(r.getCategory() == selectedCat){
-                        filteredRecipes.add(r);
-                    }
-                }
-//                adapter = new MenuListRecyclerAdapter( this, filteredRecipes, catSpinner);
-                adapter.submitList(null);
-                adapter.submitList(filteredRecipes);
-            }else{
-//                adapter = new MenuListRecyclerAdapter(this, mDataSource.getAllMenuRecipes(), catSpinner);
-                adapter.submitList(null);
-                adapter.submitList(mDataSource.getAllMenuRecipes());
-            }
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
     }
 
     @Override
@@ -215,7 +148,7 @@ public class MenuListActivity extends DrawerActivity {
                 newGroceryList();
                 return true;
             case R.id.appendGroceryListItem:
-                mDataSource.menuIngredientsToGroceryDB();
+                viewModel.createGroceryList();
                 Intent appendIntent = new Intent(this, GroceryListActivity.class);
                 startActivity(appendIntent);
                 return true;
@@ -227,8 +160,7 @@ public class MenuListActivity extends DrawerActivity {
                 builder.show();
                 return true;
             case R.id.removeAll:
-                menuList = mDataSource.getAllMenuRecipes();
-                if (menuList != null && menuList.size() != 0) {
+                if (viewModel.getMenuList().getValue() != null && viewModel.getMenuList().getValue().size() > 0) {
                     AlertDialog.Builder removeBuilder = new AlertDialog.Builder(this);
                     removeBuilder.setTitle(getString(R.string.are_you_sure));
                     removeBuilder.setMessage(getString(R.string.remove_all_from_menu));
@@ -236,9 +168,8 @@ public class MenuListActivity extends DrawerActivity {
                     removeBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mDataSource.removeAllMenuItems();
-                            menuList = null;
-                            recyclerView.setAdapter(null);
+                            viewModel.removeAllMenuItems();
+                            adapter.submitList(null);
                             setCatAdapter();
                             setFilterListener();
                             Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
@@ -272,17 +203,8 @@ public class MenuListActivity extends DrawerActivity {
                 .setMessage(String.format(getString(R.string.are_you_sure_remove_format), clickedRecipe.toString()))
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    Snackbar.make(
-                            ((View) recyclerView.getParent()),
-                            String.format(getString(R.string.format_recipe_removed), clickedRecipe.toString()),
-                            Snackbar.LENGTH_LONG).show();
-                    mDataSource.removeMenuItem(clickedRecipe.getRecipeID());
-                    new Handler().postDelayed(() -> adapter.submitList(mDataSource.getAllMenuRecipes()), 200);
-                    catSpinner.setAdapter(new ArrayAdapter<>(
-                            this,
-                            R.layout.category_spinner_item,
-                            FilterHelper.getMenuCategoriesUsed(this)));
-
+                    Snackbar.make(((View) recyclerView.getParent()), String.format(getString(R.string.format_recipe_removed), clickedRecipe.toString()), Snackbar.LENGTH_LONG).show();
+                    viewModel.removeMenuItem(clickedRecipe.getRecipeID());
                 });
         builder.show();
         return false;

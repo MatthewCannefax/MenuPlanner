@@ -384,6 +384,20 @@ public class DataSource {
 
     }
 
+    public List<Recipe> getFilteredMenuRecipes(RecipeCategory category) {
+        if (category == RecipeCategory.ALL) {
+            return getAllMenuRecipes();
+        }
+        List<Recipe> filteredRecipes = new ArrayList<>();
+        List<Recipe> recipes = getAllMenuRecipes();
+        for (Recipe recipe : recipes) {
+            if (recipe.getCategory() == category) {
+                filteredRecipes.add(recipe);
+            }
+        }
+        return filteredRecipes;
+    }
+
     public List<Recipe> getAllMenuRecipes(){
 
         if(!mDatabase.isOpen()){
