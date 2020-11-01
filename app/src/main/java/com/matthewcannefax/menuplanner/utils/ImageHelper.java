@@ -13,7 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -38,7 +38,6 @@ import java.util.Date;
 import static android.app.Activity.RESULT_OK;
 
 //this class helps with loading/requesting/taking photos for use with the app
-@SuppressWarnings("SameReturnValue")
 public class ImageHelper {
 
     //private constructor to restrict access
@@ -346,7 +345,6 @@ public class ImageHelper {
     }
 
     //this method creates an image file
-    @SuppressWarnings("unused")
     private static File createImageFile(Context context) throws IOException{
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imgFileName = "RECIPE_PHOTO_" + timeStamp + "_";

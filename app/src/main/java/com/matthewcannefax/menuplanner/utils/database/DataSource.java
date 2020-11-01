@@ -98,6 +98,7 @@ public class DataSource {
         while (cursor.moveToNext()){
             categories.add(RecipeCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(RecipeTable.CATEGORY))));
         }
+        cursor.close();
 
         close();
 
@@ -133,6 +134,7 @@ public class DataSource {
 
             recipes.add(recipe);
         }
+        recipeCursor.close();
 
         close();
 
@@ -151,6 +153,7 @@ public class DataSource {
             //get the id of the last recipe recorded in the db
             newId = cursor.getInt(cursor.getColumnIndex(RecipeTable.RECIPE_ID));
         }
+        cursor.close();
         close();
         return newId;
     }
@@ -181,7 +184,7 @@ public class DataSource {
             recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
         }
-
+        recipeCursor.close();
         close();
 
         return recipe;
@@ -215,6 +218,7 @@ public class DataSource {
             recipe.setDirections(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeTable.DIRECTIONS)));
             recipe.setIngredientList(getRecipeIngredients(recipe.getRecipeID()));
         }
+        recipeCursor.close();
 
         close();
 
@@ -255,7 +259,7 @@ public class DataSource {
 
             recipes.add(recipe);
         }
-
+        recipeCursor.close();
         close();
 
         return recipes;
@@ -279,7 +283,7 @@ public class DataSource {
                                     cursor.getColumnIndex(
                                             RecipeTable.CATEGORY))));
         }
-
+        cursor.close();
         close();
 
         return categories;
@@ -423,7 +427,7 @@ public class DataSource {
             id = menuTableCursor.getInt(menuTableCursor.getColumnIndex(MenuTable.COLUMN_RECIPE_ID));
             menuIDS.add(id);
         }
-
+        menuTableCursor.close();
         List<Recipe> recipes = new ArrayList<>();
 
         for (int i:
@@ -510,7 +514,7 @@ public class DataSource {
             ingredients.add(ingredient);
 
         }
-
+        ingredientCursor.close();
         close();
 
         return ingredients;
@@ -570,7 +574,7 @@ public class DataSource {
                     MeasurementType.stringToCategory(ingredientCursor.getString(ingredientCursor.getColumnIndex(IngredientTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
             ));
         }
-
+        ingredientCursor.close();
 
         close();
 
@@ -616,6 +620,7 @@ public class DataSource {
         Cursor cursor = mDatabase.rawQuery("SELECT MAX(grocery_id) FROM grocery_list_table", null);
         cursor.moveToFirst();
         long id = cursor.getLong(0);
+        cursor.close();
         close();
         return id;
     }
@@ -670,7 +675,7 @@ public class DataSource {
             ));
             selectedGroceryItem.setItemChecked(isItemChecked(cursor.getInt(cursor.getColumnIndex(GroceryListTable.COLUMN_IS_CHECKED))));
         }
-
+        cursor.close();
         selectedGroceryItem.setItemChecked(itemChecked);
 
         mDatabase.update(GroceryListTable.TABLE_NAME, selectedGroceryItem.toValuesGroceryList(), GroceryListTable.COLUMN_ID + "=?", ids);
@@ -707,7 +712,7 @@ public class DataSource {
                     MeasurementType.stringToCategory(cursor.getString(cursor.getColumnIndex(GroceryListTable.COLUMN_MEASUREMENT_TYPE)).toUpperCase())
             ));
             ingredient.setItemChecked(isItemChecked(cursor.getInt(cursor.getColumnIndex(GroceryListTable.COLUMN_IS_CHECKED))));
-
+            cursor.close();
             groceries.add(ingredient);
         }
 
