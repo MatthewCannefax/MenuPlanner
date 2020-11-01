@@ -31,14 +31,7 @@ import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
-import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-//this activity is to display the selected MenuList
-//it has contains buttons to add a recipe to the menu and generate a grocery list
 public class MenuListActivity extends DrawerActivity {
 
     //region Class VARS
