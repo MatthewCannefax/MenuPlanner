@@ -76,10 +76,8 @@ public class MenuListActivity extends DrawerActivity {
     }
 
     private void setCatAdapter() {
-        if (viewModel.getMenuList() != null) {
-            //setup the arrayAdapter for catSpinner
-            @SuppressWarnings("Convert2Diamond") ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(this, R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(getApplicationContext()));
-            catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
+        if (viewModel.getMenuList().getValue() != null) {
+            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(this, R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(getApplicationContext()));
             catSpinner.setAdapter(catSpinnerAdapter);
         }
     }
@@ -125,13 +123,8 @@ public class MenuListActivity extends DrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-
-        //add the menu button to add recipes
         MenuInflater menuInflater = getMenuInflater();
-
-        //using the menu layout that is made specifically for this activity
         menuInflater.inflate(R.menu.menu_activity_menu, menu);
-
         return true;
     }
 
