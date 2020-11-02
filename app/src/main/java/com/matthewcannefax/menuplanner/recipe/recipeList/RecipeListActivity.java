@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.google.android.gms.ads.InterstitialAd;
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
@@ -46,10 +45,6 @@ public class RecipeListActivity extends DrawerActivity {
 
     private Spinner catSpinner;
     private DataSource mDataSource;
-
-    //interstitial ad
-    private InterstitialAd mInterstitialAd;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

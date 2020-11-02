@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,9 +37,6 @@ import com.matthewcannefax.menuplanner.utils.ShareHelper;
 public class MenuListActivity extends DrawerActivity {
 
     //region Class VARS
-    private RecyclerView recyclerView;
-    private Spinner catSpinner;
-    private MenuListRecyclerAdapter adapter;
     private MenuListViewModel viewModel;
     //endregion
 
@@ -46,21 +45,22 @@ public class MenuListActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MenuListViewModel.class);
         viewModel.setDataSource(this);
-        viewModel.loadMenu();
-        final Context mContext = this;
-        recyclerView = findViewById(R.id.menuRecyclerView);
-        catSpinner = findViewById(R.id.catSpinner);
+//        viewModel.loadMenu();
+//        final Context mContext = this;
+//        recyclerView = findViewById(R.id.menuRecyclerView);
+//        catSpinner = findViewById(R.id.catSpinner);
         FloatingActionButton fab = findViewById(R.id.fab);
         this.setTitle(this.getString(R.string.menu_activity_name));
-        setMenuListViewAdapter();
-        setFilterListener();
+//        setMenuListViewAdapter();
+//        setFilterListener();
         fab.setOnClickListener(view -> addRecipeToMenu());
-        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
-        PermissionsHelper.setMenuFirstInstance(false);
-        viewModel.getMenuList().observe(this, recipes -> {
-            adapter.submitList(recipes);
-            setCatAdapter();
-        });
+//        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
+//        PermissionsHelper.setMenuFirstInstance(false);
+//        viewModel.getMenuList().observe(this, recipes -> {
+//            adapter.submitList(recipes);
+//            setCatAdapter();
+//        });
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new MenuFragment()).commit();
     }
 
     @Override
@@ -71,23 +71,23 @@ public class MenuListActivity extends DrawerActivity {
     private void setCatAdapter() {
         if (viewModel.getMenuList().getValue() != null) {
             ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(this, R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(getApplicationContext()));
-            catSpinner.setAdapter(catSpinnerAdapter);
+//            catSpinner.setAdapter(catSpinnerAdapter);
         }
     }
 
-    private void setFilterListener() {
-        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                viewModel.filterRecipes((RecipeCategory) catSpinner.getSelectedItem());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //do nothing
-            }
-        });
-    }
+//    private void setFilterListener() {
+//        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+////                viewModel.filterRecipes((RecipeCategory) catSpinner.getSelectedItem());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                //do nothing
+//            }
+//        });
+//    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -108,11 +108,11 @@ public class MenuListActivity extends DrawerActivity {
     }
 
     //this method sets up the menu list adapter
-    private void setMenuListViewAdapter(){
-        adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
+//    private void setMenuListViewAdapter(){
+//        adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -155,9 +155,9 @@ public class MenuListActivity extends DrawerActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             viewModel.removeAllMenuItems();
-                            adapter.submitList(null);
-                            setCatAdapter();
-                            setFilterListener();
+//                            adapter.submitList(null);
+//                            setCatAdapter();
+//                            setFilterListener();
                             Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
                         }
                     });
@@ -189,7 +189,7 @@ public class MenuListActivity extends DrawerActivity {
                 .setMessage(String.format(getString(R.string.are_you_sure_remove_format), clickedRecipe.toString()))
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    Snackbar.make(((View) recyclerView.getParent()), String.format(getString(R.string.format_recipe_removed), clickedRecipe.toString()), Snackbar.LENGTH_LONG).show();
+//                    Snackbar.make(((View) recyclerView.getParent()), String.format(getString(R.string.format_recipe_removed), clickedRecipe.toString()), Snackbar.LENGTH_LONG).show();
                     viewModel.removeMenuItem(clickedRecipe.getRecipeID());
                 });
         builder.show();

@@ -17,8 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".utils.notifications.NotificationJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service
+            android:name=".utils.notifications.NotificationJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -30,7 +32,7 @@
         </activity>
         <activity
             android:name=".recipe.menuList.MenuListActivity"
-            tools:targetApi="jelly_bean"></activity>
+            tools:targetApi="jelly_bean" />
         <activity
             android:name=".recipe.recipeList.RecipeListActivity"
             android:parentActivityName=".recipe.menuList.MenuListActivity"
