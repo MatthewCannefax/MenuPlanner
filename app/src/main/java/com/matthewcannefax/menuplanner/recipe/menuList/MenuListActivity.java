@@ -50,45 +50,12 @@ public class MenuListActivity extends DrawerActivity {
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MenuListViewModel.class);
         viewModel.setDataSource(this);
         this.setTitle(this.getString(R.string.menu_activity_name));
-        binding.fab.setOnClickListener(view -> addRecipeToMenu());
         getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new MenuFragment()).commit();
     }
 
     public void isMenuLoading(boolean isLoading) {
         binding.progressbar.setVisibility((isLoading ? View.VISIBLE : View.GONE));
         binding.contentFrame.setVisibility((isLoading ? View.GONE : View.VISIBLE));
-    }
-
-    private void setCatAdapter() {
-        if (viewModel.getMenuList().getValue() != null) {
-            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(this, R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(getApplicationContext()));
-//            catSpinner.setAdapter(catSpinnerAdapter);
-        }
-    }
-
-//    private void setFilterListener() {
-//        catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-////                viewModel.filterRecipes((RecipeCategory) catSpinner.getSelectedItem());
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//                //do nothing
-//            }
-//        });
-//    }
-
-    private void addRecipeToMenu(){
-        if (!viewModel.isCookbookEmpty()) {
-            //new intent to move to the RecipeListActivity
-            Intent intent = new Intent(MenuListActivity.this, RecipeListActivity.class);
-            intent.putExtra("TITLE", getString(R.string.add_to_menu));
-            MenuListActivity.this.startActivity(intent);
-        } else {
-            Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_in_cookbook, Snackbar.LENGTH_LONG).show();
-        }
     }
 
     @Override

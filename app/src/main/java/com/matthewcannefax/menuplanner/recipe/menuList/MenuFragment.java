@@ -80,6 +80,8 @@ public class MenuFragment extends Fragment {
                 ((MenuListActivity) requireActivity()).isMenuLoading(false);
             });
         });
+
+        ((MenuListActivity) requireActivity()).binding.fab.setOnClickListener(fabView -> addRecipeToMenu());
     }
 
     private void addRecipeToMenu() {
