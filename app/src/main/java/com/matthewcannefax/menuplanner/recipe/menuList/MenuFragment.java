@@ -27,15 +27,12 @@ import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MenuFragment extends Fragment {
 
     private FragmentMenuListBinding binding;
     private MenuListViewModel viewModel;
     private MenuListRecyclerAdapter adapter;
-    private boolean isMenuLoading = false;
+    private boolean activateFilterListener = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,11 +56,14 @@ public class MenuFragment extends Fragment {
         adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
         binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.menuRecyclerView.setAdapter(adapter);
-
+        binding.catSpinner.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(requireContext())));
         binding.catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (activateFilterListener) {
                     viewModel.filterRecipes((RecipeCategory) binding.catSpinner.getSelectedItem());
+                }
+                activateFilterListener = true;
             }
 
             @Override
