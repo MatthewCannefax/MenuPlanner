@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.databinding.ActivityAddEditRecipeBinding;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
@@ -66,10 +67,13 @@ public class EditRecipeActivity extends DrawerActivity {
 
     public static final String RECIPE_ID = "item_id";
 
+    public ActivityAddEditRecipeBinding binding;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        binding = ActivityAddEditRecipeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
         mDatasource = new DataSource(this);
@@ -127,11 +131,6 @@ public class EditRecipeActivity extends DrawerActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.submitList(new RecipeDetailListRowBuilder(this, oldRecipe).build());
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_add_edit_recipe;
     }
 
     @Override

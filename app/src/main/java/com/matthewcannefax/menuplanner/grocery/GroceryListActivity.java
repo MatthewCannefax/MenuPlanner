@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.databinding.ActivityGroceryListBinding;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
@@ -44,8 +45,12 @@ public class GroceryListActivity extends DrawerActivity {
 
     private DataSource mDataSource;
 
+    public ActivityGroceryListBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        binding = ActivityGroceryListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
         mDataSource = new DataSource(this);
@@ -74,11 +79,6 @@ public class GroceryListActivity extends DrawerActivity {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_grocery_list;
     }
 
     private void checkForNullGroceries() {

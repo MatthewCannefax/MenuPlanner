@@ -35,11 +35,11 @@ public class MenuFragment extends Fragment {
     private FragmentMenuListBinding binding;
     private MenuListViewModel viewModel;
     private MenuListRecyclerAdapter adapter;
+    private boolean isMenuLoading = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = FragmentMenuListBinding.inflate(getLayoutInflater());
         viewModel = new ViewModelProvider(requireActivity()).get(MenuListViewModel.class);
     }
 
@@ -52,17 +52,18 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding = FragmentMenuListBinding.bind(view);
         viewModel.setDataSource(requireContext());
         viewModel.loadMenu();
 
         adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
-        binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity().getBaseContext()));
+        binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.menuRecyclerView.setAdapter(adapter);
 
         binding.catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.filterRecipes((RecipeCategory) binding.catSpinner.getSelectedItem());
+                    viewModel.filterRecipes((RecipeCategory) binding.catSpinner.getSelectedItem());
             }
 
             @Override
@@ -76,11 +77,7 @@ public class MenuFragment extends Fragment {
         viewModel.getMenuList().observe(requireActivity(), recipes -> {
             new Handler(Looper.getMainLooper()).post(() -> {
                 adapter.submitList(recipes);
-                if (recipes != null) {
-                    binding.catSpinner.setAdapter(
-                            new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(requireContext()))
-                    );
-                }
+                ((MenuListActivity) requireActivity()).isMenuLoading(false);
             });
         });
     }

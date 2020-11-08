@@ -33,17 +33,11 @@ public abstract class DrawerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentLayoutId());
         mDrawerLayout = findViewById(R.id.drawer_layout);
         setupHamburgerButton();
         drawerListView = findViewById(R.id.navList);
         setupNavDrawer();
     }
-
-    /**
-     * @return activity layout id
-     */
-    protected abstract int getContentLayoutId();
 
     protected void newGroceryList() {
         DataSource mDataSource = new DataSource(this);

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
+import com.matthewcannefax.menuplanner.databinding.ActivityAddEditRecipeBinding;
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
@@ -55,8 +56,12 @@ public class AddRecipeActivity extends DrawerActivity {
     AddIngredientClickListener addIngredientClickListener;
     DirectionsChangedListener directionsChangedListener;
 
+    public ActivityAddEditRecipeBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = ActivityAddEditRecipeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
         addIngredientClickListener = this::addIngredientListener;
@@ -100,11 +105,6 @@ public class AddRecipeActivity extends DrawerActivity {
         adapter.submitList(new RecipeDetailListRowBuilder(this, newRecipe).build());
         //use the setImageViewClickListener in the ImageHelper class to set the click event for the image view
         ImageHelper.setImageViewClickListener(this, recipeIMG, AddRecipeActivity.this);
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_add_edit_recipe;
     }
 
     @Override

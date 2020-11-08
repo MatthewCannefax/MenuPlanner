@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.databinding.ActivityRecipeListBinding;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
@@ -46,8 +47,12 @@ public class RecipeListActivity extends DrawerActivity {
     private Spinner catSpinner;
     private DataSource mDataSource;
 
+    public ActivityRecipeListBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        binding = ActivityRecipeListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
 
         catSpinner = this.findViewById(R.id.catSpinner);
@@ -77,11 +82,6 @@ public class RecipeListActivity extends DrawerActivity {
         setRecipeListAdapter();
         setFilterListener();
         setFabListener();
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_recipe_list;
     }
 
     private void setFabListener(){

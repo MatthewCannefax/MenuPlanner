@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import com.matthewcannefax.menuplanner.DrawerActivity;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.databinding.ActivityMenuListBinding;
 import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
@@ -38,34 +39,24 @@ public class MenuListActivity extends DrawerActivity {
 
     //region Class VARS
     private MenuListViewModel viewModel;
+    public ActivityMenuListBinding binding;
     //endregion
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        binding = ActivityMenuListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MenuListViewModel.class);
         viewModel.setDataSource(this);
-//        viewModel.loadMenu();
-//        final Context mContext = this;
-//        recyclerView = findViewById(R.id.menuRecyclerView);
-//        catSpinner = findViewById(R.id.catSpinner);
-        FloatingActionButton fab = findViewById(R.id.fab);
         this.setTitle(this.getString(R.string.menu_activity_name));
-//        setMenuListViewAdapter();
-//        setFilterListener();
-        fab.setOnClickListener(view -> addRecipeToMenu());
-//        PermissionsHelper.checkPermissions(MenuListActivity.this, this);
-//        PermissionsHelper.setMenuFirstInstance(false);
-//        viewModel.getMenuList().observe(this, recipes -> {
-//            adapter.submitList(recipes);
-//            setCatAdapter();
-//        });
+        binding.fab.setOnClickListener(view -> addRecipeToMenu());
         getSupportFragmentManager().beginTransaction().add(R.id.content_frame, new MenuFragment()).commit();
     }
 
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_menu_list;
+    public void isMenuLoading(boolean isLoading) {
+        binding.progressbar.setVisibility((isLoading ? View.VISIBLE : View.GONE));
+        binding.contentFrame.setVisibility((isLoading ? View.GONE : View.VISIBLE));
     }
 
     private void setCatAdapter() {
@@ -89,13 +80,6 @@ public class MenuListActivity extends DrawerActivity {
 //        });
 //    }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-//        AdView mAdView = findViewById(R.id.addEditRecipeBanner);
-//        AdHelper.SetupBannerAd(this, mAdView);
-    }
-
     private void addRecipeToMenu(){
         if (!viewModel.isCookbookEmpty()) {
             //new intent to move to the RecipeListActivity
@@ -106,13 +90,6 @@ public class MenuListActivity extends DrawerActivity {
             Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_in_cookbook, Snackbar.LENGTH_LONG).show();
         }
     }
-
-    //this method sets up the menu list adapter
-//    private void setMenuListViewAdapter(){
-//        adapter = new MenuListRecyclerAdapter(this::clickRecipe, this::longClickRecipe);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -155,9 +132,6 @@ public class MenuListActivity extends DrawerActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             viewModel.removeAllMenuItems();
-//                            adapter.submitList(null);
-//                            setCatAdapter();
-//                            setFilterListener();
                             Snackbar.make(findViewById(android.R.id.content), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
                         }
                     });
@@ -175,24 +149,5 @@ public class MenuListActivity extends DrawerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ShareHelper.activityResultImportCookbook(this, MenuListActivity.this, requestCode, resultCode, data);
-    }
-
-    private void clickRecipe(Recipe clickedRecipe) {
-        Intent intent = new Intent(this, EditRecipeActivity.class);
-        intent.putExtra(EditRecipeActivity.RECIPE_ID, clickedRecipe);
-        startActivity(intent);
-    }
-
-    private boolean longClickRecipe(Recipe clickedRecipe) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle(R.string.remove_from_menu)
-                .setMessage(String.format(getString(R.string.are_you_sure_remove_format), clickedRecipe.toString()))
-                .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-//                    Snackbar.make(((View) recyclerView.getParent()), String.format(getString(R.string.format_recipe_removed), clickedRecipe.toString()), Snackbar.LENGTH_LONG).show();
-                    viewModel.removeMenuItem(clickedRecipe.getRecipeID());
-                });
-        builder.show();
-        return false;
     }
 }
