@@ -1,7 +1,7 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 abstract class RecipeDetailViewHolder extends RecyclerView.ViewHolder {

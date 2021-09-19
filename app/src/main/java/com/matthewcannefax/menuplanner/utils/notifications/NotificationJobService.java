@@ -1,6 +1,5 @@
 package com.matthewcannefax.menuplanner.utils.notifications;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,8 +7,8 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;

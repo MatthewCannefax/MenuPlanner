@@ -1,6 +1,6 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;

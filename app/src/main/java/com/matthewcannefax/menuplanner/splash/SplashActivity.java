@@ -3,7 +3,7 @@ package com.matthewcannefax.menuplanner.splash;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
@@ -21,20 +21,17 @@ public class SplashActivity extends AppCompatActivity {
         boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);
 
         if (!isPreloaded) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    DataSource mDataSource = new DataSource(getApplicationContext());
-                    mDataSource.open();
+            new Thread(() -> {
+                DataSource mDataSource = new DataSource(getApplicationContext());
+                mDataSource.open();
 
-                    mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
+                mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
 
-                    mDataSource.close();
+                mDataSource.close();
 
-                    SharedPreferences.Editor edit = sharedPref.edit();
-                    edit.putBoolean(getString(R.string.is_preloaded), true);
-                    edit.apply();
-                }
+                SharedPreferences.Editor edit = sharedPref.edit();
+                edit.putBoolean(getString(R.string.is_preloaded), true);
+                edit.apply();
             }).start();
         }
 
