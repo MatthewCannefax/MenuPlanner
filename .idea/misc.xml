@@ -4,7 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/drawable/splash_layer.xml" value="0.21822916666666667" />
+        <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/add_edit_recipe.xml" value="0.3619791666666667" />
         <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/fragment_recipe_detail.xml" value="0.20208333333333334" />
+        <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/grocery_recyclerview_layout.xml" value="0.20208333333333334" />
+        <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/recipe_menu_list.xml" value="0.15081521739130435" />
+        <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/recycler_menu_list.xml" value="0.15081521739130435" />
+        <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/recycler_recipe_list.xml" value="0.15081521739130435" />
       </map>
     </option>
   </component>
