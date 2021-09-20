@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@id/splash_fragment">
+
+    <fragment
+        android:id="@+id/splash_fragment"
+        android:name="com.matthewcannefax.menuplanner.SplashFragment" />
+
+    <fragment
+        android:id="@+id/menu_fragment"
+        android:name="com.matthewcannefax.menuplanner.MenuFragment" />
+</navigation>
