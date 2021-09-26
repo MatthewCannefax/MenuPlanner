@@ -1,6 +1,5 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,32 +10,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentMenuListBinding;
-import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
 import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
@@ -87,13 +80,19 @@ public class MenuListFragment extends Fragment {
         binding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()), R.layout.fragment_menu_list, null, false);
         requireActivity().setTitle(this.getString(R.string.menu_activity_name));
 
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setMenuListViewAdapter();
 
         final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner);
 
         setFilterBTNListener(requireContext(), binding.filterBTN, allMenuAdapter);
 
-        binding.fab.setOnClickListener(view -> addRecipeToMenu());
+        binding.fab.setOnClickListener(v -> addRecipeToMenu());
 
         NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
 
@@ -106,8 +105,6 @@ public class MenuListFragment extends Fragment {
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         setCatAdapter();
-
-        return binding.getRoot();
     }
 
     private void setCatAdapter() {
@@ -147,12 +144,8 @@ public class MenuListFragment extends Fragment {
     private void addRecipeToMenu() {
         List<Recipe> allRecipes = mDataSource.getAllRecipes();
         if (allRecipes != null && allRecipes.size() != 0) {
-            //new intent to move to the RecipeListActivity
-            Intent intent = new Intent(requireActivity(), RecipeListActivity.class);//TODO this will change
-            intent.putExtra("TITLE", getString(R.string.add_to_menu));
-            MenuListFragment.this.startActivity(intent);
+            Navigation.findNavController(requireView()).navigate(R.id.cookbook_fragment);
         } else {
-//            Toast.makeText(this, "No Recipes in the Cookbook", Toast.LENGTH_SHORT).show();
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_in_cookbook), Snackbar.LENGTH_LONG).show();
         }
     }

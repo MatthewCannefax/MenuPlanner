@@ -11,4 +11,8 @@
     <fragment
         android:id="@+id/menu_fragment"
         android:name="com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment" />
+
+    <fragment
+        android:id="@+id/cookbook_fragment"
+        android:name="com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment" />
 </navigation>

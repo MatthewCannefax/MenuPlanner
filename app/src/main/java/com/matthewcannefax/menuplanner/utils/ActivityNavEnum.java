@@ -5,17 +5,16 @@ import android.app.Activity;
 import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.addEdit.AddRecipeActivity;
 import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
-import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
 
 public enum ActivityNavEnum {
     MENU_LIST_ACTIVITY("My Menu", MainActivity.class, 0),
-    RECIPE_LIST_ACTIVITY("My Cookbook", RecipeListActivity.class, 1),
+    RECIPE_LIST_ACTIVITY("My Cookbook", MainActivity.class, 1),
     ADD_RECIPE_ACTIVITY("Add New Recipe", AddRecipeActivity.class, 2),
     VIEW_GROCERY_LIST("View Grocery List", GroceryListActivity.class, 3),
     NEW_GROCERY_LIST("New Grocery List", GroceryListActivity.class, 4),
-    IMPORT_COOKBOOK("Import Recipes", RecipeListActivity.class, 5),
-    SHARE_COOKBOOK("Share Cookbook", RecipeListActivity.class, 6);
+    IMPORT_COOKBOOK("Import Recipes", MainActivity.class, 5),
+    SHARE_COOKBOOK("Share Cookbook", MainActivity.class, 6);
 
     //get the name of the activity
     private String getName() {

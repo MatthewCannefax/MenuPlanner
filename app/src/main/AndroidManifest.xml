@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".recipe.recipeList.RecipeListActivity"
+            android:name=".recipe.recipeList.CookbookFragment"
             android:parentActivityName=".recipe.menuList.MenuListFragment"
             tools:targetApi="jelly_bean">
             <meta-data

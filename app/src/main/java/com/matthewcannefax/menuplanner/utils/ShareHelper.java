@@ -15,8 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
 import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
-import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -220,7 +219,7 @@ public class ShareHelper {
                             importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
                             mDataSource.importRecipesToDB(importRecipes);
 
-                            Intent intent = new Intent(currentActivity, RecipeListActivity.class);
+                            Intent intent = new Intent(currentActivity, CookbookFragment.class);
                             intent.putExtra("TITLE", R.string.my_recipes);
                             context.startActivity(intent);
                             if(currentActivity.getClass() != MainActivity.class){

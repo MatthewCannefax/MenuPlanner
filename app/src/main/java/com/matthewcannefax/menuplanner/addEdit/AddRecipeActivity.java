@@ -30,7 +30,7 @@ import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
-import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
+import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
@@ -161,7 +161,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                 mDataSource.createRecipe(newRecipe);
 
                 //return to the Recipe list activity
-                Intent returnToRecipes = new Intent(AddRecipeActivity.this, RecipeListActivity.class);
+                Intent returnToRecipes = new Intent(AddRecipeActivity.this, CookbookFragment.class);
 
                 //put extra the title of the recipe list activity
                 returnToRecipes.putExtra("TITLE", this.getString(R.string.recipe_list_activity_title));
