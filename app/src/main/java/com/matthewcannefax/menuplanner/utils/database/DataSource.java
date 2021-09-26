@@ -59,7 +59,7 @@ public class DataSource {
         mDbHelper.close();
     }
 
-    public Recipe createRecipe(Recipe recipe) {
+    public void createRecipe(Recipe recipe) {
 
         if (!mDatabase.isOpen()) {
             open();
@@ -79,11 +79,9 @@ public class DataSource {
         }
 
         close();
-
-        return recipe;
     }
 
-    public List<RecipeCategory> getUsedCategoriesFromDB(String sqlString) {
+    public List<RecipeCategory> getCookbookCategoriesFromDB() {
 
         List<RecipeCategory> categories = new ArrayList<>();
         categories.add(RecipeCategory.ALL);
@@ -92,7 +90,27 @@ public class DataSource {
             open();
         }
 
-        Cursor cursor = mDatabase.rawQuery(sqlString, null);
+        Cursor cursor = mDatabase.rawQuery(USED_RECIPE_CATEGORY_STRING, null);
+
+        while (cursor.moveToNext()) {
+            categories.add(RecipeCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(RecipeTable.CATEGORY))));
+        }
+
+        close();
+
+        return categories;
+    }
+
+    public List<RecipeCategory> getMenuCategoriesFromDB() {
+
+        List<RecipeCategory> categories = new ArrayList<>();
+        categories.add(RecipeCategory.ALL);
+
+        if (!mDatabase.isOpen()) {
+            open();
+        }
+
+        Cursor cursor = mDatabase.rawQuery(USED_MENU_CATEGORY_STRING, null);
 
         while (cursor.moveToNext()) {
             categories.add(RecipeCategory.stringToCategory(cursor.getString(cursor.getColumnIndex(RecipeTable.CATEGORY))));
@@ -260,30 +278,6 @@ public class DataSource {
         return recipes;
     }
 
-    public List<RecipeCategory> getRecipeCategories() {
-
-        if (!mDatabase.isOpen()) {
-            open();
-        }
-
-        List<RecipeCategory> categories = new ArrayList<>();
-        String[] columns = {RecipeTable.CATEGORY};
-
-        Cursor cursor = mDatabase.query(RecipeTable.TABLE_NAME, columns, null, null, RecipeTable.CATEGORY, null, RecipeTable.CATEGORY);
-        categories.add(RecipeCategory.ALL);
-        while (cursor.moveToNext()) {
-            categories.add(
-                    RecipeCategory.stringToCategory(
-                            cursor.getString(
-                                    cursor.getColumnIndex(
-                                            RecipeTable.CATEGORY))));
-        }
-
-        close();
-
-        return categories;
-    }
-
     public void updateRecipe(Recipe newRecipe) {
 
         if (!mDatabase.isOpen()) {
@@ -448,7 +442,7 @@ public class DataSource {
     //endregion
 
     //region Ingredient Table Statements
-    public Ingredient createIngredient(Ingredient ingredient, int recipeID) {
+    public void createIngredient(Ingredient ingredient, int recipeID) {
 
         if (!mDatabase.isOpen()) {
             open();
@@ -458,8 +452,6 @@ public class DataSource {
         mDatabase.insert(IngredientTable.TABLE_NAME, null, values);
 
         close();
-
-        return ingredient;
     }
 
     private List<Ingredient> getRecipeIngredients(int recipeID) {
@@ -578,13 +570,6 @@ public class DataSource {
         mDatabase.execSQL(deleteWaterString);
 
         close();
-    }
-
-    public void groceryListToDB(List<Ingredient> groceries) {
-        for (Ingredient i :
-                groceries) {
-            createGroceryItem(i);
-        }
     }
 
     public void createGroceryItem(Ingredient ingredient) {

@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentCookbookBinding;
@@ -47,7 +49,8 @@ import java.util.List;
 public class CookbookFragment extends Fragment {
 
     private List<Recipe> recipeList;
-    RecipeRecyclerAdapter recyclerAdapter;
+    private RecipeRecyclerAdapter recyclerAdapter;
+    private MainViewModel viewModel;
     private String title;
     private DataSource mDataSource;
     private FragmentCookbookBinding binding;
@@ -56,6 +59,7 @@ public class CookbookFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         mDataSource = new DataSource();
         mDataSource.init(requireContext());
@@ -78,7 +82,7 @@ public class CookbookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<RecipeCategory>(requireContext(), R.layout.category_spinner_item, mDataSource.getRecipeCategories());
+        ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, viewModel.getCookbookCategories());
         catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
         binding.catSpinner.setAdapter(catSpinnerAdapter);
         setRecipeListAdapter();
