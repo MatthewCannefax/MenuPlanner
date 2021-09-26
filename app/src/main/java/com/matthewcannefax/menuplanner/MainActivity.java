@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private ActivityMainBinding binding;
     private NavHostFragment navHostFragment;
-    private DataSource dataSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
-        dataSource = new DataSource();
-        dataSource.init(this);
-        dataSource.open();
+        viewModel.initializeDataSource(this);
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
         NavDrawer.setupNavDrawer(this, this, binding.navList);
@@ -59,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadNavigationGraph();
         initializeNavDrawer();
-    }
-
-    @Override
-    protected void onDestroy() {
-        dataSource.close();
-        super.onDestroy();
     }
 
     private void initializeNavDrawer() {
@@ -88,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case VIEW_GROCERY_LIST: {
-                    final List<Ingredient> groceries = dataSource.getAllGroceries();
+                    final List<Ingredient> groceries = viewModel.getAllGroceries();
                     if (!groceries.isEmpty()) {
                         navHostFragment.getNavController().navigate(R.id.grocery_list_fragment);
                     } else {
@@ -106,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 case SHARE_COOKBOOK: {
-                    final List<Recipe> recipes = dataSource.getAllRecipes();
+                    final List<Recipe> recipes = viewModel.getCookbook();
                     if (!recipes.isEmpty()) {
                         ShareHelper.sendAllRecipes(this);
                     } else {
@@ -145,12 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isPreloaded) {
             new Thread(() -> {
-                dataSource.open();
-
-                dataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
-
-                dataSource.close();
-
+                viewModel.addRecipes(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
                 SharedPreferences.Editor edit = sharedPref.edit();
                 edit.putBoolean(getString(R.string.is_preloaded), true);
                 edit.apply();

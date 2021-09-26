@@ -1,4 +1,6 @@
 package com.matthewcannefax.menuplanner;
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
@@ -31,6 +33,10 @@ public class MainViewModel extends ViewModel {
 
     public List<RecipeCategory> getMenuCategories() {
         return dataSource.getMenuCategoriesFromDB();
+    }
+
+    public void initializeDataSource(final Context context) {
+        dataSource.init(context);
     }
 
     public List<RecipeCategory> getCookbookCategories() {

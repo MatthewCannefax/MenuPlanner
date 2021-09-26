@@ -33,7 +33,6 @@ import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
@@ -42,7 +41,6 @@ import java.util.List;
 
 public class MenuListFragment extends Fragment {
 
-    DataSource mDataSource;
     private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
     private List<Recipe> menuList;
@@ -53,12 +51,6 @@ public class MenuListFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mDataSource = new DataSource();
-        mDataSource.init(requireContext());
-
-        final SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.is_preloaded), 0);
-        boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);
-        menuList = mDataSource.getAllMenuRecipes();
 
         PermissionsHelper.setMenuFirstInstance(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -79,9 +71,10 @@ public class MenuListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        menuList = viewModel.getMenu();
         setMenuListViewAdapter();
 
-        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
+        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
 
         setFilterBTNListener(requireContext(), binding.filterBTN, allMenuAdapter);
 
@@ -101,7 +94,7 @@ public class MenuListFragment extends Fragment {
     }
 
     private void setCatAdapter() {
-        if (mDataSource.getAllMenuRecipes() != null) {
+        if (viewModel.getMenu() != null) {
             adapter.notifyDataSetChanged();
 
             //setup the arrayAdapter for catSpinner
@@ -117,7 +110,7 @@ public class MenuListFragment extends Fragment {
             if (selectedCat != RecipeCategory.ALL) {
                 List<Recipe> filteredRecipes = new ArrayList<>();
 
-                for (Recipe r : mDataSource.getAllMenuRecipes()) {
+                for (Recipe r : viewModel.getMenu()) {
                     if (r.getCategory() == selectedCat) {
                         filteredRecipes.add(r);
                     }
@@ -127,7 +120,7 @@ public class MenuListFragment extends Fragment {
                 binding.menuRecyclerView.setAdapter(filteredAdapter);
                 binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             } else {
-                MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
+                MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
                 binding.menuRecyclerView.setAdapter(allAdapter);
                 binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             }
@@ -135,7 +128,7 @@ public class MenuListFragment extends Fragment {
     }
 
     private void addRecipeToMenu() {
-        List<Recipe> allRecipes = mDataSource.getAllRecipes();
+        List<Recipe> allRecipes = viewModel.getCookbook();
         if (allRecipes != null && allRecipes.size() != 0) {
             Navigation.findNavController(requireView()).navigate(R.id.cookbook_fragment);
         } else {
@@ -146,8 +139,8 @@ public class MenuListFragment extends Fragment {
     //this method sets up the menu list adapter
     private void setMenuListViewAdapter() {
         //set up the menu list adapter only if the menu list exists
-        if (mDataSource.getAllMenuRecipes() != null) {
-            adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
+        if (viewModel.getMenu() != null) {
+            adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
             binding.menuRecyclerView.setAdapter(adapter);
@@ -164,17 +157,17 @@ public class MenuListFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        menuList = mDataSource.getAllMenuRecipes();
+        menuList = viewModel.getMenu();
         setMenuListViewAdapter();
 
-        if (mDataSource.getAllMenuRecipes() != null && mDataSource.getAllMenuRecipes().size() != 0) {
+        if (viewModel.getMenu() != null && viewModel.getMenu().size() != 0) {
             if (binding.catSpinner.getSelectedItemPosition() != 0) {
 
                 RecipeCategory selectedCat = (RecipeCategory) binding.catSpinner.getSelectedItem();
                 List<Recipe> filteredRecipes = new ArrayList<>();
 
                 for (Recipe r :
-                        mDataSource.getAllMenuRecipes()) {
+                        viewModel.getMenu()) {
                     if (r.getCategory() == selectedCat) {
                         filteredRecipes.add(r);
                     }
@@ -182,7 +175,7 @@ public class MenuListFragment extends Fragment {
 
                 adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), filteredRecipes, binding.catSpinner, this::recipeClickListener);
             } else {
-                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
+                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
             }
 
             binding.menuRecyclerView.setAdapter(adapter);
@@ -227,7 +220,7 @@ public class MenuListFragment extends Fragment {
 //                NavHelper.newGroceryList(requireActivity(), requireContext());
 //                return true;
             case R.id.appendGroceryListItem:
-                mDataSource.menuIngredientsToGroceryDB();
+                viewModel.createGroceryListFromMenu();
                 Navigation.findNavController(requireView()).navigate(R.id.grocery_list_fragment);
                 return true;
             case R.id.help:
@@ -238,7 +231,7 @@ public class MenuListFragment extends Fragment {
                 builder.show();
                 return true;
             case R.id.removeAll:
-                menuList = mDataSource.getAllMenuRecipes();
+                menuList = viewModel.getMenu();
                 if (menuList != null && menuList.size() != 0) {
                     AlertDialog.Builder removeBuilder = new AlertDialog.Builder(requireContext());
                     removeBuilder.setTitle(getString(R.string.are_you_sure));
@@ -247,7 +240,7 @@ public class MenuListFragment extends Fragment {
                     removeBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            mDataSource.removeAllMenuItems();
+                            viewModel.removeAllFromMenu();
                             menuList = null;
                             binding.menuRecyclerView.setAdapter(null);
                             setCatAdapter();
