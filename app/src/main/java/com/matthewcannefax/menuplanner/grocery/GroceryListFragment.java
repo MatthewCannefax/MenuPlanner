@@ -55,16 +55,12 @@ public class GroceryListFragment extends Fragment {
     private MainViewModel viewModel;
     private GroceryRecyclerAdapter recyclerAdapter;
     private static List<Ingredient> ingredients;
-    private DataSource mDataSource;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mDataSource = new DataSource();
-        mDataSource.init(requireContext());
-        mDataSource.open();
     }
 
     @Nullable
@@ -81,7 +77,7 @@ public class GroceryListFragment extends Fragment {
 
         //set the title in the actionbar
         requireActivity().setTitle(R.string.grocery_list);
-        ingredients = mDataSource.getAllGroceries();
+        ingredients = viewModel.getAllGroceries();
 
         binding.fab.setOnClickListener(v -> addGroceryItem());
 
@@ -95,7 +91,7 @@ public class GroceryListFragment extends Fragment {
     }
 
     private void checkForNullGroceries() {
-        if(mDataSource.getAllGroceries() == null){
+        if(viewModel.getAllGroceries() == null){
             requireActivity().onBackPressed();
         }
     }
@@ -142,15 +138,13 @@ public class GroceryListFragment extends Fragment {
                                     (MeasurementType) spMeasure.getSelectedItem()
                             )
                     );
-
-                    //add the new grocery item to the database
-                    mDataSource.createGroceryItem(newGroceryItem);
+                    viewModel.addGroceryItem(newGroceryItem);
 
                     //notify the arrayadapter that the dataset has changed
 //                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
 //                    lv.setAdapter(adapter);
 
-                    recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), clickGroceryItem);
+                    recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), clickGroceryItem);
                     binding.groceryRecyclerView.setAdapter(recyclerAdapter);
                     binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
@@ -167,16 +161,9 @@ public class GroceryListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mDataSource.open();
-        ingredients = mDataSource.getAllGroceries();
+        ingredients = viewModel.getAllGroceries();
         setGroceryListAdapter();
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mDataSource.close();
     }
 
     private void setGroceryListAdapter(){
@@ -193,8 +180,7 @@ public class GroceryListFragment extends Fragment {
         for (Ingredient ingredient : ingredients) {
             if (ingredient.getIngredientID() == ingredientID) {
                 ingredient.setItemChecked(!ingredient.getItemChecked());
-                mDataSource.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
-
+                viewModel.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
                 groceryViewChangeListener.changeView(ingredient.getItemChecked());
                 break;
             }
@@ -237,9 +223,8 @@ public class GroceryListFragment extends Fragment {
                         //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
                         //the item will be removed
                         assert ingred != null;
-                        if (ingred.getItemChecked()) {
-                            //remove the item from the adapter
-                            mDataSource.removeGroceryItem(ingred);
+                        if (ingred.getItemChecked()) {;
+                            viewModel.removeGroceryItem(ingred);
                         }
                     }
                 }
@@ -250,7 +235,7 @@ public class GroceryListFragment extends Fragment {
                 }
 
                 //reset the adapter
-                ingredients = mDataSource.getAllGroceries();
+                ingredients = viewModel.getAllGroceries();
 
                 recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
                 binding.groceryRecyclerView.setAdapter(recyclerAdapter);
@@ -263,11 +248,10 @@ public class GroceryListFragment extends Fragment {
                 return true;
             case R.id.selectAllGroceries:
                 for (Ingredient i :
-                        mDataSource.getAllGroceries()) {
-                    mDataSource.setGroceryItemChecked(i.getIngredientID(), true);
+                        viewModel.getAllGroceries()) {
+                    viewModel.setGroceryItemChecked(i.getIngredientID(), true);
                 }
-
-                recyclerAdapter = new GroceryRecyclerAdapter(mDataSource.getAllGroceries(), this::clickGroceryItem);
+                recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), this::clickGroceryItem);
                 binding.groceryRecyclerView.setAdapter(recyclerAdapter);
                 binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 return true;
