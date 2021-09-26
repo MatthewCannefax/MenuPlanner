@@ -37,10 +37,8 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentCookbookBinding;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +49,6 @@ public class CookbookFragment extends Fragment {
     private List<Recipe> recipeList;
     private RecipeRecyclerAdapter recyclerAdapter;
     private MainViewModel viewModel;
-    private String title;
-    private DataSource mDataSource;
     private FragmentCookbookBinding binding;
 
     @Override
@@ -61,12 +57,7 @@ public class CookbookFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-        mDataSource = new DataSource();
-        mDataSource.init(requireContext());
-        mDataSource.open();
-
-        recipeList = mDataSource.getAllRecipes();
-        mDataSource.close();
+        recipeList = viewModel.getCookbook();
     }
 
     @Nullable
@@ -101,9 +92,7 @@ public class CookbookFragment extends Fragment {
                 for(int position = 0; position < recipeList.size(); position++){
                     if(recipeList.get(position).isItemChecked()){
                         recipeList.get(position).setItemChecked(false);
-
-                        mDataSource.addToMenu(recipeList.get(position).getRecipeID());
-
+                        viewModel.addRecipeToMenu(recipeList.get(position).getRecipeID());
                     }
                 }
                 requireActivity().onBackPressed();
@@ -145,25 +134,14 @@ public class CookbookFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        mDataSource.open();
-        recipeList.clear();
-
-        if(binding.catSpinner.getSelectedItemPosition() != 0){
-            recipeList = mDataSource.getFilteredRecipes((RecipeCategory) binding.catSpinner.getSelectedItem());
+        if(binding.catSpinner.getSelectedItemPosition() != 0) {
+            recipeList = viewModel.getRecipesByCategory((RecipeCategory) binding.catSpinner.getSelectedItem());
         }else{
-            recipeList = mDataSource.getAllRecipes();
-
-
+            recipeList = viewModel.getCookbook();
         }
         recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), recipeList);
         binding.recipeRecyclerView.setAdapter(recyclerAdapter);
         binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mDataSource.close();
     }
 
     //this overridden method creates the menu item in the actionbar
@@ -220,25 +198,19 @@ public class CookbookFragment extends Fragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
 
                             //loop through the recipes to delete only the recipes that are selected
-                            for(int position = 0; position < recipeList.size(); position++){
-                                if(recipeList.get(position).isItemChecked()){
-                                    //make sure that the recipe is also deleted from the menu if it exists there
-//                                    StaticMenu.removeRecipeFromMenu(recipeList.get(position), thisContext);
-//                                    recipeList.remove(position);
-
-                                    mDataSource.removeRecipe(recipeList.get(position));
-
-//                                    position = position - 1;
+                            for (int position = 0; position < recipeList.size(); position++) {
+                                if (recipeList.get(position).isItemChecked()) {
+                                    viewModel.removeRecipe(recipeList.get(position));
                                 }
                             }
 
-                            if (mDataSource.getAllRecipes() != null && mDataSource.getAllRecipes().size() != 0) {
+                            if (viewModel.getCookbook() != null && viewModel.getCookbook().size() != 0) {
                                 //reset the adapter
-                                recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), mDataSource.getAllRecipes());
+                                recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), viewModel.getCookbook());
                                 binding.recipeRecyclerView.setAdapter(recyclerAdapter);
                                 binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                                 //save the newly edited recipe list
-                                recipeList = mDataSource.getAllRecipes();
+                                recipeList = viewModel.getCookbook();
                                 Snackbar.make(requireContext(), requireView(), getString(R.string.removed), Snackbar.LENGTH_LONG).show();
                             } else {
                                 requireActivity().onBackPressed();
