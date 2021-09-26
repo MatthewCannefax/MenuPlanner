@@ -16,7 +16,8 @@ public class FilterHelper {
     }
 
     public static List<RecipeCategory> getMenuCategoriesUsed(Context context){
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         return mDataSource.getUsedCategoriesFromDB(DataSource.getMenuCategoryString());
 
@@ -25,7 +26,8 @@ public class FilterHelper {
     //this method returns a list of categories that are used in the given recipe list
     public static List<RecipeCategory> getRecipeCategoriesUsed(Context context){
 
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         return mDataSource.getUsedCategoriesFromDB(DataSource.getRecipeCategoryString());
 

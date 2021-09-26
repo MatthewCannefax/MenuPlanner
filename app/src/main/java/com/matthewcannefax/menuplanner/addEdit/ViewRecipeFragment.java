@@ -78,7 +78,8 @@ public class ViewRecipeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-        mDatasource = new DataSource(requireContext());
+        mDatasource = new DataSource();
+        mDatasource.init(requireContext());
         mDatasource.open();
     }
 

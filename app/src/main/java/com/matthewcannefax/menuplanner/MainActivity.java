@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
-        dataSource = new DataSource(this);
+        dataSource = new DataSource();
+        dataSource.init(this);
         dataSource.open();
 
         NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
@@ -144,12 +145,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isPreloaded) {
             new Thread(() -> {
-                DataSource mDataSource = new DataSource(getApplicationContext());
-                mDataSource.open();
+                dataSource.open();
 
-                mDataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
+                dataSource.importRecipesToDB(JSONHelper.preloadCookbookFromJSON(getApplicationContext()));
 
-                mDataSource.close();
+                dataSource.close();
 
                 SharedPreferences.Editor edit = sharedPref.edit();
                 edit.putBoolean(getString(R.string.is_preloaded), true);

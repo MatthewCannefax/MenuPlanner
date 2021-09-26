@@ -41,7 +41,8 @@ public class NavDrawer {
 
     //this method adds the activity enum items to the nav drawer and sets up the intents
     private static void addDrawerItems(final Activity currentActivity, final Context context, ListView mDrawerListView) {
-        final DataSource mDataSource = new DataSource(context);
+        final DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         //listview adapter set to the activity enum
         @SuppressWarnings("Convert2Diamond") ArrayAdapter<ActivityNavEnum> mAdapter = new ArrayAdapter<ActivityNavEnum>(context, android.R.layout.simple_list_item_1, ActivityNavEnum.values());

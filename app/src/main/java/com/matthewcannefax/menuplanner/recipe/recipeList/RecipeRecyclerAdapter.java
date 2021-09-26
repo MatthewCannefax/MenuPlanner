@@ -71,7 +71,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             tvCategory = itemView.findViewById(R.id.tvCategory);
             mImageView = itemView.findViewById(R.id.imageView);
             recyclerAdapter = adapter;
-            mDataSource = new DataSource(itemView.getContext());
+            mDataSource = new DataSource();
+            mDataSource.init(itemView.getContext());
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
         }

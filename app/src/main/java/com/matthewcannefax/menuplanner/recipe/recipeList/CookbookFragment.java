@@ -57,7 +57,8 @@ public class CookbookFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
 
-        mDataSource = new DataSource(requireContext());
+        mDataSource = new DataSource();
+        mDataSource.init(requireContext());
         mDataSource.open();
 
         recipeList = mDataSource.getAllRecipes();

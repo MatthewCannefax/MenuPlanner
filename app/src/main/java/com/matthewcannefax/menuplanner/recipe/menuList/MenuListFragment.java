@@ -53,7 +53,8 @@ public class MenuListFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mDataSource = new DataSource(requireContext());
+        mDataSource = new DataSource();
+        mDataSource.init(requireContext());
 
         final SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.is_preloaded), 0);
         boolean isPreloaded = sharedPref.getBoolean(getString(R.string.is_preloaded), false);

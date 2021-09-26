@@ -20,7 +20,8 @@ public class NavHelper {
     }
 
     public static void newGroceryList(final Activity activity, final Context context, final View.OnClickListener actionClickListener) {
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         List<Ingredient> groceries = mDataSource.getAllGroceries();
         List<Recipe> menu = mDataSource.getAllMenuRecipes();
@@ -52,7 +53,8 @@ public class NavHelper {
 
     //create a new grocery list either by creating from menu items, or starting a new blank list
     private static void goToGroceryList(final Activity activity, final Context context, final View.OnClickListener actionClickListener) {
-        final DataSource mDataSource = new DataSource(context);
+        final DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         List<Recipe> menuList = mDataSource.getAllMenuRecipes();
         List<Ingredient> groceries = mDataSource.getAllGroceries();

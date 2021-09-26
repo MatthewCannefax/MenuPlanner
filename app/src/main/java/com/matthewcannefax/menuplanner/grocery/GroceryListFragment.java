@@ -62,7 +62,8 @@ public class GroceryListFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mDataSource = new DataSource(requireContext());
+        mDataSource = new DataSource();
+        mDataSource.init(requireContext());
         mDataSource.open();
     }
 

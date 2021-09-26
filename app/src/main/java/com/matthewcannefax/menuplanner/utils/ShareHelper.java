@@ -46,7 +46,8 @@ public class ShareHelper {
     private final static int PICK_FILE_REQUEST_CODE = 4;
 
     public static void sendGroceryList(Context context){
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         List<Ingredient> groceries =  mDataSource.getAllGroceries();
 
@@ -70,7 +71,8 @@ public class ShareHelper {
 
     public static void sendSingleRecipe(Context context, int recipeID){
 
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         List<Recipe> recipes = new ArrayList<>();
         recipes.add(mDataSource.getSpecificRecipe(recipeID));
@@ -149,7 +151,8 @@ public class ShareHelper {
 
     public static void sendAllRecipes(Context context){
 
-        DataSource mDataSource = new DataSource(context);
+        DataSource mDataSource = new DataSource();
+        mDataSource.init(context);
 
         JSONHelper.exportRecipesToJSON(context, mDataSource.getAllRecipes(), context.getString(R.string.recipe_list_to_json));
         String filename = context.getString(R.string.recipe_list_to_json);
@@ -215,7 +218,8 @@ public class ShareHelper {
 
                         List<Recipe> importRecipes;
                         try {
-                            DataSource mDataSource = new DataSource(context);
+                            DataSource mDataSource = new DataSource();
+                            mDataSource.init(context);
                             importRecipes = ShareHelper.jsonToRecipe(context, total.toString());
                             mDataSource.importRecipesToDB(importRecipes);
 

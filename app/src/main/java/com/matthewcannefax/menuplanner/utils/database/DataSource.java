@@ -18,7 +18,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DataSource {
+
     private static final String USED_RECIPE_CATEGORY_STRING =
             "SELECT category FROM recipe_table " +
                     "GROUP BY category ORDER BY category";
@@ -29,7 +32,11 @@ public class DataSource {
     SQLiteOpenHelper mDbHelper;
     private SQLiteDatabase mDatabase;
 
-    public DataSource(final Context context) {
+    @Inject
+    public DataSource() {
+    }
+
+    public void init(final Context context) {
         mDbHelper = new DBHelper(context);
         mDatabase = mDbHelper.getWritableDatabase();
     }

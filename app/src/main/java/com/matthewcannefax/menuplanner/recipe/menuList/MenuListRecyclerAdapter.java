@@ -84,7 +84,8 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
             mTextView = itemView.findViewById(R.id.itemNameText);
             tvCategory = itemView.findViewById(R.id.tvCategory);
             itemView.setOnLongClickListener(this);
-            mDataSource = new DataSource(itemView.getContext());
+            mDataSource = new DataSource();
+            mDataSource.init(itemView.getContext());
             recyclerAdapter = adapter;
         }
 
