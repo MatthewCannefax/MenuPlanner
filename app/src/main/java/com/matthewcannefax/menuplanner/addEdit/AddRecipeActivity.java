@@ -62,7 +62,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 //        Context mContext = this;
-        setContentView(R.layout.layout_add_edit_recipe);
+        setContentView(R.layout.fragment_recipe_detail);
 
         addIngredientClickListener = this::addIngredientListener;
         directionsChangedListener = this::directionsChangeListener;

@@ -15,4 +15,8 @@
     <fragment
         android:id="@+id/cookbook_fragment"
         android:name="com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment" />
+
+    <fragment
+        android:id="@+id/view_recipe_fragment"
+        android:name="com.matthewcannefax.menuplanner.addEdit.ViewRecipeFragment" />
 </navigation>

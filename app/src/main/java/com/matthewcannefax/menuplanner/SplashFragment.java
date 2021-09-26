@@ -17,7 +17,7 @@ import com.matthewcannefax.menuplanner.databinding.FragmentSplashBinding;
 
 public class SplashFragment extends Fragment {
 
-    private static final int NAVIGATION_DELAY = 5000;
+    private static final int NAVIGATION_DELAY = 1000;
 
     private FragmentSplashBinding binding;
 

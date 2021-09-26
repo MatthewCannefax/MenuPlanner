@@ -2,7 +2,6 @@ package com.matthewcannefax.menuplanner.recipe.menuList;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
@@ -20,8 +19,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.matthewcannefax.menuplanner.GenericClickListener;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.addEdit.ViewRecipeFragment;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
@@ -36,14 +36,16 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     private LayoutInflater mInflater;
     private Context mContext;
     private FragmentManager mFragmentManager;
-    Spinner mCategorySpinner;
+    private Spinner mCategorySpinner;
+    private GenericClickListener<Recipe> recipeClickListener;
 
-    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner) {
+    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner, GenericClickListener<Recipe> recipeClickListener) {
         mMenuList = menuList;
         mInflater = LayoutInflater.from(context);
         mContext = context;
         mFragmentManager = fragmentManager;
         mCategorySpinner = categorySpinner;
+        this.recipeClickListener = recipeClickListener;
     }
 
     @NonNull
@@ -51,7 +53,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     public MenuViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View mItemView = mInflater.inflate(R.layout.menu_recipe_list_item, viewGroup, false);
 
-        return new MenuViewHolder(mItemView, this);
+        return new MenuViewHolder(mItemView, this).setRecipeClickListener(recipeClickListener);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
         Recipe mCurrent = mMenuList.get(position);
         holder.mTextView.setText(mCurrent.getName());
         holder.tvCategory.setText(mCurrent.getCategory().toString());
+        holder.bind(mCurrent);
         ImageHelper.setImageViewDrawable(mCurrent.getImagePath(), mContext, holder.mImageView);
     }
 
@@ -67,33 +70,30 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
         return mMenuList.size();
     }
 
-    class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         ImageView mImageView;
         TextView mTextView;
         TextView tvCategory;
         DataSource mDataSource;
         MenuListRecyclerAdapter recyclerAdapter;
-
+        private GenericClickListener<Recipe> recipeClickListener;
 
         public MenuViewHolder(View itemView, MenuListRecyclerAdapter adapter) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.itemNameText);
             tvCategory = itemView.findViewById(R.id.tvCategory);
-            itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             mDataSource = new DataSource(itemView.getContext());
             recyclerAdapter = adapter;
-
         }
 
-        @Override
-        public void onClick(View view) {
-            int mPosition = getLayoutPosition();
-            Recipe currentRecipe = mMenuList.get(mPosition);
-            Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
-            view.getContext().startActivity(intent);
+        public void bind(final Recipe recipe) {
+            itemView.setOnClickListener(view -> recipeClickListener.onClick(recipe));
+        }
+
+        public void unbindListeners() {
+            itemView.setOnClickListener(null);
         }
 
         @Override
@@ -116,6 +116,11 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
                     });
             builder.show();
             return false;
+        }
+
+        public MenuViewHolder setRecipeClickListener(GenericClickListener<Recipe> recipeClickListener) {
+            this.recipeClickListener = recipeClickListener;
+            return this;
         }
     }
 }

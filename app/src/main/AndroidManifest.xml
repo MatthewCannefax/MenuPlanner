@@ -20,15 +20,6 @@
         android:theme="@style/AppTheme">
         <service android:name=".utils.notifications.NotificationJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-<!--        <activity-->
-<!--            android:name=".splash.SplashActivity"-->
-<!--            android:theme="@style/SplashTheme">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity
             android:name=".MainActivity"
             tools:targetApi="jelly_bean">
@@ -37,14 +28,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".recipe.recipeList.CookbookFragment"
-            android:parentActivityName=".recipe.menuList.MenuListFragment"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".recipe.menuList.MenuListFragment" />
         </activity>
         <activity
             android:name=".addEdit.AddRecipeActivity"
@@ -59,16 +42,6 @@
         <activity
             android:name=".grocery.GroceryListActivity"
             android:parentActivityName=".recipe.menuList.MenuListFragment"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".recipe.menuList.MenuListFragment" />
-        </activity>
-        <activity
-            android:name=".addEdit.EditRecipeActivity"
-            android:parentActivityName=".recipe.menuList.MenuListFragment"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import com.matthewcannefax.menuplanner.MainViewModel;
+import com.matthewcannefax.menuplanner.MainViewModelFactory;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentMenuListBinding;
@@ -44,14 +47,16 @@ import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 //this activity is to display the selected MenuList
 //it has contains buttons to add a recipe to the menu and generate a grocery list
 public class MenuListFragment extends Fragment {
 
     public static final String RECIPE_ID_STRING = "selected_recipe";
 
+    private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
-
     private List<Recipe> menuList;
     private MenuListRecyclerAdapter adapter;
     DataSource mDataSource;
@@ -61,6 +66,7 @@ public class MenuListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         mDataSource = new DataSource(requireContext());
 
         final SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.is_preloaded), 0);
@@ -88,7 +94,7 @@ public class MenuListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setMenuListViewAdapter();
 
-        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner);
+        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
 
         setFilterBTNListener(requireContext(), binding.filterBTN, allMenuAdapter);
 
@@ -130,11 +136,11 @@ public class MenuListFragment extends Fragment {
                     }
                 }
 
-                MenuListRecyclerAdapter filteredAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), mContext, filteredRecipes, binding.catSpinner);
+                MenuListRecyclerAdapter filteredAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), mContext, filteredRecipes, binding.catSpinner, this::recipeClickListener);
                 binding.menuRecyclerView.setAdapter(filteredAdapter);
                 binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             } else {
-                MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner);
+                MenuListRecyclerAdapter allAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
                 binding.menuRecyclerView.setAdapter(allAdapter);
                 binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             }
@@ -154,7 +160,7 @@ public class MenuListFragment extends Fragment {
     private void setMenuListViewAdapter() {
         //set up the menu list adapter only if the menu list exists
         if (mDataSource.getAllMenuRecipes() != null) {
-            adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner);
+            adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
             //set the adapter of the listview to the recipeItemAdapter
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
             binding.menuRecyclerView.setAdapter(adapter);
@@ -187,9 +193,9 @@ public class MenuListFragment extends Fragment {
                     }
                 }
 
-                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), filteredRecipes, binding.catSpinner);
+                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), filteredRecipes, binding.catSpinner, this::recipeClickListener);
             } else {
-                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner);
+                adapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), mDataSource.getAllMenuRecipes(), binding.catSpinner, this::recipeClickListener);
             }
 
             binding.menuRecyclerView.setAdapter(adapter);
@@ -272,6 +278,11 @@ public class MenuListFragment extends Fragment {
             default:
                 return false;
         }
+    }
+
+    private void recipeClickListener(final Recipe recipe) {
+        viewModel.setSelectedRecipe(recipe);
+        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment);
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.addEdit.EditRecipeActivity;
+import com.matthewcannefax.menuplanner.addEdit.ViewRecipeFragment;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -90,8 +90,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
             int mPosition = getLayoutPosition();
             Recipe currentRecipe = mRecipeList.get(mPosition);
 
-            Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
+            Intent intent = new Intent(view.getContext(), ViewRecipeFragment.class);
+            intent.putExtra(ViewRecipeFragment.RECIPE_ID, currentRecipe);
             view.getContext().startActivity(intent);
 
             return true;
