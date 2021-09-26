@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import javax.inject.Inject;
 
-public class MenuFragment extends Fragment {
+public class SampleMenuFragment extends Fragment {
 
     @Inject
     MainViewModelFactory viewModelFactory;
@@ -19,7 +19,7 @@ public class MenuFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
+//        ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
         //TODO setup layout and binding

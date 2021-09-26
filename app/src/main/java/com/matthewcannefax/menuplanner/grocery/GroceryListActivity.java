@@ -24,7 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
@@ -104,7 +104,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
     private void checkForNullGroceries() {
         if(mDataSource.getAllGroceries() == null){
-            Intent mainIntent = new Intent(this, MenuListActivity.class);
+            Intent mainIntent = new Intent(this, MenuListFragment.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);
             finish();

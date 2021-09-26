@@ -13,8 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.ActivityNavEnum;
@@ -114,7 +115,7 @@ public class NavDrawer {
         context.startActivity(intent);
 
         //finish the current activity unless it is the main activity
-        if (currentActivity.getClass() != MenuListActivity.class) {
+        if (currentActivity.getClass() != MainActivity.class) {
             currentActivity.finish();
         }
     }

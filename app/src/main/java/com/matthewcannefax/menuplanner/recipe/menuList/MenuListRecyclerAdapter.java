@@ -4,10 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +38,12 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
     private FragmentManager mFragmentManager;
     Spinner mCategorySpinner;
 
-    private boolean mTwoPane;
-
-    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner, boolean isTwoPane){
+    public MenuListRecyclerAdapter(FragmentManager fragmentManager, Context context, List<Recipe> menuList, Spinner categorySpinner) {
         mMenuList = menuList;
         mInflater = LayoutInflater.from(context);
         mContext = context;
         mFragmentManager = fragmentManager;
         mCategorySpinner = categorySpinner;
-        mTwoPane = isTwoPane;
     }
 
     @NonNull
@@ -90,20 +91,9 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
         public void onClick(View view) {
             int mPosition = getLayoutPosition();
             Recipe currentRecipe = mMenuList.get(mPosition);
-
-            if(mTwoPane){
-//                int selectedID = currentRecipe.getRecipeID();
-//                RecipeDetailFragment fragment = RecipeDetailFragment.newInstance(selectedID);
-//                mFragmentManager.beginTransaction()
-//                        .replace(R.id.recipe_detail_container, fragment)
-//                        .addToBackStack(null)
-//                        .commit();
-            }else {
-                Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
-                intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
-                view.getContext().startActivity(intent);
-            }
-
+            Intent intent = new Intent(view.getContext(), EditRecipeActivity.class);
+            intent.putExtra(EditRecipeActivity.RECIPE_ID, currentRecipe);
+            view.getContext().startActivity(intent);
         }
 
         @Override
@@ -116,16 +106,13 @@ public class MenuListRecyclerAdapter extends RecyclerView.Adapter<MenuListRecycl
                     .setTitle(view.getContext().getString(R.string.remove_from_menu))
                     .setMessage(String.format(view.getContext().getString(R.string.are_you_sure_remove_format), currentRecipe.toString()))
                     .setNegativeButton(view.getContext().getString(R.string.cancel), null)
-                    .setPositiveButton(view.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Snackbar.make(view, String.format(view.getContext().getString(R.string.format_recipe_removed), currentRecipe.toString()), Snackbar.LENGTH_LONG).show();
-                            mDataSource.removeMenuItem(currentRecipe.getRecipeID());
-                            mMenuList = mDataSource.getAllMenuRecipes();
-                            recyclerAdapter.notifyDataSetChanged();
-                            ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(view.getContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(view.getContext()));
-                            mCategorySpinner.setAdapter(rcAdapter);
-                        }
+                    .setPositiveButton(view.getContext().getString(R.string.ok), (dialogInterface, i) -> {
+                        Snackbar.make(view, String.format(view.getContext().getString(R.string.format_recipe_removed), currentRecipe.toString()), Snackbar.LENGTH_LONG).show();
+                        mDataSource.removeMenuItem(currentRecipe.getRecipeID());
+                        mMenuList = mDataSource.getAllMenuRecipes();
+                        recyclerAdapter.notifyDataSetChanged();
+                        ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(view.getContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(view.getContext()));
+                        mCategorySpinner.setAdapter(rcAdapter);
                     });
             builder.show();
             return false;

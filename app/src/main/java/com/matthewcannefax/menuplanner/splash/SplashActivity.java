@@ -3,10 +3,14 @@ package com.matthewcannefax.menuplanner.splash;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
@@ -36,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         //start the main activity
-        Intent intent = new Intent(this, MenuListActivity.class);
+        Intent intent = new Intent(this, MenuListFragment.class);
         startActivity(intent);
         finish();
     }

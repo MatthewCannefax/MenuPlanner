@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class NotificationJobService extends JobService {
@@ -43,7 +43,7 @@ public class NotificationJobService extends JobService {
         createNotificationChannel();
 
         PendingIntent contentPendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MenuListActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
+                new Intent(this, MenuListFragment.class), PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
                 .setContentTitle(getApplicationContext().getString(R.string.almost_dinner_time))

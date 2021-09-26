@@ -1,5 +1,7 @@
 package com.matthewcannefax.menuplanner;
 
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -11,5 +13,5 @@ public interface MenuApplicationComponent {
 
     void inject(SplashFragment fragment);
 
-    void inject(MenuFragment fragment);
+    void inject(MenuListFragment fragment);
 }

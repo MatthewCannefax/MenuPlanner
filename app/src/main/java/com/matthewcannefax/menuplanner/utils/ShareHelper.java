@@ -13,8 +13,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.matthewcannefax.menuplanner.BuildConfig;
+import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.recipe.recipeList.RecipeListActivity;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
@@ -222,7 +223,7 @@ public class ShareHelper {
                             Intent intent = new Intent(currentActivity, RecipeListActivity.class);
                             intent.putExtra("TITLE", R.string.my_recipes);
                             context.startActivity(intent);
-                            if(currentActivity.getClass() != MenuListActivity.class){
+                            if(currentActivity.getClass() != MainActivity.class){
                                 currentActivity.finish();
                             }
                         } catch (Exception e) {

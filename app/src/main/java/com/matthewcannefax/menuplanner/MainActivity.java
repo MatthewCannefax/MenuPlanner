@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ((MenuApplication) getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, viewModelFactory).get(MainViewModel.class);
-        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_main, null, false);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
 
         preloadRecipes();
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadNavigationGraph() {
         navHostFragment = NavHostFragment.create(R.navigation.main_navigation_graph);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, navHostFragment)
+                .replace(R.id.content_layout, navHostFragment)
                 .setPrimaryNavigationFragment(navHostFragment)
                 .commit();
     }

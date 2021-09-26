@@ -25,7 +25,7 @@ import android.widget.Spinner;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListActivity;
+import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -127,7 +127,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     }
 
                     //return to the menu activity
-                    Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListActivity.class);
+                    Intent returnToMenu = new Intent(RecipeListActivity.this, MenuListFragment.class);
                     returnToMenu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     RecipeListActivity.this.startActivity(returnToMenu);
 //                    AdHelper.showInterstitial(getApplicationContext());
@@ -306,7 +306,7 @@ public class RecipeListActivity extends AppCompatActivity {
                             } else {
 
                                 //this list is empty now, go back to the main activity
-                                Intent intent = new Intent(context, MenuListActivity.class);
+                                Intent intent = new Intent(context, MenuListFragment.class);
                                 startActivity(intent);
 
                                 //notify the user that the recipes have been removed
