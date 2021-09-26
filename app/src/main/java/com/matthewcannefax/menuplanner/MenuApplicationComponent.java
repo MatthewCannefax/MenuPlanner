@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner;
 
+import com.matthewcannefax.menuplanner.addEdit.AddRecipeFragment;
 import com.matthewcannefax.menuplanner.addEdit.ViewRecipeFragment;
 import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
 import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
@@ -20,4 +21,6 @@ public interface MenuApplicationComponent {
     void inject(CookbookFragment fragment);
 
     void inject(ViewRecipeFragment fragment);
+
+    void inject(AddRecipeFragment fragment);
 }

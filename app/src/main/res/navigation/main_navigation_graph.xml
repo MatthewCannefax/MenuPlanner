@@ -19,4 +19,8 @@
     <fragment
         android:id="@+id/view_recipe_fragment"
         android:name="com.matthewcannefax.menuplanner.addEdit.ViewRecipeFragment" />
+
+    <fragment
+        android:id="@+id/add_recipe_fragment"
+        android:name="com.matthewcannefax.menuplanner.addEdit.AddRecipeFragment" />
 </navigation>
