@@ -6,20 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,36 +13,40 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentMenuListBinding;
-import com.matthewcannefax.menuplanner.grocery.GroceryListFragment;
-import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
-import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
+import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//this activity is to display the selected MenuList
-//it has contains buttons to add a recipe to the menu and generate a grocery list
 public class MenuListFragment extends Fragment {
 
-    public static final String RECIPE_ID_STRING = "selected_recipe";
-
+    DataSource mDataSource;
     private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
     private List<Recipe> menuList;
     private MenuListRecyclerAdapter adapter;
-    DataSource mDataSource;
-//    private boolean mTwoPane = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -232,9 +222,9 @@ public class MenuListFragment extends Fragment {
                 return true;
 
             //if the Generate Grocery List option is clicked
-            case R.id.generateGroceryListItem:
-                NavHelper.newGroceryList(requireActivity(), requireContext());
-                return true;
+//            case R.id.generateGroceryListItem:
+//                NavHelper.newGroceryList(requireActivity(), requireContext());
+//                return true;
             case R.id.appendGroceryListItem:
                 mDataSource.menuIngredientsToGroceryDB();
                 Navigation.findNavController(requireView()).navigate(R.id.grocery_list_fragment);
