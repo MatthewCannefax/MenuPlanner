@@ -57,7 +57,6 @@ import java.util.List;
 
 public class AddRecipeFragment extends Fragment {
 
-    private DataSource mDataSource;
     private Recipe newRecipe;
     private FragmentRecipeDetailBinding binding;
     private MainViewModel viewModel;
@@ -69,8 +68,6 @@ public class AddRecipeFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mDataSource = new DataSource();
-        mDataSource.init(requireContext());
     }
 
     @Nullable
@@ -118,14 +115,6 @@ public class AddRecipeFragment extends Fragment {
         binding.ingredientDirectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         ImageHelper.setImageViewClickListener(requireContext(), binding.recipeIMG, requireActivity());
-
-        NavDrawer.setupNavDrawer(requireActivity(), requireContext(), binding.navList);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -158,7 +147,7 @@ public class AddRecipeFragment extends Fragment {
                     newRecipe.setImagePath(getString(R.string.no_img_selected));
                 }
 
-                mDataSource.createRecipe(newRecipe);
+                viewModel.addRecipe(newRecipe);
 
                 requireActivity().onBackPressed();
 
@@ -223,7 +212,7 @@ public class AddRecipeFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String s = charSequence.toString();
 
-                Ingredient ingredient = mDataSource.getSpecificIngredient(charSequence);
+                Ingredient ingredient = viewModel.getIngredientByText(charSequence);
 
                 if (ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null) {
                     spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));

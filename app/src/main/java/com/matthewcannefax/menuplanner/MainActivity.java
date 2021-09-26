@@ -18,12 +18,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.databinding.ActivityMainBinding;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.utils.ActivityNavEnum;
+import com.matthewcannefax.menuplanner.utils.NavDrawerEnum;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 
 import java.util.List;
@@ -49,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         viewModel.initializeDataSource(this);
 
-        NavDrawer.setupNavDrawerMenuButton(getSupportActionBar());
-        NavDrawer.setupNavDrawer(this, this, binding.navList);
-
         preloadRecipes();
 
         loadNavigationGraph();
@@ -63,19 +58,23 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        binding.navList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ActivityNavEnum.values()));
+        binding.navList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, NavDrawerEnum.values()));
         binding.navList.setOnItemClickListener((adapterView, view, i, l) -> {
-            switch (ActivityNavEnum.getActivityEnum(i)) {
-                case MENU_LIST_ACTIVITY: {
+            switch (NavDrawerEnum.getActivityEnum(i)) {
+                case MENU_FRAGMENT: {
                     navHostFragment.getNavController().navigate(R.id.menu_fragment);
                     break;
                 }
-                case RECIPE_LIST_ACTIVITY: {
+                case COOKBOOK_FRAGMENT: {
                     if (RecipeTable.isNotEmpty(this)) {
                         navHostFragment.getNavController().navigate(R.id.cookbook_fragment);
                     } else {
                         Snackbar.make(findViewById(R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
                     }
+                    break;
+                }
+                case ADD_RECIPE_FRAGMENT: {
+                    navHostFragment.getNavController().navigate(R.id.add_recipe_fragment);
                     break;
                 }
                 case VIEW_GROCERY_LIST: {

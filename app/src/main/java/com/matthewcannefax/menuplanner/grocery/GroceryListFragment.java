@@ -83,11 +83,6 @@ public class GroceryListFragment extends Fragment {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
-
-        NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
-
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(requireActivity(), requireContext(), binding.navList);
     }
 
     private void checkForNullGroceries() {

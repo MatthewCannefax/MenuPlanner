@@ -62,7 +62,6 @@ public class ViewRecipeFragment extends Fragment {
     public static final String RECIPE_ID = "item_id";
     private MainViewModel viewModel;
     private FragmentRecipeDetailBinding binding;
-    private DataSource mDatasource;
     private boolean areDirectionsChanged = false;
     private String newDirections;
 
@@ -77,10 +76,6 @@ public class ViewRecipeFragment extends Fragment {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-
-        mDatasource = new DataSource();
-        mDatasource.init(requireContext());
-        mDatasource.open();
     }
 
     @Nullable
@@ -121,23 +116,6 @@ public class ViewRecipeFragment extends Fragment {
         RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(requireContext(), oldRecipe).build(), oldRecipe, this::clickAddIngredientButton, this::setAreDirectionsChanged);
         binding.ingredientDirectionRecyclerview.setAdapter(adapter);
         binding.ingredientDirectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        //set up the nav drawer for this activity
-        NavDrawer.setupNavDrawer(requireActivity(), requireContext(), binding.navList);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mDatasource.close();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mDatasource.open();
-
-        NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
     }
 
     //create the menu button in the actionbar (currently only contains the submit option)
@@ -189,9 +167,7 @@ public class ViewRecipeFragment extends Fragment {
                         if (areDirectionsChanged) {
                             newRecipe.setDirections(newDirections);
                         }
-
-                        //update the recipe in the database
-                        mDatasource.updateRecipe(newRecipe);
+                        viewModel.updateRecipe(newRecipe);
                     }
                 });
 
@@ -262,11 +238,8 @@ public class ViewRecipeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String s = charSequence.toString();
-
-                Ingredient ingredient = mDatasource.getSpecificIngredient(charSequence);
-
-                if(ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null){
+                final Ingredient ingredient = viewModel.getIngredientByText(charSequence);
+                if (ingredient.getCategory() != null && ingredient.getMeasurement().getType() != null) {
                     spCat.setSelection(GroceryCategory.getCatPosition(ingredient.getCategory()));
                     spMeasure.setSelection(MeasurementType.getOrdinal(ingredient.getMeasurement().getType()));
                 }

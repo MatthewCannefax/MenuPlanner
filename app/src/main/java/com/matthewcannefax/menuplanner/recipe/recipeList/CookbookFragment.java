@@ -78,11 +78,7 @@ public class CookbookFragment extends Fragment {
         binding.catSpinner.setAdapter(catSpinnerAdapter);
         setRecipeListAdapter();
 
-        NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
-
         setFabListener();
-
-        NavDrawer.setupNavDrawer(requireActivity(), requireContext(), binding.navList);
     }
 
     private void setFabListener(){

@@ -80,10 +80,6 @@ public class MenuListFragment extends Fragment {
 
         binding.fab.setOnClickListener(v -> addRecipeToMenu());
 
-        NavDrawer.setupNavDrawerMenuButton(((AppCompatActivity) requireActivity()).getSupportActionBar());
-
-        NavDrawer.setupNavDrawer(requireActivity(), requireContext(), binding.navList);
-
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(requireActivity(), requireContext());
 
