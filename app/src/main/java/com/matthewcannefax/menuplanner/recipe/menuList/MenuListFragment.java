@@ -28,12 +28,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.matthewcannefax.menuplanner.MainViewModel;
-import com.matthewcannefax.menuplanner.MainViewModelFactory;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentMenuListBinding;
-import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
-import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
+import com.matthewcannefax.menuplanner.grocery.GroceryListFragment;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
@@ -46,8 +44,6 @@ import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 //this activity is to display the selected MenuList
 //it has contains buttons to add a recipe to the menu and generate a grocery list
@@ -241,8 +237,7 @@ public class MenuListFragment extends Fragment {
                 return true;
             case R.id.appendGroceryListItem:
                 mDataSource.menuIngredientsToGroceryDB();
-                Intent appendIntent = new Intent(requireActivity(), GroceryListActivity.class);//TODO this will change
-                startActivity(appendIntent);
+                Navigation.findNavController(requireView()).navigate(R.id.grocery_list_fragment);
                 return true;
             case R.id.help:
                 AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());

@@ -29,14 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".grocery.GroceryListActivity"
-            android:parentActivityName=".recipe.menuList.MenuListFragment"
-            tools:targetApi="jelly_bean">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".recipe.menuList.MenuListFragment" />
-        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -3,8 +3,6 @@ package com.matthewcannefax.menuplanner.utils;
 import android.app.Activity;
 
 import com.matthewcannefax.menuplanner.MainActivity;
-import com.matthewcannefax.menuplanner.addEdit.AddRecipeFragment;
-import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
 
 public enum ActivityNavEnum {
     MENU_LIST_ACTIVITY("My Menu", MainActivity.class, 0),

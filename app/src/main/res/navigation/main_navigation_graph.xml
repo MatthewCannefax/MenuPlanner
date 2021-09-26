@@ -23,4 +23,8 @@
     <fragment
         android:id="@+id/add_recipe_fragment"
         android:name="com.matthewcannefax.menuplanner.addEdit.AddRecipeFragment" />
+
+    <fragment
+        android:id="@+id/grocery_list_fragment"
+        android:name="com.matthewcannefax.menuplanner.grocery.GroceryListFragment" />
 </navigation>

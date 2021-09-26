@@ -6,9 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.Navigation;
 
 import com.matthewcannefax.menuplanner.R;
-import com.matthewcannefax.menuplanner.grocery.GroceryListActivity;
+import com.matthewcannefax.menuplanner.grocery.GroceryListFragment;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
@@ -29,7 +30,6 @@ public class NavHelper {
 
         //if there is an existing grocery list
         if ((groceries != null && groceries.size() > 0) && (menu != null && menu.size() > 0)) {
-
             //ask the user if they truly wish to create a new grocery list
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(R.string.new_glist_question);
@@ -42,9 +42,7 @@ public class NavHelper {
                     goToGroceryList(activity, context);
                 }
             });
-
             builder.show();
-
         }
         //if there is no grocery list and the menu list is not null create a new grocery list
         else if (groceries != null) {
@@ -60,28 +58,17 @@ public class NavHelper {
 
     //create a new grocery list either by creating from menu items, or starting a new blank list
     private static void goToGroceryList(final Activity activity, Context context){
-//        List<Recipe> menuList = StaticMenu.getMenuList();
         final DataSource mDataSource = new DataSource(context);
 
         List<Recipe> menuList = mDataSource.getAllMenuRecipes();
         List<Ingredient> groceries = mDataSource.getAllGroceries();
 
-
         //check that there are actually items in the menu list
         if (menuList != null && menuList.size() > 0) {
-            //new intent to move to the GroceryListActivity
-            Intent intent = new Intent(activity, GroceryListActivity.class);
-
             mDataSource.removeAllGroceries();
 
             mDataSource.menuIngredientsToGroceryDB();
-
-
-            //start the GroceryListActivity
-            activity.startActivity(intent);
-        }
-        //if there are no items in the menu list, Toast the user saying just that
-        else {
+        } else {
 
             if (groceries == null || groceries.size() == 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -91,7 +78,7 @@ public class NavHelper {
                         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(activity, GroceryListActivity.class);
+                                Intent intent = new Intent(activity, GroceryListFragment.class);
                                 activity.startActivity(intent);
                             }
                         });
@@ -107,7 +94,7 @@ public class NavHelper {
 
                                 mDataSource.removeAllGroceries();
 
-                                Intent intent = new Intent(activity, GroceryListActivity.class);
+                                Intent intent = new Intent(activity, GroceryListFragment.class);
                                 activity.startActivity(intent);
                             }
                         });
