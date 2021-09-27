@@ -14,6 +14,8 @@ public class MainViewModel extends ViewModel {
 
     private final DataSource dataSource;
     private Recipe selectedRecipe;
+    private List<Recipe> currentCookbook;
+    private List<Recipe> currentMenu;
 
     public MainViewModel(final DataSource dataSource) {
         this.dataSource = dataSource;
@@ -25,6 +27,22 @@ public class MainViewModel extends ViewModel {
 
     public void setSelectedRecipe(Recipe selectedRecipe) {
         this.selectedRecipe = selectedRecipe;
+    }
+
+    public List<Recipe> getCurrentCookbook() {
+        return currentCookbook;
+    }
+
+    public void setCurrentCookbook(List<Recipe> currentCookbook) {
+        this.currentCookbook = currentCookbook;
+    }
+
+    public List<Recipe> getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public void setCurrentMenu(List<Recipe> currentMenu) {
+        this.currentMenu = currentMenu;
     }
 
     public void addRecipe(final Recipe recipe) {

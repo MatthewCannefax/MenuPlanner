@@ -3,7 +3,6 @@ package com.matthewcannefax.menuplanner.recipe.menuList;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,7 +41,6 @@ public class MenuListFragment extends Fragment {
 
     private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
-    private List<Recipe> menuList;
     private MenuListRecyclerAdapter adapter;
 
     @Override
@@ -71,7 +68,7 @@ public class MenuListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        menuList = viewModel.getMenu();
+
         setMenuListViewAdapter();
 
         final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
@@ -82,8 +79,6 @@ public class MenuListFragment extends Fragment {
 
         //check that the required permissions are allowed
         PermissionsHelper.checkPermissions(requireActivity(), requireContext());
-
-        //checkPermissions(mContext, sharedPref, isPreloaded);
 
         //if the menu list is not null notify the adapter of changes, in case there are any
         setCatAdapter();
@@ -152,8 +147,7 @@ public class MenuListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        menuList = viewModel.getMenu();
+        viewModel.setCurrentMenu(viewModel.getCurrentMenu());
         setMenuListViewAdapter();
 
         if (viewModel.getMenu() != null && viewModel.getMenu().size() != 0) {
@@ -227,8 +221,7 @@ public class MenuListFragment extends Fragment {
                 builder.show();
                 return true;
             case R.id.removeAll:
-                menuList = viewModel.getMenu();
-                if (menuList != null && menuList.size() != 0) {
+                if (viewModel.getCurrentMenu() != null && viewModel.getCurrentMenu().size() != 0) {
                     AlertDialog.Builder removeBuilder = new AlertDialog.Builder(requireContext());
                     removeBuilder.setTitle(getString(R.string.are_you_sure));
                     removeBuilder.setMessage(getString(R.string.remove_all_from_menu));
@@ -237,7 +230,7 @@ public class MenuListFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             viewModel.removeAllFromMenu();
-                            menuList = null;
+                            viewModel.setCurrentMenu(null);
                             binding.menuRecyclerView.setAdapter(null);
                             setCatAdapter();
                             setFilterBTNListener(requireContext(), binding.filterBTN, null);
