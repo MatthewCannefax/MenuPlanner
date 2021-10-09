@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/charcoal">
+
+        <FrameLayout
+            android:id="@+id/button_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/icon_close"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_close_24"
+                android:layout_gravity="center"
+                android:foreground="?selectableItemBackground"
+                app:tint="@color/white"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/button_menu"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/icon_menu"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_menu_book_24" />
+
+            <TextView
+                android:id="@+id/title_menu"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Menu" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_menu" />
+
+        <LinearLayout
+            android:id="@+id/button_cookbook"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_menu">
+
+            <ImageView
+                android:id="@+id/icon_cookbook"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_baseline_fastfood_24" />
+
+            <TextView
+                android:id="@+id/title_cookbook"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Cookbook" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_cookbook" />
+
+        <LinearLayout
+            android:id="@+id/button_add_recipe"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_cookbook">
+
+            <ImageView
+                android:id="@+id/icon_add_recipe"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_add_recipe" />
+
+            <TextView
+                android:id="@+id/title_add_recipe"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Add recipe" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_add_recipe" />
+
+        <LinearLayout
+            android:id="@+id/button_view_grocery_list"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_add_recipe">
+
+            <ImageView
+                android:id="@+id/icon_view_grocery_list"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_list_alt" />
+
+            <TextView
+                android:id="@+id/title_view_grocery_list"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="view grocey list" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_view_grocery_list" />
+
+        <LinearLayout
+            android:id="@+id/button_new_grocery_list"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_view_grocery_list">
+
+            <ImageView
+                android:id="@+id/icon_new_grocery_list"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_playlist_add_black_24dp" />
+
+            <TextView
+                android:id="@+id/title_new_grocery_list"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="new grocery list" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_new_grocery_list" />
+
+        <LinearLayout
+            android:id="@+id/button_import_cookbook"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_new_grocery_list">
+
+            <ImageView
+                android:id="@+id/icon_import_cookbook"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_file_download_black_24dp" />
+
+            <TextView
+                android:id="@+id/title_import_cookbook"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="import cookbook" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_import_cookbook" />
+
+        <LinearLayout
+            android:id="@+id/button_share_cookbook"
+            style="@style/drawer_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toTopOf="@id/button_import_cookbook">
+
+            <ImageView
+                android:id="@+id/icon_share_cookbook"
+                style="@style/drawer_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_share_black_24dp" />
+
+            <TextView
+                android:id="@+id/title_share_cookbook"
+                style="@style/drawer_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="share cookbook" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/button_share_cookbook" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
