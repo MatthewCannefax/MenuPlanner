@@ -6,12 +6,12 @@
         motion:constraintSetStart="@id/start"
         motion:constraintSetEnd="@id/end"
         motion:duration="600">
-        <OnSwipe
-            motion:touchAnchorId="@+id/content_layout"
-            motion:dragDirection="dragLeft"
-            motion:touchAnchorSide="left"
-            motion:onTouchUp="autoComplete"
-            motion:touchRegionId="@id/content_layout"/>
+<!--        <OnSwipe-->
+<!--            motion:touchAnchorId="@+id/content_layout"-->
+<!--            motion:dragDirection="dragLeft"-->
+<!--            motion:touchAnchorSide="left"-->
+<!--            motion:onTouchUp="autoComplete"-->
+<!--            motion:touchRegionId="@id/content_layout"/>-->
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
