@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.matthewcannefax.menuplanner.databinding.FragmentSplashBinding;
+
+import java.util.Optional;
 
 public class SplashFragment extends Fragment {
 
@@ -37,6 +40,7 @@ public class SplashFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Optional.ofNullable(((MainActivity) requireActivity()).getSupportActionBar()).ifPresent(ActionBar::hide);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Navigation.findNavController(requireView()).navigate(R.id.menu_fragment);

@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.BaseFragment;
+import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -33,6 +35,7 @@ import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MenuListFragment extends BaseFragment {
 
@@ -65,6 +68,7 @@ public class MenuListFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Optional.ofNullable(((MainActivity) requireActivity()).getSupportActionBar()).ifPresent(ActionBar::show);
 
         setMenuListViewAdapter();
 
