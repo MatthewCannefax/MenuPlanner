@@ -3,33 +3,22 @@ package com.matthewcannefax.menuplanner.addEdit;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
@@ -39,18 +28,14 @@ import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
-import com.matthewcannefax.menuplanner.recipe.recipeList.CookbookFragment;
-import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -131,47 +116,47 @@ public class AddRecipeFragment extends Fragment {
 //    }
 
     //handle the clicks of the menu items
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //if the submit button is clicked
-        //this is where the new recipe is all put together and then added to Recipe list and JSON files
-        if (item.getItemId() == R.id.menuSubmitBTN) {
-
-            if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
-                //get the name, directions and category from the controls
-                newRecipe.setName(binding.recipeName.getText().toString());
-//                newRecipe.setDirections(directionsMultiLine.getText().toString());
-                newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
-
-                if (newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")) {
-                    newRecipe.setImagePath(getString(R.string.no_img_selected));
-                }
-
-                viewModel.addRecipe(newRecipe);
-
-                requireActivity().onBackPressed();
-
-                return true;
-            } else {
-                String message = getString(R.string.at_least_one_ingredient);
-                Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
-                return true;
-            }
-        } else if (item.getItemId() == android.R.id.home) {
-            NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-            return true;
-        } else if (item.getItemId() == R.id.help) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setTitle(R.string.help);
-            builder.setMessage(R.string.add_recipe_help);
-            builder.setNeutralButton(R.string.ok, null);
-            builder.show();
-            return true;
-        } else {
-            return false;
-        }
-
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        //if the submit button is clicked
+//        //this is where the new recipe is all put together and then added to Recipe list and JSON files
+//        if (item.getItemId() == R.id.menuSubmitBTN) {
+//
+//            if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
+//                //get the name, directions and category from the controls
+//                newRecipe.setName(binding.recipeName.getText().toString());
+////                newRecipe.setDirections(directionsMultiLine.getText().toString());
+//                newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
+//
+//                if (newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")) {
+//                    newRecipe.setImagePath(getString(R.string.no_img_selected));
+//                }
+//
+//                viewModel.addRecipe(newRecipe);
+//
+//                requireActivity().onBackPressed();
+//
+//                return true;
+//            } else {
+//                String message = getString(R.string.at_least_one_ingredient);
+//                Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
+//                return true;
+//            }
+//        } else if (item.getItemId() == android.R.id.home) {
+//            NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
+//            return true;
+//        } else if (item.getItemId() == R.id.help) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//            builder.setTitle(R.string.help);
+//            builder.setMessage(R.string.add_recipe_help);
+//            builder.setNeutralButton(R.string.ok, null);
+//            builder.show();
+//            return true;
+//        } else {
+//            return false;
+//        }
+//
+//    }
 
     //Override the OnActivityResult to catch the picture chosen or taken to set as the recipe image
     @Override

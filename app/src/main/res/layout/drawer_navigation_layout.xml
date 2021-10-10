@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/charcoal">
@@ -45,7 +44,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Menu" />
+                android:text="@string/drawer_button_menu_text" />
         </LinearLayout>
 
         <View
@@ -73,7 +72,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Cookbook" />
+                android:text="@string/drawer_button_cookbook_text" />
         </LinearLayout>
 
         <View
@@ -101,7 +100,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Add recipe" />
+                android:text="@string/drawer_button_add_recipe_text" />
         </LinearLayout>
 
         <View
@@ -129,7 +128,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="view grocey list" />
+                android:text="@string/drawer_button_view_grocery_text" />
         </LinearLayout>
 
         <View
@@ -157,7 +156,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="new grocery list" />
+                android:text="@string/drawer_button_new_grocery_text" />
         </LinearLayout>
 
         <View
@@ -185,7 +184,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="import cookbook" />
+                android:text="@string/drawer_button_import_text" />
         </LinearLayout>
 
         <View
@@ -213,7 +212,7 @@
                 style="@style/drawer_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="share cookbook" />
+                android:text="@string/drawer_button_share_text" />
         </LinearLayout>
 
         <View

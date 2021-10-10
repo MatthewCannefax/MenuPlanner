@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/light_charcoal"
+        app:layoutDescription="@xml/activity_motion_scene">
+
+        <include
+            android:id="@+id/drawer_layout"
+            layout="@layout/drawer_navigation_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toStartOf="@id/drawer_guide"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/content_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white" />
 
-            <FrameLayout
-                android:id="@+id/content_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <FrameLayout
+            android:id="@+id/inactive_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="true"
+            android:background="@color/light_charcoal_opacity_80" />
 
-        </FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/drawer_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".8" />
 
-        <ListView
-            android:id="@+id/navList"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="#FFF" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/slide_guide_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".85" />
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/slide_guide_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1.85" />
+
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

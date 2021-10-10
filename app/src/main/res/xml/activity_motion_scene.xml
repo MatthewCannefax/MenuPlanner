@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition android:id="@+id/start_to_end_transition"
+        motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@id/end"
+        motion:duration="600">
+        <OnSwipe
+            motion:touchAnchorId="@+id/content_layout"
+            motion:dragDirection="dragLeft"
+            motion:touchAnchorSide="left"
+            motion:onTouchUp="autoComplete"
+            motion:touchRegionId="@id/content_layout"/>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/content_layout"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:elevation="0dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+        <Constraint android:id="@+id/inactive_overlay"
+            android:visibility="invisible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/content_layout"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/slide_guide_start"
+            motion:layout_constraintEnd_toStartOf="@+id/slide_guide_end"
+            android:elevation="10dp"
+            android:layout_marginBottom="15dp" />
+
+        <Constraint android:id="@+id/inactive_overlay"
+            android:visibility="visible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toEndOf="@+id/slide_guide_start"
+            motion:layout_constraintEnd_toStartOf="@+id/slide_guide_end"
+            android:elevation="10dp"
+            android:layout_marginBottom="15dp"/>
+    </ConstraintSet>
+</MotionScene>

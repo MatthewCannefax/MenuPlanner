@@ -3,13 +3,12 @@ package com.matthewcannefax.menuplanner;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -18,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.databinding.ActivityMainBinding;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
-import com.matthewcannefax.menuplanner.utils.NavDrawerEnum;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
@@ -58,57 +56,56 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        binding.navList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, NavDrawerEnum.values()));
-        binding.navList.setOnItemClickListener((adapterView, view, i, l) -> {
-            switch (NavDrawerEnum.getActivityEnum(i)) {
-                case MENU_FRAGMENT: {
-                    navHostFragment.getNavController().navigate(R.id.menu_fragment);
-                    break;
-                }
-                case COOKBOOK_FRAGMENT: {
-                    if (RecipeTable.isNotEmpty(this)) {
-                        navHostFragment.getNavController().navigate(R.id.cookbook_fragment);
-                    } else {
-                        Snackbar.make(findViewById(R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
-                    }
-                    break;
-                }
-                case ADD_RECIPE_FRAGMENT: {
-                    navHostFragment.getNavController().navigate(R.id.add_recipe_fragment);
-                    break;
-                }
-                case VIEW_GROCERY_LIST: {
-                    final List<Ingredient> groceries = viewModel.getAllGroceries();
-                    if (!groceries.isEmpty()) {
-                        navHostFragment.getNavController().navigate(R.id.grocery_list_fragment);
-                    } else {
-                        Snackbar.make(findViewById(android.R.id.content), R.string.no_grocery_list_found, Snackbar.LENGTH_LONG).show();
-                    }
-                    break;
-                }
-                case NEW_GROCERY_LIST: {
-                    NavHelper.newGroceryList(this, this,
-                            v -> navHostFragment.getNavController().navigate(R.id.grocery_list_fragment));
-                    break;
-                }
-                case IMPORT_COOKBOOK: {
-                    ShareHelper.importCookbook(this);
-                    break;
-                }
-                case SHARE_COOKBOOK: {
-                    final List<Recipe> recipes = viewModel.getCookbook();
-                    if (!recipes.isEmpty()) {
-                        ShareHelper.sendAllRecipes(this);
-                    } else {
-                        Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
-                    }
-                    break;
-                }
-                default: {
-                    //do nothing, should never happen
-                }
+        binding.drawerLayout.buttonClose.setOnClickListener(v -> ((MotionLayout) binding.getRoot()).transitionToStart());
+
+        binding.drawerLayout.buttonMenu.setOnClickListener(v -> {
+            navHostFragment.getNavController().navigate(R.id.menu_fragment);
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonCookbook.setOnClickListener(v -> {
+            if (RecipeTable.isNotEmpty(this)) {
+                navHostFragment.getNavController().navigate(R.id.cookbook_fragment);
+            } else {
+                Snackbar.make(findViewById(R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
             }
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonAddRecipe.setOnClickListener(v -> {
+            navHostFragment.getNavController().navigate(R.id.add_recipe_fragment);
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonViewGroceryList.setOnClickListener(v -> {
+            final List<Ingredient> groceries = viewModel.getAllGroceries();
+            if (!groceries.isEmpty()) {
+                navHostFragment.getNavController().navigate(R.id.grocery_list_fragment);
+            } else {
+                Snackbar.make(findViewById(android.R.id.content), R.string.no_grocery_list_found, Snackbar.LENGTH_LONG).show();
+            }
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonNewGroceryList.setOnClickListener(v -> {
+            NavHelper.newGroceryList(this, this,
+                    view -> navHostFragment.getNavController().navigate(R.id.grocery_list_fragment));
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonImportCookbook.setOnClickListener(v -> {
+            ShareHelper.importCookbook(this);
+            ((MotionLayout) binding.getRoot()).transitionToStart();
+        });
+
+        binding.drawerLayout.buttonShareCookbook.setOnClickListener(v -> {
+            final List<Recipe> recipes = viewModel.getCookbook();
+            if (!recipes.isEmpty()) {
+                ShareHelper.sendAllRecipes(this);
+            } else {
+                Snackbar.make(findViewById(android.R.id.content), R.string.no_recipes_found, Snackbar.LENGTH_LONG).show();
+            }
+            ((MotionLayout) binding.getRoot()).transitionToStart();
         });
     }
 
@@ -116,14 +113,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                final MotionLayout motionLayout = (MotionLayout) binding.getRoot();
+                if (motionLayout.getCurrentState() == R.id.end) {
+                    motionLayout.transitionToStart();
                 } else {
-                    binding.drawerLayout.openDrawer(GravityCompat.START);
+                    motionLayout.transitionToEnd();
                 }
+                break;
             }
             default: {
                 //do nothing
+                break;
             }
         }
         return super.onOptionsItemSelected(item);

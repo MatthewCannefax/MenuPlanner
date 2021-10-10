@@ -99,5 +99,12 @@
     <string name="whats_for_dinner">What\'s for dinner tonight?</string>
     <string name="almost_dinner_time">Almost Dinner Time</string>
     <string name="logo">logo</string>
+    <string name="drawer_button_menu_text">Menu</string>
+    <string name="drawer_button_cookbook_text">Cookbook</string>
+    <string name="drawer_button_add_recipe_text">Add recipe</string>
+    <string name="drawer_button_view_grocery_text">view grocey list</string>
+    <string name="drawer_button_new_grocery_text">new grocery list</string>
+    <string name="drawer_button_import_text">import cookbook</string>
+    <string name="drawer_button_share_text">share cookbook</string>
 
 </resources>

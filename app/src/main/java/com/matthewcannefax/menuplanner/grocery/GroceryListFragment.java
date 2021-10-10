@@ -1,49 +1,35 @@
 package com.matthewcannefax.menuplanner.grocery;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentGroceryListBinding;
-import com.matthewcannefax.menuplanner.recipe.menuList.MenuListFragment;
-import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
+import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
 
@@ -51,10 +37,10 @@ import java.util.List;
 //to the menu list
 public class GroceryListFragment extends Fragment {
 
+    private static List<Ingredient> ingredients;
     private FragmentGroceryListBinding binding;
     private MainViewModel viewModel;
     private GroceryRecyclerAdapter recyclerAdapter;
-    private static List<Ingredient> ingredients;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,12 +72,12 @@ public class GroceryListFragment extends Fragment {
     }
 
     private void checkForNullGroceries() {
-        if(viewModel.getAllGroceries() == null){
+        if (viewModel.getAllGroceries() == null) {
             requireActivity().onBackPressed();
         }
     }
 
-    private void addGroceryItem(){
+    private void addGroceryItem() {
         //create an alertdialog to input this information
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle(R.string.add_item);
@@ -161,7 +147,7 @@ public class GroceryListFragment extends Fragment {
 
     }
 
-    private void setGroceryListAdapter(){
+    private void setGroceryListAdapter() {
         if (ingredients != null) {
             recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
             binding.groceryRecyclerView.setAdapter(recyclerAdapter);
@@ -198,69 +184,69 @@ public class GroceryListFragment extends Fragment {
 //    }
 
     //handle clicks on the actionbar
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-
-        //if the remove selected items option is clicked
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-                return true;
-            case R.id.removeSelectItems:
-                int count = recyclerAdapter.getItemCount();
-
-                //loop through the adapter
-                for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
-                    if (recyclerAdapter.getItem(i) instanceof GroceryItemRow) {
-                        //get the ingredient item from the adapter item
-                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getItem(i)).getGroceryItem();
-
-                        //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
-                        //the item will be removed
-                        assert ingred != null;
-                        if (ingred.getItemChecked()) {;
-                            viewModel.removeGroceryItem(ingred);
-                        }
-                    }
-                }
-                //display a Toast confirming to the user that the items have been removed
-                //may want to switch to a dialog so the user can confirm deletion
-                if (count != recyclerAdapter.getItemCount()) {
-                    Snackbar.make(requireContext(), requireView(), getString(R.string.items_removed), Snackbar.LENGTH_LONG).show();
-                }
-
-                //reset the adapter
-                ingredients = viewModel.getAllGroceries();
-
-                recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
-                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
-                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-                return true;
-                
-            case R.id.shareGroceryList:
-                ShareHelper.sendGroceryList(requireContext());
-                return true;
-            case R.id.selectAllGroceries:
-                for (Ingredient i :
-                        viewModel.getAllGroceries()) {
-                    viewModel.setGroceryItemChecked(i.getIngredientID(), true);
-                }
-                recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), this::clickGroceryItem);
-                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
-                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                return true;
-            case R.id.help:
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Help");
-                builder.setMessage(R.string.grocery_list_help);
-                builder.setNeutralButton("OK", null);
-                builder.show();
-                return true;
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item){
+//
+//        //if the remove selected items option is clicked
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
+//                return true;
+//            case R.id.removeSelectItems:
+//                int count = recyclerAdapter.getItemCount();
+//
+//                //loop through the adapter
+//                for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
+//                    if (recyclerAdapter.getItem(i) instanceof GroceryItemRow) {
+//                        //get the ingredient item from the adapter item
+//                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getItem(i)).getGroceryItem();
+//
+//                        //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
+//                        //the item will be removed
+//                        assert ingred != null;
+//                        if (ingred.getItemChecked()) {;
+//                            viewModel.removeGroceryItem(ingred);
+//                        }
+//                    }
+//                }
+//                //display a Toast confirming to the user that the items have been removed
+//                //may want to switch to a dialog so the user can confirm deletion
+//                if (count != recyclerAdapter.getItemCount()) {
+//                    Snackbar.make(requireContext(), requireView(), getString(R.string.items_removed), Snackbar.LENGTH_LONG).show();
+//                }
+//
+//                //reset the adapter
+//                ingredients = viewModel.getAllGroceries();
+//
+//                recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
+//                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
+//                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//
+//                return true;
+//
+//            case R.id.shareGroceryList:
+//                ShareHelper.sendGroceryList(requireContext());
+//                return true;
+//            case R.id.selectAllGroceries:
+//                for (Ingredient i :
+//                        viewModel.getAllGroceries()) {
+//                    viewModel.setGroceryItemChecked(i.getIngredientID(), true);
+//                }
+//                recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), this::clickGroceryItem);
+//                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
+//                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//                return true;
+//            case R.id.help:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//                builder.setTitle("Help");
+//                builder.setMessage(R.string.grocery_list_help);
+//                builder.setNeutralButton("OK", null);
+//                builder.show();
+//                return true;
+//            default:
+//                return false;
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

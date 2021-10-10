@@ -1,12 +1,10 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,7 +12,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,7 +28,6 @@ import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
@@ -136,10 +132,7 @@ public class MenuListFragment extends Fragment {
             //Might try to use a Recycler view instead, since it is typically smoother when scrolling
             binding.menuRecyclerView.setAdapter(adapter);
             binding.menuRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        }
-        //if the list does not exist, send the user a toast saying that there are no menu items
-        else {
-//            Toast.makeText(this, "No Menu Items", Toast.LENGTH_SHORT).show();
+        } else {
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_menu_items), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -195,58 +188,58 @@ public class MenuListFragment extends Fragment {
 
 
     //this overridden method is to handle the actionbar clicks
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //if the Add Recipe option is clicked
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
-                NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-                return true;
-
-            //if the Generate Grocery List option is clicked
-//            case R.id.generateGroceryListItem:
-//                NavHelper.newGroceryList(requireActivity(), requireContext());
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        //if the Add Recipe option is clicked
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//
+//                NavDrawer.navDrawerOptionsItem();
 //                return true;
-            case R.id.appendGroceryListItem:
-                viewModel.createGroceryListFromMenu();
-                Navigation.findNavController(requireView()).navigate(R.id.grocery_list_fragment);
-                return true;
-            case R.id.help:
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle(R.string.help);
-                builder.setMessage(R.string.menu_list_help);
-                builder.setNeutralButton(R.string.ok, null);
-                builder.show();
-                return true;
-            case R.id.removeAll:
-                if (viewModel.getCurrentMenu() != null && viewModel.getCurrentMenu().size() != 0) {
-                    AlertDialog.Builder removeBuilder = new AlertDialog.Builder(requireContext());
-                    removeBuilder.setTitle(getString(R.string.are_you_sure));
-                    removeBuilder.setMessage(getString(R.string.remove_all_from_menu));
-                    removeBuilder.setNegativeButton(getString(R.string.no), null);
-                    removeBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            viewModel.removeAllFromMenu();
-                            viewModel.setCurrentMenu(null);
-                            binding.menuRecyclerView.setAdapter(null);
-                            setCatAdapter();
-                            setFilterBTNListener(requireContext(), binding.filterBTN, null);
-                            Snackbar.make(requireContext(), requireView(), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
-                        }
-                    });
-                    removeBuilder.show();
-                } else {
-                    Snackbar.make(requireContext(), requireView(), getString(R.string.no_menu_items), Snackbar.LENGTH_LONG).show();
-                }
-                return true;
-            //default; this will allow the back button to work correctly
-            default:
-                return false;
-        }
-    }
+//
+//            //if the Generate Grocery List option is clicked
+////            case R.id.generateGroceryListItem:
+////                NavHelper.newGroceryList(requireActivity(), requireContext());
+////                return true;
+//            case R.id.appendGroceryListItem:
+//                viewModel.createGroceryListFromMenu();
+//                Navigation.findNavController(requireView()).navigate(R.id.grocery_list_fragment);
+//                return true;
+//            case R.id.help:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//                builder.setTitle(R.string.help);
+//                builder.setMessage(R.string.menu_list_help);
+//                builder.setNeutralButton(R.string.ok, null);
+//                builder.show();
+//                return true;
+//            case R.id.removeAll:
+//                if (viewModel.getCurrentMenu() != null && viewModel.getCurrentMenu().size() != 0) {
+//                    AlertDialog.Builder removeBuilder = new AlertDialog.Builder(requireContext());
+//                    removeBuilder.setTitle(getString(R.string.are_you_sure));
+//                    removeBuilder.setMessage(getString(R.string.remove_all_from_menu));
+//                    removeBuilder.setNegativeButton(getString(R.string.no), null);
+//                    removeBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            viewModel.removeAllFromMenu();
+//                            viewModel.setCurrentMenu(null);
+//                            binding.menuRecyclerView.setAdapter(null);
+//                            setCatAdapter();
+//                            setFilterBTNListener(requireContext(), binding.filterBTN, null);
+//                            Snackbar.make(requireContext(), requireView(), getString(R.string.recipes_removed), Snackbar.LENGTH_LONG).show();
+//                        }
+//                    });
+//                    removeBuilder.show();
+//                } else {
+//                    Snackbar.make(requireContext(), requireView(), getString(R.string.no_menu_items), Snackbar.LENGTH_LONG).show();
+//                }
+//                return true;
+//            //default; this will allow the back button to work correctly
+//            default:
+//                return false;
+//        }
+//    }
 
     private void recipeClickListener(final Recipe recipe) {
         viewModel.setSelectedRecipe(recipe);

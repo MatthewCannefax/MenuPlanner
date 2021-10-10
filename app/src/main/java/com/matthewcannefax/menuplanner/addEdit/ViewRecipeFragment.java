@@ -1,36 +1,26 @@
 package com.matthewcannefax.menuplanner.addEdit;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.matthewcannefax.menuplanner.MainViewModel;
-import com.matthewcannefax.menuplanner.MainViewModelFactory;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentRecipeDetailBinding;
@@ -38,13 +28,11 @@ import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
-import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.ImageHelper;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
-import com.matthewcannefax.menuplanner.utils.navigation.NavDrawer;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
-import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,8 +40,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 //this class is for editing already existing recipes
 
@@ -72,7 +58,7 @@ public class ViewRecipeFragment extends Fragment {
     private Recipe newRecipe;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         ((MenuApplication) requireActivity().getApplicationContext()).getMenuApplicationComponent().inject(this);
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
@@ -105,9 +91,9 @@ public class ViewRecipeFragment extends Fragment {
         binding.categorySpinner.setSelection(spinnerAdapter.getPosition(oldRecipe.getCategory()));
 
         //setup the image if it is present
-        if(oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")){
+        if (oldRecipe.getImagePath() != null && !oldRecipe.getImagePath().equals("")) {
             ImageHelper.setImageViewDrawable(oldRecipe.getImagePath(), requireContext(), binding.recipeIMG);
-        }else{
+        } else {
             ImageHelper.setImageViewDrawable("", requireContext(), binding.recipeIMG);
         }
 
@@ -136,70 +122,70 @@ public class ViewRecipeFragment extends Fragment {
 //        return true;
 //    }
 
-    //handle the clicks of the menu items
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        //if the submit button is clicked and the recipe is editable
-        if(item.getItemId() == R.id.menuSubmitBTN) {
-
-            //check if there are ingredients in the ingredient list
-            if (oldRecipe.getIngredientList() != null && oldRecipe.getIngredientList().size() != 0) {
-                //Alert dialog to ask the user if they are sure they want to save the recipe
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle(R.string.save_recipe_question);
-                builder.setMessage(getString(R.string.are_you_sure_change) + oldRecipe.getName() + getString(R.string.question_mark));
-                builder.setNegativeButton(R.string.cancel, null);
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //new recipe object created by the user
-                        newRecipe = new Recipe();
-                        newRecipe = oldRecipe;
-                        newRecipe.setName(binding.recipeName.getText().toString());
-//                        newRecipe.setDirections(directionsMultiLine.getText().toString());
-                        newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
-
-                        //get the ingredients of the new recipe from the old recipe object
-                        newRecipe.setIngredientList(oldRecipe.getIngredientList());
-
-                        newRecipe.setImagePath(oldRecipe.getImagePath());
-
-                        if (areDirectionsChanged) {
-                            newRecipe.setDirections(newDirections);
-                        }
-                        viewModel.updateRecipe(newRecipe);
-                    }
-                });
-
-                builder.show();
-
-                return true;
-            } else {
-                String message = getString(R.string.at_least_one_ingredient);
-                Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
-                return true;
-            }
-        }
-        else if(item.getItemId() == android.R.id.home) {
-            NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-            return true;
-        }else if(item.getItemId() == R.id.shareRecipe){
-            ShareHelper.sendSingleRecipe(requireContext(), oldRecipe.getRecipeID());
-            return true;
-        }
-        else if(item.getItemId() == R.id.help){
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
-            builder.setTitle("Help");
-            builder.setMessage(R.string.edit_recipe_help);
-            builder.setNeutralButton(R.string.ok, null);
-            builder.show();
-            return true;
-        }
-        else{
-            return false;
-        }
-
-    }
+//    //handle the clicks of the menu items
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        //if the submit button is clicked and the recipe is editable
+//        if(item.getItemId() == R.id.menuSubmitBTN) {
+//
+//            //check if there are ingredients in the ingredient list
+//            if (oldRecipe.getIngredientList() != null && oldRecipe.getIngredientList().size() != 0) {
+//                //Alert dialog to ask the user if they are sure they want to save the recipe
+//                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+//                builder.setTitle(R.string.save_recipe_question);
+//                builder.setMessage(getString(R.string.are_you_sure_change) + oldRecipe.getName() + getString(R.string.question_mark));
+//                builder.setNegativeButton(R.string.cancel, null);
+//                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        //new recipe object created by the user
+//                        newRecipe = new Recipe();
+//                        newRecipe = oldRecipe;
+//                        newRecipe.setName(binding.recipeName.getText().toString());
+////                        newRecipe.setDirections(directionsMultiLine.getText().toString());
+//                        newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
+//
+//                        //get the ingredients of the new recipe from the old recipe object
+//                        newRecipe.setIngredientList(oldRecipe.getIngredientList());
+//
+//                        newRecipe.setImagePath(oldRecipe.getImagePath());
+//
+//                        if (areDirectionsChanged) {
+//                            newRecipe.setDirections(newDirections);
+//                        }
+//                        viewModel.updateRecipe(newRecipe);
+//                    }
+//                });
+//
+//                builder.show();
+//
+//                return true;
+//            } else {
+//                String message = getString(R.string.at_least_one_ingredient);
+//                Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
+//                return true;
+//            }
+//        }
+//        else if(item.getItemId() == android.R.id.home) {
+//            NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
+//            return true;
+//        }else if(item.getItemId() == R.id.shareRecipe){
+//            ShareHelper.sendSingleRecipe(requireContext(), oldRecipe.getRecipeID());
+//            return true;
+//        }
+//        else if(item.getItemId() == R.id.help){
+//            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+//            builder.setTitle("Help");
+//            builder.setMessage(R.string.edit_recipe_help);
+//            builder.setNeutralButton(R.string.ok, null);
+//            builder.show();
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+//
+//    }
 
     //Override the onActivityResult to catch the image chosen or taken to set as the image for the edited recipe
     @Override
@@ -260,14 +246,14 @@ public class ViewRecipeFragment extends Fragment {
             //check if the all the inputs are filled in correctly
             if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
                 //check if the ingredient list exists for this recipe
-                if(newRecipe.getIngredientList() != null){
+                if (newRecipe.getIngredientList() != null) {
                     //add the new Ingredient to the ingredientList
                     Ingredient newIngredient = new Ingredient();
                     newIngredient.setName(etName.getText().toString());
-                    newIngredient.setCategory((GroceryCategory)spCat.getSelectedItem());
+                    newIngredient.setCategory((GroceryCategory) spCat.getSelectedItem());
                     newIngredient.setMeasurement(new Measurement(
                             Double.parseDouble(etAmount.getText().toString()),
-                            (MeasurementType)spMeasure.getSelectedItem()
+                            (MeasurementType) spMeasure.getSelectedItem()
                     ));
                     newRecipe.getIngredientList().add(newIngredient);
                     RecipeDetailListAdapter recyclerAdapter1 = new RecipeDetailListAdapter(new RecipeDetailListRowBuilder(requireContext(), newRecipe).build(), newRecipe, addIngredientClickListener, directionsChangedListener);
@@ -276,14 +262,14 @@ public class ViewRecipeFragment extends Fragment {
                 }
                 //if the ingredient list does not exist create the new Ingredient and a new Ingredient list
                 //then add that to the recipe
-                else{
+                else {
                     //create the new ingredient
                     Ingredient ingredient = new Ingredient(
                             etName.getText().toString(),
-                            (GroceryCategory)spCat.getSelectedItem(),
+                            (GroceryCategory) spCat.getSelectedItem(),
                             new Measurement(
                                     Double.parseDouble(etAmount.getText().toString()),
-                                    (MeasurementType)spMeasure.getSelectedItem()
+                                    (MeasurementType) spMeasure.getSelectedItem()
                             ));
                     //create the new ingredient list
                     List<Ingredient> newIngredredients = new ArrayList<>();
@@ -298,7 +284,7 @@ public class ViewRecipeFragment extends Fragment {
                     binding.ingredientDirectionRecyclerview.setAdapter(recyclerAdapter1);
                     binding.ingredientDirectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
                 }
-            }else{
+            } else {
                 Toast.makeText(requireContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
             }
         });
