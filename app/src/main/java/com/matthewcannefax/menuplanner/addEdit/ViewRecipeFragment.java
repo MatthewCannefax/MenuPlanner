@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.matthewcannefax.menuplanner.BaseFragment;
+import com.matthewcannefax.menuplanner.ImageCaptureFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -43,7 +43,7 @@ import java.util.List;
 
 //this class is for editing already existing recipes
 
-public class ViewRecipeFragment extends BaseFragment {
+public class ViewRecipeFragment extends Fragment implements ImageCaptureFragment {
 
     public static final String RECIPE_ID = "item_id";
     private MainViewModel viewModel;

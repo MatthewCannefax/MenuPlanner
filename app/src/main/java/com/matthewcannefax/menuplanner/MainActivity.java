@@ -11,7 +11,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -26,6 +25,7 @@ import com.matthewcannefax.menuplanner.utils.navigation.NavHelper;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -112,10 +112,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        final Fragment currentFragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
-        ((BaseFragment) currentFragment).handleActivityResult(requestCode, resultCode, data);
+        Optional.ofNullable(navHostFragment.getChildFragmentManager().getFragments().get(0))
+                .ifPresent(fragment -> {
+                    if (fragment instanceof ImageCaptureFragment) {
+                        ((ImageCaptureFragment) fragment).handleActivityResult(requestCode, resultCode, data);
+                    }
+                });
+        ShareHelper.activityResultImportCookbook(this, this, requestCode, resultCode, data);
     }
 
     @Override

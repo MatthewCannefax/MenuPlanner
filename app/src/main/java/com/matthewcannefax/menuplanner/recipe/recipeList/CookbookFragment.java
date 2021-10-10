@@ -1,6 +1,5 @@
 package com.matthewcannefax.menuplanner.recipe.recipeList;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentCookbookBinding;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
-import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.List;
 
 //This activity is to display the total list of recipes from the db
-public class CookbookFragment extends BaseFragment {
+public class CookbookFragment extends Fragment {
 
     private List<Recipe> recipeList;
     private RecipeRecyclerAdapter recyclerAdapter;
@@ -64,12 +61,12 @@ public class CookbookFragment extends BaseFragment {
         setFabListener();
     }
 
-    private void setFabListener(){
+    private void setFabListener() {
         binding.fab.setOnClickListener(view -> {
             if (recipeList.stream().anyMatch(Recipe::isItemChecked)) {
                 //loop through the recipe list and add the selected recipes to the menu
-                for(int position = 0; position < recipeList.size(); position++){
-                    if(recipeList.get(position).isItemChecked()){
+                for (int position = 0; position < recipeList.size(); position++) {
+                    if (recipeList.get(position).isItemChecked()) {
                         recipeList.get(position).setItemChecked(false);
                         viewModel.addRecipeToMenu(recipeList.get(position).getRecipeID());
                     }
@@ -95,15 +92,15 @@ public class CookbookFragment extends BaseFragment {
 //        });
 //    }
 
-    private void setRecipeListAdapter(){
-        if (recipeList != null){
+    private void setRecipeListAdapter() {
+        if (recipeList != null) {
             //instantiate the RecipeMenuItemAdapter passing the total list of recipes
             recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), recipeList);
 
             //set the RecipeMenuItemAdapter as the adapter for the listview
             binding.recipeRecyclerView.setAdapter(recyclerAdapter);
             binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        }else {
+        } else {
 //            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_found), Snackbar.LENGTH_LONG).show();
         }
@@ -111,11 +108,11 @@ public class CookbookFragment extends BaseFragment {
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(binding.catSpinner.getSelectedItemPosition() != 0) {
+        if (binding.catSpinner.getSelectedItemPosition() != 0) {
             recipeList = viewModel.getRecipesByCategory((RecipeCategory) binding.catSpinner.getSelectedItem());
-        }else{
+        } else {
             recipeList = viewModel.getCookbook();
         }
         recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), recipeList);
@@ -240,9 +237,4 @@ public class CookbookFragment extends BaseFragment {
 //        return b;
 //
 //    }
-
-    @Override
-    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
-        ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
-    }
 }

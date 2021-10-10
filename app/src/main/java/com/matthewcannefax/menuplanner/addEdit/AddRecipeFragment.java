@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.matthewcannefax.menuplanner.BaseFragment;
+import com.matthewcannefax.menuplanner.ImageCaptureFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -41,7 +41,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddRecipeFragment extends BaseFragment {
+public class AddRecipeFragment extends Fragment implements ImageCaptureFragment {
 
     private Recipe newRecipe;
     private FragmentRecipeDetailBinding binding;

@@ -1,7 +1,6 @@
 package com.matthewcannefax.menuplanner.recipe.menuList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainActivity;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
@@ -30,14 +28,13 @@ import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
-import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MenuListFragment extends BaseFragment {
+public class MenuListFragment extends Fragment {
 
     private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
@@ -249,10 +246,5 @@ public class MenuListFragment extends BaseFragment {
     private void recipeClickListener(final Recipe recipe) {
         viewModel.setSelectedRecipe(recipe);
         Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment);
-    }
-
-    @Override
-    public void handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
     }
 }
