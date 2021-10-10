@@ -1,5 +1,6 @@
 package com.matthewcannefax.menuplanner;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -107,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
             }
             ((MotionLayout) binding.getRoot()).transitionToStart();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final Fragment currentFragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
+        ((BaseFragment) currentFragment).handleActivityResult(requestCode, resultCode, data);
     }
 
     @Override

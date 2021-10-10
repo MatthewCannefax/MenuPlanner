@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -26,7 +27,7 @@ import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import java.util.List;
 
 //This activity is to display the total list of recipes from the db
-public class CookbookFragment extends Fragment {
+public class CookbookFragment extends BaseFragment {
 
     private List<Recipe> recipeList;
     private RecipeRecyclerAdapter recyclerAdapter;
@@ -65,7 +66,7 @@ public class CookbookFragment extends Fragment {
 
     private void setFabListener(){
         binding.fab.setOnClickListener(view -> {
-            if (anySelected()) {
+            if (recipeList.stream().anyMatch(Recipe::isItemChecked)) {
                 //loop through the recipe list and add the selected recipes to the menu
                 for(int position = 0; position < recipeList.size(); position++){
                     if(recipeList.get(position).isItemChecked()){
@@ -240,21 +241,8 @@ public class CookbookFragment extends Fragment {
 //
 //    }
 
-    //this method loops through the recipe list to check if any of the recipes have been selected
-    private boolean anySelected(){
-        boolean anySelected = false;
-        for (int n = 0; n < recipeList.size(); n++){
-            if (recipeList.get(n).isItemChecked()){
-                anySelected = true;
-                break;
-            }
-        }
-        return anySelected;
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
         ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
     }
 }

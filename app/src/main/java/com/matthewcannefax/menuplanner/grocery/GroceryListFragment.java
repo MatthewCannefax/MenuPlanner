@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -35,7 +36,7 @@ import java.util.List;
 
 //This activity displays a consolidated and sorted Grocery list based on the recipes that are added
 //to the menu list
-public class GroceryListFragment extends Fragment {
+public class GroceryListFragment extends BaseFragment {
 
     private static List<Ingredient> ingredients;
     private FragmentGroceryListBinding binding;
@@ -249,9 +250,7 @@ public class GroceryListFragment extends Fragment {
 //    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
         ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
     }
 }

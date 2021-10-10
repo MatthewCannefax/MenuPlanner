@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -36,14 +37,13 @@ import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 //this class is for editing already existing recipes
 
-public class ViewRecipeFragment extends Fragment {
+public class ViewRecipeFragment extends BaseFragment {
 
     public static final String RECIPE_ID = "item_id";
     private MainViewModel viewModel;
@@ -83,7 +83,7 @@ public class ViewRecipeFragment extends Fragment {
         List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
         recipeCats.remove(0);
 
-        Collections.sort(recipeCats, Comparator.comparing(RecipeCategory::toString));
+        recipeCats.sort(Comparator.comparing(RecipeCategory::toString));
 
         //setup the spinner
         ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, recipeCats);
@@ -187,12 +187,8 @@ public class ViewRecipeFragment extends Fragment {
 //
 //    }
 
-    //Override the onActivityResult to catch the image chosen or taken to set as the image for the edited recipe
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //get the path of the new image and set to the newRecipe object
+    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(requireContext(), requestCode, resultCode, data, binding.recipeIMG));
         ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
     }

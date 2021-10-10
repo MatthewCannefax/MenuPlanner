@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -33,7 +34,7 @@ import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuListFragment extends Fragment {
+public class MenuListFragment extends BaseFragment {
 
     private MainViewModel viewModel;
     private FragmentMenuListBinding binding;
@@ -247,10 +248,7 @@ public class MenuListFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+    public void handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
         ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
-
     }
 }

@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.matthewcannefax.menuplanner.BaseFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
 import com.matthewcannefax.menuplanner.R;
@@ -40,7 +41,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddRecipeFragment extends Fragment {
+public class AddRecipeFragment extends BaseFragment {
 
     private Recipe newRecipe;
     private FragmentRecipeDetailBinding binding;
@@ -158,12 +159,8 @@ public class AddRecipeFragment extends Fragment {
 //
 //    }
 
-    //Override the OnActivityResult to catch the picture chosen or taken to set as the recipe image
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //get the path for the new image and set it to the new recipe object
+    public void handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
         newRecipe.setImagePath(ImageHelper.getPhotoTaken(requireContext(), requestCode, resultCode, data, binding.recipeIMG));
         ShareHelper.activityResultImportCookbook(requireContext(), requireActivity(), requestCode, resultCode, data);
     }
