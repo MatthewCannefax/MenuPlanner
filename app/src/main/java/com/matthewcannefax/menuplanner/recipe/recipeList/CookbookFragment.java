@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,11 @@ public class CookbookFragment extends Fragment {
         setRecipeListAdapter();
 
         setFabListener();
+
+//        binding.filterBTN.setOnClickListener(v -> { //TODO this doesn't work with adding items to the menu, probably need to change to a ListAdapter instead of RecyclerAdapter
+//            final RecipeCategory selectedCategory = (RecipeCategory) binding.catSpinner.getSelectedItem();
+//            binding.recipeRecyclerView.setAdapter(new RecipeRecyclerAdapter(viewModel.getRecipesByCategory(selectedCategory), this::checkClickListener, this::recipeClickListener));
+//        });
     }
 
     private void setFabListener() {
@@ -76,20 +82,6 @@ public class CookbookFragment extends Fragment {
             }
         });
     }
-
-//    private void setFilterBTNListener(final Context mContext, Button filterBTN) {
-//        filterBTN.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//           public void onClick(View view) {
-//               RecipeCategory selectedCat = (RecipeCategory)catSpinner.getSelectedItem();
-//               recipeList = mDataSource.getFilteredRecipes(selectedCat);
-////               RecipeListItemAdapter filteredAdapter = new RecipeListItemAdapter(mContext, recipeList);
-//               RecipeRecyclerAdapter filteredAdapter = new RecipeRecyclerAdapter(mContext, recipeList);
-//               recyclerView.setAdapter(filteredAdapter);
-//               recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//           }
-//        });
-//    }
 
     private void setRecipeListAdapter() {
         if (recipeList != null) {
