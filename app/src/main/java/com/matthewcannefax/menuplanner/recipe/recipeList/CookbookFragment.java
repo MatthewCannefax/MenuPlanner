@@ -21,6 +21,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentCookbookBinding;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.utils.AnimationUtils;
 
 import java.util.List;
 
@@ -93,7 +94,7 @@ public class CookbookFragment extends Fragment {
     private void setRecipeListAdapter() {
         if (recipeList != null) {
             //instantiate the RecipeMenuItemAdapter passing the total list of recipes
-            recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
+//            recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
 
             //set the RecipeMenuItemAdapter as the adapter for the listview
             binding.recipeRecyclerView.setAdapter(recyclerAdapter);
@@ -106,7 +107,7 @@ public class CookbookFragment extends Fragment {
 
     private void recipeClickListener(final Recipe recipe) {
         viewModel.setSelectedRecipe(recipe);
-        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment);
+        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
     }
 
     private void checkClickListener(final Integer position) {

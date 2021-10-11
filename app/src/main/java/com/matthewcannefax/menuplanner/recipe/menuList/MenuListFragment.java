@@ -26,6 +26,7 @@ import com.matthewcannefax.menuplanner.R;
 import com.matthewcannefax.menuplanner.databinding.FragmentMenuListBinding;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.utils.AnimationUtils;
 import com.matthewcannefax.menuplanner.utils.FilterHelper;
 import com.matthewcannefax.menuplanner.utils.PermissionsHelper;
 import com.matthewcannefax.menuplanner.utils.notifications.NotificationHelper;
@@ -119,7 +120,7 @@ public class MenuListFragment extends Fragment {
     private void addRecipeToMenu() {
         List<Recipe> allRecipes = viewModel.getCookbook();
         if (allRecipes != null && allRecipes.size() != 0) {
-            Navigation.findNavController(requireView()).navigate(R.id.cookbook_fragment);
+            Navigation.findNavController(requireView()).navigate(R.id.cookbook_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
         } else {
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_in_cookbook), Snackbar.LENGTH_LONG).show();
         }
@@ -245,6 +246,6 @@ public class MenuListFragment extends Fragment {
 
     private void recipeClickListener(final Recipe recipe) {
         viewModel.setSelectedRecipe(recipe);
-        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment);
+        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
     }
 }
