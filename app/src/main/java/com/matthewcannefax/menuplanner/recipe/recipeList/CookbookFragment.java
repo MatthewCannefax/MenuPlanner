@@ -93,14 +93,8 @@ public class CookbookFragment extends Fragment {
 
     private void setRecipeListAdapter() {
         if (recipeList != null) {
-            //instantiate the RecipeMenuItemAdapter passing the total list of recipes
-//            recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
-
-            //set the RecipeMenuItemAdapter as the adapter for the listview
-            binding.recipeRecyclerView.setAdapter(recyclerAdapter);
             binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         } else {
-//            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_found), Snackbar.LENGTH_LONG).show();
         }
     }
@@ -132,34 +126,6 @@ public class CookbookFragment extends Fragment {
         binding.recipeRecyclerView.setAdapter(recyclerAdapter);
         binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
-
-    //this overridden method creates the menu item in the actionbar
-//    @SuppressLint("RestrictedApi")
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//
-//        //add the menu button to add recipes
-//        MenuInflater menuInflater = getMenuInflater();
-//
-//        //using the menu layout create specifically for this activity
-//        menuInflater.inflate(R.menu.recipe_activity_menu, menu);
-//
-//        //the add recipes to the menu menuitem
-////        MenuItem item = menu.findItem(R.id.addRecipesMenuItem);
-//        MenuItem exportItem = menu.findItem(R.id.exportCookbook);
-//        MenuItem importItem = menu.findItem(R.id.importCookbook);
-//
-//        //if this is simply the My Recipes version of the activity, do not show the add recipes menuitem
-//        if (!title.equals(getString(R.string.add_to_menu))) {
-////            item.setVisible(false);
-//            fab.setVisibility(View.INVISIBLE);
-//        }else{
-//            exportItem.setVisible(false);
-//            importItem.setVisible(false);
-//        }
-//
-//        return true;
-//    }
 
     //this overridden method is to handle the actionbar item clicks
 //    @Override
@@ -214,10 +180,6 @@ public class CookbookFragment extends Fragment {
 //                }
 //                b = true;
 //                break;
-//            case R.id.importCookbook:
-//                ShareHelper.importCookbook(requireActivity());
-//                b = true;
-//                break;
 //            case R.id.exportCookbook:
 //                anySelected = anySelected();
 //                if(anySelected){
@@ -235,16 +197,6 @@ public class CookbookFragment extends Fragment {
 //                }
 //                b = true;
 //                break;
-//            case R.id.help:
-//                AlertDialog.Builder helpBuilder = new AlertDialog.Builder(requireContext());
-//                helpBuilder.setTitle(R.string.help);
-//                helpBuilder.setMessage(R.string.recipe_list_help);
-//                helpBuilder.setNeutralButton(R.string.ok, null);
-//                helpBuilder.show();
-//                b = true;
-//                break;
-//                default:
-//                    b = false;
 //        }
 //
 //        return b;
