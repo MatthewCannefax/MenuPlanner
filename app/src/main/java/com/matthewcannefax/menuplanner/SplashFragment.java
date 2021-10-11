@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 import com.matthewcannefax.menuplanner.databinding.FragmentSplashBinding;
@@ -42,8 +44,32 @@ public class SplashFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Optional.ofNullable(((MainActivity) requireActivity()).getSupportActionBar()).ifPresent(ActionBar::hide);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Navigation.findNavController(requireView()).navigate(R.id.menu_fragment);
-        }, NAVIGATION_DELAY);
+        ((MotionLayout) binding.getRoot()).addTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
+
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int startId, int endId, float progress) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
+                Navigation.findNavController(requireView()).navigate(R.id.menu_fragment, null, new NavOptions.Builder()
+                        .setEnterAnim(android.R.animator.fade_in)
+                        .setPopUpTo(R.id.splash_fragment, true)
+                        .setLaunchSingleTop(true)
+                        .build());
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int triggerId, boolean positive, float progress) {
+
+            }
+        });
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> ((MotionLayout) binding.getRoot()).transitionToEnd(), NAVIGATION_DELAY);
     }
 }

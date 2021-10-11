@@ -69,7 +69,7 @@ public class MenuListFragment extends Fragment {
 
         setMenuListViewAdapter();
 
-        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getMenu(), binding.catSpinner, this::recipeClickListener);
+        final MenuListRecyclerAdapter allMenuAdapter = new MenuListRecyclerAdapter(getChildFragmentManager(), requireContext(), viewModel.getCurrentMenu(), binding.catSpinner, this::recipeClickListener);
 
         setFilterBTNListener(requireContext(), binding.filterBTN, allMenuAdapter);
 

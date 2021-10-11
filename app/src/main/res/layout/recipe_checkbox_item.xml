@@ -1,78 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="4dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp">
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/cbName"
-            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="10dp"
+            android:paddingStart="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cbName"
+            android:background="@color/light_charcoal"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cbName"
+            app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/nameAndCatLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cbName"
+            android:paddingHorizontal="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/imageView">
+            app:layout_constraintEnd_toStartOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:ellipsize="end"/>
+                android:textSize="14sp" />
         </LinearLayout>
-
-
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/recipe_item_image_description"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/recipe_item_image_description" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>

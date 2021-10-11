@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -63,14 +64,11 @@ public class CookbookFragment extends Fragment {
 
     private void setFabListener() {
         binding.fab.setOnClickListener(view -> {
-            if (recipeList.stream().anyMatch(Recipe::isItemChecked)) {
-                //loop through the recipe list and add the selected recipes to the menu
-                for (int position = 0; position < recipeList.size(); position++) {
-                    if (recipeList.get(position).isItemChecked()) {
-                        recipeList.get(position).setItemChecked(false);
-                        viewModel.addRecipeToMenu(recipeList.get(position).getRecipeID());
-                    }
-                }
+            if (viewModel.getCurrentCookbook().stream().anyMatch(Recipe::isItemChecked)) {
+                viewModel.getCurrentCookbook().stream().filter(Recipe::isItemChecked).forEach(recipe -> {
+                    recipe.setItemChecked(false);
+                    viewModel.addRecipeToMenu(recipe.getRecipeID());
+                });
                 requireActivity().onBackPressed();
             } else {
                 Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_selected), Snackbar.LENGTH_LONG).show();
@@ -95,7 +93,7 @@ public class CookbookFragment extends Fragment {
     private void setRecipeListAdapter() {
         if (recipeList != null) {
             //instantiate the RecipeMenuItemAdapter passing the total list of recipes
-            recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), recipeList);
+            recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
 
             //set the RecipeMenuItemAdapter as the adapter for the listview
             binding.recipeRecyclerView.setAdapter(recyclerAdapter);
@@ -104,6 +102,17 @@ public class CookbookFragment extends Fragment {
 //            Toast.makeText(this, "No Recipes Found", Toast.LENGTH_SHORT).show();
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_found), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void recipeClickListener(final Recipe recipe) {
+        viewModel.setSelectedRecipe(recipe);
+        Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment);
+    }
+
+    private void checkClickListener(final Integer position) {
+        final Recipe selectedRecipe = viewModel.getCurrentCookbook().get(position);
+        viewModel.getCurrentCookbook().get(position).setItemChecked(!selectedRecipe.isItemChecked());
+        recyclerAdapter.notifyItemChanged(position);
     }
 
 
@@ -115,7 +124,10 @@ public class CookbookFragment extends Fragment {
         } else {
             recipeList = viewModel.getCookbook();
         }
-        recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), recipeList);
+        if (viewModel.getCurrentCookbook() == null || viewModel.getCurrentCookbook().isEmpty()) {
+            viewModel.setCurrentCookbook(viewModel.getCookbook());
+        }
+        recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
         binding.recipeRecyclerView.setAdapter(recyclerAdapter);
         binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
