@@ -26,7 +26,6 @@ import com.matthewcannefax.menuplanner.utils.AnimationUtils;
 
 import java.util.List;
 
-//This activity is to display the total list of recipes from the db
 public class CookbookFragment extends Fragment {
 
     private List<Recipe> recipeList;
@@ -63,10 +62,9 @@ public class CookbookFragment extends Fragment {
 
         setFabListener();
 
-//        binding.filterBTN.setOnClickListener(v -> { //TODO this doesn't work with adding items to the menu, probably need to change to a ListAdapter instead of RecyclerAdapter
-//            final RecipeCategory selectedCategory = (RecipeCategory) binding.catSpinner.getSelectedItem();
-//            binding.recipeRecyclerView.setAdapter(new RecipeRecyclerAdapter(viewModel.getRecipesByCategory(selectedCategory), this::checkClickListener, this::recipeClickListener));
-//        });
+        binding.filterBTN.setOnClickListener(v -> {
+            final RecipeCategory selectedCategory = (RecipeCategory) binding.catSpinner.getSelectedItem();
+            recyclerAdapter.submitList(viewModel.getRecipesByCategory(selectedCategory));});
     }
 
     private void setFabListener() {
@@ -93,13 +91,14 @@ public class CookbookFragment extends Fragment {
 
     private void recipeClickListener(final Recipe recipe) {
         viewModel.setSelectedRecipe(recipe);
+
         Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
     }
 
     private void checkClickListener(final Integer position) {
-        final Recipe selectedRecipe = viewModel.getCurrentCookbook().get(position);
-        viewModel.getCurrentCookbook().get(position).setItemChecked(!selectedRecipe.isItemChecked());
-        recyclerAdapter.notifyItemChanged(position);
+        final Recipe selectedRecipe = recyclerAdapter.getCurrentList().get(position);
+        viewModel.getCurrentCookbook().stream().filter(recipe -> recipe.getRecipeID() == selectedRecipe.getRecipeID())
+                .findFirst().ifPresent(recipe -> recipe.setItemChecked(!recipe.isItemChecked()));
     }
 
 
@@ -114,84 +113,9 @@ public class CookbookFragment extends Fragment {
         if (viewModel.getCurrentCookbook() == null || viewModel.getCurrentCookbook().isEmpty()) {
             viewModel.setCurrentCookbook(viewModel.getCookbook());
         }
-        recyclerAdapter = new RecipeRecyclerAdapter(viewModel.getCurrentCookbook(), this::checkClickListener, this::recipeClickListener);
+        recyclerAdapter = new RecipeRecyclerAdapter(this::checkClickListener, this::recipeClickListener);
         binding.recipeRecyclerView.setAdapter(recyclerAdapter);
         binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerAdapter.submitList(recipeList);
     }
-
-    //this overridden method is to handle the actionbar item clicks
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        boolean b;
-//
-//        switch(item.getItemId()){
-//            case android.R.id.home:
-//                NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-//                return true;
-//            //remove the select items from the recipelist
-//            case R.id.removeRecipes:
-//                //this var and the loop checks if there are any recipes selected
-//                boolean anySelected = anySelected();
-//
-//                //use the alert dialog to check if the user truly wants to delete the selected recipes
-//                AlertDialog.Builder builder;
-//                if (anySelected) {
-//                    builder = new AlertDialog.Builder(requireContext());
-//                    builder.setTitle(R.string.delete_complete);
-//                    builder.setMessage(R.string.permanently_delete);
-//                    builder.setNegativeButton(R.string.cancel, null);
-//                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                            //loop through the recipes to delete only the recipes that are selected
-//                            for (int position = 0; position < recipeList.size(); position++) {
-//                                if (recipeList.get(position).isItemChecked()) {
-//                                    viewModel.removeRecipe(recipeList.get(position));
-//                                }
-//                            }
-//
-//                            if (viewModel.getCookbook() != null && viewModel.getCookbook().size() != 0) {
-//                                //reset the adapter
-//                                recyclerAdapter = new RecipeRecyclerAdapter(requireContext(), viewModel.getCookbook());
-//                                binding.recipeRecyclerView.setAdapter(recyclerAdapter);
-//                                binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-//                                //save the newly edited recipe list
-//                                recipeList = viewModel.getCookbook();
-//                                Snackbar.make(requireContext(), requireView(), getString(R.string.removed), Snackbar.LENGTH_LONG).show();
-//                            } else {
-//                                requireActivity().onBackPressed();
-//                                Snackbar.make(requireContext(), requireView(), getString(R.string.removed), Snackbar.LENGTH_LONG).show();
-//                            }
-//                        }
-//                    });
-//                    builder.show();
-//
-//                } else{
-//                    Snackbar.make(requireContext(), requireView(), getString(R.string.no_recipes_selected), Snackbar.LENGTH_LONG).show();
-//                }
-//                b = true;
-//                break;
-//            case R.id.exportCookbook:
-//                anySelected = anySelected();
-//                if(anySelected){
-//                    //loop through the recipe list and add the selected recipes to send
-//                    List<Recipe> sendRecipes = new ArrayList<>();
-//                    for(int position = 0; position < recipeList.size(); position++){
-//                        if(recipeList.get(position).isItemChecked()){
-//                            recipeList.get(position).setItemChecked(false);
-//                            sendRecipes.add(recipeList.get(position));
-//                        }
-//                    }
-//                    ShareHelper.sendRecipeSelection(requireContext(), sendRecipes);
-//                }else{
-//                    Snackbar.make(requireContext(), requireView(), getString(R.string.select_recipes_to_share), Snackbar.LENGTH_LONG).show();
-//                }
-//                b = true;
-//                break;
-//        }
-//
-//        return b;
-//
-//    }
 }

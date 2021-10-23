@@ -4,6 +4,8 @@ package com.matthewcannefax.menuplanner.recipe.recipeList;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,35 +21,38 @@ import com.matthewcannefax.menuplanner.utils.ImageHelper;
 
 import java.util.List;
 
-public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.RecipeViewHolder> {
-    private final List<Recipe> mRecipeList;
-    private GenericClickListener<Integer> checkClickListener;
-    private GenericClickListener<Recipe> recipeClickListener;
+public class RecipeRecyclerAdapter extends ListAdapter<Recipe, RecipeRecyclerAdapter.RecipeViewHolder> {
+    private final GenericClickListener<Integer> checkClickListener;
+    private final GenericClickListener<Recipe> recipeClickListener;
 
-    public RecipeRecyclerAdapter(final List<Recipe> recipeList, final GenericClickListener<Integer> checkClickListener,
+    public RecipeRecyclerAdapter(final GenericClickListener<Integer> checkClickListener,
                                  final GenericClickListener<Recipe> recipeClickListener) {
-        this.mRecipeList = recipeList;
+        super(new DiffUtil.ItemCallback<Recipe>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Recipe oldItem, @NonNull Recipe newItem) {
+                return oldItem.equals(newItem);
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Recipe oldItem, @NonNull Recipe newItem) {
+                return oldItem.equals(newItem);
+            }
+        });
         this.checkClickListener = checkClickListener;
         this.recipeClickListener = recipeClickListener;
     }
 
     @NonNull
     @Override
-    public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecipeRecyclerAdapter.RecipeViewHolder onCreateViewHolder(final ViewGroup viewGroup, final int i) {
         return new RecipeViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_checkbox_item, viewGroup, false))
                 .setCheckClickListener(checkClickListener)
                 .setRecipeClickListener(recipeClickListener);
     }
 
     @Override
-    public void onBindViewHolder(RecipeRecyclerAdapter.RecipeViewHolder holder, int position) {
-        Recipe mCurrent = mRecipeList.get(position);
-        holder.bind(mCurrent);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mRecipeList.size();
+    public void onBindViewHolder(final RecipeRecyclerAdapter.RecipeViewHolder holder, final int position) {
+        holder.bind(getItem(position));
     }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -59,7 +64,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         private GenericClickListener<Integer> checkClickListener;
         private GenericClickListener<Recipe> recipeClickListener;
 
-        public RecipeViewHolder(View itemView) {
+        public RecipeViewHolder(final View itemView) {
             super(itemView);
             this.mCheckBox = itemView.findViewById(R.id.cbName);
             this.tvName = itemView.findViewById(R.id.tvName);
