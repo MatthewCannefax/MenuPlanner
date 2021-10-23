@@ -86,6 +86,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void addRecipes(List<Recipe> recipes) {
+        dataSource.open();
         dataSource.importRecipesToDB(recipes);
     }
 

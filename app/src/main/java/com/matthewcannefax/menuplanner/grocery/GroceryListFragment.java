@@ -28,6 +28,7 @@ import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Measurement;
 import com.matthewcannefax.menuplanner.recipe.MeasurementType;
 import com.matthewcannefax.menuplanner.utils.NumberHelper;
+import com.matthewcannefax.menuplanner.utils.ShareHelper;
 
 import java.util.List;
 
@@ -67,6 +68,31 @@ public class GroceryListFragment extends Fragment {
 
         //this method to setup the grocery list adapter
         setGroceryListAdapter();
+        initializeTopBar();
+    }
+
+    private void initializeTopBar() {
+        binding.deleteButton.setOnClickListener(view -> {
+            recyclerAdapter.getCurrentList()
+                    .stream()
+                    .filter(groceryRow -> groceryRow instanceof GroceryItemRow &&
+                            ((GroceryItemRow) groceryRow).getGroceryItem().getItemChecked())
+                    .forEach(groceryRow -> viewModel.removeGroceryItem(((GroceryItemRow) groceryRow).getGroceryItem()));
+            Snackbar.make(requireContext(), requireView(), getString(R.string.items_removed), Snackbar.LENGTH_LONG).show();
+            ingredients = viewModel.getAllGroceries();
+            enableShareButton();
+            recyclerAdapter.submitList(GroceryRowBuilder.buildGroceryRows(ingredients));
+            binding.deleteButton.setEnabled(false);
+        });
+        binding.shareButton.setOnClickListener(view -> ShareHelper.sendGroceryList(requireContext()));
+        enableShareButton();
+        enableDeleteButton();
+    }
+
+    private boolean areGroceriesChecked() {
+        return recyclerAdapter.getCurrentList().stream()
+                .anyMatch(groceryRow -> groceryRow instanceof GroceryItemRow &&
+                        ((GroceryItemRow) groceryRow).getGroceryItem().getItemChecked());
     }
 
     private void checkForNullGroceries() {
@@ -102,35 +128,27 @@ public class GroceryListFragment extends Fragment {
 
         builder.setNegativeButton("Cancel", null);
         final GroceryClickListener clickGroceryItem = this::clickGroceryItem;
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //check that there are values for the name and the amount
-                //also using a custom tryParse method to check that the value for the amount is indeed a double
-                if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
-                    //add the new Ingredient to the ingredientList
-                    Ingredient newGroceryItem = new Ingredient(
-                            etName.getText().toString(),
-                            (GroceryCategory) spCat.getSelectedItem(),
-                            new Measurement(
-                                    Double.parseDouble(etAmount.getText().toString()),
-                                    (MeasurementType) spMeasure.getSelectedItem()
-                            )
-                    );
-                    viewModel.addGroceryItem(newGroceryItem);
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            //check that there are values for the name and the amount
+            //also using a custom tryParse method to check that the value for the amount is indeed a double
+            if (!etName.getText().toString().equals("") && !etAmount.getText().toString().equals("") && NumberHelper.tryParseDouble(etAmount.getText().toString())) {
+                //add the new Ingredient to the ingredientList
+                Ingredient newGroceryItem = new Ingredient(
+                        etName.getText().toString(),
+                        (GroceryCategory) spCat.getSelectedItem(),
+                        new Measurement(
+                                Double.parseDouble(etAmount.getText().toString()),
+                                (MeasurementType) spMeasure.getSelectedItem()
+                        )
+                );
+                viewModel.addGroceryItem(newGroceryItem);
+                ingredients = viewModel.getAllGroceries();
+                enableShareButton();
+                recyclerAdapter.submitList(GroceryRowBuilder.buildGroceryRows(ingredients));
 
-                    //notify the arrayadapter that the dataset has changed
-//                    adapter = new GroceryItemAdapter(mContext, mDataSource.getAllGroceries());
-//                    lv.setAdapter(adapter);
-
-                    recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), clickGroceryItem);
-                    binding.groceryRecyclerView.setAdapter(recyclerAdapter);
-                    binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-                } else {
-                    //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
-                    Toast.makeText(requireContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                //Send the user a Toast to tell them that they need to enter both a name and amount in the edittexts
+                Toast.makeText(requireContext(), R.string.enter_name_amount, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -142,107 +160,37 @@ public class GroceryListFragment extends Fragment {
         super.onResume();
         ingredients = viewModel.getAllGroceries();
         setGroceryListAdapter();
-
     }
 
     private void setGroceryListAdapter() {
         if (ingredients != null) {
-            recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
+            recyclerAdapter = new GroceryRecyclerAdapter(this::clickGroceryItem);
             binding.groceryRecyclerView.setAdapter(recyclerAdapter);
             binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+            recyclerAdapter.submitList(GroceryRowBuilder.buildGroceryRows(ingredients));
         } else {
             Snackbar.make(requireContext(), requireView(), getString(R.string.no_grocery_list_found), Snackbar.LENGTH_LONG).show();
         }
     }
 
-    private void clickGroceryItem(int ingredientID, GroceryViewChangeListener groceryViewChangeListener) {
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getIngredientID() == ingredientID) {
-                ingredient.setItemChecked(!ingredient.getItemChecked());
-                viewModel.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
-                groceryViewChangeListener.changeView(ingredient.getItemChecked());
-                break;
-            }
-        }
-
-
+    private void clickGroceryItem(final int ingredientID, final GroceryViewChangeListener groceryViewChangeListener) {
+        ingredients.stream().filter(ingredient -> ingredient.getIngredientID() == ingredientID)
+                .findFirst().ifPresent(ingredient -> {
+            ingredient.setItemChecked(!ingredient.getItemChecked());
+            viewModel.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
+            groceryViewChangeListener.changeView(ingredient.getItemChecked());
+        });
+        enableDeleteButton();
     }
 
-    //create the menu in the actionbar
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//
-//        //get the new menuinfater object
-//        MenuInflater menuInflater = getMenuInflater();
-//
-//        //inflate the grocery list menu view
-//        menuInflater.inflate(R.menu.grocery_list_menu, menu);
-//
-//        return true;
-//    }
+    private void enableDeleteButton() {
+        final boolean enable = areGroceriesChecked();
+        binding.deleteButton.setEnabled(enable);
+        binding.deleteButton.setClickable(enable);
+    }
 
-    //handle clicks on the actionbar
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//
-//        //if the remove selected items option is clicked
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-//                return true;
-//            case R.id.removeSelectItems:
-//                int count = recyclerAdapter.getItemCount();
-//
-//                //loop through the adapter
-//                for (int i = 0; i < recyclerAdapter.getItemCount(); i++) {
-//                    if (recyclerAdapter.getItem(i) instanceof GroceryItemRow) {
-//                        //get the ingredient item from the adapter item
-//                        Ingredient ingred = ((GroceryItemRow) recyclerAdapter.getItem(i)).getGroceryItem();
-//
-//                        //if the item is checked and the the ingredient equals the item of the same position in the static grocery list
-//                        //the item will be removed
-//                        assert ingred != null;
-//                        if (ingred.getItemChecked()) {;
-//                            viewModel.removeGroceryItem(ingred);
-//                        }
-//                    }
-//                }
-//                //display a Toast confirming to the user that the items have been removed
-//                //may want to switch to a dialog so the user can confirm deletion
-//                if (count != recyclerAdapter.getItemCount()) {
-//                    Snackbar.make(requireContext(), requireView(), getString(R.string.items_removed), Snackbar.LENGTH_LONG).show();
-//                }
-//
-//                //reset the adapter
-//                ingredients = viewModel.getAllGroceries();
-//
-//                recyclerAdapter = new GroceryRecyclerAdapter(ingredients, this::clickGroceryItem);
-//                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
-//                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-//
-//                return true;
-//
-//            case R.id.shareGroceryList:
-//                ShareHelper.sendGroceryList(requireContext());
-//                return true;
-//            case R.id.selectAllGroceries:
-//                for (Ingredient i :
-//                        viewModel.getAllGroceries()) {
-//                    viewModel.setGroceryItemChecked(i.getIngredientID(), true);
-//                }
-//                recyclerAdapter = new GroceryRecyclerAdapter(viewModel.getAllGroceries(), this::clickGroceryItem);
-//                binding.groceryRecyclerView.setAdapter(recyclerAdapter);
-//                binding.groceryRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-//                return true;
-//            case R.id.help:
-//                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-//                builder.setTitle("Help");
-//                builder.setMessage(R.string.grocery_list_help);
-//                builder.setNeutralButton("OK", null);
-//                builder.show();
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
+    private void enableShareButton() {
+        binding.shareButton.setEnabled(!ingredients.isEmpty());
+        binding.shareButton.setClickable(!ingredients.isEmpty());
+    }
 }

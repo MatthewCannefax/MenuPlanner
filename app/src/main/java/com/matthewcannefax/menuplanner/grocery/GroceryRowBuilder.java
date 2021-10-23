@@ -6,21 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroceryRowBuilder {
-    private List<Ingredient> groceryList;
-    private List<GroceryRow> groceryRows = new ArrayList<>();
-
-    public GroceryRowBuilder(List<Ingredient> groceryList) {
-        this.groceryList = groceryList;
-        buildGroceryRows();
-    }
-
-    public List<GroceryRow> getGroceryRows() {
-        return groceryRows;
-    }
-
-    private void buildGroceryRows() {
+    public static List<GroceryRow> buildGroceryRows(final List<Ingredient> groceryList) {
+        final List<GroceryRow> groceryRows = new ArrayList<>();
         if (groceryList != null && groceryList.size() != 0) {
-
             Ingredient previous = groceryList.get(0);
             groceryRows.add(new GroceryHeadingRow(previous.getCategory().toString()));
             groceryRows.add(new GroceryItemRow(previous));
@@ -35,5 +23,6 @@ public class GroceryRowBuilder {
                 previous = current;
             }
         }
+        return groceryRows;
     }
 }
