@@ -4,22 +4,35 @@ import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
 
 import java.util.List;
 import java.util.Objects;
 
 //This object class is for creating Recipe objects
-
+@Entity(tableName = "recipe")
 public class Recipe implements Parcelable {
 
     //props for the name, category, directions, image and list of ingredients
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "category")
     private RecipeCategory category; //Categories will be dish related (Chicken, Beef, etc)
+    @ColumnInfo(name = "directions")
     private String directions = "";
+    @ColumnInfo(name = "imagePath")
     private String imagePath;
+//    @ColumnInfo(name = "ingredientList")
+    @Ignore
     private List<Ingredient> ingredientList;
+    @PrimaryKey(autoGenerate = false)
     private int recipeID;
+    @ColumnInfo(name = "itemChecked")
     private boolean itemChecked = false;
 
     //the default constructor

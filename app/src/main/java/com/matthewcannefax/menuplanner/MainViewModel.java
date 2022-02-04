@@ -2,10 +2,12 @@ package com.matthewcannefax.menuplanner;
 import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
+import androidx.room.RoomDatabase;
 
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
+import com.matthewcannefax.menuplanner.recipe.RecipeDatabase;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
@@ -16,9 +18,24 @@ public class MainViewModel extends ViewModel {
     private Recipe selectedRecipe;
     private List<Recipe> currentCookbook;
     private List<Recipe> currentMenu;
+    private RecipeDatabase recipeDatabase;
+    private List<Recipe> roomRecipeList;
 
     public MainViewModel(final DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public void initRecipeDatabase(final Context context) {
+        recipeDatabase = RecipeDatabase.getInstance(context);
+        roomRecipeList = recipeDatabase.recipeDao().getAllRecipes();
+    }
+
+    public List<Recipe> getRoomRecipeList() {
+        return roomRecipeList;
+    }
+
+    public void insertRoomRecipes(final List<Recipe> recipes) {
+        recipes.forEach(recipe -> recipeDatabase.recipeDao().insertRecipe(recipe));
     }
 
     public Recipe getSelectedRecipe() {

@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         viewModel.initializeDataSource(this);
+        //TODO ROOM stuff - this might need to be done a different way
+        viewModel.initRecipeDatabase(this);
         viewModel.setCurrentMenu(viewModel.getMenu());
 
         preloadRecipes();
