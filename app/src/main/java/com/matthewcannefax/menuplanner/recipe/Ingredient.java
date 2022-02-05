@@ -4,7 +4,6 @@ package com.matthewcannefax.menuplanner.recipe;
 import android.content.ContentValues;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
@@ -15,15 +14,10 @@ import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 //this class is just for ingredients in recipes
 
 @Entity(tableName = "ingredient")
-public class Ingredient {
+public class Ingredient extends BaseItem {
 
     @PrimaryKey
     private int ingredientID;
-    @Ignore
-    private Measurement measurement;
-    private String name;
-    private GroceryCategory category;
-    private boolean itemChecked = false;
     private int recipeId;
 
     //this is the only constructor used. there is no need for a default constructor as there will
@@ -37,46 +31,12 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    ;
-
     public int getIngredientID() {
         return ingredientID;
     }
 
     public void setIngredientID(int ingredientID) {
         this.ingredientID = ingredientID;
-    }
-
-    public boolean getItemChecked() {
-        return this.itemChecked;
-    }
-
-    public void setItemChecked(boolean itemChecked) {
-        this.itemChecked = itemChecked;
-    }
-
-    public Measurement getMeasurement() {
-        return measurement;
-    }
-
-    public void setMeasurement(Measurement measurement) {
-        this.measurement = measurement;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public GroceryCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(GroceryCategory category) {
-        this.category = category;
     }
 
     public int getRecipeId() {

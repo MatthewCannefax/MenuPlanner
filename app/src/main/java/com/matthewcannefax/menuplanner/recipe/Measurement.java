@@ -12,7 +12,7 @@ public class Measurement {
     //fields
     @PrimaryKey(autoGenerate = true)
     private int measurementId;
-    private int ingredientId;
+    private int itemId;
     private double amount;
 
     //constructor
@@ -29,12 +29,12 @@ public class Measurement {
         this.measurementId = measurementId;
     }
 
-    public int getIngredientId() {
-        return ingredientId;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setIngredientId(int ingredientId) {
-        this.ingredientId = ingredientId;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public double getAmount() {

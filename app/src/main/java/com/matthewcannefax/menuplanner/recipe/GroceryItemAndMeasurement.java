@@ -3,10 +3,11 @@ package com.matthewcannefax.menuplanner.recipe;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-public class IngredientAndMeasurement {
-    @Embedded public Ingredient ingredient;
+public class GroceryItemAndMeasurement {
+    @Embedded
+    public GroceryItem groceryItem;
     @Relation(
-            parentColumn = "ingredientID",
+            parentColumn = "groceryItemId",
             entityColumn = "itemId"
     )
     public Measurement measurement;

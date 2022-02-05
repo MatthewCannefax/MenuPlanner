@@ -9,8 +9,9 @@ import androidx.room.RoomDatabase;
         Recipe.class,
         Ingredient.class,
         Measurement.class,
-        MenuItem.class},
-        exportSchema = false, version = 3)
+        MenuItem.class,
+        GroceryItem.class},
+        exportSchema = false, version = 4)
 public abstract class RecipeDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "recipe_database";

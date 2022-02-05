@@ -76,7 +76,7 @@ public class GroceryListFragment extends Fragment {
             recyclerAdapter.getCurrentList()
                     .stream()
                     .filter(groceryRow -> groceryRow instanceof GroceryItemRow &&
-                            ((GroceryItemRow) groceryRow).getGroceryItem().getItemChecked())
+                            ((GroceryItemRow) groceryRow).getGroceryItem().isItemChecked())
                     .forEach(groceryRow -> viewModel.removeGroceryItem(((GroceryItemRow) groceryRow).getGroceryItem()));
             Snackbar.make(requireContext(), requireView(), getString(R.string.items_removed), Snackbar.LENGTH_LONG).show();
             ingredients = viewModel.getAllGroceries();
@@ -92,7 +92,7 @@ public class GroceryListFragment extends Fragment {
     private boolean areGroceriesChecked() {
         return recyclerAdapter.getCurrentList().stream()
                 .anyMatch(groceryRow -> groceryRow instanceof GroceryItemRow &&
-                        ((GroceryItemRow) groceryRow).getGroceryItem().getItemChecked());
+                        ((GroceryItemRow) groceryRow).getGroceryItem().isItemChecked());
     }
 
     private void checkForNullGroceries() {
@@ -176,9 +176,9 @@ public class GroceryListFragment extends Fragment {
     private void clickGroceryItem(final int ingredientID, final GroceryViewChangeListener groceryViewChangeListener) {
         ingredients.stream().filter(ingredient -> ingredient.getIngredientID() == ingredientID)
                 .findFirst().ifPresent(ingredient -> {
-            ingredient.setItemChecked(!ingredient.getItemChecked());
-            viewModel.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.getItemChecked());
-            groceryViewChangeListener.changeView(ingredient.getItemChecked());
+            ingredient.setItemChecked(!ingredient.isItemChecked());
+            viewModel.setGroceryItemChecked(ingredient.getIngredientID(), ingredient.isItemChecked());
+            groceryViewChangeListener.changeView(ingredient.isItemChecked());
         });
         enableDeleteButton();
     }

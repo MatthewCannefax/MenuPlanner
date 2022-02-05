@@ -47,6 +47,15 @@ public interface RecipeDao {
     @Delete
     void deleteMeasurement(final Measurement measurement);
 
+    @Insert
+    void insertGroceryItem(final GroceryItem groceryItem);
+
+    @Update
+    void updateGroceryItem(final GroceryItem groceryItem);
+
+    @Update
+    void deleteGroceryItem(final GroceryItem groceryItem);
+
     @Transaction
     @Query("SELECT * FROM recipe")
     public List<RecipeWithIngredients> getRecipesWithIngredients();
@@ -55,6 +64,10 @@ public interface RecipeDao {
     @Transaction
     @Query("SELECT * FROM ingredient")
     public List<IngredientAndMeasurement> getIngredientsAndMeasurements();
+
+    @Transaction
+    @Query("SELECT * FROM grocery_item")
+    public List<GroceryItemAndMeasurement> getGroceryItemsAndMeasurements();
 
     @Transaction
     @Query("SELECT * FROM menu_item")

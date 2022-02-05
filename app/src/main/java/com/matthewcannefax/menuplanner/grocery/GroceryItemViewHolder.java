@@ -55,7 +55,7 @@ public class GroceryItemViewHolder extends GroceryViewHolder {
         mMeasurement.setText(item.getGroceryItem().getMeasurement().toString());
         tvName.setText(item.getGroceryItem().getName());
 
-        if (item.getGroceryItem().getItemChecked()) {
+        if (item.getGroceryItem().isItemChecked()) {
             mGroceryCheckBox.setChecked(true);
             mMeasurement.setPaintFlags(mMeasurement.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             tvName.setPaintFlags(tvName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
