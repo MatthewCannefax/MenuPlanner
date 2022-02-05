@@ -5,6 +5,12 @@ import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
 import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
@@ -12,16 +18,17 @@ import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 //this ingredient class inherits from the GroceryItem class
 //this class is just for ingredients in recipes
 
+@Entity(tableName = "ingredient")
 public class Ingredient implements Parcelable {
 
-    //this is the only difference from the Grocery item class
-    //I might want to change the type to a custom measurement class
-    //to help with consolidation when generating the grocery list
+    @PrimaryKey
+    private int ingredientID;
+    @Ignore
     private Measurement measurement;
     private String name;
     private GroceryCategory category;
     private boolean itemChecked = false;
-    private int ingredientID;
+    private int recipeId;
 
     //this is the only constructor used. there is no need for a default constructor as there will
     //never be an empty ingredient
@@ -69,6 +76,14 @@ public class Ingredient implements Parcelable {
 
     public void setCategory(GroceryCategory category) {
         this.category = category;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String shareIngredientString(){

@@ -19,21 +19,15 @@ import java.util.Objects;
 public class Recipe implements Parcelable {
 
     //props for the name, category, directions, image and list of ingredients
-    @ColumnInfo(name = "name")
+    @PrimaryKey
+    private int recipeID;
     private String name;
-    @ColumnInfo(name = "category")
-    private RecipeCategory category; //Categories will be dish related (Chicken, Beef, etc)
-    @ColumnInfo(name = "directions")
+    private RecipeCategory category;
     private String directions = "";
-    @ColumnInfo(name = "imagePath")
     private String imagePath;
-//    @ColumnInfo(name = "ingredientList")
+    private boolean itemChecked = false;
     @Ignore
     private List<Ingredient> ingredientList;
-    @PrimaryKey(autoGenerate = false)
-    private int recipeID;
-    @ColumnInfo(name = "itemChecked")
-    private boolean itemChecked = false;
 
     //the default constructor
     public Recipe() {

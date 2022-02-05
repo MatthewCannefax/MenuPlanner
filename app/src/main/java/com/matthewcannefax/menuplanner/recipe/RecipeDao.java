@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -21,4 +22,15 @@ public interface RecipeDao {
 
     @Delete
     void deleteRecipe(final Recipe recipe);
+
+    @Transaction
+    @Query("SELECT * FROM recipe")
+    public List<RecipeWithIngredients> getRecipesWithIngredients();
+
+    //TODO this gets all ingredients
+    @Transaction
+    @Query("SELECT * FROM ingredient")
+    public List<IngredientAndMeasurement> getIngredientsAndMeasurements();
+
+    //TODO add these transactions: getRecipeIngredients, getGroceryList,
 }

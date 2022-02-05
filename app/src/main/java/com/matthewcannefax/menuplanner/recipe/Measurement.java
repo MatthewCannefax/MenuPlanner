@@ -3,12 +3,18 @@ package com.matthewcannefax.menuplanner.recipe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.text.DecimalFormat;
 
-
+@Entity(tableName = "measurement")
 public class Measurement implements Parcelable {
 
     //fields
+    @PrimaryKey(autoGenerate = true)
+    private int measurementId;
+    private int ingredientId;
     private double amount;
     private final MeasurementType type;
 
@@ -16,6 +22,22 @@ public class Measurement implements Parcelable {
     public Measurement(double amount, MeasurementType type){
         this.amount = amount;
         this.type = type;
+    }
+
+    public int getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(int measurementId) {
+        this.measurementId = measurementId;
+    }
+
+    public int getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId = ingredientId;
     }
 
     public double getAmount() {

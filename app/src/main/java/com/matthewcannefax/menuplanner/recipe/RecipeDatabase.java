@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@androidx.room.Database(entities = Recipe.class, exportSchema = false, version = 2)
+@androidx.room.Database(entities = {Recipe.class, Ingredient.class, Measurement.class}, exportSchema = false, version = 3)
 public abstract class RecipeDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "recipe_database";

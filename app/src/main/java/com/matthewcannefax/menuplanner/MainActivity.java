@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.databinding.ActivityMainBinding;
 import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
+import com.matthewcannefax.menuplanner.recipe.RecipeWithIngredients;
 import com.matthewcannefax.menuplanner.utils.JSONHelper;
 import com.matthewcannefax.menuplanner.utils.ShareHelper;
 import com.matthewcannefax.menuplanner.utils.database.RecipeTable;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         //TODO ROOM stuff - this might need to be done a different way
         viewModel.initRecipeDatabase(this);
         viewModel.setCurrentMenu(viewModel.getMenu());
-
+        viewModel.insertRoomRecipes(viewModel.getCookbook());
+        List<RecipeWithIngredients> recipeWithIngredients = viewModel.getRecipeWithIngredients();
         preloadRecipes();
 
         loadNavigationGraph();

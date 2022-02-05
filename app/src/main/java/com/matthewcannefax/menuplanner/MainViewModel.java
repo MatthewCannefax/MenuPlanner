@@ -8,6 +8,7 @@ import com.matthewcannefax.menuplanner.recipe.Ingredient;
 import com.matthewcannefax.menuplanner.recipe.Recipe;
 import com.matthewcannefax.menuplanner.recipe.RecipeCategory;
 import com.matthewcannefax.menuplanner.recipe.RecipeDatabase;
+import com.matthewcannefax.menuplanner.recipe.RecipeWithIngredients;
 import com.matthewcannefax.menuplanner.utils.database.DataSource;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MainViewModel extends ViewModel {
     private List<Recipe> currentMenu;
     private RecipeDatabase recipeDatabase;
     private List<Recipe> roomRecipeList;
+    private List<RecipeWithIngredients> recipeWithIngredients;
 
     public MainViewModel(final DataSource dataSource) {
         this.dataSource = dataSource;
@@ -36,6 +38,10 @@ public class MainViewModel extends ViewModel {
 
     public void insertRoomRecipes(final List<Recipe> recipes) {
         recipes.forEach(recipe -> recipeDatabase.recipeDao().insertRecipe(recipe));
+    }
+
+    public List<RecipeWithIngredients> getRecipeWithIngredients() {
+        return recipeDatabase.recipeDao().getRecipesWithIngredients();
     }
 
     public Recipe getSelectedRecipe() {
