@@ -23,6 +23,30 @@ public interface RecipeDao {
     @Delete
     void deleteRecipe(final Recipe recipe);
 
+    @Insert
+    void insertMenuItem(final MenuItem menuItem);
+
+    @Delete
+    void deleteMenuItem(final MenuItem menuItem);
+
+    @Insert
+    void insertIngredient(final Ingredient ingredient);
+
+    @Update
+    void updateIngredient(final Ingredient ingredient);
+
+    @Delete
+    void deleteIngredient(final Ingredient ingredient);
+
+    @Insert
+    void insertMeasurement(final Measurement measurement);
+
+    @Update
+    void updateMeasurement(final Measurement measurement);
+
+    @Delete
+    void deleteMeasurement(final Measurement measurement);
+
     @Transaction
     @Query("SELECT * FROM recipe")
     public List<RecipeWithIngredients> getRecipesWithIngredients();
@@ -31,6 +55,10 @@ public interface RecipeDao {
     @Transaction
     @Query("SELECT * FROM ingredient")
     public List<IngredientAndMeasurement> getIngredientsAndMeasurements();
+
+    @Transaction
+    @Query("SELECT * FROM menu_item")
+    public List<MenuItemAndRecipe> getMenuRecipes();
 
     //TODO add these transactions: getRecipeIngredients, getGroceryList,
 }
