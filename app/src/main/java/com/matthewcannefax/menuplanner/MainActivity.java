@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         //TODO ROOM stuff - this might need to be done a different way
         viewModel.initRecipeDatabase(this);
         viewModel.setCurrentMenu(viewModel.getMenu());
-        viewModel.insertRoomRecipes(viewModel.getCookbook());
-        List<RecipeWithIngredients> recipeWithIngredients = viewModel.getRecipeWithIngredients();
         preloadRecipes();
 
         loadNavigationGraph();
