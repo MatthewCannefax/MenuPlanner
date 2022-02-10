@@ -74,7 +74,7 @@ public class MenuListFragment extends Fragment {
 
     private void setCategoryAdapter() {
         if (viewModel.getCurrentMenu() != null) {
-            ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(requireContext()));
+            final ArrayAdapter<RecipeCategory> catSpinnerAdapter = new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(requireContext()));
             catSpinnerAdapter.setDropDownViewResource(R.layout.category_spinner_item);
             binding.catSpinner.setAdapter(catSpinnerAdapter);
         }
@@ -127,18 +127,18 @@ public class MenuListFragment extends Fragment {
         Navigation.findNavController(requireView()).navigate(R.id.view_recipe_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
     }
 
-    private void removeFromMenuClickListener(final Integer position) {
+    private void removeFromMenuClickListener(final int position) {
         final Recipe recipe = adapter.getCurrentList().get(position);
         final AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.remove_from_menu))
                 .setMessage(String.format(getString(R.string.are_you_sure_remove_format), recipe.toString()))
                 .setNegativeButton(getString(R.string.cancel), null)
                 .setPositiveButton(getString(R.string.ok), (dialogInterface, i) -> {
-                    Snackbar.make(requireView(), String.format(getString(R.string.format_recipe_removed), recipe.toString()), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(requireView(), String.format(getString(R.string.format_recipe_removed), recipe.toString()), Snackbar.LENGTH_LONG).setAnchorView(binding.fab).show();
                     viewModel.removeRecipeFromMenu(recipe.getRecipeID());
-                    adapter.submitList(viewModel.getCurrentMenu());
-                    final ArrayAdapter<RecipeCategory> rcAdapter = new ArrayAdapter<>(requireContext(), R.layout.category_spinner_item, FilterHelper.getMenuCategoriesUsed(requireContext()));
-                    binding.catSpinner.setAdapter(rcAdapter);
+                    viewModel.getCurrentMenu().remove(position);
+                    adapter.notifyItemRemoved(position);
+                    setCategoryAdapter();
                 });
         builder.show();
     }
