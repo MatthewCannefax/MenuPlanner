@@ -94,7 +94,7 @@ public class MainViewModel extends ViewModel {
         dataSource.addToMenu(recipeId);
     }
 
-    public List<Recipe> getMenu() {
+    public List<Recipe> getMenuFromDB() {
         return dataSource.getAllMenuRecipes();
     }
 

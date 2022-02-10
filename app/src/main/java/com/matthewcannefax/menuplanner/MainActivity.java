@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         viewModel.initializeDataSource(this);
-        viewModel.setCurrentMenu(viewModel.getMenu());
+        viewModel.setCurrentMenu(viewModel.getMenuFromDB());
 
         preloadRecipes();
 

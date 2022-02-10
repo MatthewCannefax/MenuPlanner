@@ -2,8 +2,6 @@ package com.matthewcannefax.menuplanner.recipe;
 
 
 import android.content.ContentValues;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.matthewcannefax.menuplanner.grocery.GroceryCategory;
 import com.matthewcannefax.menuplanner.utils.database.GroceryListTable;
@@ -12,7 +10,7 @@ import com.matthewcannefax.menuplanner.utils.database.IngredientTable;
 //this ingredient class inherits from the GroceryItem class
 //this class is just for ingredients in recipes
 
-public class Ingredient implements Parcelable {
+public class Ingredient {
 
     //this is the only difference from the Grocery item class
     //I might want to change the type to a custom measurement class
@@ -31,7 +29,10 @@ public class Ingredient implements Parcelable {
         this.category = category;
     }
 
-    public Ingredient(){};
+    public Ingredient() {
+    }
+
+    ;
 
     public int getIngredientID() {
         return ingredientID;
@@ -41,11 +42,13 @@ public class Ingredient implements Parcelable {
         this.ingredientID = ingredientID;
     }
 
+    public boolean getItemChecked() {
+        return this.itemChecked;
+    }
+
     public void setItemChecked(boolean itemChecked) {
         this.itemChecked = itemChecked;
     }
-
-    public boolean getItemChecked(){return this.itemChecked;}
 
     public Measurement getMeasurement() {
         return measurement;
@@ -71,7 +74,7 @@ public class Ingredient implements Parcelable {
         this.category = category;
     }
 
-    public String shareIngredientString(){
+    public String shareIngredientString() {
         return String.format("%s %s", getMeasurement(), getName());
     }
 
@@ -112,39 +115,4 @@ public class Ingredient implements Parcelable {
 
         return values;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.measurement, flags);
-        dest.writeString(this.name);
-        dest.writeInt(this.category == null ? -1 : this.category.ordinal());
-        dest.writeByte(this.itemChecked ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.ingredientID);
-    }
-
-    protected Ingredient(Parcel in) {
-        this.measurement = in.readParcelable(Measurement.class.getClassLoader());
-        this.name = in.readString();
-        int tmpCategory = in.readInt();
-        this.category = tmpCategory == -1 ? null : GroceryCategory.values()[tmpCategory];
-        this.itemChecked = in.readByte() != 0;
-        this.ingredientID = in.readInt();
-    }
-
-    public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel source) {
-            return new Ingredient(source);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 }
