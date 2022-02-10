@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.drawerLayout.buttonShareCookbook.setOnClickListener(v -> {
-            final List<Recipe> recipes = viewModel.getCookbook();
+            final List<Recipe> recipes = viewModel.getCookbookFromDB();
             if (!recipes.isEmpty()) {
                 ShareHelper.sendAllRecipes(this);
             } else {

@@ -94,7 +94,7 @@ public class MenuListFragment extends Fragment {
     }
 
     private void addRecipeToMenu() {
-        List<Recipe> allRecipes = viewModel.getCookbook();
+        List<Recipe> allRecipes = viewModel.getCookbookFromDB();
         if (allRecipes != null && allRecipes.size() != 0) {
             Navigation.findNavController(requireView()).navigate(R.id.cookbook_fragment, null, AnimationUtils.getFragmentTransitionAnimation());
         } else {

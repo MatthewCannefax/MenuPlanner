@@ -106,5 +106,6 @@
     <string name="drawer_button_new_grocery_text">new grocery list</string>
     <string name="drawer_button_import_text">import cookbook</string>
     <string name="drawer_button_share_text">share cookbook</string>
+    <string name="cookbook_title">Cookbook</string>
 
 </resources>

@@ -61,7 +61,7 @@ public class MainViewModel extends ViewModel {
         return dataSource.getCookbookCategoriesFromDB();
     }
 
-    public List<Recipe> getCookbook() {
+    public List<Recipe> getCookbookFromDB() {
         return dataSource.getAllRecipes();
     }
 
