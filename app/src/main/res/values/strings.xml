@@ -107,5 +107,6 @@
     <string name="drawer_button_import_text">import cookbook</string>
     <string name="drawer_button_share_text">share cookbook</string>
     <string name="cookbook_title">Cookbook</string>
+    <string name="save_button">save button</string>
 
 </resources>

@@ -38,6 +38,10 @@
         <entry key="..\:/Documents/AndroidApps/MenuPlanner/app/src/main/res/layout/recycler_recipe_list.xml" value="0.15081521739130435" />
         <entry key="..\:/Users/mcann/StudioProjects/MenuPlanner/app/src/main/res/drawable/primary_button_with_disable.xml" value="0.2794871794871795" />
         <entry key="..\:/Users/mcann/StudioProjects/MenuPlanner/app/src/main/res/layout/fragment_grocery_list.xml" value="0.32277526395173456" />
+        <entry key="app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.1455" />
+        <entry key="app/src/main/res/drawable/ic_photo_camera_black_24dp.xml" value="0.1455" />
+        <entry key="app/src/main/res/layout/fragment_menu_list.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_recipe_detail.xml" value="0.3098958333333333" />
       </map>
     </option>
   </component>

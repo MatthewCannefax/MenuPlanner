@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.matthewcannefax.menuplanner.ImageCaptureFragment;
 import com.matthewcannefax.menuplanner.MainViewModel;
 import com.matthewcannefax.menuplanner.MenuApplication;
@@ -67,97 +70,60 @@ public class AddRecipeFragment extends Fragment implements ImageCaptureFragment 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         addIngredientClickListener = this::addIngredientListener;
         directionsChangedListener = this::directionsChangeListener;
-
         newRecipe = new Recipe();
-
         requireActivity().setTitle(R.string.add_recipe);
+        initializeCategorySpinner();
+        initializeImage();
+        initializeDetail();
+        binding.fab.setOnClickListener(v -> saveRecipe());
+    }
 
-        List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
-        recipeCats.remove(0);
+    private void initializeImage() {
+        binding.recipeIMG.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_photo_camera_black_24dp));
+        ImageHelper.setImageViewClickListener(requireContext(), binding.recipeIMG, requireActivity());
+    }
 
-        recipeCats.sort(Comparator.comparing(RecipeCategory::toString));
-
-        //setup the Category Spinner
-        ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, recipeCats);
-        binding.categorySpinner.setAdapter(spinnerAdapter);
-
-        try {
-            //set the default image in the recipeIMG imageView
-            String imgPath = getString(R.string.no_img_selected);
-            ImageHelper.setImageViewDrawable(imgPath, requireContext(), binding.recipeIMG);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(
+    private void initializeDetail() {
+        final RecipeDetailListAdapter adapter = new RecipeDetailListAdapter(
                 new RecipeDetailListRowBuilder(requireContext(), newRecipe).build(),
                 newRecipe,
                 addIngredientClickListener,
                 directionsChangedListener);
         binding.ingredientDirectionRecyclerview.setAdapter(adapter);
         binding.ingredientDirectionRecyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        ImageHelper.setImageViewClickListener(requireContext(), binding.recipeIMG, requireActivity());
     }
 
-    //create the menu button in the actionbar (currently only contains the submit option)
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        //add the menu button to add recipes to the recipes list
-//        MenuInflater menuInflater = getMenuInflater();
-//
-//        //using the menu layout created specifically for this activity
-//        menuInflater.inflate(R.menu.add_recipe_menu, menu);
-//        MenuItem shareItem = menu.findItem(R.id.shareRecipe);
-//        shareItem.setVisible(false);
-//        return true;
-//    }
+    private void initializeCategorySpinner() {
+        final List<RecipeCategory> recipeCats = new LinkedList<>(Arrays.asList(RecipeCategory.values()));
+        recipeCats.remove(0);
+        recipeCats.sort(Comparator.comparing(RecipeCategory::toString));
+        final ArrayAdapter<RecipeCategory> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, recipeCats);
+        binding.categorySpinner.setAdapter(spinnerAdapter);
+    }
 
-    //handle the clicks of the menu items
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        //if the submit button is clicked
-//        //this is where the new recipe is all put together and then added to Recipe list and JSON files
-//        if (item.getItemId() == R.id.menuSubmitBTN) {
-//
-//            if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
-//                //get the name, directions and category from the controls
-//                newRecipe.setName(binding.recipeName.getText().toString());
-////                newRecipe.setDirections(directionsMultiLine.getText().toString());
-//                newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
-//
-//                if (newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")) {
-//                    newRecipe.setImagePath(getString(R.string.no_img_selected));
-//                }
-//
-//                viewModel.addRecipe(newRecipe);
-//
-//                requireActivity().onBackPressed();
-//
-//                return true;
-//            } else {
-//                String message = getString(R.string.at_least_one_ingredient);
-//                Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
-//                return true;
-//            }
-//        } else if (item.getItemId() == android.R.id.home) {
-//            NavDrawer.navDrawerOptionsItem(binding.drawerLayout);
-//            return true;
-//        } else if (item.getItemId() == R.id.help) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-//            builder.setTitle(R.string.help);
-//            builder.setMessage(R.string.add_recipe_help);
-//            builder.setNeutralButton(R.string.ok, null);
-//            builder.show();
-//            return true;
-//        } else {
-//            return false;
-//        }
-//
-//    }
+
+    private void saveRecipe() {
+        if (newRecipe.getIngredientList() != null && newRecipe.getIngredientList().size() != 0) {
+            newRecipe.setName(binding.recipeName.getText().toString());
+            newRecipe.setCategory((RecipeCategory) binding.categorySpinner.getSelectedItem());
+
+            if (newRecipe.getImagePath() == null || newRecipe.getImagePath().equals("")) {
+                newRecipe.setImagePath(getString(R.string.no_img_selected));
+            }
+
+            viewModel.addRecipeToDB(newRecipe);
+            if (viewModel.getCurrentCookbook() != null) {
+                viewModel.getCurrentCookbook().add(newRecipe);
+            }
+            Navigation.findNavController(requireView()).popBackStack();
+        } else {
+            String message = getString(R.string.at_least_one_ingredient);
+            Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public void handleActivityResult(final int requestCode, final int resultCode, final Intent data) {

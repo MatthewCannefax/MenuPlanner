@@ -45,7 +45,7 @@ public class MainViewModel extends ViewModel {
         this.currentMenu = currentMenu;
     }
 
-    public void addRecipe(final Recipe recipe) {
+    public void addRecipeToDB(final Recipe recipe) {
         dataSource.createRecipe(recipe);
     }
 
